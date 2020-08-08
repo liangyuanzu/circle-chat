@@ -1,6 +1,6 @@
 <template>
 	<view>
-		附件的圈
+		我的
 	</view>
 </template>
 
@@ -8,18 +8,12 @@
 	export default {
 		data() {
 			return {
-
-			}
-		},
-		onLoad() {
-
-		},
-		methods: {
-
+				
+			};
 		}
 	}
 </script>
 
-<style>
+<style lang="scss">
 
 </style>
