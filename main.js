@@ -1,8 +1,12 @@
 import Vue from 'vue'
 import App from './App'
+
 // 引入 uview-ui
 import uView from "uview-ui";
 Vue.use(uView);
+
+import cuCustom from './colorui/components/cu-custom.vue'
+Vue.component('cu-custom',cuCustom)
 
 Vue.config.productionTip = false
 
