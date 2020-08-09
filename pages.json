@@ -11,14 +11,21 @@
 				"navigationBarTextStyle": "white"
 			}
 		}
-	    ,{
-            "path" : "pages/message/message",
-            "style" : {}
-        }
-        ,{
-            "path" : "pages/me/me",
-            "style" : {}
-        }
+		,{
+				"path" : "pages/message/message",
+				"style" : {}
+			}
+		,{
+				"path" : "pages/me/me",
+				"style" : {}
+		}
+		,{
+				"path" : "pages/components/detail/detail",
+				"style" : {
+					"navigationBarTitleText": "圈详情",
+					"navigationBarBackgroundColor": "#f1f1f1"
+				}
+		}
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

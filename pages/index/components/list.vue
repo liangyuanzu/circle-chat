@@ -2,16 +2,27 @@
 	<view>
 		<uni-list>
 		    <uni-list :border="true">
-		        <uni-list-chat v-for="(item, index) in list" :key="index" :avatar-circle="true" :title="item.title" :avatar="item.img_url" :note="item.note">
-		            <view class="chat-custom-right">
-		                <text class="chat-custom-text">
-											<text>人数 {{item.people_num}}</text>
-											<text>范围：{{item.range}}</text>
-										</text>
-		            </view>
-		        </uni-list-chat>
+					<uni-list-chat
+						v-for="(item, index) in list"
+						:key="index"
+						:avatar-circle="true"
+						:title="item.title"
+						:avatar="item.img_url"
+						:note="item.note"
+						link
+						to="/pages/components/detail/detail"
+					>
+						<view class="chat-custom-right">
+							<text class="chat-custom-text">
+								<text>人数 {{item.people_num}}</text>
+								<text>范围：{{item.range}}</text>
+							</text>
+						</view>
+					</uni-list-chat>
 		    </uni-list>
 		</uni-list>
+
+
 	</view>
 </template>
 
@@ -43,7 +54,18 @@
 		},
 
 		methods: {
-
+			onClick () {
+				console.log('成功触发')
+				uni.navigateTo({
+					url: '/pages/components/detail/detail',
+					success() {
+						console.log('接口成功')
+					},
+					fail() {
+						console.log('接口失败')
+					}
+				})
+			}
 		}
 	}
 </script>
@@ -59,4 +81,8 @@
 		}
 	}
 }
+
+.custom-list-hover {
+		background-color: #f5f5f5 !important;
+	}
 </style>

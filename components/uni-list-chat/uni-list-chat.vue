@@ -2,7 +2,7 @@
 	<!-- #ifdef APP-NVUE -->
 	<cell>
 		<!-- #endif -->
-		<view :hover-class="(!clickable && !link )? '' : 'uni-list-chat--hover'" class="uni-list-chat">
+		<view :hover-class="(!clickable && !link )? '' : 'uni-list-chat--hover'" class="uni-list-chat" @click="onClick">
 			<view :class="{'uni-list--border':border,'uni-list-chat--first':isFirstChild}"></view>
 			<view class="uni-list-chat__container">
 				<view class="uni-list-chat__header-warp">
@@ -162,7 +162,11 @@
 			this.border = this.list.border
 		},
 		methods: {
-
+			onClick() {
+				uni.navigateTo({
+					url: this.to
+				})
+			}
 		}
 	}
 </script>
