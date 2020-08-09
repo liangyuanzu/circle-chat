@@ -2,7 +2,7 @@
 	<view>
 		<uni-list>
 		    <uni-list :border="true">
-		        <uni-list-chat v-for="(item, index) in list" :key="index" :title="item.title" :avatar="item.img_url" :note="item.note">
+		        <uni-list-chat v-for="(item, index) in list" :key="index" :avatar-circle="true" :title="item.title" :avatar="item.img_url" :note="item.note">
 		            <view class="chat-custom-right">
 		                <text class="chat-custom-text">
 											<text>人数 {{item.people_num}}</text>
@@ -43,7 +43,7 @@
 		},
 
 		methods: {
-			
+
 		}
 	}
 </script>
