@@ -10,7 +10,7 @@
 
 		<view class="cu-modal" :class="modalName=='RadioModal'?'show':''" @tap="hideModal">
 			<view class="cu-dialog cutom-modal" @tap.stop="">
-				<radio-group class="block" @change="RadioChange">
+				<radio-group class="block" @change="RadioChange" @click="RadioChange">
 					<view class="cu-list menu text-left">
 						<view class="cu-item" v-for="(item,index) in 1" :key="index">
 							<label class="flex justify-between align-center flex-sub">
@@ -54,7 +54,10 @@
 				this.modalName ? this.hideModal(e) : this.showModal(e)
 			},
 			RadioChange(e) {
-				this.radio = e.detail.value
+				// this.radio = e.detail.value
+				uni.navigateTo({
+					url: '/pages/components/create/create'
+				})
 			}
 		}
 	}
