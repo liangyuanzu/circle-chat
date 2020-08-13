@@ -36,6 +36,12 @@
 					"navigationBarBackgroundColor": "#f1f1f1"
 				}
 		}
+        ,{
+            "path" : "pages/components/search/search",
+            "style" : {
+							"navigationStyle": "custom"
+						}
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
