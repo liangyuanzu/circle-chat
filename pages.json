@@ -13,7 +13,10 @@
 		}
 		,{
 				"path" : "pages/message/message",
-				"style" : {}
+				"style" : {
+					"navigationStyle": "custom" ,// 隐藏系统导航栏
+					"navigationBarTextStyle": "white"
+				}
 			}
 		,{
 				"path" : "pages/me/me",

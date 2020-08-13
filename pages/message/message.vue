@@ -1,15 +1,25 @@
 <template>
 	<view>
-		消息
+		<!-- 导航栏 -->
+		<nav-bar />
 	</view>
 </template>
 
 <script>
+	import navBar from './components/nav-bar.vue'
+
 	export default {
+		components: {
+			'nav-bar': navBar
+		},
 		data() {
 			return {
-				
+
 			};
+		},
+
+		computed: {
+
 		}
 	}
 </script>
