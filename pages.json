@@ -42,6 +42,43 @@
 							"navigationStyle": "custom"
 						}
         }
+				,{
+				"path" : "pages/components/chat/chat",
+					"style" : {
+					"navigationBarTitleText":"HM-chat聊天室",
+						"navigationBarBackgroundColor":"#f2f2f2",
+						"backgroundColorTop":"#e5e5e5",
+						"backgroundColorBottom":"#e5e5e5",
+						"app-plus":{
+							"softinputNavBar":"none",
+							"bounce":"none"
+						}
+					}
+				}
+				  ,{
+				      "path" : "pages/components/chat/components/hb-detail/hb-detail",
+				      "style" : {
+					"navigationBarBackgroundColor":"#cf3c35",
+					"navigationBarTextStyle":"white",
+					"navigationBarTitleText":"红包",
+					"backgroundColorTop":"#cf3c35",
+					"backgroundColorBottom":"#fff"
+				}
+				  }
+				  ,{
+				      "path" : "pages/components/chat/components/hb-hand/hb-hand",
+				      "style" : {
+				      	"navigationBarBackgroundColor":"#cf3c35",
+				      	"navigationBarTextStyle":"white",
+				      	"navigationBarTitleText":"发红包",
+				      	"backgroundColorTop":"#cf3c35",
+				      	"backgroundColorBottom":"#fff",
+					"app-plus":{
+						"softinputNavBar":"none",
+						"bounce":"none"
+					}
+				      }
+				  }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
