@@ -79,29 +79,6 @@
 					}
 				      }
 				  }
-        ,{
-            "path" : "pages/components/setting/setting",
-            "style" : {
-							"navigationBarTitleText": "圈设置",
-							"navigationBarBackgroundColor": "#f1f1f1"
-						}
-        },
-				{
-				    "path": "pages/login/login",
-				    "style": {
-							"navigationStyle": "custom"
-						}
-				}, {
-				    "path": "pages/login/forget",
-				    "style": {
-							"navigationStyle": "custom"
-						}
-				}, {
-				    "path": "pages/login/register",
-				    "style": {
-							"navigationStyle": "custom"
-						}
-				}
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
