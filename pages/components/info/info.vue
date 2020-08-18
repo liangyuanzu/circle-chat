@@ -1,6 +1,7 @@
 <template>
 	<view class="body page">
 
+
 		<view class="name box">
 			<text class="bold">昵称:</text>
 			<text class="div">LiRyan</text>
