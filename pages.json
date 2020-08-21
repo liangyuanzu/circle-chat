@@ -102,6 +102,12 @@
 							"navigationStyle": "custom"
 						}
 				}
+        ,{
+            "path" : "pages/components/search-map/search-map",
+            "style" : {
+							"navigationStyle": "custom"
+						}
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
