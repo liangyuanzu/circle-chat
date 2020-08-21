@@ -20,7 +20,10 @@
 			}
 		,{
 				"path" : "pages/me/me",
-				"style" : {}
+				"style" : {
+					"navigationBarTitleText": "我的",
+					"navigationBarBackgroundColor": "#f1f1f1"
+				}
 		}
 		,{
 				"path" : "pages/components/detail/detail",
