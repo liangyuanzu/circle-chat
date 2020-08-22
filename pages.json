@@ -108,6 +108,12 @@
 							"navigationStyle": "custom"
 						}
         }
+        ,{
+            "path" : "pages/components/create-map/create-map",
+            "style" : {
+							"navigationStyle": "custom"
+						}
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

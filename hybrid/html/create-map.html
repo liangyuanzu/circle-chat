@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="chrome=1">
+		<meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
+		<link rel="stylesheet" type="text/css" href="./css/icon.css"/>
+		<link rel="stylesheet" type="text/css" href="./css/main.css"/>
+		<link rel="stylesheet" href="https://a.amap.com/jsapi_demos/static/demo-center/css/demo-center.css" />
+		<link rel="stylesheet" type="text/css" href="./css/create-map.css"/>
+
+		<script src="https://webapi.amap.com/maps?v=2.0&key=63963a1ff2103d0535996959db4f844a&plugin=AMap.CircleEditor"></script>
+		<script src="https://a.amap.com/jsapi_demos/static/demo-center/js/demoutils.js"></script>
+</head>
+<body>
+<div id="container"></div>
+
+<!-- 顶部工具栏 -->
+<div class="operate" style="display: none;">
+	<span class="lg cuIcon-close close"></span>
+	<div class="lg cuIcon-unfold pull">
+		<div class="menu">
+			<span class="arrow-to-top"></span>
+			<ul>
+				<li id="smple">极简模式</li>
+			</ul>
+		</div>
+	</div>
+</div>
+
+<div class="info" style="display: none;">操作说明：通过拖拽按钮来绘制圆确定圈范围</div>
+
+<div class="input-card" style="display: none;">
+   <button class="btn" onclick="circleEditor.open()" style="margin-bottom: 5px">开始编辑</button>
+   <button class="btn" onclick="circleEditor.close()">结束编辑</button>
+</div>
+
+<!-- <script type="text/javascript" src="https://js.cdn.aliyun.dcloud.net.cn/dev/uni-app/uni.webview.1.5.2.js"></script> -->
+<script type="text/javascript" src="./js/create-map.js"></script>
+</body>
+</html>
