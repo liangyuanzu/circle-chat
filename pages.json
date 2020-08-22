@@ -101,6 +101,13 @@
 				    "style": {
 							"navigationStyle": "custom"
 						}
+				},
+					{
+						"path": "pages/components/info/info",
+						"style": {
+							"navigationBarTitleText": "个人信息",
+							"navigationBarBackgroundColor": "#f1f1f1"
+						}
 				}
     ],
 	"globalStyle": {

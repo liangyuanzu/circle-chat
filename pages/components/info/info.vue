@@ -1,47 +1,47 @@
 <template>
-	<view class="body page">
-
-
-		<view class="name box">
-			<text class="bold">昵称:</text>
-			<text class="div">LiRyan</text>
-			<text class="span">&gt;</text>
+	<view class="content">
+		<view class="info">
+			<view>
+				<text>昵称：</text>
+				<text>Jason_liang</text>
+				<text class="lg text-gray cuIcon-right"></text>
+			</view>
+			<view>
+				<text>性别：</text>
+				<text>男</text>
+				<text class="cuIcon-male text-blue"></text>
+				<text class="lg text-gray cuIcon-right"></text>
+			</view>
+			<view>
+				<text>年龄：</text>
+				<text>20</text>
+				<text class="lg text-gray cuIcon-right"></text>
+			</view>
+			<view>
+				<text>生日：</text>
+				<text>2020/7/20</text>
+				<text class="lg text-gray cuIcon-right"></text>
+			</view>
+			<view>
+				<text>手机号码：</text>
+				<text>12345678901</text>
+				<text class="lg text-gray cuIcon-right"></text>
+			</view>
 		</view>
 
-		<view class="sex box">
-		  <text class="bold">性别:</text>
-		  <text  class="div">男</text>
-		  <image src="../../static/personal/u438.png" mode=""></image>
-		  <text class="span">&gt;</text>
+		<view class="chage-psd">
+			<view>
+				<text>修改密码</text>
+				<text class="lg text-gray cuIcon-right"></text>
+			</view>
 		</view>
 
-		<view class="age box">
-			<text class="bold">年龄:</text>
-			<text  class="div">1</text>
-			<text class="span">&gt;</text>
-		</view>
-
-		<view class="birthday box">
-			<text class="bold">生日:</text>
-			<text  class="div">2020/7/20</text>
-			<text class="span">&gt;</text>
-		</view>
-
-		<view class="tel">
-			<text class="bold">手机号码:</text>
-			<text  class="div">132*****1351</text>
-			<text class="span">&gt;</text>
-		</view>
-
-		<view class="password box">
-			<text class="bold">修改密码</text>
-			<text class="span">&gt;</text>
-		</view>
-
-		<view class="signature box">
-			<text class="bold">签名:</text>
-			<text  class="div">好好学习，天天向上</text>
-			<text class="span">&gt;</text>
+		<view class="sign">
+			<view>
+				<text>签名：</text>
+				<text>好好学习，天天向上</text>
+				<text class="lg text-gray cuIcon-right"></text>
+			</view>
 		</view>
 	</view>
 </template>
@@ -51,93 +51,43 @@
 </script>
 
 <style lang="scss">
-	.name{
-		height: 100rpx;
-		line-height: 100rpx;
+.content {
 
-	}
+	.info, .chage-psd, .sign {
+		width: 100%;
 
-	.sex{
-		margin-top: 40rpx;
-		height: 110rpx;
-		line-height: 110rpx;
+		&>view {
+			width: 100%;
+			height: 100rpx;
+			line-height: 100rpx;
+			padding: 0 30rpx;
+			margin-top: 10rpx;
+			background-color: #fff;
+			border-bottom: 1px solid #f1f1f1;
 
-		 // scss
-	  	image {
-			  margin-top: 10rpx;
-			  margin-left: 10rpx;
-			  width: 20rpx;
-			  height: 20rpx;
+			&:first-child {
+				margin-top: 0;
+			}
+
+			text {
+				&:first-child {
+					font-weight: bold;
+					margin-right: 10rpx;
+				}
+
+				&:last-child {
+					float: right;
+				}
+			}
+
+			.cuIcon-male {
+				margin-left: 10rpx;
+			}
 		}
 	}
 
-	.age{
-		margin-top: 40rpx;
-		height: 100rpx;
-		line-height: 100rpx;
-
+	.chage-psd, .sign {
+		margin-top: 30rpx;
 	}
-	.birthday{
-		margin-top: 40rpx;
-		height: 100rpx;
-		line-height: 100rpx;
-
-	}
-	.tel{
-		margin-top: 40rpx;
-		height: 100rpx;
-		line-height: 100rpx;
-		background: #ffffff;
-
-		.div{
-			font-size: 14rpx;
-		}
-
-	}
-	.password{
-		margin-top: 50rpx;
-		height: 100rpx;
-		line-height: 100rpx;
-
-	}
-	.signature{
-	margin-top: 50rpx;
-	height: 150rpx;
-	line-height: 110rpx;
-
-	}
-
-	.span{
-		font-weight:bold;
-		float: right;
-		margin-right: 30rpx;
-	}
-	.div{
-		display: inline;
-		margin-left: 30rpx;
-	}
-  .box{
-	   background:#ffffff;
-		 font-size: 28rpx;
-
 }
-.bold{
-	font-weight: bold;
-	padding-left: 20rpx;
-}
-	view{
-		font-size: 28rpx;
-  }
-
-	.index{
-
-		span{
-			float: left;
-			margin-left: 10rpx;
-			font-weight: 600;
-		}
-
-}
-
-
 </style>
