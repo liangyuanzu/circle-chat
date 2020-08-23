@@ -158,7 +158,7 @@
 	const onClose = () => {
 		const close = document.querySelector('.close')
 		close.onclick = e => {
-			console.log('点击了关闭按钮')
+			uni.navigateBack()
 		}
 	}
 
@@ -179,12 +179,16 @@
 		const smple = document.querySelector('#smple')
 		smple.onclick = e => {
 			e.stopPropagation()
-			console.log('极简模式')
+			uni.navigateTo({
+				url: '/pages/components/search/search'
+			})
 		}
 		const create = document.querySelector('#create')
 		create.onclick = e => {
 			e.stopPropagation()
-			console.log('创建圈')
+			uni.navigateTo({
+				url: '/pages/components/create-map/create-map'
+			})
 		}
 		const search = document.querySelector('#search')
 		search.onclick = e => {

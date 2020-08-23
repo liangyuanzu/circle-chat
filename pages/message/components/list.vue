@@ -10,7 +10,7 @@
 						:avatar="item.img_url"
 						:note="item.note"
 						link
-						to="/pages/components/detail/detail"
+						to="/pages/components/chat/chat"
 					>
 						<view class="chat-custom-right">
 							<text class="chat-custom-text">

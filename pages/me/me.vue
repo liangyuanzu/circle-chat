@@ -11,7 +11,7 @@
 
 		<!-- 相关操作 -->
 		<view class="operate">
-			<view>
+			<view @click="toInfo">
 				<text>昵称：</text>
 				<text>Jason_liang</text>
 				<text class="info">
@@ -49,6 +49,14 @@ export default {
 		return {
 
 		};
+	},
+
+	methods: {
+		toInfo () {
+			uni.navigateTo({
+				url: '/pages/components/info/info'
+			})
+		}
 	}
 }
 </script>

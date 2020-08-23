@@ -31,6 +31,17 @@
 				var style = `height:${CustomBar}px;padding-top:${StatusBar}px;`;
 				return style
 			}
+		},
+
+		methods: {
+			InputFocus () {
+				uni.navigateTo({
+					url: '/pages/components/search-map/search-map'
+				})
+			},
+			InputBlur () {
+				console.log('失去焦点')
+			}
 		}
 	}
 </script>

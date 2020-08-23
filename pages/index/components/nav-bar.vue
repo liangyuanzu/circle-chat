@@ -56,8 +56,9 @@
 			RadioChange(e) {
 				// this.radio = e.detail.value
 				uni.navigateTo({
-					url: '/pages/components/create/create'
+					url: '/pages/components/create-map/create-map'
 				})
+				this.hideModal()
 			}
 		}
 	}
