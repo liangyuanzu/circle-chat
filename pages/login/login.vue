@@ -53,7 +53,7 @@
       <wButton
         class="wbutton"
         text="登 录"
-        :disabled="showLogin"
+        :disabled="showLogin()"
         :rotate="isRotate"
         @click="startLogin"
       ></wButton>
@@ -99,9 +99,8 @@ export default {
         password: "", //密码
       },
       isEmail: false, //判断邮箱号是否正确
-      isPwd: "", //判断密码是否符合要求
+      isPwd: false, //判断密码是否符合要求
       isRotate: false, //是否加载旋转
-      showLogin: false, //登录按钮是否可选
 
       // phoneData:'', //手机号
       // isPhone: false, //判断手机号是否正确
@@ -167,12 +166,19 @@ export default {
         // 判断密码是否符合规范
         if (/^[\w]{6,12}$/.test(_this.form.password)) {
           _this.isPwd = true;
-          _this.showLogin = true;
         } else {
           _this.isPwd = false;
-          _this.showLogin = false;
         }
       }, 200);
+    },
+
+    showLogin() {
+      // 登录按钮是否可选
+      if (this.isPwd && this.isEmail) {
+        return true;
+      } else {
+        return false;
+      }
     },
 
     /*
