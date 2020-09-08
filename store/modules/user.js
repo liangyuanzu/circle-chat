@@ -1,26 +1,26 @@
 import { login } from '@/api/user.js'
-import { getToken, setToken, removeToken } from "@/helpers/token.js";
+import { setToken, removeToken } from "@/helpers/token.js";
 
 const state = {
-	token: getToken()
+	username: ''
 };
 
 const getters = {
-
+	username: (state) => state.username
 };
 
 const mutations = {
-	setToken(state, token) {
-	  state.token = token;
-	  setToken(token);
-	},
+	setUsername(state, username) {
+    state.username = username;
+  },
 };
 
 const actions = {
 	async login({ commit }, userInfo) {
-	  const { token } = await login(userInfo);
-		if (token) {
-			commit('setToken', token)
+	  const { token, username } = await login(userInfo);
+		if (token && username) {
+			setToken(token)
+			commit("setUsername", username);
 		}else {
 			uni.showToast({
 				icon: 'none',
