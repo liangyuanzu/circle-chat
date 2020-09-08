@@ -1,14 +1,14 @@
 <template>
 	<view class="main-list oBorder">
 		<!-- 文本框 -->
-		<input 
-			class="main-input" 
-			:value="value" 
-			:type="_type" 
-			:maxlength="maxlength" 
-			:placeholder="placeholder" 
-			:password="type==='password'&&!showPassword" 
-			
+		<input
+			class="main-input"
+			:value="value"
+			:type="_type"
+			:maxlength="maxlength"
+			:placeholder="placeholder"
+			:password="type==='password'&&!showPassword"
+
 			@input="$emit('input', $event.target.value)"
 			@blur="$emit('blur', $event)"
 			@focus="$emit('focus', $event)"
@@ -22,19 +22,19 @@
 			@touchstart="$emit('touchstart', $event)"
 		/>
 		<!-- 是否可见密码 -->
-		<image 
+		<image
 			v-if="_isShowPass&&type==='password'&&!_isShowCode"
-			class="img cuIcon" 
-			:class="showPassword?'cuIcon-attention':'cuIcon-attentionforbid'" 
+			class="img cuIcon"
+			:class="showPassword?'cuIcon-attention':'cuIcon-attentionforbid'"
 			@tap="showPass"
 		></image>
 		<!-- 倒计时 -->
-		<view 
+		<view
 			v-if="_isShowCode&&!_isShowPass"
-			:class="['vercode',{'vercode-run': second>0}]" 
+			:class="['vercode',{'vercode-run': second>0}]"
 			@click="setCode"
 		>{{ getVerCodeSecond }}</view>
-		
+
 	</view>
 </template>
 
@@ -105,7 +105,7 @@
 			runCode(val){
 				//开始倒计时
 				if(String(val)=="0"){
-					
+
 					//判断是否需要终止循环
 					this.second = 0; //初始倒计时
 					clearInterval(countDown);//清理循环
@@ -118,7 +118,7 @@
 				}
 				this.isRunCode= true
 				this.second = this._setTime //倒数秒数
-				
+
 				let _this=this;
 				countDown = setInterval(function(){
 					_this.second--
@@ -159,7 +159,7 @@
 						return this.second;
 					}
 				}
-				
+
 			}
 		}
 	}
@@ -167,7 +167,7 @@
 
 <style>
 	@import url("./css/icon.css");
-	
+
 	.main-list{
 		display: flex;
 		flex-direction: row;

@@ -1,10 +1,11 @@
 <template>
 	<view>
 		<!-- 按钮 -->
-		<button 
-			:class="['buttonBorder',!_rotate?'dlbutton':'dlbutton_loading']" 
-			:style="{'background':bgColor, 'color': fontColor}"
-            
+		<button
+			:class="['buttonBorder',!_rotate?'dlbutton':'dlbutton_loading']"
+			:style="{'background': disabled?bgColor:disBgColor, 'color': fontColor}"
+			:disabled="!disabled"
+
 			@click="$emit('click', $event)"
 			@contact="$emit('contact', $event)"
 			@error="$emit('error', $event)"
@@ -34,17 +35,27 @@
 				//是否启动加载
 				type: [Boolean,String],
 				default: false,
-			}, 
+			},
 			bgColor:{
 				//按钮背景颜色
 				type: String,
 				default: "linear-gradient(to right, rgba(0,0,0,0.7), rgba(0,0,0,0.6))",
+			},
+			disBgColor:{
+				//按钮不可选背景颜色
+				type: String,
+				default: "linear-gradient(to right, rgba(0,0,0,0.4), rgba(0,0,0,0.3))",
 			},
 			fontColor:{
 				//按钮字体颜色
 				type: String,
 				default: "#FFFFFF",
 			},
+			disabled: {
+				//按钮是否可选
+				type: [Boolean,String],
+				default: true,
+			}
 		},
 		computed:{
 			_rotate() {
@@ -57,7 +68,7 @@
 
 <style>
 	@import url("./css/icon.css");
-	
+
 	.dlbutton {
 		display: flex;
 		justify-content: center;
@@ -97,7 +108,7 @@
 	    -o-transition: all 0.4s cubic-bezier(.57,.19,.51,.95);
 	    transition: all 0.4s cubic-bezier(.57,.19,.51,.95);
 	}
-	
+
 	/* 旋转动画 */
 	.rotate_loop{
 		-webkit-transition-property: -webkit-transform;
