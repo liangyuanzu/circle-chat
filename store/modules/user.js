@@ -1,7 +1,9 @@
 import {
 	login,
 	sendRegisterEmail,
-	register
+	register,
+	sendForgetPasswordEmail,
+	updatePassword
 } from '@/api/user.js'
 import {
 	setToken,
@@ -51,6 +53,18 @@ const actions = {
 		commit
 	}, regInfo) {
 		await register(regInfo);
+	},
+
+	async sendForgetPasswordEmail({
+		commit
+	}, email) {
+		await sendForgetPasswordEmail(email)
+	},
+
+	async updatePassword({
+		commit
+	}, resetInfo) {
+		await updatePassword(resetInfo);
 	},
 };
 

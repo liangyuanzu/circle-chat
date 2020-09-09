@@ -38,3 +38,28 @@ export function register(data) {
 		data
 	})
 }
+
+/**
+ * 发送邮箱验证码(忘记密码)
+ * @param {string} email - 邮箱号
+ * */
+export function sendForgetPasswordEmail(email) {
+	return $request('/user/sendForgetPasswordEmail', {
+		params: {
+			email
+		}
+	})
+}
+
+/**
+ * 修改密码
+ * @param {string} oldPassword - 旧密码
+ * @param {string} password - 密码
+ * @param {string} rePassword - 确认密码
+ * */
+export function updatePassword(data) {
+	return $request('/user/updatePassword', {
+		method: 'POST',
+		data
+	})
+}
