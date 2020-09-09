@@ -51,7 +51,7 @@
         text="注 册"
         :disabled="showReg()"
         :rotate="isRotate"
-        @click.native="startReg()"
+        @click="startReg()"
       ></wButton>
 
       <!-- 底部信息 -->
