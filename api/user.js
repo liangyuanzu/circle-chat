@@ -13,6 +13,18 @@ export function login(data) {
 }
 
 /**
+ * 退出登录
+ * @param {string} email - 邮箱号
+ * */
+export function logout(email) {
+	return $request('/user/logout', {
+		params: {
+			email
+		}
+	})
+}
+
+/**
  * 发送邮箱验证码(注册)
  * @param {string} email - 邮箱号
  * */

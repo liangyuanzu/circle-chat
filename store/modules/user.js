@@ -3,7 +3,8 @@ import {
 	sendRegisterEmail,
 	register,
 	sendForgetPasswordEmail,
-	updatePassword
+	updatePassword,
+	logout
 } from '@/api/user.js'
 import {
 	setToken,
@@ -11,16 +12,21 @@ import {
 } from "@/helpers/token.js";
 
 const state = {
-	username: ''
+	username: '',
+	email: ''
 };
 
 const getters = {
-	username: (state) => state.username
+	username: (state) => state.username,
+	email: (state) => state.email
 };
 
 const mutations = {
 	setUsername(state, username) {
 		state.username = username;
+	},
+	setEmail(state, email) {
+		state.email = email;
 	},
 };
 
@@ -30,17 +36,26 @@ const actions = {
 	}, userInfo) {
 		const {
 			token,
-			username
+			username,
+			email
 		} = await login(userInfo);
-		if (token && username) {
+		if (token && username && email) {
 			setToken(token)
 			commit("setUsername", username);
+			commit("setEmail", email);
 		} else {
 			uni.showToast({
 				icon: 'none',
 				title: '登录接口异常'
 			});
 		}
+	},
+
+	async logout({
+		commit
+	}, email) {
+		await logout(email);
+		removeToken()
 	},
 
 	async sendRegisterEmail({
