@@ -4,9 +4,9 @@
     <view class="avatar">
       <view
         class="cu-avatar xl round margin-left"
-        style="background-image:url(https://ossweb-img.qq.com/images/lol/web201310/skin/big99008.jpg);"
+        :style="{ backgroundImage: 'url(' + avatar + ')'}"
       ></view>
-      <view class="change-avatar">
+      <view class="change-avatar" @click="changeAvatar()">
         <text>更换头像</text>
         <text class="lg text-gray cuIcon-right"></text>
       </view>
@@ -69,10 +69,34 @@ export default {
   },
 
   computed: {
-    ...mapGetters("user", ["email"]),
+    ...mapGetters("user", ["email", "avatar"]),
   },
 
   methods: {
+    changeAvatar() {
+      uni.chooseImage({
+        count: 1,
+        sizeType: ["original", "compressed"], //可以指定是原图还是压缩图，默认二者都有
+        sourceType: ["album"], //从相册选择
+        success: (res) => {
+          uni.showLoading();
+          this.$store
+            .dispatch("user/updatePhoto", JSON.stringify(res.tempFilePaths[0]))
+            .then(() => {
+              uni.hideLoading();
+              uni.showToast({
+                icon: "none",
+                position: "bottom",
+                title: "修改成功",
+              });
+            })
+            .catch(() => {
+              uni.hideLoading();
+            });
+        },
+      });
+    },
+
     toInfo() {
       uni.navigateTo({
         url: "/pages/components/info/info",

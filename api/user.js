@@ -75,3 +75,14 @@ export function updatePassword(data) {
 		data
 	})
 }
+
+/**
+ * 更换用户头像
+ * @param {string} img - 图片地址
+ * */
+export function updatePhoto(filePath) {
+	return $request('/user/updatePhoto', {
+		method: 'UPLOAD',
+		filePath
+	})
+}

@@ -4,7 +4,8 @@ import {
 	register,
 	sendForgetPasswordEmail,
 	updatePassword,
-	logout
+	logout,
+	updatePhoto
 } from '@/api/user.js'
 import {
 	setToken,
@@ -13,12 +14,14 @@ import {
 
 const state = {
 	username: '',
-	email: ''
+	email: '',
+	avatar: 'https://ossweb-img.qq.com/images/lol/web201310/skin/big11010.jpg'
 };
 
 const getters = {
 	username: (state) => state.username,
-	email: (state) => state.email
+	email: (state) => state.email,
+	avatar: (state) => state.avatar
 };
 
 const mutations = {
@@ -27,6 +30,9 @@ const mutations = {
 	},
 	setEmail(state, email) {
 		state.email = email;
+	},
+	setAvatar(state, avatar) {
+		state.avatar = avatar;
 	},
 };
 
@@ -80,6 +86,20 @@ const actions = {
 		commit
 	}, resetInfo) {
 		await updatePassword(resetInfo);
+	},
+
+	async updatePhoto({
+		commit
+	}, imgSrc) {
+		const avatar = await updatePhoto(imgSrc);
+		if (avatar) {
+			commit("setAvatar", avatar);
+		} else {
+			uni.showToast({
+				icon: 'none',
+				title: '更换用户头像接口异常'
+			});
+		}
 	},
 };
 
