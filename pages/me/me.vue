@@ -23,7 +23,7 @@
           <text class="lg text-gray cuIcon-right"></text>
         </text>
       </view>
-      <view>
+      <view @click="toFocusList()">
         <text>关注列表</text>
         <text class="lg text-gray cuIcon-right"></text>
       </view>
@@ -70,21 +70,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters("user", [
-      "username",
-      "userId",
-      "email",
-      "avatar",
-      "age",
-      "sex",
-      "birthday",
-      "autograph",
-    ]),
-  },
-
-  mounted() {
-    // 获取用户信息
-    this.$store.dispatch("user/queryUserMsg", this.userId);
+    ...mapGetters("user", ["username", "email", "avatar"]),
   },
 
   methods: {
@@ -115,6 +101,12 @@ export default {
     toInfo() {
       uni.navigateTo({
         url: "/pages/components/info/info",
+      });
+    },
+
+    toFocusList() {
+      uni.navigateTo({
+        url: "/pages/components/focus-list/focus-list",
       });
     },
 

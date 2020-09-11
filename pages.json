@@ -1,130 +1,125 @@
 {
 	/* uview-ui 的 easycom规则 */
 	"easycom": {
-			"^u-(.*)": "@/uview-ui/components/u-$1/u-$1.vue"
-		},
+		"^u-(.*)": "@/uview-ui/components/u-$1/u-$1.vue"
+	},
 	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
 		{
 			"path": "pages/index/index",
 			"style": {
-				"navigationStyle": "custom" ,// 隐藏系统导航栏
+				"navigationStyle": "custom", // 隐藏系统导航栏
 				"navigationBarTextStyle": "white"
 			}
-		}
-		,{
-				"path" : "pages/message/message",
-				"style" : {
-					"navigationStyle": "custom" ,// 隐藏系统导航栏
-					"navigationBarTextStyle": "white"
+		}, {
+			"path": "pages/message/message",
+			"style": {
+				"navigationStyle": "custom", // 隐藏系统导航栏
+				"navigationBarTextStyle": "white"
+			}
+		}, {
+			"path": "pages/me/me",
+			"style": {
+				"navigationBarTitleText": "我的",
+				"navigationBarBackgroundColor": "#f1f1f1"
+			}
+		}, {
+			"path": "pages/components/detail/detail",
+			"style": {
+				"navigationBarTitleText": "圈详情",
+				"navigationBarBackgroundColor": "#f1f1f1"
+			}
+		}, {
+			"path": "pages/components/create/create",
+			"style": {
+				"navigationBarTitleText": "创建圈",
+				"navigationBarBackgroundColor": "#f1f1f1"
+			}
+		}, {
+			"path": "pages/components/search/search",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		}, {
+			"path": "pages/components/chat/chat",
+			"style": {
+				"navigationBarTitleText": "HM-chat聊天室",
+				"navigationBarBackgroundColor": "#f2f2f2",
+				"backgroundColorTop": "#e5e5e5",
+				"backgroundColorBottom": "#e5e5e5",
+				"app-plus": {
+					"softinputNavBar": "none",
+					"bounce": "none"
 				}
 			}
-		,{
-				"path" : "pages/me/me",
-				"style" : {
-					"navigationBarTitleText": "我的",
-					"navigationBarBackgroundColor": "#f1f1f1"
+		}, {
+			"path": "pages/components/chat/components/hb-detail/hb-detail",
+			"style": {
+				"navigationBarBackgroundColor": "#cf3c35",
+				"navigationBarTextStyle": "white",
+				"navigationBarTitleText": "红包",
+				"backgroundColorTop": "#cf3c35",
+				"backgroundColorBottom": "#fff"
+			}
+		}, {
+			"path": "pages/components/chat/components/hb-hand/hb-hand",
+			"style": {
+				"navigationBarBackgroundColor": "#cf3c35",
+				"navigationBarTextStyle": "white",
+				"navigationBarTitleText": "发红包",
+				"backgroundColorTop": "#cf3c35",
+				"backgroundColorBottom": "#fff",
+				"app-plus": {
+					"softinputNavBar": "none",
+					"bounce": "none"
 				}
+			}
+		}, {
+			"path": "pages/components/setting/setting",
+			"style": {
+				"navigationBarTitleText": "圈设置",
+				"navigationBarBackgroundColor": "#f1f1f1"
+			}
+		},
+		{
+			"path": "pages/login/login",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		}, {
+			"path": "pages/login/forget",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		}, {
+			"path": "pages/login/register",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/components/info/info",
+			"style": {
+				"navigationBarTitleText": "个人信息",
+				"navigationBarBackgroundColor": "#f1f1f1"
+			}
+		}, {
+			"path": "pages/components/search-map/search-map",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		}, {
+			"path": "pages/components/create-map/create-map",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		}, {
+			"path": "pages/components/focus-list/focus-list",
+			"style": {
+				"navigationBarTitleText": "关注列表",
+				"navigationBarBackgroundColor": "#f1f1f1"
+			}
 		}
-		,{
-				"path" : "pages/components/detail/detail",
-				"style" : {
-					"navigationBarTitleText": "圈详情",
-					"navigationBarBackgroundColor": "#f1f1f1"
-				}
-		}
-		,{
-				"path" : "pages/components/create/create",
-				"style" : {
-					"navigationBarTitleText": "创建圈",
-					"navigationBarBackgroundColor": "#f1f1f1"
-				}
-		}
-        ,{
-            "path" : "pages/components/search/search",
-            "style" : {
-							"navigationStyle": "custom"
-						}
-        }
-				,{
-				"path" : "pages/components/chat/chat",
-					"style" : {
-					"navigationBarTitleText":"HM-chat聊天室",
-						"navigationBarBackgroundColor":"#f2f2f2",
-						"backgroundColorTop":"#e5e5e5",
-						"backgroundColorBottom":"#e5e5e5",
-						"app-plus":{
-							"softinputNavBar":"none",
-							"bounce":"none"
-						}
-					}
-				}
-				  ,{
-				      "path" : "pages/components/chat/components/hb-detail/hb-detail",
-				      "style" : {
-					"navigationBarBackgroundColor":"#cf3c35",
-					"navigationBarTextStyle":"white",
-					"navigationBarTitleText":"红包",
-					"backgroundColorTop":"#cf3c35",
-					"backgroundColorBottom":"#fff"
-				}
-				  }
-				  ,{
-				      "path" : "pages/components/chat/components/hb-hand/hb-hand",
-				      "style" : {
-				      	"navigationBarBackgroundColor":"#cf3c35",
-				      	"navigationBarTextStyle":"white",
-				      	"navigationBarTitleText":"发红包",
-				      	"backgroundColorTop":"#cf3c35",
-				      	"backgroundColorBottom":"#fff",
-					"app-plus":{
-						"softinputNavBar":"none",
-						"bounce":"none"
-					}
-				      }
-				  }
-        ,{
-            "path" : "pages/components/setting/setting",
-            "style" : {
-							"navigationBarTitleText": "圈设置",
-							"navigationBarBackgroundColor": "#f1f1f1"
-						}
-        },
-				{
-				    "path": "pages/login/login",
-				    "style": {
-							"navigationStyle": "custom"
-						}
-				}, {
-				    "path": "pages/login/forget",
-				    "style": {
-							"navigationStyle": "custom"
-						}
-				}, {
-				    "path": "pages/login/register",
-				    "style": {
-							"navigationStyle": "custom"
-						}
-				},
-					{
-						"path": "pages/components/info/info",
-						"style": {
-							"navigationBarTitleText": "个人信息",
-							"navigationBarBackgroundColor": "#f1f1f1"
-						}
-				}
-        ,{
-            "path" : "pages/components/search-map/search-map",
-            "style" : {
-							"navigationStyle": "custom"
-						}
-        }
-        ,{
-            "path" : "pages/components/create-map/create-map",
-            "style" : {
-							"navigationStyle": "custom"
-						}
-        }
-    ],
+	],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "uni-app",
@@ -132,30 +127,29 @@
 		"backgroundColor": "#f1f1f1"
 	},
 	"tabBar": {
-			"color": "#aaa",
-			"selectedColor": "#0081ff",
-			"borderStyle": "black",
-			"backgroundColor": "#fff",
-			"fontSize": "14px",
-			"list": [
-				{
-					"text":"消息",
-					"pagePath":"pages/message/message",
-					"iconPath":"static/tabbar/xiaoxi.png",
-					"selectedIconPath":"static/tabbar/xiaoxi_cur.png"
-				},
-				{
-					"text":"圈子",
-					"pagePath":"pages/index/index",
-					"iconPath":"static/tabbar/quanzi.png",
-					"selectedIconPath":"static/tabbar/quanzi_cur.png"
-				},
-				{
-					"text":"我的",
-					"pagePath":"pages/me/me",
-					"iconPath":"static/tabbar/wode.png",
-					"selectedIconPath":"static/tabbar/wode_cur.png"
-				}
-			]
-		}
+		"color": "#aaa",
+		"selectedColor": "#0081ff",
+		"borderStyle": "black",
+		"backgroundColor": "#fff",
+		"fontSize": "14px",
+		"list": [{
+				"text": "消息",
+				"pagePath": "pages/message/message",
+				"iconPath": "static/tabbar/xiaoxi.png",
+				"selectedIconPath": "static/tabbar/xiaoxi_cur.png"
+			},
+			{
+				"text": "圈子",
+				"pagePath": "pages/index/index",
+				"iconPath": "static/tabbar/quanzi.png",
+				"selectedIconPath": "static/tabbar/quanzi_cur.png"
+			},
+			{
+				"text": "我的",
+				"pagePath": "pages/me/me",
+				"iconPath": "static/tabbar/wode.png",
+				"selectedIconPath": "static/tabbar/wode_cur.png"
+			}
+		]
+	}
 }
