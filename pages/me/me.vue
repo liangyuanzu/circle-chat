@@ -2,10 +2,11 @@
   <view class="content">
     <!-- 头像 -->
     <view class="avatar">
-      <view
+      <!-- <view
         class="cu-avatar xl round margin-left"
         :style="{ backgroundImage: 'url(' + avatar + ')'}"
-      ></view>
+      ></view>-->
+      <u-avatar :src="avatar" size="large" style="margin-left: 30rpx"></u-avatar>
       <view class="change-avatar" @click="changeAvatar()">
         <text>更换头像</text>
         <text class="lg text-gray cuIcon-right"></text>
