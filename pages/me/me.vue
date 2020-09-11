@@ -17,7 +17,7 @@
     <view class="operate">
       <view @click="toInfo">
         <text>昵称：</text>
-        <text>Jason_liang</text>
+        <text>{{this.username}}</text>
         <text class="info">
           <text>个人信息</text>
           <text class="lg text-gray cuIcon-right"></text>
@@ -70,7 +70,21 @@ export default {
   },
 
   computed: {
-    ...mapGetters("user", ["email", "avatar"]),
+    ...mapGetters("user", [
+      "username",
+      "userId",
+      "email",
+      "avatar",
+      "age",
+      "sex",
+      "birthday",
+      "autograph",
+    ]),
+  },
+
+  mounted() {
+    // 获取用户信息
+    this.$store.dispatch("user/queryUserMsg", this.userId);
   },
 
   methods: {

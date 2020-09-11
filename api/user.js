@@ -86,3 +86,15 @@ export function updatePhoto(filePath) {
 		filePath
 	})
 }
+
+/**
+ * 获取用户信息
+ * @param {string} userId - 用户 id
+ * */
+export function queryUserMsg(userId) {
+	return $request('/user/queryUserMsg', {
+		params: {
+			userId
+		}
+	})
+}
