@@ -8,25 +8,25 @@
 	});
 
 	// 获取定位
-	AMap.plugin('AMap.Geolocation', function() {
-	  const geolocation = new AMap.Geolocation({
-	    enableHighAccuracy: true,//是否使用高精度定位，默认:true
-	    timeout: 10000,          //超过10秒后停止定位，默认：5s
-	    position:'LB',    //定位按钮的停靠位置
-	    buttonOffset: new AMap.Pixel(10, 20),//定位按钮与设置的停靠位置的偏移量，默认：Pixel(10, 20)
-	    zoomToAccuracy: true,   //定位成功后是否自动调整地图视野到定位点
-	    showCircle: false,	// 不显示精度圈
-	  })
+	AMap.plugin('AMap.Geolocation', function () {
+		const geolocation = new AMap.Geolocation({
+			enableHighAccuracy: true, //是否使用高精度定位，默认:true
+			timeout: 10000, //超过10秒后停止定位，默认：5s
+			position: 'LB', //定位按钮的停靠位置
+			buttonOffset: new AMap.Pixel(10, 20), //定位按钮与设置的停靠位置的偏移量，默认：Pixel(10, 20)
+			zoomToAccuracy: true, //定位成功后是否自动调整地图视野到定位点
+			showCircle: false, // 不显示精度圈
+		})
 
 		// 添加定位工具
 		map.addControl(geolocation);
-	  geolocation.getCurrentPosition(function(status, result){
-			if(status == 'complete'){
+		geolocation.getCurrentPosition(function (status, result) {
+			if (status == 'complete') {
 				locateSuccess(result)
-			}else{
+			} else {
 				locateError(result)
 			}
-	  });
+		});
 	})
 
 	// 定位成功
@@ -35,7 +35,7 @@
 		lat = data.position.lat
 
 		// 地图加载完成
-		map.on('complete', function(){
+		map.on('complete', function () {
 			// 显示顶部工具
 			document.querySelector('.operate').removeAttribute('style')
 			// 显示顶部提示信息
@@ -51,10 +51,10 @@
 			onMenu()
 
 			// 添加缩放工具
-			AMap.plugin('AMap.ToolBar', function(){
+			AMap.plugin('AMap.ToolBar', function () {
 				map.addControl(new AMap.ToolBar())
 			});
-			
+
 			// 添加范围圈
 			circleRange()
 		})
@@ -70,7 +70,7 @@
 		const el = document.querySelector(name)
 		if (!el.style.display || el.style.display === 'none') {
 			el.style.display = 'block'
-		}else {
+		} else {
 			el.style.display = 'none'
 		}
 	}
@@ -96,8 +96,9 @@
 		const smple = document.querySelector('#smple')
 		smple.onclick = e => {
 			e.stopPropagation()
+			const position = lng + ',' + lat
 			uni.navigateTo({
-				url: '/pages/components/create/create'
+				url: `/pages/components/create/create?position=${position}`
 			})
 		}
 	}
@@ -123,21 +124,28 @@
 
 		map.add(circle);
 		// 缩放地图到合适的视野级别
-		map.setFitView([ circle ])
+		map.setFitView([circle])
 
 		window.circleEditor = new AMap.CircleEditor(map, circle)
 
-		circleEditor.on('move', function(event) {
-				log.info('触发事件：move')
+		circleEditor.on('move', function (event) {
+			log.info('触发事件：move')
 		})
 
-		circleEditor.on('adjust', function(event) {
-				log.info('触发事件：adjust')
+		circleEditor.on('adjust', function (event) {
+			log.info('触发事件：adjust')
 		})
 
-		circleEditor.on('end', function(event) {
-				log.info('触发事件： end')
-				// event.target 即为编辑后的圆形对象
+		circleEditor.on('end', function (event) {
+			log.info('触发事件： end')
+			// event.target 即为编辑后的圆形对象
+			const {
+				center,
+				radius
+			} = event.target._opts
+			uni.navigateTo({
+				url: `/pages/components/create/create?position=${center}&radius=${radius}`
+			})
 		})
 	}
 })()
