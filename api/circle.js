@@ -17,3 +17,15 @@ export function creatCircle(data) {
 		data
 	})
 }
+
+/**
+ * 更换圈头像
+ * @param {string} circleId - 圈 id
+ * @param {string} img - 图片地址
+ * */
+export function updateCirclePhoto(data) {
+	return $request('/circle/updateCirclePhoto', {
+		method: 'UPLOAD',
+		data
+	})
+}
