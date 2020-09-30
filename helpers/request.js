@@ -1,33 +1,32 @@
 import Request from '@/utils/luch-request/index.js'
-import {
-	getToken
-} from '@/helpers/token.js'
+import { getToken } from '@/helpers/token.js'
+import { baseUrl } from '../config/config'
 
 const http = new Request()
 
 http.setConfig((config) => {
-	config.baseURL = "https://www.fastmock.site/mock/54236c8f1a881df6d5bb941158a9264e/api"
+	config.baseURL = baseUrl
 	return config
 })
 
 http.interceptors.request.use(
-	config => {
+	(config) => {
 		config.header = {
 			...config.header,
-			token: getToken()
+			token: getToken(),
 		}
 		return config
 	},
-	error => {
+	(error) => {
 		return Promise.reject(error)
 	}
 )
 
 http.interceptors.response.use(
-	response => {
+	(response) => {
 		return response
 	},
-	error => {
+	(error) => {
 		if (error && error.statusCode) {
 			switch (error.statusCode) {
 				case 403:
@@ -48,23 +47,24 @@ http.interceptors.response.use(
 
 		uni.showToast({
 			icon: 'none',
-			title: error.msg
-		});
+			title: error.msg,
+		})
 		return Promise.reject(error)
 	}
 )
 
 const $request = (url, Options) => {
 	return new Promise((resolve, reject) => {
-		http.request({
+		http
+			.request({
 				method: Options.method || 'GET',
 				data: Options.data, // post 传参
 				params: Options.params, // get 传参
 				url,
 				header: Options.header,
-				...Options
+				...Options,
 			})
-			.then(res => {
+			.then((res) => {
 				// if (res.data.code === 0) {
 				if (res.data.code == 200) {
 					resolve(res.data.data)
@@ -72,11 +72,11 @@ const $request = (url, Options) => {
 					reject(res.data)
 					uni.showToast({
 						icon: 'none',
-						title: res.data.msg
-					});
+						title: res.data.msg,
+					})
 				}
 			})
-			.catch(err => {
+			.catch((err) => {
 				reject(err)
 			})
 	})
