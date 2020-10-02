@@ -1,10 +1,12 @@
+import { tokenName } from '../config/config'
+
 /**
  * @description 获取 token
  */
 export function getToken() {
 	let token = ''
 	try {
-	  token = uni.getStorageSync('accessToken')
+		token = uni.getStorageSync(tokenName)
 	} catch (e) {
 		console.log(e)
 	}
@@ -17,7 +19,7 @@ export function getToken() {
  */
 export function setToken(token) {
 	try {
-		uni.setStorageSync('accessToken', token);
+		uni.setStorageSync(tokenName, token)
 	} catch (e) {
 		console.log(e)
 	}
@@ -28,7 +30,7 @@ export function setToken(token) {
  */
 export function removeToken() {
 	try {
-		uni.removeStorageSync('accessToken');
+		uni.removeStorageSync(tokenName)
 	} catch (e) {
 		console.log(e)
 	}

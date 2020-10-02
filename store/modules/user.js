@@ -8,10 +8,7 @@ import {
 	updatePhoto,
 	queryUserMsg
 } from '@/api/user.js'
-import {
-	setToken,
-	removeToken
-} from "@/helpers/token.js";
+import { setToken, removeToken } from '@/helpers/token.js'
 
 const state = {
 	username: '',
@@ -22,7 +19,7 @@ const state = {
 	sex: '',
 	birthday: '',
 	autograph: ''
-};
+}
 
 const getters = {
 	username: (state) => state.username,
@@ -32,128 +29,104 @@ const getters = {
 	age: (state) => state.age,
 	sex: (state) => state.sex,
 	birthday: (state) => state.birthday,
-	autograph: (state) => state.autograph,
-};
+	autograph: (state) => state.autograph
+}
 
 const mutations = {
 	setUsername(state, username) {
-		state.username = username;
+		state.username = username
 	},
 	setEmail(state, email) {
-		state.email = email;
+		state.email = email
 	},
 	setAvatar(state, avatar) {
-		state.avatar = avatar;
+		state.avatar = avatar
 	},
 	setUserId(state, userId) {
-		state.userId = userId;
+		state.userId = userId
 	},
 	setAge(state, age) {
-		state.age = age;
+		state.age = age
 	},
 	setSex(state, sex) {
-		state.sex = sex;
+		state.sex = sex
 	},
 	setBirthday(state, birthday) {
-		state.birthday = birthday;
+		state.birthday = birthday
 	},
 	setAutograph(state, autograph) {
-		state.autograph = autograph;
-	},
-};
+		state.autograph = autograph
+	}
+}
 
 const actions = {
-	async login({
-		commit
-	}, userInfo) {
-		const {
-			token,
-			username,
-			email,
-			userId
-		} = await login(userInfo);
-		if (token && username && email && userId) {
+	async login({ commit }, userInfo) {
+		const { token } = await login(userInfo)
+		if (token) {
 			setToken(token)
-			commit("setUsername", username);
-			commit("setEmail", email);
-			commit("setUserId", userId);
 		} else {
 			uni.showToast({
 				icon: 'none',
 				title: '登录接口异常'
-			});
+			})
 		}
 	},
 
-	async logout({
-		commit
-	}, email) {
-		await logout(email);
+	async logout({ commit }, email) {
+		await logout(email)
 		removeToken()
 	},
 
-	async sendRegisterEmail({
-		commit
-	}, email) {
+	async sendRegisterEmail({ commit }, email) {
 		await sendRegisterEmail(email)
 	},
 
-	async register({
-		commit
-	}, regInfo) {
-		await register(regInfo);
+	async register({ commit }, regInfo) {
+		await register(regInfo)
 	},
 
-	async sendForgetPasswordEmail({
-		commit
-	}, email) {
+	async sendForgetPasswordEmail({ commit }, email) {
 		await sendForgetPasswordEmail(email)
 	},
 
-	async updatePassword({
-		commit
-	}, resetInfo) {
-		await updatePassword(resetInfo);
+	async updatePassword({ commit }, resetInfo) {
+		await updatePassword(resetInfo)
 	},
 
-	async updatePhoto({
-		commit
-	}, imgSrc) {
-		const avatar = await updatePhoto(imgSrc);
+	async updatePhoto({ commit }, imgSrc) {
+		const avatar = await updatePhoto(imgSrc)
 		if (avatar) {
-			commit("setAvatar", avatar);
+			commit('setAvatar', avatar)
 		} else {
 			uni.showToast({
 				icon: 'none',
 				title: '更换用户头像接口异常'
-			});
+			})
 		}
 	},
 
-	async queryUserMsg({
-		commit
-	}, userId) {
-		const {
-			age,
-			userMsg
-		} = await queryUserMsg(userId);
+	async queryUserMsg({ commit }, userId) {
+		const { age, userMsg } = await queryUserMsg(userId)
 		if (age && userMsg) {
-			commit("setAge", age);
-			commit("setSex", userMsg[0].sex);
-			commit("setBirthday", userMsg[0].birthday);
-			commit("setAutograph", userMsg[0].autograph);
+			commit('setUsername', username)
+			commit('setEmail', email)
+			commit('setAge', age)
+			commit('setUserId', userMsg[0].userId)
+			commit('setSex', userMsg[0].sex)
+			commit('setBirthday', userMsg[0].birthday)
+			commit('setAutograph', userMsg[0].autograph)
 		} else {
 			uni.showToast({
 				icon: 'none',
 				title: '获取用户信息接口异常'
-			});
+			})
 		}
-	},
-};
+	}
+}
 
 export default {
 	state,
 	getters,
 	mutations,
 	actions
-};
+}

@@ -6,7 +6,11 @@
         class="cu-avatar xl round margin-left"
         :style="{ backgroundImage: 'url(' + avatar + ')'}"
       ></view>-->
-      <u-avatar :src="avatar" size="large" style="margin-left: 30rpx"></u-avatar>
+      <u-avatar
+        :src="avatar"
+        size="large"
+        style="margin-left: 30rpx"
+      ></u-avatar>
       <view class="change-avatar" @click="changeAvatar()">
         <text>更换头像</text>
         <text class="lg text-gray cuIcon-right"></text>
@@ -17,7 +21,7 @@
     <view class="operate">
       <view @click="toInfo">
         <text>昵称：</text>
-        <text>{{this.username}}</text>
+        <text>{{ this.username }}</text>
         <text class="info">
           <text>个人信息</text>
           <text class="lg text-gray cuIcon-right"></text>
@@ -58,77 +62,78 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters } from 'vuex'
 
 export default {
   data() {
     return {
       show: false,
-      title: "确认退出?",
-      content: "",
-    };
+      title: '确认退出?',
+      content: ''
+    }
   },
 
   computed: {
-    ...mapGetters("user", ["username", "email", "avatar"]),
+    ...mapGetters('user', ['username', 'email', 'avatar'])
   },
 
   methods: {
     changeAvatar() {
       uni.chooseImage({
         count: 1,
-        sizeType: ["original", "compressed"], //可以指定是原图还是压缩图，默认二者都有
-        sourceType: ["album"], //从相册选择
+        sizeType: ['original', 'compressed'], //可以指定是原图还是压缩图，默认二者都有
+        sourceType: ['album'], //从相册选择
         success: (res) => {
-          uni.showLoading();
+          uni.showLoading()
+          console.log(res)
           this.$store
-            .dispatch("user/updatePhoto", JSON.stringify(res.tempFilePaths[0]))
+            .dispatch('user/updatePhoto', JSON.stringify(res.tempFilePaths[0]))
             .then(() => {
-              uni.hideLoading();
+              uni.hideLoading()
               uni.showToast({
-                icon: "none",
-                position: "bottom",
-                title: "修改成功",
-              });
+                icon: 'none',
+                position: 'bottom',
+                title: '修改成功'
+              })
             })
             .catch(() => {
-              uni.hideLoading();
-            });
-        },
-      });
+              uni.hideLoading()
+            })
+        }
+      })
     },
 
     toInfo() {
       uni.navigateTo({
-        url: "/pages/components/info/info",
-      });
+        url: '/pages/components/info/info'
+      })
     },
 
     toFocusList() {
       uni.navigateTo({
-        url: "/pages/components/focus-list/focus-list",
-      });
+        url: '/pages/components/focus-list/focus-list'
+      })
     },
 
     open() {
-      this.show = true;
+      this.show = true
     },
 
     confirm() {
       this.$store
-        .dispatch("user/logout", this.email)
+        .dispatch('user/logout', this.email)
         .then(() => {
-          this.show = false;
+          this.show = false
           uni.reLaunch({
-            url: "/pages/login/login",
-          });
+            url: '/pages/login/login'
+          })
         })
         .catch(() => {
-          this.$refs.uModal.clearLoading();
-        });
-    },
-  },
-};
+          this.$refs.uModal.clearLoading()
+        })
+    }
+  }
+}
 </script>
 
 <style lang="scss">

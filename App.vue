@@ -1,60 +1,63 @@
 <script>
-import Vue from "vue";
+import Vue from 'vue'
+import { getToken } from '@/helpers/token.js'
+
 export default {
   created() {
     // #ifdef APP-PLUS
-    plus.navigator.closeSplashscreen();
+    plus.navigator.closeSplashscreen()
     // #endif
   },
 
   onLaunch: function () {
-    console.log("App Launch");
+    console.log('App Launch')
 
     // 判断是否存在 token
-    if (!uni.getStorageSync("accessToken")) {
+    /*
+    if (!getToken()) {
       uni.reLaunch({
-        url: "/pages/login/login",
-      });
-    }
+        url: '/pages/login/login'
+      })
+		}
+		*/
 
     uni.getSystemInfo({
       success: function (e) {
         // #ifndef MP
-        Vue.prototype.StatusBar = e.statusBarHeight;
-        if (e.platform == "android") {
-          Vue.prototype.CustomBar = e.statusBarHeight + 50;
+        Vue.prototype.StatusBar = e.statusBarHeight
+        if (e.platform == 'android') {
+          Vue.prototype.CustomBar = e.statusBarHeight + 50
         } else {
-          Vue.prototype.CustomBar = e.statusBarHeight + 45;
+          Vue.prototype.CustomBar = e.statusBarHeight + 45
         }
         // #endif
         // #ifdef MP-WEIXIN
-        Vue.prototype.StatusBar = e.statusBarHeight;
-        let custom = wx.getMenuButtonBoundingClientRect();
-        Vue.prototype.Custom = custom;
-        Vue.prototype.CustomBar =
-          custom.bottom + custom.top - e.statusBarHeight;
+        Vue.prototype.StatusBar = e.statusBarHeight
+        let custom = wx.getMenuButtonBoundingClientRect()
+        Vue.prototype.Custom = custom
+        Vue.prototype.CustomBar = custom.bottom + custom.top - e.statusBarHeight
         // #endif
         // #ifdef MP-ALIPAY
-        Vue.prototype.StatusBar = e.statusBarHeight;
-        Vue.prototype.CustomBar = e.statusBarHeight + e.titleBarHeight;
+        Vue.prototype.StatusBar = e.statusBarHeight
+        Vue.prototype.CustomBar = e.statusBarHeight + e.titleBarHeight
         // #endif
-      },
-    });
+      }
+    })
   },
   onShow: function () {
-    console.log("App Show");
+    console.log('App Show')
   },
   onHide: function () {
-    console.log("App Hide");
-  },
-};
+    console.log('App Hide')
+  }
+}
 </script>
 
 <style lang="scss">
 /* uview-ui */
-@import "uview-ui/index.scss";
+@import 'uview-ui/index.scss';
 /* color-ui */
-@import "colorui/main.css";
-@import "colorui/icon.css";
+@import 'colorui/main.css';
+@import 'colorui/icon.css';
 /*每个页面公共css */
 </style>

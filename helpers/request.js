@@ -11,9 +11,8 @@ http.setConfig((config) => {
 
 http.interceptors.request.use(
 	(config) => {
-		config.header = {
-			...config.header,
-			token: getToken(),
+		if (getToken()) {
+			config.header.token = getToken()
 		}
 		return config
 	},
@@ -39,7 +38,7 @@ http.interceptors.response.use(
 					error.msg = error.response.data.msg
 					break
 				default:
-					error.msg = `连接错误${error.statusCode}`
+					error.msg = `连接错误 ${error.statusCode}`
 			}
 		} else {
 			error.msg = '连接到服务器失败'
@@ -47,7 +46,7 @@ http.interceptors.response.use(
 
 		uni.showToast({
 			icon: 'none',
-			title: error.msg,
+			title: error.msg
 		})
 		return Promise.reject(error)
 	}
@@ -56,24 +55,24 @@ http.interceptors.response.use(
 const $request = (url, Options) => {
 	return new Promise((resolve, reject) => {
 		http
-			.request({
+			.middleware({
 				method: Options.method || 'GET',
 				data: Options.data, // post 传参
 				params: Options.params, // get 传参
 				url,
 				header: Options.header,
-				...Options,
+				...Options
 			})
 			.then((res) => {
 				// if (res.data.code === 0) {
 				if (res.data.code == 200) {
 					resolve(res.data.data)
 				} else {
-					reject(res.data)
 					uni.showToast({
 						icon: 'none',
-						title: res.data.msg,
+						title: res.data.msg
 					})
+					reject(res.data)
 				}
 			})
 			.catch((err) => {
