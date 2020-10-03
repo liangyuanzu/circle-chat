@@ -19,13 +19,15 @@
       >
         <template>
           <text>
-            {{item.username}}
+            {{ item.username }}
             <text :class="sexClass(item)" style="margin-left: 20rpx"></text>
           </text>
         </template>
 
         <template #right>
-          <text>取消关注</text>
+          <text @click="focusHandle(item.isFocus, item.userId)">{{
+            focusText(item.isFocus)
+          }}</text>
         </template>
       </uni-list-item>
     </uni-list>
@@ -33,65 +35,120 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters } from 'vuex'
 
 export default {
   mounted() {
-    uni.showLoading();
+    uni.showLoading()
     this.$store
-      .dispatch("focus/queryMyFocus", this.type)
+      .dispatch('focus/queryMyFocus', this.type)
       .then(() => {
-        uni.hideLoading();
+        uni.hideLoading()
       })
       .catch(() => {
-        uni.hideLoading();
-      });
+        uni.hideLoading()
+      })
   },
 
   data() {
     return {
       optionList: [
         {
-          name: "我的关注",
+          name: '我的关注'
         },
         {
-          name: "关注我的",
-        },
+          name: '关注我的'
+        }
       ],
       type: 1,
-    };
+      focusMap: [
+        { status: 0, text: '关注' },
+        { status: 1, text: '取消关注' },
+        { status: 2, text: '相互关注' }
+      ]
+    }
   },
 
   computed: {
-    ...mapGetters("focus", ["list"]),
+    ...mapGetters('focus', ['list'])
   },
 
   methods: {
-    changeItem(index) {
-      this.type = index + 1;
-      uni.showLoading();
+    loadingList(type) {
+      uni.showLoading()
       this.$store
-        .dispatch("focus/queryMyFocus", this.type)
+        .dispatch('focus/queryMyFocus', type)
         .then(() => {
-          uni.hideLoading();
+          uni.hideLoading()
         })
         .catch(() => {
-          uni.hideLoading();
-        });
+          uni.hideLoading()
+        })
+    },
+
+    changeItem(index) {
+      this.type = index + 1
+      this.loadingList(this.type)
     },
 
     sexClass(user) {
       return {
-        "cuIcon-male": user.sex === "男",
-        "text-blue": user.sex === "男",
-        "cuIcon-female": user.sex === "女",
-        "text-pink": user.sex === "女",
-        "cuIcon-questionfill": user.sex !== "男" && user.sex !== "女",
-        "text-gray": user.sex !== "男" && user.sex !== "女",
-      };
+        'cuIcon-male': user.sex === '男',
+        'text-blue': user.sex === '男',
+        'cuIcon-female': user.sex === '女',
+        'text-pink': user.sex === '女',
+        'cuIcon-questionfill': user.sex !== '男' && user.sex !== '女',
+        'text-gray': user.sex !== '男' && user.sex !== '女'
+      }
     },
-  },
-};
+
+    focusText(isFocus) {
+      return this.focusMap
+        .filter((i) => i.status == isFocus)
+        .map((j) => j.text)
+        .toString()
+    },
+
+    focusHandle(isFocus, id) {
+      uni.showLoading()
+      if (isFocus == 0) {
+        this.$store
+          .dispatch('focus/addFocus', { id })
+          .then(() => {
+            uni.hideLoading()
+            uni.showToast({
+              icon: 'none',
+              position: 'bottom',
+              title: '关注成功'
+            })
+            setTimeout(() => {
+              this.loadingList(this.type)
+            }, 1000)
+          })
+          .catch(() => {
+            uni.hideLoading()
+          })
+      } else if (isFocus == 1 || isFocus == 2) {
+        this.$store
+          .dispatch('focus/delFocus', { id })
+          .then(() => {
+            uni.hideLoading()
+            uni.showToast({
+              icon: 'none',
+              position: 'bottom',
+              title: '已取消关注'
+            })
+            setTimeout(() => {
+              this.loadingList(this.type)
+            }, 1000)
+          })
+          .catch(() => {
+            uni.hideLoading()
+          })
+      }
+    }
+  }
+}
 </script>
 
 <style lang="scss">

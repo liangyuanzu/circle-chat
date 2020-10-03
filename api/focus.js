@@ -23,3 +23,25 @@ export function queryFocusSb(id) {
 		}
 	})
 }
+
+/**
+ * 关注
+ * @param {number} id 用户 id
+ */
+export function addFocus(data) {
+	return $request('/focus/addFocus', {
+		method: 'POST',
+		data
+	})
+}
+
+/**
+ * 取消关注
+ * @param {number} id 用户 id
+ */
+export function delFocus(data) {
+	return $request('/focus/delFocus', {
+		method: 'POST',
+		data
+	})
+}
