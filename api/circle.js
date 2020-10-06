@@ -29,3 +29,15 @@ export function updateCirclePhoto(data) {
 		data
 	})
 }
+
+/**
+ *
+ * @param {number} type 圈类型
+ */
+export function nearlyCircle(type) {
+	return $request('/circle/nearlyCircle', {
+		params: {
+			type
+		}
+	})
+}
