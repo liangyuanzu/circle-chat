@@ -1,6 +1,7 @@
 import Request from '@/utils/luch-request/index.js'
-import { getToken } from '@/helpers/token.js'
-import { baseUrl } from '../config/config'
+import { baseUrl, accessTokenName, refreshTokenName } from '@/config/config.js'
+import localStore from '@/helpers/localStore.js'
+import { refresh } from '@/api/user.js'
 
 const http = new Request()
 
@@ -11,8 +12,9 @@ http.setConfig((config) => {
 
 http.interceptors.request.use(
 	(config) => {
-		if (getToken()) {
-			config.header.token = getToken()
+		const token = localStore.get(accessTokenName)
+		if (token) {
+			config.header.token = token
 		}
 		return config
 	},
@@ -52,6 +54,21 @@ http.interceptors.response.use(
 	}
 )
 
+function refreshToken() {
+	const { accessToken, refreshToken } = refresh(
+		localStore.get(refreshTokenName)
+	)
+	if (accessToken && refreshToken) {
+		localStore.set(accessTokenName, accessToken)
+		localStore.set(refreshTokenName, refreshToken)
+	} else {
+		uni.showToast({
+			icon: 'none',
+			title: '刷新token接口异常'
+		})
+	}
+}
+
 const $request = (url, Options) => {
 	return new Promise((resolve, reject) => {
 		http
@@ -64,10 +81,13 @@ const $request = (url, Options) => {
 				...Options
 			})
 			.then((res) => {
-				// if (res.data.code === 0) {
-				if (res.data.code == 200) {
+				if (res.data.code == 0) {
 					resolve(res.data.data)
 				} else {
+					if (res.data.msg == 'token失效，请重新登录。') {
+						refreshToken()
+						return
+					}
 					uni.showToast({
 						icon: 'none',
 						title: res.data.msg

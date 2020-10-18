@@ -1,6 +1,7 @@
 <script>
 import Vue from 'vue'
-import { getToken } from '@/helpers/token.js'
+import { accessTokenName } from '@/config/config.js'
+import localStore from '@/helpers/localStore.js'
 
 export default {
   created() {
@@ -11,15 +12,6 @@ export default {
 
   onLaunch: function () {
     console.log('App Launch')
-
-    // 判断是否存在 token
-    /*
-    if (!getToken()) {
-      uni.reLaunch({
-        url: '/pages/login/login'
-      })
-		}
-		*/
 
     uni.getSystemInfo({
       success: function (e) {
@@ -41,8 +33,24 @@ export default {
         Vue.prototype.StatusBar = e.statusBarHeight
         Vue.prototype.CustomBar = e.statusBarHeight + e.titleBarHeight
         // #endif
+        // #ifdef MP-BAIDU
+        Vue.prototype.StatusBar = e.statusBarHeight
+        Vue.prototype.CustomBar = e.statusBarHeight + e.navigationBarHeight
+        // #endif
       }
     })
+
+    // 判断是否存在 token
+    if (!localStore.get(accessTokenName)) {
+      uni.reLaunch({
+        url: '/pages/login/login'
+      })
+    } else {
+      // 初始化
+      this.$store.dispatch('user/init', {}, { root: true })
+      // 连接 socket
+      this.$store.dispatch('chat/open', {}, { root: true })
+    }
   },
   onShow: function () {
     console.log('App Show')
