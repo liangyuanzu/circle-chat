@@ -20,7 +20,12 @@
         <template>
           <text>
             {{ item.username }}
+            <!-- #ifndef MP-BAIDU -->
             <text :class="sexClass(item)" style="margin-left: 20rpx"></text>
+            <!-- #endif -->
+            <!-- #ifdef MP-BAIDU -->
+            <text style="margin-left: 20rpx"></text>
+            <!-- #endif -->
           </text>
         </template>
 
