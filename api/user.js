@@ -12,15 +12,28 @@ export function login(data) {
 	})
 }
 
+export function refresh(refreshToken) {
+	return $request('/user/refreshToken', {
+		params: {
+			refreshToken
+		}
+	})
+}
+
+export function getUserInfo(token) {
+	return $request('/user/getUserIdFromToken', {
+		params: {
+			token
+		}
+	})
+}
+
 /**
  * 退出登录
- * @param {string} email - 邮箱号
  * */
-export function logout(email) {
+export function logout() {
 	return $request('/user/logout', {
-		params: {
-			email
-		}
+		method: 'POST'
 	})
 }
 

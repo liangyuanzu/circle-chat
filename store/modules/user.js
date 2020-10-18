@@ -1,5 +1,6 @@
 import {
 	login,
+	getUserInfo,
 	sendRegisterEmail,
 	register,
 	sendForgetPasswordEmail,
@@ -8,31 +9,34 @@ import {
 	updatePhoto,
 	queryUserMsg
 } from '@/api/user.js'
-import { setToken, removeToken } from '@/helpers/token.js'
+import {
+	accessTokenName,
+	refreshTokenName,
+	userInfoName
+} from '@/config/config.js'
+
+import localStore from '@/helpers/localStore.js'
 
 const state = {
-	username: '',
-	email: '',
-	avatar: 'https://ossweb-img.qq.com/images/lol/web201310/skin/big11010.jpg',
-	userId: '',
-	age: '',
-	sex: '',
-	birthday: '',
-	autograph: ''
+	userinfo: {}
 }
 
 const getters = {
-	username: (state) => state.username,
-	email: (state) => state.email,
-	avatar: (state) => state.avatar,
-	userId: (state) => state.userId,
-	age: (state) => state.age,
-	sex: (state) => state.sex,
-	birthday: (state) => state.birthday,
-	autograph: (state) => state.autograph
+	userinfo: (state) => state.userinfo,
+	userId: (state) => state.userinfo.userId,
+	username: (state) => state.userinfo.username,
+	avatar: (state) => state.userinfo.img,
+	email: (state) => state.userinfo.email,
+	age: (state) => state.userinfo.age,
+	sex: (state) => state.userinfo.sex,
+	birthday: (state) => state.userinfo.birthday,
+	autograph: (state) => state.userinfo.autograph
 }
 
 const mutations = {
+	setUserInfo(state, userinfo) {
+		state.userinfo = userinfo
+	},
 	setUsername(state, username) {
 		state.username = username
 	},
@@ -60,10 +64,17 @@ const mutations = {
 }
 
 const actions = {
-	async login({ commit }, userInfo) {
-		const { token } = await login(userInfo)
-		if (token) {
-			setToken(token)
+	init({ commit }) {
+		const userinfo = localStore.get(userInfoName)
+		commit('setUserInfo', userinfo)
+	},
+
+	async login({ dispatch }, userinfo) {
+		const { accessToken, refreshToken } = await login(userinfo)
+		if (accessToken && refreshToken) {
+			localStore.set(accessTokenName, accessToken)
+			localStore.set(refreshTokenName, refreshToken)
+			dispatch('getUserInfo', accessToken)
 		} else {
 			uni.showToast({
 				icon: 'none',
@@ -72,24 +83,40 @@ const actions = {
 		}
 	},
 
-	async logout({ commit }, email) {
-		await logout(email)
-		removeToken()
+	async getUserInfo({ commit, dispatch }) {
+		const token = localStore.get(accessTokenName)
+		const data = await getUserInfo(token)
+		if (Object.keys(data)) {
+			commit('setUserInfo', data)
+			localStore.set(userInfoName, data)
+			dispatch('chat/open', {}, { root: true })
+		} else {
+			uni.showToast({
+				icon: 'none',
+				title: '获取用户信息接口异常'
+			})
+		}
 	},
 
-	async sendRegisterEmail({ commit }, email) {
+	async logout({ dispatch }) {
+		await logout()
+		localStore.delAll()
+		dispatch('chat/close', {}, { root: true })
+	},
+
+	async sendRegisterEmail({}, email) {
 		await sendRegisterEmail(email)
 	},
 
-	async register({ commit }, regInfo) {
+	async register({}, regInfo) {
 		await register(regInfo)
 	},
 
-	async sendForgetPasswordEmail({ commit }, email) {
+	async sendForgetPasswordEmail({}, email) {
 		await sendForgetPasswordEmail(email)
 	},
 
-	async updatePassword({ commit }, resetInfo) {
+	async updatePassword({}, resetInfo) {
 		await updatePassword(resetInfo)
 	},
 

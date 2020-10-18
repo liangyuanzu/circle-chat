@@ -121,7 +121,7 @@ export default {
 
     confirm() {
       this.$store
-        .dispatch('user/logout', this.email)
+        .dispatch('user/logout')
         .then(() => {
           this.show = false
           uni.reLaunch({
