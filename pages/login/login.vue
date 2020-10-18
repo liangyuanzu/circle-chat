@@ -84,39 +84,39 @@
 </template>
 
 <script>
-var _this;
-import wInput from "../../components/watch-login/watch-input.vue"; //input
-import wButton from "../../components/watch-login/watch-button.vue"; //button
-import logoImage from "./logo.js";
-import md5Libs from "uview-ui/libs/function/md5";
+var _this
+import wInput from '../../components/watch-login/watch-input.vue' //input
+import wButton from '../../components/watch-login/watch-button.vue' //button
+import logoImage from './logo.js'
+import md5Libs from 'uview-ui/libs/function/md5'
 
 export default {
   data() {
     return {
       logoImage, //logo图片 base64
       form: {
-        email: "", //邮箱号
-        password: "", //密码
+        email: '', //邮箱号
+        password: '' //密码
       },
       isEmail: false, //判断邮箱号是否正确
       isPwd: false, //判断密码是否符合要求
-      isRotate: false, //是否加载旋转
+      isRotate: false //是否加载旋转
 
       // phoneData:'', //手机号
       // isPhone: false, //判断手机号是否正确
       // verCode:"", //验证码
       // isVerCode:false, //判断验证码长度是否符合要求
       // isShowCode: false, //是否显示获取验证码
-    };
+    }
   },
 
   components: {
     wInput,
-    wButton,
+    wButton
   },
 
   mounted() {
-    _this = this;
+    _this = this
   },
 
   methods: {
@@ -139,11 +139,11 @@ export default {
       this.$u.debounce(() => {
         // 判断邮箱号格式是否正确
         if (this.$u.test.email(_this.form.email)) {
-          _this.isEmail = true;
+          _this.isEmail = true
         } else {
-          _this.isEmail = false;
+          _this.isEmail = false
         }
-      }, 200);
+      }, 200)
     },
 
     /*
@@ -165,19 +165,19 @@ export default {
       this.$u.debounce(() => {
         // 判断密码是否符合规范
         if (/^[\w]{6,12}$/.test(_this.form.password)) {
-          _this.isPwd = true;
+          _this.isPwd = true
         } else {
-          _this.isPwd = false;
+          _this.isPwd = false
         }
-      }, 200);
+      }, 200)
     },
 
     showLogin() {
       // 登录按钮是否可选
       if (this.isPwd && this.isEmail) {
-        return true;
+        return true
       } else {
-        return false;
+        return false
       }
     },
 
@@ -217,44 +217,44 @@ export default {
 
       if (!_this.isEmail) {
         uni.showToast({
-          icon: "none",
-          position: "bottom",
-          title: "邮箱号不正确",
-        });
-        return false;
+          icon: 'none',
+          position: 'bottom',
+          title: '邮箱号不正确'
+        })
+        return false
       }
     },
 
     startLogin() {
-      if (this.isRotate) return false; //判断是否加载中，避免重复点击请求
+      if (this.isRotate) return false //判断是否加载中，避免重复点击请求
 
-      _this.isRotate = true;
+      _this.isRotate = true
       uni.showLoading({
-        title: "登录中",
-      });
+        title: '登录中'
+      })
       this.$store
-        .dispatch("user/login", {
+        .dispatch('user/login', {
           email: _this.form.email,
-          password: md5Libs.md5(_this.form.password),
+          password: _this.form.password
         })
         .then(() => {
-          _this.isRotate = false;
-          uni.hideLoading();
+          _this.isRotate = false
+          uni.hideLoading()
           uni.showToast({
-            icon: "success",
-            title: "登录成功",
-          });
+            icon: 'success',
+            title: '登录成功'
+          })
           setTimeout(() => {
             uni.reLaunch({
-              url: "/pages/index/index",
-            });
-          }, 1000);
+              url: '/pages/index/index'
+            })
+          }, 1000)
         })
         .catch(() => {
-          _this.isRotate = false;
-          uni.hideLoading();
-        });
-    },
+          _this.isRotate = false
+          uni.hideLoading()
+        })
+    }
 
     /*
 			login_weixin() {
@@ -282,11 +282,11 @@ export default {
 				});
 			}
 			*/
-  },
-};
+  }
+}
 </script>
 
 <style>
-@import url("../../components/watch-login/css/icon.css");
-@import url("./css/main.css");
+@import url('../../components/watch-login/css/icon.css');
+@import url('./css/main.css');
 </style>
