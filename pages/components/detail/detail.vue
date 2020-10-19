@@ -87,8 +87,7 @@ export default {
     toChat() {
       const userinfo = {
         userId: 10,
-        username: this.info.username || '张三丰',
-        avatar: '/static/chat/img/im/face/face_12.jpg'
+        username: this.info.username || '张三丰'
       }
       uni.navigateTo({
         url: '/pages/components/chat/chat?userinfo=' + JSON.stringify(userinfo)

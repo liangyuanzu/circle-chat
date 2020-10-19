@@ -71,8 +71,7 @@ const state = {
 	// 当前聊天对象（进入聊天页面获取）
 	CurrentToUser: {
 		userId: 0, // 通过判断userId是否为0，当前用户处在什么场景下
-		username: '',
-		avatar: ''
+		username: ''
 	},
 	CurrentToCircle: {
 		circleId: 0, // 通过判断circleId是否为0，当前用户处在什么场景下
@@ -89,10 +88,9 @@ const mutations = {
 	setSocketTask(state, SocketTask) {
 		state.SocketTask = SocketTask
 	},
-	setCurrentToUser(state, { userId, username, avatar }) {
+	setCurrentToUser(state, { userId, username }) {
 		state.CurrentToUser.userId = userId
 		state.CurrentToUser.username = username
-		state.CurrentToUser.avatar = avatar
 	},
 	setCurrentToCircle(state, { circleId, circleName }) {
 		state.CurrentToCircle.circleId = circleId
@@ -279,7 +277,7 @@ const actions = {
 				userId: rootGetters['user/userId'],
 				toUser: state.CurrentToUser.userId,
 				toUserName: state.CurrentToUser.username,
-				toUserAvatar: state.CurrentToUser.avatar
+				toUserAvatar: '/static/chat/img/im/face/face_12.jpg'
 			}
 			let obj = chatFormat(res, { type: 'chatList' }, user)
 			// 忽略本人发送

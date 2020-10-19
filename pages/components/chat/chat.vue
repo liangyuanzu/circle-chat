@@ -560,8 +560,8 @@ export default {
 
   onLoad(options) {
     if (options.userinfo) {
-      const { userId, username, avatar } = JSON.parse(options.userinfo)
-      this.$store.commit('chat/setCurrentToUser', { userId, username, avatar })
+      const { userId, username } = JSON.parse(options.userinfo)
+      this.$store.commit('chat/setCurrentToUser', { userId, username })
       // 修改标题
       uni.setNavigationBarTitle({ title: username })
     } else if (options.circleinfo) {
@@ -609,8 +609,7 @@ export default {
       // 重置单人聊天对象
       this.$store.commit('chat/setCurrentToUser', {
         userId: 0,
-        username: '',
-        avatar: ''
+        username: ''
       })
     }
   },
