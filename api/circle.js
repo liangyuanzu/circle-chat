@@ -1,6 +1,18 @@
 import $request from '@/helpers/request.js'
 
 /**
+ *
+ * @param {number} type 圈类型
+ */
+export function nearlyCircle(type) {
+	return $request('/circle/nearlyCircle', {
+		params: {
+			type
+		}
+	})
+}
+
+/**
  * 创建圈
  * @param {string} name - 圈名称
  * @param {string} position - 圈中心位置
@@ -27,17 +39,5 @@ export function updateCirclePhoto(data) {
 	return $request('/circle/updateCirclePhoto', {
 		method: 'UPLOAD',
 		data
-	})
-}
-
-/**
- *
- * @param {number} type 圈类型
- */
-export function nearlyCircle(type) {
-	return $request('/circle/nearlyCircle', {
-		params: {
-			type
-		}
 	})
 }

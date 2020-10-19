@@ -1,27 +1,31 @@
-import { creatCircle, updateCirclePhoto, nearlyCircle } from '@/api/circle.js'
+import { nearlyCircle, creatCircle, updateCirclePhoto } from '@/api/circle.js'
 
 const state = {
+	circleList: [],
 	circleAvatar:
-		'https://ossweb-img.qq.com/images/lol/web201310/skin/big11010.jpg',
-	circleList: []
+		'https://ossweb-img.qq.com/images/lol/web201310/skin/big11010.jpg'
 }
 
 const getters = {
-	circleAvatar: (state) => state.circleAvatar,
-	circleList: (state) => state.circleList
+	circleAvatar: (state) => state.circleAvatar
 }
 
 const mutations = {
-	setCircleAvatar(state, circleAvatar) {
-		state.circleAvatar = circleAvatar
-	},
-
 	setCircleList(state, circleList) {
 		state.circleList = circleList
+	},
+
+	setCircleAvatar(state, circleAvatar) {
+		state.circleAvatar = circleAvatar
 	}
 }
 
 const actions = {
+	async nearlyCircle({ commit }, type) {
+		const circleList = await nearlyCircle(type)
+		if (circleList) commit('setCircleList', circleList)
+	},
+
 	async creatCircle({ commit }, createInfo) {
 		await creatCircle(createInfo)
 	},
@@ -34,19 +38,6 @@ const actions = {
 			uni.showToast({
 				icon: 'none',
 				title: '更换圈头像接口异常'
-			})
-		}
-	},
-
-	async nearlyCircle({ commit }, type) {
-		const circleList = await nearlyCircle(type)
-		if (circleList) {
-			console.log('已调用')
-			commit('setCircleList', circleList)
-		} else {
-			uni.showToast({
-				icon: 'none',
-				title: '附近的圈接口异常'
 			})
 		}
 	}

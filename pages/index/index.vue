@@ -1,34 +1,28 @@
 <template>
-	<view>
-		<nav-bar />
-		<tabs />
-		<list />
-	</view>
+  <view>
+    <nav-bar />
+    <tabs />
+    <circle-list />
+  </view>
 </template>
 
 <script>
-	import navBar from './components/nav-bar.vue'
-	import tabs from './components/tabs.vue'
-	import list from './components/list.vue'
+import navBar from './components/nav-bar.vue'
+import tabs from './components/tabs.vue'
+import circleList from './components/circle-list.vue'
 
-	export default {
-		components: {
-			'nav-bar': navBar,
-			tabs,
-			list
-		},
-		data() {
-			return {
-				
-			}
-		},
-		onLoad() {
-
-		},
-		methods: {
-
-		}
-	}
+export default {
+  components: {
+    'nav-bar': navBar,
+    tabs,
+    'circle-list': circleList
+  },
+  data() {
+    return {}
+  },
+  onLoad() {},
+  methods: {}
+}
 </script>
 
 <style>
