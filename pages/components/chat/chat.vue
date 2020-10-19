@@ -230,6 +230,9 @@ import { mapGetters, mapState } from 'vuex'
 export default {
   data() {
     return {
+      // 判断当前是否为圈
+      isCircle: false,
+
       //文字消息
       textMsg: '',
       //消息列表
@@ -525,7 +528,7 @@ export default {
 
   computed: {
     ...mapGetters('user', ['userId', 'username', 'avatar']),
-    ...mapState('chat', ['CurrentToUser'])
+    ...mapState('chat', ['CurrentToUser', 'CurrentToCircle'])
   },
 
   onReady() {
@@ -557,16 +560,25 @@ export default {
 
   onLoad(options) {
     const { userId, username, avatar } = JSON.parse(options.userinfo)
-    // 用户不存在
-    if (!userId) {
-      uni.showToast({ title: '该用户不存在', icon: 'none' })
+    const { circleId, circleName } = JSON.parse(options.circleinfo)
+
+    if (userId) {
+      this.$store.commit('chat/setCurrentToUser', { userId, username, avatar })
+      // 修改标题
+      uni.setNavigationBarTitle({ title: username })
+    } else if (circleId) {
+      this.$store.commit('chat/setCurrentToCircle', { circleId, circleName })
+      // 修改标题
+      uni.setNavigationBarTitle({ title: circleName })
+      // 修改圈状态
+      this.isCircle = true
+    } else {
+      uni.showToast({ title: '不存在的用户或圈', icon: 'none' })
       return uni.navigateBack()
     }
+
     // 初始化聊天对象
     this.myuid = this.userId
-    this.$store.commit('chat/setCurrentToUser', { userId, username, avatar })
-    // 修改标题
-    uni.setNavigationBarTitle({ title: username })
 
     this.getMsgList()
     //语音自然播放结束
@@ -586,12 +598,22 @@ export default {
   },
 
   onUnload() {
-    // 重置聊天对象
-    this.$store.commit('chat/setCurrentToUser', {
-      userId: 0,
-      username: '',
-      avatar: ''
-    })
+    if (this.isCircle) {
+      // 重置圈聊天对象
+      this.$store.commit('chat/setCurrentToCircle', {
+        circleId: 0,
+        circleName: ''
+      })
+      // 修改圈状态
+      this.isCircle = false
+    } else {
+      // 重置单人聊天对象
+      this.$store.commit('chat/setCurrentToUser', {
+        userId: 0,
+        username: '',
+        avatar: ''
+      })
+    }
   },
 
   onShow() {
@@ -864,9 +886,16 @@ export default {
           }
         }
       ]
-      const chatDetail = localStore.get(
-        'chatDetail_' + this.userId + '_' + this.CurrentToUser.userId
-      )
+      let chatDetail
+      if (isCircle) {
+        chatDetail = localStore.get(
+          'chatDetail_' + this.userId + '_' + this.CurrentToCircle.circleId
+        )
+      } else {
+        chatDetail = localStore.get(
+          'chatDetail_' + this.userId + '_' + this.CurrentToUser.userId
+        )
+      }
       list = chatDetail || []
       // 获取消息中的图片,并处理显示尺寸
       for (let i = 0; i < list.length; i++) {

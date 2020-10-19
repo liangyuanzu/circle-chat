@@ -73,6 +73,10 @@ const state = {
 		userId: 0, // 通过判断userId是否为0，当前用户处在什么场景下
 		username: '',
 		avatar: ''
+	},
+	CurrentToCircle: {
+		circleId: 0, // 通过判断circleId是否为0，当前用户处在什么场景下
+		circleName: ''
 	}
 }
 
@@ -89,6 +93,10 @@ const mutations = {
 		state.CurrentToUser.userId = userId
 		state.CurrentToUser.username = username
 		state.CurrentToUser.avatar = avatar
+	},
+	setCurrentToCircle(state, { circleId, circleName }) {
+		state.CurrentToCircle.circleId = circleId
+		state.CurrentToUser.circleName = circleName
 	}
 }
 

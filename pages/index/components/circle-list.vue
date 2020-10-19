@@ -10,7 +10,7 @@
         thumbSize="lg"
         :note="item.synopsis"
         clickable
-        @click="onClick(item)"
+        @click="toChatDetail(item)"
       >
         <template slot="right">
           <view class="custom-right">
@@ -78,9 +78,14 @@ export default {
   },
 
   methods: {
-    onClick(item) {
+    toChatDetail(item) {
+      const circleinfo = {
+        circleId: item.circleId,
+        circleName: item.name
+      }
       uni.navigateTo({
-        url: '/pages/components/detail/detail'
+        url:
+          '/pages/components/chat/chat?circleinfo=' + JSON.stringify(circleinfo)
       })
     }
   }
