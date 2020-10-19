@@ -11,7 +11,7 @@
       <view class="message">
         <view>
           <text>圈名称</text>
-          <text>贵族圈</text>
+          <text class="name">{{ this.info.name }}</text>
         </view>
         <view>
           <text>圈人数</text>
@@ -37,11 +37,11 @@
       <view class="middle-right">
         <view>
           <text>圈类型</text>
-          <text>交友圈</text>
+          <text>{{ this.info.type }}</text>
         </view>
         <view>
           <text>圈范围</text>
-          <text>200米型</text>
+          <text>{{ this.info.radius + '米' }}</text>
         </view>
         <view>
           <text>创建时间</text>
@@ -54,17 +54,19 @@
     <view class="bottom">
       <view class="notice">
         <view class="title">圈公告</view>
-        <view class="content">请友善发言</view>
+        <view class="content">{{ this.info.notice }}</view>
       </view>
       <view class="explain">
         <view class="title">入圈说明</view>
-        <view class="content">闲聊，交友</view>
+        <view class="content">{{ this.info.explain }}</view>
       </view>
     </view>
 
     <!-- 加入圈 -->
     <view class="join">
-      <button class="cu-btn round lg bg-blue">加入圈</button>
+      <button class="cu-btn round lg bg-blue" @click="toCircleChat">
+        加入圈
+      </button>
     </view>
   </view>
 </template>
@@ -72,18 +74,35 @@
 <script>
 export default {
   data() {
-    return {}
+    return {
+      info: {}
+    }
+  },
+
+  onLoad(options) {
+    this.info = JSON.parse(options.info)
   },
 
   methods: {
     toChat() {
-      const obj = {
-        userId: 11,
-				username: '张三丰',
-				avatar: '/static/chat/img/im/face/face_12.jpg'
+      const userinfo = {
+        userId: 10,
+        username: this.info.username || '张三丰',
+        avatar: '/static/chat/img/im/face/face_12.jpg'
       }
       uni.navigateTo({
-        url: '/pages/components/chat/chat?userinfo=' + JSON.stringify(obj)
+        url: '/pages/components/chat/chat?userinfo=' + JSON.stringify(userinfo)
+      })
+    },
+
+    toCircleChat() {
+      const circleinfo = {
+        circleId: this.info.circleId,
+        circleName: this.info.name
+      }
+      uni.navigateTo({
+        url:
+          '/pages/components/chat/chat?circleinfo=' + JSON.stringify(circleinfo)
       })
     }
   }
@@ -103,9 +122,10 @@ export default {
     .message {
       display: inline-block;
       position: absolute;
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%, -50%);
+      margin-left: 30rpx;
+      // left: 50%;
+      // top: 50%;
+      // transform: translate(-50%, -50%);
 
       view {
         height: 75rpx;
@@ -113,7 +133,7 @@ export default {
 
         text {
           &:nth-of-type(1) {
-            margin-right: 70rpx;
+            margin-right: 30rpx;
             font-weight: bold;
             color: #333;
           }

@@ -559,14 +559,13 @@ export default {
   },
 
   onLoad(options) {
-    const { userId, username, avatar } = JSON.parse(options.userinfo)
-    const { circleId, circleName } = JSON.parse(options.circleinfo)
-
-    if (userId) {
+    if (options.userinfo) {
+      const { userId, username, avatar } = JSON.parse(options.userinfo)
       this.$store.commit('chat/setCurrentToUser', { userId, username, avatar })
       // 修改标题
       uni.setNavigationBarTitle({ title: username })
-    } else if (circleId) {
+    } else if (options.circleinfo) {
+      const { circleId, circleName } = JSON.parse(options.circleinfo)
       this.$store.commit('chat/setCurrentToCircle', { circleId, circleName })
       // 修改标题
       uni.setNavigationBarTitle({ title: circleName })
@@ -887,7 +886,7 @@ export default {
         }
       ]
       let chatDetail
-      if (isCircle) {
+      if (this.isCircle) {
         chatDetail = localStore.get(
           'chatDetail_' + this.userId + '_' + this.CurrentToCircle.circleId
         )
