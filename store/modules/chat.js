@@ -1,7 +1,7 @@
 import {
 	websocketUrl,
-	sendType,
-	receiveType,
+	receiveOneType,
+	receiveCircleType,
 	chatListName
 } from '@/config/config.js'
 import localStore from '@/helpers/localStore.js'
@@ -67,15 +67,18 @@ import { chatFormat, updateNoReadNum, initTabBarBadge } from '@/helpers/chat.js'
 
 const state = {
 	isOpen: false,
+	isCircle: false,
 	SocketTask: false,
 	// 当前聊天对象（进入聊天页面获取）
 	CurrentToUser: {
 		userId: 0, // 通过判断userId是否为0，当前用户处在什么场景下
-		username: ''
+		username: '',
+		avatar: ''
 	},
 	CurrentToCircle: {
 		circleId: 0, // 通过判断circleId是否为0，当前用户处在什么场景下
-		circleName: ''
+		circleName: '',
+		circleAvatar: ''
 	}
 }
 
@@ -85,16 +88,21 @@ const mutations = {
 	setIsOpen(state, isOpen) {
 		state.isOpen = isOpen
 	},
+	setIsCircle(state, isCircle) {
+		state.isCircle = isCircle
+	},
 	setSocketTask(state, SocketTask) {
 		state.SocketTask = SocketTask
 	},
-	setCurrentToUser(state, { userId, username }) {
+	setCurrentToUser(state, { userId, username, avatar }) {
 		state.CurrentToUser.userId = userId
 		state.CurrentToUser.username = username
+		state.CurrentToUser.avatar = avatar
 	},
-	setCurrentToCircle(state, { circleId, circleName }) {
+	setCurrentToCircle(state, { circleId, circleName, circleAvatar }) {
 		state.CurrentToCircle.circleId = circleId
-		state.CurrentToUser.circleName = circleName
+		state.CurrentToCircle.circleName = circleName
+		state.CurrentToCircle.circleAvatar = circleAvatar
 	}
 }
 
@@ -138,7 +146,7 @@ const actions = {
 		}
 	},
 
-	message({ dispatch, state: { SocketTask, CurrentToUser } }) {
+	message({ dispatch, state: { SocketTask, CurrentToUser, CurrentToCircle } }) {
 		SocketTask.onMessage((e) => {
 			const res = JSON.parse(e.data)
 			// 获取总未读数,并且渲染到tabBar的badge
@@ -147,23 +155,35 @@ const actions = {
 			dispatch('getChatMessages')
 
 			// 过滤初始连接信息
-			if (res.type !== sendType && res.type !== receiveType) return
-			console.log(res)
-			// 全局通知接口
-			uni.$emit('UserChat', res)
-			// 存储到 chatDetail
-			dispatch('updateChatDetail', { res })
-			// 更新chatList（将当前会话置顶，修改chatList中当前会话的data和time显示）
-			dispatch('updateChatList', res)
-			// 总未读数+1，修改tabBar信息数
-			if (CurrentToUser.userId !== res.body.userId) {
-				updateNoReadNum({ type: 'add' })
+			if (res.type === receiveOneType) {
+				console.log(res)
+				// 全局通知接口
+				uni.$emit('UserChat', res)
+				// 存储到 chatDetail
+				dispatch('updateChatDetail', { res })
+				// 更新chatList（将当前会话置顶，修改chatList中当前会话的data和time显示）
+				dispatch('updateChatList', { res })
+				// 总未读数+1，修改tabBar信息数
+				if (CurrentToUser.userId !== res.body.userId) {
+					updateNoReadNum({ type: 'add' })
+				}
+			} else if (res.type === receiveCircleType) {
+				// 全局通知接口
+				uni.$emit('UserChat', res)
+				// 存储到 chatDetail
+				dispatch('updateChatDetail', { res, isCircle: true })
+				// 更新chatList（将当前会话置顶，修改chatList中当前会话的data和time显示）
+				dispatch('updateChatList', { res, isCircle: true })
+				// 总未读数+1，修改tabBar信息数
+				if (CurrentToCircle.circleId !== res.body.circleId) {
+					updateNoReadNum({ type: 'add' })
+				}
 			}
 		})
 	},
 
 	// 发送消息
-	send({ dispatch, rootGetters, state: { SocketTask } }, res) {
+	async send({ dispatch, rootGetters, state: { SocketTask, isCircle } }, res) {
 		/**
 		 {
 				type: 'system | user',
@@ -181,26 +201,46 @@ const actions = {
 			}
 		 * */
 		// 发送的格式
-		const user = {
-			userId: rootGetters['user/userId'],
-			username: rootGetters['user/username'],
-			toUser: state.CurrentToUser.userId
+		let data
+		if (isCircle) {
+			data = {
+				circleId: state.CurrentToCircle.circleId,
+				circleName: state.CurrentToCircle.circleName,
+				circleAvatar: state.CurrentToCircle.circleAvatar,
+				userId: rootGetters['user/userId'],
+				avatar: rootGetters['user/avatar']
+			}
+		} else {
+			data = {
+				userId: rootGetters['user/userId'],
+				username: rootGetters['user/username'],
+				avatar: rootGetters['user/avatar'],
+				toUser: state.CurrentToUser.userId
+			}
 		}
-		const sendData = chatFormat(res, { type: 'send' }, user)
-		// 存储到chatDetail
-		dispatch('updateChatDetail', { res: sendData, isSend: true })
-		// 存储到chatList（将当前会话置顶，修改chatList中当前会话的data和time显示）
-		dispatch('updateChatList', sendData)
-		// 发送到服务器
-		SocketTask.send({
-			data: JSON.stringify(sendData),
-			fail: (res) => console.log('发送失败')
-		})
+		const sendData = chatFormat(res, { type: 'send', isCircle }, data)
+		console.log(sendData)
+		try {
+			// 发送到服务器
+			await SocketTask.send({
+				data: JSON.stringify(sendData),
+				fail: (res) => console.log('发送失败')
+			})
+			// 存储到chatDetail
+			dispatch('updateChatDetail', { res: sendData, isSend: true, isCircle })
+			// 存储到chatList（将当前会话置顶，修改chatList中当前会话的data和time显示）
+			dispatch('updateChatList', { res: sendData, isCircle })
+		} catch (error) {
+			console.log(error)
+		}
 	},
 
 	getChatMessages() {},
 
-	updateChatDetail({ rootGetters, state }, { res, isSend = false }) {
+	updateChatDetail(
+		{ rootGetters, state },
+		{ res, isSend = false, isCircle = false }
+	) {
 		// 组织格式，本地存储
 		/*
 		[
@@ -223,83 +263,122 @@ const actions = {
 		]
 		*/
 		console.log(res)
-		const userId = isSend ? state.CurrentToUser.userId : res.body.userId
-		// 获取旧数据（ chatDetail_[当前用户id]_[聊天对象id] ）
-		const chatDetail = localStore.get(
-			'chatDetail_' + rootGetters['user/userId'] + '_' + userId
-		)
+		let chatDetail, circleId, userId
+		if (isCircle) {
+			circleId = isSend ? state.CurrentToCircle.circleId : res.body.circleId
+			// 获取旧数据（ chatDetail_[当前用户id]_[聊天对象id] ）
+			chatDetail = localStore.get(
+				'chatDetail_' + rootGetters['user/userId'] + '_' + circleId
+			)
+		} else {
+			userId = isSend ? state.CurrentToUser.userId : res.body.userId
+			// 获取旧数据（ chatDetail_[当前用户id]_[聊天对象id] ）
+			chatDetail = localStore.get(
+				'chatDetail_' + rootGetters['user/userId'] + '_' + userId
+			)
+		}
 		let list = chatDetail || []
 
 		// 追加
 		list.push(
 			chatFormat(res, {
 				type: 'chatDetail',
-				// isMe: isSend,
-				oldData: list
+				oldData: list,
+				isCircle
 			})
 		)
 		// 存储
-		localStore.set(
-			'chatDetail_' + rootGetters['user/userId'] + '_' + userId,
-			list
-		)
+		if (isCircle) {
+			localStore.set(
+				'chatDetail_' + rootGetters['user/userId'] + '_' + circleId,
+				list
+			)
+		} else {
+			localStore.set(
+				'chatDetail_' + rootGetters['user/userId'] + '_' + userId,
+				list
+			)
+		}
 	},
 
-	updateChatList({ rootGetters, state }, res) {
-		// 组织格式，本地存储
-		/*
-		[
-			{
-				"userId": 9,	// 对方 id
-				"username": "LiRyan"	// 对方用户名
-				"avatar": "/static/chat/img/im/face/face_2.jpg", // 头像
-				"data": "测试",
-				"noReadNum": 0,	// 未读数
-				"time": 1603018382636
-			}
-		]
-		*/
-
-		const { userId, toUserId, toUser, createTime, content } = res.body
+	updateChatList({ rootGetters, state }, { res, isCircle = false }) {
 		// 获取旧数据
-		console.log(res)
-		let chatList = localStore.get('chatList') || []
-		// 判断是否已存在该会话，存在：将当前会话置顶；不存在：追加至头部
-		const index = chatList?.findIndex(
-			(item) =>
-				item.userId == userId ||
-				item.userId == toUserId ||
-				item.userId == toUser
-		)
-		// 不存在
-		if (index == -1) {
-			const user = {
-				userId: rootGetters['user/userId'],
-				toUser: state.CurrentToUser.userId,
-				toUserName: state.CurrentToUser.username,
-				toUserAvatar: '/static/chat/img/im/face/face_12.jpg'
+		let chatList = localStore.get(chatListName) || []
+		// 判断是否为群聊
+		if (isCircle) {
+			const { circleId, userId, username, content, createTime } = res.body
+			// 判断是否已存在该会话，存在：将当前会话置顶；不存在：追加至头部
+			const index = chatList?.findIndex((item) => item?.circleId == circleId)
+			// 不存在
+			if (index == -1) {
+				const user = {
+					userId: rootGetters['user/userId']
+				}
+				let obj = chatFormat(res, { type: 'chatList', isCircle }, user)
+				// 忽略本人发送
+				if (userId !== rootGetters['user/userId']) {
+					obj.noReadNum = 1
+				}
+				chatList.unshift(obj)
+			} else {
+				// 存在：将当前会话置顶,修改chatList中当前会话的data和time显示
+				if (userId == rootGetters['user/userId']) {
+					chatList[index].data = content
+				} else {
+					chatList[index].data = `${username}：${content}`
+				}
+				chatList[index].time = createTime
+
+				// 当前聊天对象不是该id，未读数+1（排除本人发送消息）
+				if (
+					userId !== rootGetters['user/userId'] &&
+					state.CurrentToCircle.circleId !== chatList[index].circleId
+				) {
+					chatList[index].noReadNum++
+				}
+				// 置顶当前会话
+				chatList = toFirst(chatList, index)
 			}
-			let obj = chatFormat(res, { type: 'chatList' }, user)
-			// 忽略本人发送
-			if (userId !== rootGetters['user/userId']) {
-				obj.noReadNum = 1
-			}
-			chatList.unshift(obj)
 		} else {
-			// 存在：将当前会话置顶,修改chatList中当前会话的data和time显示
-			chatList[index].data = content
-			chatList[index].time = createTime
-			// 当前聊天对象不是该id，未读数+1（排除本人发送消息）
-			if (
-				userId !== rootGetters['user/userId'] &&
-				state.CurrentToUser.userId !== chatList[index].userId
-			) {
-				chatList[index].noReadNum++
+			const { userId, toUserId, toUser, content, createTime } = res.body
+			// 判断是否已存在该会话，存在：将当前会话置顶；不存在：追加至头部
+			const index = chatList?.findIndex(
+				(item) =>
+					item.userId == userId ||
+					item.userId == toUserId ||
+					item.userId == toUser
+			)
+			// 不存在
+			if (index == -1) {
+				const user = {
+					userId: rootGetters['user/userId'],
+					toUser: state.CurrentToUser.userId,
+					toUserName: state.CurrentToUser.username,
+					toUserAvatar: state.CurrentToUser.avatar
+				}
+				let obj = chatFormat(res, { type: 'chatList' }, user)
+				// 忽略本人发送
+				if (userId !== rootGetters['user/userId']) {
+					obj.noReadNum = 1
+				}
+				chatList.unshift(obj)
+			} else {
+				// 存在：将当前会话置顶,修改chatList中当前会话的data和time显示
+				chatList[index].data = content
+				chatList[index].time = createTime
+				// 当前聊天对象不是该id，未读数+1（排除本人发送消息）
+				if (
+					userId !== rootGetters['user/userId'] &&
+					state.CurrentToUser.userId !== chatList[index].userId
+				) {
+					chatList[index].noReadNum++
+				}
+				// 置顶当前会话
+				chatList = toFirst(chatList, index)
 			}
-			// 置顶当前会话
-			chatList = toFirst(chatList, index)
 		}
-		// 存储到本地存储
+
+		// 存储到本地
 		localStore.set(chatListName, chatList)
 	}
 }

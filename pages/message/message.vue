@@ -8,8 +8,13 @@
 <script>
 import navBar from './components/nav-bar.vue'
 import chatList from './components/chat-list.vue'
+
+import {
+  chatListName,
+  receiveOneType,
+  receiveCircleType
+} from '@/config/config.js'
 import localStore from '@/helpers/localStore.js'
-import { chatListName } from '@/config/config.js'
 import { toFirst } from '@/helpers/utils.js'
 import { chatFormat } from '@/helpers/chat.js'
 import { mapGetters, mapState } from 'vuex'
@@ -34,30 +39,56 @@ export default {
   onLoad() {
     // 开启监听
     uni.$on('UserChat', (res) => {
-      console.log('正在监听', res)
-      // 置顶更新
-      const index = this.list?.findIndex(
-        (val) => val.userId === res.body.userId
-      )
-      // 会话存在
-      if (index !== -1) {
-        this.list[index].data = res.body.content
-        this.list[index].time = res.body.createTime
-        this.list[index].noReadNum++
-        // 置顶
-        this.list = toFirst(this.list, index)
-        return
+
+      if (res.type === receiveOneType) {
+        const index = this.list?.findIndex(
+          (val) => val.userId === res.body.userId
+        )
+        // 会话存在
+        if (index !== -1) {
+          this.list[index].data = res.body.content
+          this.list[index].time = res.body.createTime
+          this.list[index].noReadNum++
+          // 置顶
+          this.list = toFirst(this.list, index)
+          return
+        }
+        // 不存在
+        const user = {
+          userId: this.userId,
+          toUser: this.CurrentToUser.userId,
+          toUserName: this.CurrentToUser.username,
+          toUserAvatar: this.CurrentToUser.avatar
+        }
+        let obj = chatFormat(res, { type: 'chatList' }, user)
+        obj.noReadNum = 1
+        this.list.unshift(obj)
+      } else if (res.type === receiveCircleType) {
+        const index = this.list?.findIndex(
+          (val) => val.circleId === res.body.circleId
+        )
+        // 会话存在
+        if (index !== -1) {
+          // 判断是否是本人
+          if (res.body.userId == this.userId) {
+            this.list[index].data = res.body.content
+          } else {
+            this.list[index].data = `${res.body.username}：${res.body.content}`
+          }
+          this.list[index].time = res.body.createTime
+          this.list[index].noReadNum++
+          // 置顶
+          this.list = toFirst(this.list, index)
+          return
+        }
+        // 不存在
+        const user = {
+          userId: this.userId
+        }
+        let obj = chatFormat(res, { type: 'chatList', isCircle: true }, user)
+        obj.noReadNum = 1
+        this.list.unshift(obj)
       }
-      // 追加
-      const user = {
-        userId: this.userId,
-        toUser: this.CurrentToUser.userId,
-        toUserName: this.CurrentToUser.username,
-        toUserAvatar: this.CurrentToUser.avatar
-      }
-      let obj = chatFormat(res, { type: 'chatList' }, user)
-      obj.noReadNum = 1
-      this.list.unshift(obj)
     })
   },
 
