@@ -230,9 +230,6 @@ import { mapGetters, mapState } from 'vuex'
 export default {
   data() {
     return {
-      // 判断当前是否为圈
-      isCircle: false,
-
       //文字消息
       textMsg: '',
       //消息列表
@@ -528,7 +525,7 @@ export default {
 
   computed: {
     ...mapGetters('user', ['userId', 'username', 'avatar']),
-    ...mapState('chat', ['CurrentToUser', 'CurrentToCircle'])
+    ...mapState('chat', ['CurrentToUser', 'CurrentToCircle', 'isCircle'])
   },
 
   onReady() {
@@ -536,7 +533,8 @@ export default {
     uni.$on('UserChat', (data) => {
       const msg = chatFormat(data, {
         type: 'chatDetail',
-        oldData: this.msgList
+        oldData: this.msgList,
+        isCircle: this.isCircle
       })
       this.msgList?.push(msg)
       // 滚动到底部
@@ -560,17 +558,23 @@ export default {
 
   onLoad(options) {
     if (options.userinfo) {
-      const { userId, username } = JSON.parse(options.userinfo)
-      this.$store.commit('chat/setCurrentToUser', { userId, username })
+      const { userId, username, avatar } = JSON.parse(options.userinfo)
+      this.$store.commit('chat/setCurrentToUser', { userId, username, avatar })
       // 修改标题
       uni.setNavigationBarTitle({ title: username })
     } else if (options.circleinfo) {
-      const { circleId, circleName } = JSON.parse(options.circleinfo)
-      this.$store.commit('chat/setCurrentToCircle', { circleId, circleName })
+      const { circleId, circleName, circleAvatar } = JSON.parse(
+        options.circleinfo
+      )
+      this.$store.commit('chat/setCurrentToCircle', {
+        circleId,
+        circleName,
+        circleAvatar
+      })
       // 修改标题
       uni.setNavigationBarTitle({ title: circleName })
       // 修改圈状态
-      this.isCircle = true
+      this.$store.commit('chat/setIsCircle', true)
     } else {
       uni.showToast({ title: '不存在的用户或圈', icon: 'none' })
       return uni.navigateBack()
@@ -601,15 +605,17 @@ export default {
       // 重置圈聊天对象
       this.$store.commit('chat/setCurrentToCircle', {
         circleId: 0,
-        circleName: ''
+        circleName: '',
+        circleAvatar: ''
       })
       // 修改圈状态
-      this.isCircle = false
+      this.$store.commit('chat/setIsCircle', false)
     } else {
       // 重置单人聊天对象
       this.$store.commit('chat/setCurrentToUser', {
         userId: 0,
-        username: ''
+        username: '',
+        avatar: ''
       })
     }
   },

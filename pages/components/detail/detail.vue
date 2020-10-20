@@ -80,14 +80,15 @@ export default {
   },
 
   onLoad(options) {
-    this.info = JSON.parse(options.info)
+    if (options.info) this.info = JSON.parse(options.info)
   },
 
   methods: {
     toChat() {
       const userinfo = {
-        userId: 10,
-        username: this.info.username || '张三丰'
+        userId: this.info.userId,
+        username: this.info.username,
+        avatar: this.info.userImg
       }
       uni.navigateTo({
         url: '/pages/components/chat/chat?userinfo=' + JSON.stringify(userinfo)
@@ -97,7 +98,8 @@ export default {
     toCircleChat() {
       const circleinfo = {
         circleId: this.info.circleId,
-        circleName: this.info.name
+        circleName: this.info.circleName,
+        circleAvatar: this.info.img
       }
       uni.navigateTo({
         url:
