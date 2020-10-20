@@ -8,75 +8,19 @@ import localStore from '@/helpers/localStore.js'
 import { toFirst } from '@/helpers/utils.js'
 import { chatFormat, updateNoReadNum, initTabBarBadge } from '@/helpers/chat.js'
 
-/**
-接收信息
-{
-	"type":"SEND_TO_USER_REQUEST",
-	"body":{
-		"content":"我是一条单聊消息",
-		"createTime":1602239488254,
-		"toUser":"LiRyan s",
-		"toUserId":10,
-		"userId":9,
-		"username":"LiRyan"
-	}
-}
-
-发送信息
-{
-	type: "SEND_TO_ONE_REQUEST",
-	body: {
-		userId: 9,
-		toUser: 10,
-		content: "我是一条单聊消息"
-	}
-}
- */
-
-/**
- * 原理：
- *
- * 接收信息（假如当前消息的 from_id = 12，当前用户id=17）
- * 场景一：与当前用户12处于聊天界面
- * 		  (1) 渲染到页面
- * 		  (2) 存储到本地存储
- * 			  a. chatDetail_17_12
- * 			  b. chatList17（将当前会话置顶，修改chatList中当前会话的data和time显示）
- *
- * 场景二：与当前用户12不处于聊天界面
- *		  (1) 渲染到页面（处于paper页，留个接口）
- * 		  (2) 存储到本地存储
- * 			  a. chatDetail_17_12
- * 			  b. chatList17
- * 			（将当前会话置顶，修改chatList中当前会话的data和time显示 和 当前会话未读数+1）
- * 			  c. 总未读数+1（显示在tabBar上）
-
- *
- * 发送消息
- * 		(1) 写入存储
- * 			chatDetail_17_12
- * 			chatList17（将当前会话置顶，修改chatList中当前会话的data和time显示）
- * 		(2) 请求ajax发送消息
- * 		(3) 渲染到页面（user-chat页面实现）
- *
- * 读取消息
- * 		(1) 写入存储
- * 			chatList17：获取将当前会话的未读数设为0，减少总未读数，渲染tabBar
- *
- * */
-
 const state = {
 	isOpen: false,
 	isCircle: false,
 	SocketTask: false,
-	// 当前聊天对象（进入聊天页面获取）
+	// 当前聊天对象
 	CurrentToUser: {
-		userId: 0, // 通过判断userId是否为0，当前用户处在什么场景下
+		userId: 0,
 		username: '',
 		avatar: ''
 	},
+	// 当前聊天圈
 	CurrentToCircle: {
-		circleId: 0, // 通过判断circleId是否为0，当前用户处在什么场景下
+		circleId: 0,
 		circleName: '',
 		circleAvatar: ''
 	}
@@ -113,7 +57,6 @@ const actions = {
 			url: `${websocketUrl}?user=${rootGetters['user/userId']}`,
 			complete: () => {}
 		})
-		console.log(socket)
 		commit('setSocketTask', socket)
 		const { SocketTask } = state
 		if (!SocketTask) return
@@ -154,9 +97,8 @@ const actions = {
 			// 获取未读信息
 			dispatch('getChatMessages')
 
-			// 过滤初始连接信息
+			// 私聊
 			if (res.type === receiveOneType) {
-				console.log(res)
 				// 全局通知接口
 				uni.$emit('UserChat', res)
 				// 存储到 chatDetail
@@ -168,13 +110,9 @@ const actions = {
 					updateNoReadNum({ type: 'add' })
 				}
 			} else if (res.type === receiveCircleType) {
-				// 全局通知接口
 				uni.$emit('UserChat', res)
-				// 存储到 chatDetail
 				dispatch('updateChatDetail', { res, isCircle: true })
-				// 更新chatList（将当前会话置顶，修改chatList中当前会话的data和time显示）
 				dispatch('updateChatList', { res, isCircle: true })
-				// 总未读数+1，修改tabBar信息数
 				if (CurrentToCircle.circleId !== res.body.circleId) {
 					updateNoReadNum({ type: 'add' })
 				}
@@ -184,22 +122,6 @@ const actions = {
 
 	// 发送消息
 	async send({ dispatch, rootGetters, state: { SocketTask, isCircle } }, res) {
-		/**
-		 {
-				type: 'system | user',
-				msg: {
-					id: 0,
-					type: 'text | voice | img',
-					time?: '12:56',
-					userinfo?: {
-						uid: 0,
-						username?: '大黑哥',
-						face: '/static/chat/img/face.jpg'
-					},
-					content: { text | url : '欢迎进入HM-chat聊天室', w?: 200, h?: 200, length?: '00:06' }
-				}
-			}
-		 * */
 		// 发送的格式
 		let data
 		if (isCircle) {
@@ -219,7 +141,6 @@ const actions = {
 			}
 		}
 		const sendData = chatFormat(res, { type: 'send', isCircle }, data)
-		console.log(sendData)
 		try {
 			// 发送到服务器
 			await SocketTask.send({
@@ -241,28 +162,6 @@ const actions = {
 		{ rootGetters, state },
 		{ res, isSend = false, isCircle = false }
 	) {
-		// 组织格式，本地存储
-		/*
-		[
-			{
-				"type": "user", // 固定值
-				"msg": {
-					"id": 96, // 聊天信息唯一 id
-					"type": "text",   // 文本类型, 暂时不需要变
-					"time": 1603014006394,
-					"userinfo": {
-						"uid": 9,   // 发送人 id
-						"username": "LiRyan",   // 发送人 username
-						"face": "/static/chat/img/face.jpg" // 发送人头像
-					},
-					"content": {
-						"text": "测试内容"  // 文本内容, 暂时不需要变, 只需更改字段值
-					}
-				}
-			}
-		]
-		*/
-		console.log(res)
 		let chatDetail, circleId, userId
 		if (isCircle) {
 			circleId = isSend ? state.CurrentToCircle.circleId : res.body.circleId
@@ -272,7 +171,6 @@ const actions = {
 			)
 		} else {
 			userId = isSend ? state.CurrentToUser.userId : res.body.userId
-			// 获取旧数据（ chatDetail_[当前用户id]_[聊天对象id] ）
 			chatDetail = localStore.get(
 				'chatDetail_' + rootGetters['user/userId'] + '_' + userId
 			)
