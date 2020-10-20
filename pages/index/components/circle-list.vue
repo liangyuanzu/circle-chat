@@ -4,7 +4,7 @@
       <uni-list-item
         v-for="item in circleList"
         :key="item.circleId"
-        :title="item.name"
+        :title="item.circleName"
         ellipsis="1"
         :thumb="item.img"
         thumbSize="lg"
@@ -28,41 +28,19 @@ import { mapState } from 'vuex'
 
 export default {
   mounted() {
-    // uni.showLoading()
-    // this.$store
-    //   .dispatch('circle/nearlyCircle')
-    //   .then(() => {
-    //     uni.hideLoading()
-    //   })
-    //   .catch(() => {
-    //     uni.hideLoading()
-    //   })
-
-    this.circleList = [
-      {
-        circleId: 100001,
-        name: '交友呀',
-        synopsis:
-          '圈简介2222222222222222222222222222222222222222222222222222222222222222222222222244444444444444444444444444444444444444444',
-        geographicalPosition: '114.940278,25.85097',
-        radius: 10000,
-        img:
-          'http://39.99.156.255:8080/CircleChat/img/672c1250-cc59-4df3-a960-aa78126e689e.jpeg',
-        type: '交友圈',
-        userId: 9,
-        createTime: '2020-08-18T06:07:22.000+0000',
-        explain: null,
-        effective: 5,
-        notice: '文明交友',
-        updateTime: '2020-10-17T08:00:37.000+0000',
-        valid: true
-      }
-    ]
+    uni.showLoading()
+    this.$store
+      .dispatch('circle/nearlyCircle')
+      .then(() => {
+        uni.hideLoading()
+      })
+      .catch(() => {
+        uni.hideLoading()
+      })
   },
 
   data() {
     return {
-      circleList: [],
       type: 0,
       clrcleTypeMap: [
         { type: 0, value: '交友圈' },
@@ -74,7 +52,7 @@ export default {
   },
 
   computed: {
-    // ...mapState('circle', ['circleList'])
+    ...mapState('circle', ['circleList'])
   },
 
   methods: {

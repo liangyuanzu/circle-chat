@@ -3,8 +3,8 @@
     <uni-list :border="isBorder">
       <uni-list-chat
         v-for="item in list"
-        :key="item.userId"
-        :title="item.username"
+        :key="item.userId || item.circleId"
+        :title="item.circleId ? item.circleName : item.username"
         :avatar="item.avatar"
         :avatarList="item.avatarList"
         :note="item.data"
@@ -48,13 +48,29 @@ export default {
     },
 
     toChatDetail(item) {
-      const userinfo = {
-        userId: item.userId,
-        username: item.username
+      if (item.userId) {
+        const userinfo = {
+          userId: item.userId,
+          username: item.username,
+          avatar: item.avatar
+        }
+        uni.navigateTo({
+          url:
+            '/pages/components/chat/chat?userinfo=' + JSON.stringify(userinfo)
+        })
+      } else if (item.circleId) {
+        const circleinfo = {
+          circleId: item.circleId,
+          circleName: item.circleName,
+          circleAvatar: item.avatar
+        }
+        uni.navigateTo({
+          url:
+            '/pages/components/chat/chat?circleinfo=' +
+            JSON.stringify(circleinfo)
+        })
       }
-      uni.navigateTo({
-        url: '/pages/components/chat/chat?userinfo=' + JSON.stringify(userinfo)
-      })
+
       // 读取当前会话
       read(item)
     }
