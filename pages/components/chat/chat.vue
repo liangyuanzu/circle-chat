@@ -39,6 +39,8 @@
           <block v-if="row.type == 'user'">
             <!-- 自己发出的消息 -->
             <view class="my" v-if="row.msg.userinfo.uid == myuid">
+              <!-- 时间 -->
+              <view class="time">{{ formatTime(row.msg.time) }}</view>
               <!-- 左-消息 -->
               <view class="left">
                 <!-- 文字消息 -->
@@ -77,6 +79,8 @@
             </view>
             <!-- 别人发出的消息 -->
             <view class="other" v-if="row.msg.userinfo.uid != myuid">
+              <!-- 时间 -->
+              <view class="time">{{ formatTime(row.msg.time) }}</view>
               <!-- 左-头像 -->
               <view class="left">
                 <image :src="row.msg.userinfo.face"></image>
@@ -85,7 +89,7 @@
               <view class="right">
                 <view class="username">
                   <view class="name">{{ row.msg.userinfo.username }}</view>
-                  <view class="time">{{ formatTime(row.msg.time) }}</view>
+                  <!-- <view class="time">{{ formatTime(row.msg.time) }}</view> -->
                 </view>
                 <!-- 文字消息 -->
                 <view v-if="row.msg.type == 'text'" class="bubble">
@@ -917,6 +921,10 @@ export default {
     async sendMsg(content, type) {
       //实际应用中，此处应该提交长连接，模板仅做本地处理。
       var nowDate = new Date()
+      const lastTime =
+        this.msgList?.length > 0
+          ? [...this.msgList].reverse().find((i) => i.msg.time).msg.time
+          : 0
       let lastid = this.msgList.length
         ? this.msgList[this.msgList.length - 1].msg.id
         : -1
@@ -925,7 +933,7 @@ export default {
         type: 'user',
         msg: {
           id: lastid,
-          time: nowDate.getHours() + ':' + nowDate.getMinutes(),
+          time: Time.noFormatChatTime(nowDate.getTime(), lastTime),
           type: type,
           userinfo: {
             uid: this.userId,
