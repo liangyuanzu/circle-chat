@@ -226,6 +226,7 @@ import localStore from '@/helpers/localStore.js'
 import Time from '@/helpers/time.js'
 import { chatFormat } from '@/helpers/chat.js'
 import { html2text } from '@/helpers/utils.js'
+import * as _ from '@/utils/lodash/lodash.js'
 import { mapGetters, mapState } from 'vuex'
 
 export default {
@@ -397,130 +398,7 @@ export default {
           { url: '218.png', alt: '[彩带]' },
           { url: '219.png', alt: '[礼物]' }
         ]
-      ],
-      //表情图片图床名称 ，由于我上传的第三方图床名称会有改变，所以有此数据来做对应，您实际应用中应该不需要
-      onlineEmoji: {
-        '100.gif': 'AbNQgA.gif',
-        '101.gif': 'AbN3ut.gif',
-        '102.gif': 'AbNM3d.gif',
-        '103.gif': 'AbN8DP.gif',
-        '104.gif': 'AbNljI.gif',
-        '105.gif': 'AbNtUS.gif',
-        '106.gif': 'AbNGHf.gif',
-        '107.gif': 'AbNYE8.gif',
-        '108.gif': 'AbNaCQ.gif',
-        '109.gif': 'AbNN4g.gif',
-        '110.gif': 'AbN0vn.gif',
-        '111.gif': 'AbNd3j.gif',
-        '112.gif': 'AbNsbV.gif',
-        '113.gif': 'AbNwgs.gif',
-        '114.gif': 'AbNrD0.gif',
-        '115.gif': 'AbNDuq.gif',
-        '116.gif': 'AbNg5F.gif',
-        '117.gif': 'AbN6ET.gif',
-        '118.gif': 'AbNcUU.gif',
-        '119.gif': 'AbNRC4.gif',
-        '120.gif': 'AbNhvR.gif',
-        '121.gif': 'AbNf29.gif',
-        '122.gif': 'AbNW8J.gif',
-        '123.gif': 'AbNob6.gif',
-        '124.gif': 'AbN5K1.gif',
-        '125.gif': 'AbNHUO.gif',
-        '126.gif': 'AbNIDx.gif',
-        '127.gif': 'AbN7VK.gif',
-        '128.gif': 'AbNb5D.gif',
-        '129.gif': 'AbNX2d.gif',
-        '130.gif': 'AbNLPe.gif',
-        '131.gif': 'AbNjxA.gif',
-        '132.gif': 'AbNO8H.gif',
-        '133.gif': 'AbNxKI.gif',
-        '134.gif': 'AbNzrt.gif',
-        '135.gif': 'AbU9Vf.gif',
-        '136.gif': 'AbUSqP.gif',
-        '137.gif': 'AbUCa8.gif',
-        '138.gif': 'AbUkGQ.gif',
-        '139.gif': 'AbUFPg.gif',
-        '140.gif': 'AbUPIS.gif',
-        '141.gif': 'AbUZMn.gif',
-        '142.gif': 'AbUExs.gif',
-        '143.gif': 'AbUA2j.gif',
-        '144.gif': 'AbUMIU.gif',
-        '145.gif': 'AbUerq.gif',
-        '146.gif': 'AbUKaT.gif',
-        '147.gif': 'AbUmq0.gif',
-        '148.gif': 'AbUuZV.gif',
-        '149.gif': 'AbUliF.gif',
-        '150.gif': 'AbU1G4.gif',
-        '151.gif': 'AbU8z9.gif',
-        '152.gif': 'AbU3RJ.gif',
-        '153.gif': 'AbUYs1.gif',
-        '154.gif': 'AbUJMR.gif',
-        '155.gif': 'AbUadK.gif',
-        '156.gif': 'AbUtqx.gif',
-        '157.gif': 'AbUUZ6.gif',
-        '158.gif': 'AbUBJe.gif',
-        '159.gif': 'AbUdIO.gif',
-        '160.gif': 'AbU0iD.gif',
-        '161.gif': 'AbUrzd.gif',
-        '162.gif': 'AbUDRH.gif',
-        '163.gif': 'AbUyQA.gif',
-        '164.gif': 'AbUWo8.gif',
-        '165.gif': 'AbU6sI.gif',
-        '166.gif': 'AbU2eP.gif',
-        '167.gif': 'AbUcLt.gif',
-        '168.gif': 'AbU4Jg.gif',
-        '169.gif': 'AbURdf.gif',
-        '170.gif': 'AbUhFS.gif',
-        '171.gif': 'AbU5WQ.gif',
-        '172.gif': 'AbULwV.gif',
-        '173.gif': 'AbUIzj.gif',
-        '174.gif': 'AbUTQs.gif',
-        '175.gif': 'AbU7yn.gif',
-        '176.gif': 'AbUqe0.gif',
-        '177.gif': 'AbUHLq.gif',
-        '178.gif': 'AbUOoT.gif',
-        '179.gif': 'AbUvYF.gif',
-        '180.gif': 'AbUjFU.gif',
-        '181.gif': 'AbaSSJ.gif',
-        '182.gif': 'AbUxW4.gif',
-        '183.gif': 'AbaCO1.gif',
-        '184.gif': 'Abapl9.gif',
-        '185.gif': 'Aba9yR.gif',
-        '186.gif': 'AbaFw6.gif',
-        '187.gif': 'Abaiex.gif',
-        '188.gif': 'AbakTK.gif',
-        '189.gif': 'AbaZfe.png',
-        '190.gif': 'AbaEFO.gif',
-        '191.gif': 'AbaVYD.gif',
-        '192.gif': 'AbamSH.gif',
-        '193.gif': 'AbaKOI.gif',
-        '194.gif': 'Abanld.gif',
-        '195.gif': 'Abau6A.gif',
-        '196.gif': 'AbaQmt.gif',
-        '197.gif': 'Abal0P.gif',
-        '198.gif': 'AbatpQ.gif',
-        '199.gif': 'Aba1Tf.gif',
-        '200.png': 'Aba8k8.png',
-        '201.png': 'AbaGtS.png',
-        '202.png': 'AbaJfg.png',
-        '203.png': 'AbaNlj.png',
-        '204.png': 'Abawmq.png',
-        '205.png': 'AbaU6s.png',
-        '206.png': 'AbaaXn.png',
-        '207.png': 'Aba000.png',
-        '208.png': 'AbarkT.png',
-        '209.png': 'AbastU.png',
-        '210.png': 'AbaB7V.png',
-        '211.png': 'Abafn1.png',
-        '212.png': 'Abacp4.png',
-        '213.png': 'AbayhF.png',
-        '214.png': 'Abag1J.png',
-        '215.png': 'Aba2c9.png',
-        '216.png': 'AbaRXR.png',
-        '217.png': 'Aba476.png',
-        '218.png': 'Abah0x.png',
-        '219.png': 'Abdg58.png'
-      }
+      ]
     }
   },
 
@@ -538,20 +416,8 @@ export default {
         isCircle: this.isCircle
       })
       this.msgList?.push(msg)
-      // 滚动到底部
-      /*
+      // 滚动到底
       this.$nextTick(function () {
-        //进入页面滚动到底部
-        console.log(this.scrollTop)
-        this.scrollTop = 99999
-        console.log(this.scrollTop)
-        this.$nextTick(function () {
-          this.scrollAnimation = true
-        })
-			})
-			*/
-      this.$nextTick(function () {
-        // 滚动到底
         this.scrollToView = 'msg' + msg.msg.id
       })
     })
@@ -1017,7 +883,7 @@ export default {
         return
       }
       let content = this.replaceEmoji(this.textMsg)
-      let msg = { text: html2text(content) }
+      let msg = { text: content }
       this.sendMsg(msg, 'text')
       this.textMsg = '' //清空输入框
     },
@@ -1032,20 +898,19 @@ export default {
             if (EM.alt == item) {
               //在线表情路径，图文混排必须使用网络路径，请上传一份表情到你的服务器后再替换此路径
               //比如你上传服务器后，你的100.gif路径为https://www.xxx.com/emoji/100.gif 则替换onlinePath填写为https://www.xxx.com/emoji/
-              let onlinePath = 'https://s2.ax1x.com/2019/04/12/'
+              let onlinePath = 'http://39.99.156.255:8080/CircleChat/emoji/'
               let imgstr =
-                '<img src="' + onlinePath + this.onlineEmoji[EM.url] + '">'
+                '<img style="vertical-align:middle;" src="' +
+                onlinePath +
+                EM.url +
+                '">'
               console.log('imgstr: ' + imgstr)
               return imgstr
             }
           }
         }
       })
-      return (
-        '<div style="display: flex;align-items: center;word-wrap:break-word;">' +
-        replacedStr +
-        '</div>'
-      )
+      return replacedStr
     },
 
     // 发送消息
@@ -1073,6 +938,14 @@ export default {
       // 发送消息
       try {
         await this.$store.dispatch('chat/send', msg)
+
+        // 给添加到页面的消息添加样式
+        let message = _.cloneDeep(msg)
+        let item =
+          '<div style="display: flex;align-items: center;word-wrap:break-word;">' +
+          content +
+          '</div>'
+        message.msg.content = item
         this.screenMsg(msg)
       } catch (error) {
         uni.showToast({
