@@ -16,7 +16,7 @@ import {
 } from '@/config/config.js'
 import localStore from '@/helpers/localStore.js'
 import { toFirst } from '@/helpers/utils.js'
-import { chatFormat } from '@/helpers/chat.js'
+import { chatFormat, formatMsg } from '@/helpers/chat.js'
 import { mapGetters, mapState } from 'vuex'
 
 export default {
@@ -39,14 +39,15 @@ export default {
   onLoad() {
     // 开启监听
     uni.$on('UserChat', (res) => {
-
       if (res.type === receiveOneType) {
         const index = this.list?.findIndex(
           (val) => val.userId === res.body.userId
         )
         // 会话存在
         if (index !== -1) {
-          this.list[index].data = res.body.content
+          this.list[index].data = formatMsg(res.body.type, {
+            content: res.body.content
+          })
           this.list[index].time = res.body.createTime
           this.list[index].noReadNum++
           // 置顶
@@ -71,9 +72,17 @@ export default {
         if (index !== -1) {
           // 判断是否是本人
           if (res.body.userId == this.userId) {
-            this.list[index].data = res.body.content
+            this.list[index].data = formatMsg(res.body.type, {
+              content: res.body.content,
+              isCircle: true,
+              isMe: true
+            })
           } else {
-            this.list[index].data = `${res.body.username}：${res.body.content}`
+            this.list[index].data = formatMsg(res.body.type, {
+              username: res.body.username,
+              content: res.body.content,
+              isCircle
+            })
           }
           this.list[index].time = res.body.createTime
           this.list[index].noReadNum++

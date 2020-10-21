@@ -6,7 +6,12 @@ import {
 } from '@/config/config.js'
 import localStore from '@/helpers/localStore.js'
 import { toFirst } from '@/helpers/utils.js'
-import { chatFormat, updateNoReadNum, initTabBarBadge } from '@/helpers/chat.js'
+import {
+	chatFormat,
+	updateNoReadNum,
+	initTabBarBadge,
+	formatMsg
+} from '@/helpers/chat.js'
 
 const state = {
 	isOpen: false,
@@ -221,9 +226,17 @@ const actions = {
 			} else {
 				// 存在：将当前会话置顶,修改chatList中当前会话的data和time显示
 				if (userId == rootGetters['user/userId']) {
-					chatList[index].data = content
+					chatList[index].data = formatMsg(res.body.type, {
+						content,
+						isCircle,
+						isMe: true
+					})
 				} else {
-					chatList[index].data = `${username}：${content}`
+					chatList[index].data = formatMsg(res.body.type, {
+						username,
+						content,
+						isCircle
+					})
 				}
 				chatList[index].time = createTime
 
@@ -262,7 +275,7 @@ const actions = {
 				chatList.unshift(obj)
 			} else {
 				// 存在：将当前会话置顶,修改chatList中当前会话的data和time显示
-				chatList[index].data = content
+				chatList[index].data = formatMsg(res.body.type, { content })
 				chatList[index].time = createTime
 				// 当前聊天对象不是该id，未读数+1（排除本人发送消息）
 				if (

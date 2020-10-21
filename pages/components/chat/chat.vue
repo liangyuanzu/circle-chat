@@ -225,6 +225,7 @@
 import localStore from '@/helpers/localStore.js'
 import Time from '@/helpers/time.js'
 import { chatFormat } from '@/helpers/chat.js'
+import { html2text } from '@/helpers/utils.js'
 import { mapGetters, mapState } from 'vuex'
 
 export default {
@@ -1016,7 +1017,7 @@ export default {
         return
       }
       let content = this.replaceEmoji(this.textMsg)
-      let msg = { text: content }
+      let msg = { text: html2text(content) }
       this.sendMsg(msg, 'text')
       this.textMsg = '' //清空输入框
     },

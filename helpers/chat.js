@@ -3,11 +3,13 @@ import {
 	noReadNumName,
 	chatListName,
 	sendOneType,
-	sendCircleType
+	sendCircleType,
+	textType,
+	imgType,
+	voiceType
 } from '@/config/config.js'
 import localStore from '@/helpers/localStore.js'
 import Time from '@/helpers/time.js'
-import { html2text } from '@/helpers/utils.js'
 
 export function chatFormat(res, options = { isCircle: false }, data) {
 	const { isCircle } = options
@@ -19,12 +21,20 @@ export function chatFormat(res, options = { isCircle: false }, data) {
 					circleName: res.body.circleName,
 					avatar: data.circleAvatar || res.body.circleImg,
 					time: res.body.createTime,
-					data: `${res.body.username}：${res.body.content}`,
+					data: formatMsg(res.body.type, {
+						username: res.body.username,
+						content: res.body.content,
+						isCircle
+					}),
 					noReadNum: 0 // 未读数
 				}
 				// 本人发送的信息
 				if (res.body.userId == data.userId) {
-					obj.data = res.body.content
+					obj.data = formatMsg(res.body.type, {
+						content: res.body.content,
+						isCircle,
+						isMe: true
+					})
 				}
 				return obj
 			}
@@ -34,7 +44,7 @@ export function chatFormat(res, options = { isCircle: false }, data) {
 				username: res.body.username,
 				avatar: data.toUserAvatar || res.body.userImg,
 				time: res.body.createTime,
-				data: res.body.content,
+				data: formatMsg(res.body.type, { content: res.body.content }),
 				noReadNum: 0 // 未读数
 			}
 			// 本人发送的信息
@@ -50,18 +60,20 @@ export function chatFormat(res, options = { isCircle: false }, data) {
 				list?.length > 0
 					? [...list].reverse().find((i) => i.msg.time).msg.time
 					: 0
+			let lastId = list?.length > 0 ? list[list.length - 1].msg.id : -1
+			lastId++
 			return {
 				type: 'user',
 				msg: {
-					id: Math.floor(Math.random() * 1000 + 1),
-					type: 'text',
+					id: lastId,
+					type: res.body.type,
 					time: Time.noFormatChatTime(res.body.createTime, lastTime),
 					userinfo: {
 						uid: res.body.userId,
 						username: isCircle ? res.body.username : '',
 						face: res.body.userImg
 					},
-					content: { text: res.body.content }
+					content: res.body.content
 				}
 			}
 
@@ -70,12 +82,13 @@ export function chatFormat(res, options = { isCircle: false }, data) {
 				return {
 					type: sendCircleType,
 					body: {
+						type: res.msg.type,
 						circleId: data.circleId,
 						circleName: data.circleName,
 						circleImg: data.circleAvatar,
 						userId: data.userId,
 						userImg: data.avatar,
-						content: html2text(res.msg.content.text),
+						content: res.msg.content,
 						createTime: new Date().getTime()
 					}
 				}
@@ -83,11 +96,12 @@ export function chatFormat(res, options = { isCircle: false }, data) {
 			return {
 				type: sendOneType,
 				body: {
+					type: res.msg.type,
 					userId: data.userId,
 					username: data.username,
 					userImg: data.avatar,
 					toUser: data.toUser,
-					content: html2text(res.msg.content.text),
+					content: res.msg.content,
 					createTime: new Date().getTime()
 				}
 			}
@@ -137,4 +151,18 @@ function updateTabBarBadge(num) {
 	return uni.removeTabBarBadge({
 		index: tabBarIndex
 	})
+}
+
+export function formatMsg(type, options = { isCircle: false, isMe: false }) {
+	let data
+	if (type === textType) {
+		data = options.content.text
+	} else if (type === imgType) {
+		data = '[图片]'
+	} else if (type === voiceType) {
+		data = '[语音]'
+	}
+
+	if (options.isCircle && !options.isMe) data = options.username + '：' + data
+	return data
 }

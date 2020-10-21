@@ -10,5 +10,8 @@ module.exports = {
 	receiveCircleType: 'SEND_TO_CIRCLE_REQUEST',
 	userInfoName: 'userinfo',
 	chatListName: 'chatList',
-	noReadNumName: 'noReadNum'
+	noReadNumName: 'noReadNum',
+	textType: 'text',
+	imgType: 'img',
+	voiceType: 'voice'
 }
