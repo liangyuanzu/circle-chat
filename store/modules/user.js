@@ -9,11 +9,7 @@ import {
 	updatePhoto,
 	queryUserMsg
 } from '@/api/user.js'
-import {
-	accessTokenName,
-	refreshTokenName,
-	userInfoName
-} from '@/config/config.js'
+import { tokenName, userInfoName } from '@/config/config.js'
 
 import localStore from '@/helpers/localStore.js'
 
@@ -70,11 +66,10 @@ const actions = {
 	},
 
 	async login({ dispatch }, userinfo) {
-		const { accessToken, refreshToken } = await login(userinfo)
-		if (accessToken && refreshToken) {
-			localStore.set(accessTokenName, accessToken)
-			localStore.set(refreshTokenName, refreshToken)
-			dispatch('getUserInfo', accessToken)
+		const { token } = await login(userinfo)
+		if (token) {
+			localStore.set(tokenName, token)
+			dispatch('getUserInfo', token)
 		} else {
 			uni.showToast({
 				icon: 'none',
@@ -84,7 +79,7 @@ const actions = {
 	},
 
 	async getUserInfo({ commit, dispatch }) {
-		const token = localStore.get(accessTokenName)
+		const token = localStore.get(tokenName)
 		const data = await getUserInfo(token)
 		if (Object.keys(data)) {
 			commit('setUserInfo', data)

@@ -1,7 +1,6 @@
 module.exports = {
 	baseUrl: 'http://39.99.156.255:8081',
-	accessTokenName: 'accessToken',
-	refreshTokenName: 'refreshToken',
+	tokenName: 'token',
 	websocketUrl: 'ws://39.99.156.255:8081/',
 	tabBarIndex: 0, // 消息提示tabBar索引
 	sendOneType: 'SEND_TO_ONE_REQUEST',
