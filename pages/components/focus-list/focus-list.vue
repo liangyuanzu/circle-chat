@@ -20,10 +20,10 @@
         <template>
           <text>
             {{ item.username }}
-            <!-- #ifndef MP-BAIDU -->
+            <!-- #ifdef H5 || APP-PLUS -->
             <text :class="sexClass(item)" style="margin-left: 20rpx"></text>
             <!-- #endif -->
-            <!-- #ifdef MP-BAIDU -->
+            <!-- #ifdef MP-BAIDU || MP-WEIXIN -->
             <text style="margin-left: 20rpx"></text>
             <!-- #endif -->
           </text>

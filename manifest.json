@@ -1,5 +1,5 @@
 {
-	"name": "color-ui-demo",
+	"name": "circle-chat",
 	"appid": "__UNI__229BE40",
 	"description": "",
 	"versionName": "1.0.0",
@@ -74,9 +74,10 @@
 	"quickapp": {},
 	/* 小程序特有相关 */
 	"mp-weixin": {
-		"appid": "",
+		"appid": "touristappid",
 		"setting": {
-			"urlCheck": false
+			"urlCheck": false,
+			"minified": false
 		},
 		"usingComponents": true
 	},
@@ -84,7 +85,11 @@
 		"usingComponents": true
 	},
 	"mp-baidu": {
-		"usingComponents": true
+		"usingComponents": true,
+		"setting": {
+			"urlCheck": false
+		},
+		"appid": "22864830"
 	},
 	"mp-toutiao": {
 		"usingComponents": true

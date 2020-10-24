@@ -3,7 +3,7 @@
     <uni-list :border="isBorder">
       <uni-list-chat
         v-for="item in list"
-        :key="item.userId || item.circleId"
+        :key="formatKey(item)"
         :title="item.circleId ? item.circleName : item.username"
         :avatar="item.avatar"
         :avatarList="item.avatarList"
@@ -34,6 +34,10 @@ export default {
   computed: {},
 
   methods: {
+    formatKey(item) {
+      return item.userId ?? item.circleId
+    },
+
     formatTime(time) {
       if (time) return Time.getTime(Number(time))
     },
