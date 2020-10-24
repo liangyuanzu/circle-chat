@@ -13,8 +13,12 @@
 		}, {
 			"path": "pages/message/message",
 			"style": {
-				"navigationStyle": "custom", // 隐藏系统导航栏
-				"navigationBarTextStyle": "white"
+				// "navigationStyle": "custom", // 隐藏系统导航栏
+				// "navigationBarTextStyle": "white",
+				"mp-baidu": {
+					"navigationStyle": "default",
+					"navigationBarTitleText": "消息"
+				}
 			}
 		}, {
 			"path": "pages/me/me",

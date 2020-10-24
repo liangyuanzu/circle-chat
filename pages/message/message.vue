@@ -1,12 +1,16 @@
 <template>
   <view>
+    <!-- #ifndef MP-BAIDU	 -->
     <nav-bar />
+    <!-- #endif -->
     <chat-list :list="list" />
   </view>
 </template>
 
 <script>
+// #ifndef MP-BAIDU
 import navBar from './components/nav-bar.vue'
+// #endif
 import chatList from './components/chat-list.vue'
 
 import {
@@ -21,7 +25,9 @@ import { mapGetters, mapState } from 'vuex'
 
 export default {
   components: {
+    // #ifndef MP-BAIDU
     'nav-bar': navBar,
+    // #endif
     'chat-list': chatList
   },
 
