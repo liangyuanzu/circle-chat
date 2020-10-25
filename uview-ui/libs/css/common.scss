@@ -169,3 +169,8 @@ text {
 	}
 }
 
+// 重置nvue的默认关于flex的样式
+.u-reset-nvue {
+	flex-direction: row;
+	align-items: center;
+}

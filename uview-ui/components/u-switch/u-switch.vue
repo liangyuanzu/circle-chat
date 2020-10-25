@@ -111,7 +111,9 @@
 	
 	.u-switch {
 		position: relative;
+		/* #ifndef APP-NVUE */
 		display: inline-block;
+		/* #endif */
 		box-sizing: initial;
 		width: 2em;
 		height: 1em;
@@ -123,7 +125,7 @@
 	}
 
 	.u-switch__node {
-		display: flex;
+		@include vue-flex;
 		align-items: center;
 		justify-content: center;
 		position: absolute;
@@ -142,7 +144,7 @@
 	}
 
 	.u-switch__loading {
-		display: flex;
+		@include vue-flex;
 		align-items: center;
 		justify-content: center;
 	}

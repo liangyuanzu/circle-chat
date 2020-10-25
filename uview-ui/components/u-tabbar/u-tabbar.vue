@@ -1,5 +1,5 @@
 <template>
-	<view v-if="show" class="u-tabbar" @touchmove.stop.prevent>
+	<view v-if="show" class="u-tabbar" @touchmove.stop.prevent="() => {}">
 		<view class="u-tabbar__content safe-area-inset-bottom" :style="{
 			height: $u.addUnit(height),
 			backgroundColor: bgColor,
@@ -21,8 +21,8 @@
 						:color="elColor(index)"
 						:custom-prefix="item.customIcon ? 'custom-icon' : 'uicon'"
 					></u-icon>
-					<u-badge :count="item.count" :is-dot="item.isDot" 
-						v-if="item.count > 0"
+					<u-badge :count="item.count" :is-dot="item.isDot"
+						v-if="item.count"
 						:offset="[-2, getOffsetRight(item.count, item.isDot)]"
 					></u-badge>
 				</view>
@@ -41,7 +41,7 @@
 			</view>
 		</view>
 		<!-- 这里加上一个48rpx的高度,是为了增高有凸起按钮时的防塌陷高度(也即按钮凸出来部分的高度) -->
-		<view class="u-fixed-placeholder safe-area-inset-bottom" :style="{ 
+		<view class="u-fixed-placeholder safe-area-inset-bottom" :style="{
 				height: `calc(${$u.addUnit(height)} + ${midButton ? 48 : 0}rpx)`,
 			}"></view>
 	</view>
@@ -120,9 +120,9 @@
 		},
 		data() {
 			return {
-				// 由于安卓太菜了，通过css居中凸起按钮的外层元素有误差，故通过js计算将其其中
-				midButtonLeft: '50%', 
-				pageUrl: '', // 当前
+				// 由于安卓太菜了，通过css居中凸起按钮的外层元素有误差，故通过js计算将其居中
+				midButtonLeft: '50%',
+				pageUrl: '', // 当前页面URL
 			}
 		},
 		created() {
@@ -183,7 +183,7 @@
 							// promise返回成功，
 							this.switchTab(index);
 						}).catch(err => {
-							
+
 						})
 					} else if(beforeSwitch === true) {
 						// 如果返回true
@@ -230,14 +230,17 @@
 </script>
 
 <style scoped lang="scss">
+	@import "../../libs/css/style.components.scss";
 	.u-fixed-placeholder {
+		/* #ifndef APP-NVUE */
 		box-sizing: content-box;
+		/* #endif */
 	}
 
 	.u-tabbar {
 
 		&__content {
-			display: flex;
+			@include vue-flex;
 			align-items: center;
 			position: relative;
 			position: fixed;
@@ -245,7 +248,9 @@
 			left: 0;
 			width: 100%;
 			z-index: 998;
+			/* #ifndef APP-NVUE */
 			box-sizing: content-box;
+			/* #endif */
 
 			&__circle__border {
 				border-radius: 100%;
@@ -259,7 +264,7 @@
 				// 故使用js计算的形式来定位，此处不注释，是因为js计算有延后，避免出现位置闪动
 				left: 50%;
 				transform: translateX(-50%);
-				
+
 				&:after {
 					border-radius: 100px;
 				}
@@ -270,14 +275,16 @@
 				justify-content: center;
 				height: 100%;
 				padding: 12rpx 0;
-				display: flex;
+				@include vue-flex;
 				flex-direction: column;
 				align-items: center;
 				position: relative;
 
 				&__button {
 					position: absolute;
-					top: 10rpx;
+					top: 14rpx;
+					left: 50%;
+					transform: translateX(-50%);
 				}
 
 				&__text {
@@ -285,7 +292,7 @@
 					font-size: 26rpx;
 					line-height: 28rpx;
 					position: absolute;
-					bottom: 12rpx;
+					bottom: 14rpx;
 					left: 50%;
 					transform: translateX(-50%);
 				}
@@ -293,17 +300,19 @@
 
 			&__circle {
 				position: relative;
-				display: flex;
+				@include vue-flex;
 				flex-direction: column;
 				justify-content: space-between;
 				z-index: 10;
+				/* #ifndef APP-NVUE */
 				height: calc(100% - 1px);
+				/* #endif */
 
 				&__button {
 					width: 90rpx;
 					height: 90rpx;
 					border-radius: 100%;
-					display: flex;
+					@include vue-flex;
 					justify-content: center;
 					align-items: center;
 					position: absolute;

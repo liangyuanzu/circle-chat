@@ -38,11 +38,6 @@ export default {
 			default: 'id'
 		}
 	},
-	provide() {
-		return {
-			uWaterfall: this
-		}
-	},
 	data() {
 		return {
 			leftList: [],
@@ -112,6 +107,7 @@ export default {
 			this.rightList = [];
 			// 同时清除父组件列表中的数据
 			this.$emit('input', []);
+			this.tempList = [];
 		},
 		// 清除某一条指定的数据，根据id实现
 		remove(id) {
@@ -162,13 +158,13 @@ export default {
 @import "../../libs/css/style.components.scss";
 
 .u-waterfall {
-	display: flex;
+	@include vue-flex;
 	flex-direction: row;
 	align-items: flex-start;
 }
 
 .u-column {
-	display: flex;
+	@include vue-flex;
 	flex: 1;
 	flex-direction: column;
 	height: auto;

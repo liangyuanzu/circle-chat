@@ -300,7 +300,7 @@ export default {
 						label: data ? data[this.labelName] : null,
 					};
 					// 判断是否有需要额外携带的参数
-					if(data && data.extra) tmp.extra = data.extra;
+					if(data && data.extra !== undefined) tmp.extra = data.extra;
 					this.selectValue.push(tmp);
 
 				})
@@ -314,7 +314,7 @@ export default {
 					label: data ? data[this.labelName] : null,
 				};
 				// 判断是否有需要额外携带的参数
-				if(data && data.extra) tmp.extra = data.extra;
+				if(data && data.extra !== undefined) tmp.extra = data.extra;
 				this.selectValue.push(tmp);
 			} else if(this.mode == 'mutil-column') {
 				// 初始默认选中值
@@ -326,7 +326,7 @@ export default {
 						label: data ? data[this.labelName] : null,
 					};
 					// 判断是否有需要额外携带的参数
-					if(data && data.extra) tmp.extra = data.extra;
+					if(data && data.extra !== undefined) tmp.extra = data.extra;
 					this.selectValue.push(tmp);
 				})
 			}
@@ -386,7 +386,7 @@ export default {
 	}
 
 	&__header {
-		display: flex;
+		@include vue-flex;
 		align-items: center;
 		justify-content: space-between;
 		height: 80rpx;
@@ -404,7 +404,7 @@ export default {
 			box-sizing: border-box;
 
 			&__item {
-				display: flex;
+				@include vue-flex;
 				align-items: center;
 				justify-content: center;
 				font-size: 32rpx;

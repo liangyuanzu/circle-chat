@@ -1,5 +1,5 @@
 <template>
-	<view class="u-mask" hover-stop-propagation :style="[maskStyle, zoomStyle]" @tap="click" @touchmove.stop.prevent :class="{
+	<view class="u-mask" hover-stop-propagation :style="[maskStyle, zoomStyle]" @tap="click" @touchmove.stop.prevent="() => {}" :class="{
 		'u-mask-zoom': zoom,
 		'u-mask-show': show
 	}">
@@ -84,7 +84,8 @@
 				else style.zIndex = -1;
 				style.transition = `all ${this.duration / 1000}s ease-in-out`;
 				// 判断用户传递的对象是否为空，不为空就进行合并
-				if (Object.keys(this.customStyle).length) style = { ...style,
+				if (Object.keys(this.customStyle).length) style = { 
+					...style,
 					...this.customStyle
 				};
 				return style;

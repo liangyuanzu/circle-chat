@@ -59,11 +59,6 @@
 				default: '#ffffff'
 			}
 		},
-		provide() {
-			return {
-				uTable: this,
-			};
-		},
 		data() {
 			return {}
 		},
@@ -86,10 +81,4 @@
 		width: 100%;
 		box-sizing: border-box;
 	}
-
-	/* #ifdef MP */
-	.u-table /deep/ t-tr {
-		display: flex;
-	}
-	/* #endif */
 </style>

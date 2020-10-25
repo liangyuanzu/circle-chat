@@ -35,10 +35,10 @@
 			<block class="u-cell__value" v-if="value">{{ value }}</block>
 			<slot v-else></slot>
 		</view>
-		<u-icon v-if="arrow" name="arrow-right" :style="[arrowStyle]" class="u-icon-wrap u-cell__right-icon-wrap"></u-icon>
-		<view class="u-flex" v-if="$slots['right-icon']">
+		<view class="u-flex u-cell_right" v-if="$slots['right-icon']">
 			<slot name="right-icon"></slot>
 		</view>
+		<u-icon v-if="arrow" name="arrow-right" :style="[arrowStyle]" class="u-icon-wrap u-cell__right-icon-wrap"></u-icon>
 	</view>
 </template>
 
@@ -211,9 +211,12 @@ export default {
 <style lang="scss" scoped>
 @import "../../libs/css/style.components.scss";
 .u-cell {
+	@include vue-flex;
+	align-items: center;
 	position: relative;
-	display: flex;
+	/* #ifndef APP-NVUE */
 	box-sizing: border-box;
+	/* #endif */
 	width: 100%;
 	padding: 26rpx 32rpx;
 	font-size: 28rpx;
@@ -240,21 +243,22 @@ export default {
 
 .u-cell__left-icon-wrap,
 .u-cell__right-icon-wrap {
-	display: flex;
+	@include vue-flex;
 	align-items: center;
 	height: 48rpx;
 }
 
 .u-cell-border:after {
-	position: absolute;
+	position: absolute; 
+	/* #ifndef APP-NVUE */
 	box-sizing: border-box;
 	content: ' ';
 	pointer-events: none;
+	border-bottom: 1px solid $u-border-color;
+	/* #endif */
 	right: 0;
 	left: 0;
 	top: 0;
-	border-bottom: 1px solid $u-border-color;
-	-webkit-transform: scaleY(0.5);
 	transform: scaleY(0.5);
 }
 
@@ -267,13 +271,17 @@ export default {
 	font-size: 26rpx;
 	line-height: 36rpx;
 	color: $u-tips-color;
+	/* #ifndef APP-NVUE */
 	word-wrap: break-word;
+	/* #endif */
 }
 
 .u-cell__value {
 	overflow: hidden;
 	text-align: right;
+	/* #ifndef APP-NVUE */
 	vertical-align: middle;
+	/* #endif */
 	color: $u-tips-color;
 	font-size: 26rpx;
 }
@@ -284,17 +292,25 @@ export default {
 }
 
 .u-cell--required {
+	/* #ifndef APP-NVUE */
 	overflow: visible;
-	display: flex;
+	/* #endif */
+	@include vue-flex;
 	align-items: center;
 }
 
 .u-cell--required:before {
 	position: absolute;
+	/* #ifndef APP-NVUE */
 	content: '*';
+	/* #endif */
 	left: 8px;
 	margin-top: 4rpx;
 	font-size: 14px;
 	color: $u-type-error;
+}
+
+.u-cell_right {
+	line-height: 1;
 }
 </style>

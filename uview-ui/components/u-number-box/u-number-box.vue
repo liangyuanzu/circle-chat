@@ -9,7 +9,7 @@
 			<u-icon name="minus" :size="size"></u-icon>
 		</view>
 		<input :disabled="disabledInput || disabled" :cursor-spacing="getCursorSpacing" :class="{ 'u-input-disabled': disabled }"
-		    v-model="inputVal" class="u-number-input" @blur="onBlur"
+		    v-model="inputVal" class="u-number-input" @blur="onBlur" @focus="onFocus"
 		    type="number" :style="{
 				color: color,
 				fontSize: size + 'rpx',
@@ -181,6 +181,7 @@
 				inputVal: 1, // 输入框中的值，不能直接使用props中的value，因为应该改变props的状态
 				timer: null, // 用作长按的定时器
 				changeFromInner: false, // 值发生变化，是来自内部还是外部
+				innerChangeTimer: null, // 内部定时器
 			};
 		},
 		created() {
@@ -285,11 +286,26 @@
 				this.$nextTick(() => {
 					this.inputVal = val;
 				})
+				this.handleChange(val, 'blur');
+			},
+			// 输入框获得焦点事件
+			onFocus() {
+				this.$emit('focus');
 			},
 			handleChange(value, type) {
 				if (this.disabled) return;
+				// 清除定时器，避免造成混乱
+				if(this.innerChangeTimer) {
+					clearTimeout(this.innerChangeTimer);
+					this.innerChangeTimer = null;
+				}
 				// 发出input事件，修改通过v-model绑定的值，达到双向绑定的效果
 				this.changeFromInner = true;
+				// 一定时间内，清除changeFromInner标记，否则内部值改变后
+				// 外部通过程序修改value值，将会无效
+				this.innerChangeTimer = setTimeout(() => {
+					this.changeFromInner = false;
+				}, 150);
 				this.$emit('input', Number(value));
 				this.$emit(type, {
 					// 转为Number类型
@@ -314,7 +330,7 @@
 		text-align: center;
 		padding: 0;
 		margin: 0 6rpx;
-		display: flex;
+		@include vue-flex;
 		align-items: center;
 		justify-content: center;
 	}
@@ -322,7 +338,7 @@
 	.u-icon-plus,
 	.u-icon-minus {
 		width: 60rpx;
-		display: flex;
+		@include vue-flex;
 		justify-content: center;
 		align-items: center;
 	}

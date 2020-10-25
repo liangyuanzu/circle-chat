@@ -19,7 +19,7 @@
 			<slot name="right" v-if="$slots.right" />
 			<block v-else>
 				{{subTitle}}
-				<view class="u-section__right-info__icon-arrow u-flex">
+				<view class="u-section__right-info__icon-arrow u-flex" v-if="arrow">
 					<u-icon name="arrow-right" size="24" :color="subColor"></u-icon>
 				</view>
 			</block>
@@ -36,6 +36,7 @@
 	 * @property {String} sub-title 右边副标题（默认更多）
 	 * @property {Boolean} right 是否显示右边的内容（默认true）
 	 * @property {Boolean} showLine 是否显示左边的竖条（默认true）
+	 * @property {Boolean} arrow 是否显示右边箭头（默认true）
 	 * @property {String Number} font-size 主标题的字体大小（默认28）
 	 * @property {Boolean} bold 主标题是否加粗（默认true）
 	 * @property {String} color 主标题颜色（默认#303133）
@@ -88,7 +89,12 @@
 			lineColor: {
 				type: String,
 				default: ''
-			}
+			},
+			// 是否显示右边箭头
+			arrow: {
+				type: Boolean,
+				default: true
+			},
 		},
 		computed: {
 			// 左边竖条的样式
@@ -113,7 +119,7 @@
 	@import "../../libs/css/style.components.scss";
 	
 	.u-section {
-		display: flex;
+		@include vue-flex;
 		justify-content: space-between;
 		align-items: center;
 		width: 100%;
@@ -122,7 +128,7 @@
 			position: relative;
 			font-size: 28rpx;
 			padding-left: 20rpx;
-			display: flex;
+			@include vue-flex;
 			align-items: center;
 			
 			&__icon-wrap {
@@ -137,7 +143,7 @@
 		&__right-info {
 			color: $u-tips-color;
 			font-size: 26rpx;
-			display: flex;
+			@include vue-flex;
 			align-items: center;
 			
 			&__icon-arrow {

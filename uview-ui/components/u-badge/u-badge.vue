@@ -141,12 +141,15 @@
 	@import "../../libs/css/style.components.scss";
 	
 	.u-badge {
+		/* #ifndef APP-NVUE */
 		display: inline-flex;
+		/* #endif */
 		justify-content: center;
 		align-items: center;
 		line-height: 24rpx;
 		padding: 4rpx 8rpx;
 		border-radius: 100rpx;
+		z-index: 9;
 		
 		&--bg--primary {
 			background-color: $u-type-primary;
@@ -207,7 +210,7 @@
 	// }
 	
 	.u-info {
-		background: $u-type-info;
+		background-color: $u-type-info;
 		color: #fff;
 	}
 </style>

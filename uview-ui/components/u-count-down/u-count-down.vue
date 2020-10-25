@@ -1,6 +1,6 @@
 <template>
 	<view class="u-countdown">
-		<view class="u-countdown-item" :style="[itemStyle]" v-if="showDays && (hideZeroDay || (!hideZeroDay && d != '0'))">
+		<view class="u-countdown-item" :style="[itemStyle]" v-if="showDays && (hideZeroDay || (!hideZeroDay && d != '00'))">
 			<view class="u-countdown-time" :style="[letterStyle]">
 				{{ d }}
 			</view>
@@ -8,7 +8,7 @@
 		<view
 			class="u-countdown-colon"
 			:style="{fontSize: separatorSize + 'rpx', color: separatorColor, paddingBottom: separator == 'colon' ? '4rpx' : 0}"
-			v-if="showDays && (hideZeroDay || (!hideZeroDay && d != '0'))"
+			v-if="showDays && (hideZeroDay || (!hideZeroDay && d != '00'))"
 		>
 			{{ separator == 'colon' ? ':' : '天' }}
 		</view>
@@ -164,7 +164,7 @@ export default {
 		// 监听时间戳的变化
 		timestamp(newVal, oldVal) {
 			// 如果倒计时间发生变化，清除定时器，重新开始倒计时
-			clearInterval(this.timer);
+			this.clearTimer();
 			this.start();
 		}
 	},
@@ -211,6 +211,8 @@ export default {
 	methods: {
 		// 倒计时
 		start() {
+			// 避免可能出现的倒计时重叠情况
+			this.clearTimer();
 			if (this.timestamp <= 0) return;
 			this.seconds = Number(this.timestamp);
 			this.formatTime(this.seconds);
@@ -247,6 +249,7 @@ export default {
 			showHour = showHour < 10 ? '0' + showHour : showHour;
 			minute = minute < 10 ? '0' + minute : minute;
 			second = second < 10 ? '0' + second : second;
+			day = day < 10 ? '0' + day : day;
 			this.d = day;
 			this.h = showHour;
 			this.i = minute;
@@ -254,10 +257,16 @@ export default {
 		},
 		// 停止倒计时
 		end() {
-			// 清除定时器
-			clearInterval(this.timer);
-			this.timer = null;
+			this.clearTimer();
 			this.$emit('end', {});
+		},
+		// 清除定时器
+		clearTimer() {
+			if(this.timer) {
+				// 清除定时器
+				clearInterval(this.timer);
+				this.timer = null;
+			}
 		}
 	},
 	beforeDestroy() {
@@ -271,12 +280,14 @@ export default {
 	@import "../../libs/css/style.components.scss";
 
 	.u-countdown {
-		display: inline-flex;
+		/* #ifndef APP-NVUE */
+		display: inline-flex;		
+		/* #endif */
 		align-items: center;
 	}
 
 	.u-countdown-item {
-		display: flex;
+		@include vue-flex;
 		align-items: center;
 		justify-content: center;
 		padding: 2rpx;
@@ -292,7 +303,7 @@ export default {
 	}
 
 	.u-countdown-colon {
-		display: flex;
+		@include vue-flex;
 		justify-content: center;
 		padding: 0 5rpx;
 		line-height: 1;

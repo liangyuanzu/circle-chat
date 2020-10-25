@@ -306,7 +306,7 @@
 	@import "../../libs/css/style.components.scss";
 	
 	.u-subsection {
-		display: flex;
+		@include vue-flex;
 		align-items: center;
 		overflow: hidden;
 		position: relative;
@@ -317,11 +317,10 @@
 		text-align: center;
 		font-size: 26rpx;
 		height: 100%;
-		display: flex;
+		@include vue-flex;
 		align-items: center;
 		justify-content: center;
 		color: $u-main-color;
-		display: inline-flex;
 		padding: 0 6rpx;
 	}
 
@@ -348,7 +347,7 @@
 	.u-item-text {
 		transition: all 0.35s;
 		color: $u-main-color;
-		display: flex;
+		@include vue-flex;
 		align-items: center;
 		position: relative;
 		z-index: 3;

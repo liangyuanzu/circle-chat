@@ -7,6 +7,7 @@
 			<view class="u-tabs-scroll-box" :class="{'u-tabs-scorll-flex': !isScroll}">
 				<view class="u-tabs-item" :style="[tabItemStyle(index)]"
 				 v-for="(item, index) in getTabs" :key="index" :class="[preId + index]" @tap="emit(index)">
+					<u-badge :count="item[count] || item['count'] || 0" :offset="offset" size="mini"></u-badge>
 					{{ item[name] || item['name']}}
 				</view>
 				<view v-if="showBar" class="u-scroll-bar" :style="[tabBarStyle]"></view>
@@ -18,9 +19,7 @@
 <script>
 	import colorGradient from '../../libs/function/colorGradient';
 	let color = colorGradient;
-	const {
-		windowWidth
-	} = uni.getSystemInfoSync();
+	const { windowWidth } = uni.getSystemInfoSync();
 	const preId = 'UEl_';
 
 	/**
@@ -43,6 +42,8 @@
 	 * @property {String Number} gutter 单个tab标签的左右内边距之和，单位rpx（默认40）
 	 * @property {String} bg-color tabs导航栏的背景颜色（默认#ffffff）
 	 * @property {String} name 组件内部读取的list参数中的属性名，见官网说明（默认name）
+	 * @property {String} count 组件内部读取的list参数中的属性名（badge徽标数），同name属性的使用，见官网说明（默认count）
+	 * @property {Array} offset 设置badge徽标数的位置偏移，格式为 [x, y]，也即设置的为top和right的值，单位rpx（默认[5, 20]）
 	 * @property {Boolean} bold 激活选项的字体是否加粗（默认true）
 	 * @event {Function} change 点击标签时触发
 	 * @example <u-tabs-swiper ref="tabs" :list="list" :is-scroll="false"></u-tabs-swiper>
@@ -127,10 +128,22 @@
 				type: String,
 				default: 'window'
 			},
-			// 读取传入的数组对象的属性
+			// 读取传入的数组对象的属性(tab名称)
 			name: {
 				type: String,
 				default: 'name'
+			},
+			// 读取传入的数组对象的属性(徽标数)
+			count: {
+				type: String,
+				default: 'count'
+			},
+			// 徽标数位置偏移
+			offset: {
+				type: Array,
+				default: () => {
+					return [5, 20]
+				}
 			},
 			// 活动tab字体是否加粗
 			bold: {
@@ -381,6 +394,7 @@
 		transition-property: background-color, color;
 	}
 
+	/* #ifndef APP-NVUE */
 	::-webkit-scrollbar,
 	::-webkit-scrollbar,
 	::-webkit-scrollbar {
@@ -390,10 +404,11 @@
 		-webkit-appearance: none;
 		background: transparent;
 	}
+	/* #endif */
 
 	/* #ifdef H5 */
 	// 通过样式穿透，隐藏H5下，scroll-view下的滚动条
-	scroll-view /deep/ ::-webkit-scrollbar {
+	scroll-view ::v-deep ::-webkit-scrollbar {
 		display: none;
 		width: 0 !important;
 		height: 0 !important;
@@ -414,7 +429,7 @@
 	}
 
 	.u-tabs-scorll-flex {
-		display: flex;
+		@include vue-flex;
 		justify-content: space-between;
 	}
 
@@ -454,7 +469,7 @@
 		position: absolute;
 		top: 0;
 		transition-property: left, background-color;
-		display: flex;
+		@include vue-flex;
 		flex-direction: row;
 		justify-content: center;
 		align-items: center;

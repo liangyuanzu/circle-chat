@@ -79,14 +79,8 @@
 			// #ifndef H5
 			this.stickyOffsetTop = this.offsetTop ? uni.upx2px(this.offsetTop) : 0;
 			// #endif
-			// 只能在created生命周期定义children，如果在data定义，会因为在子组件中通过provide/inject
-			// 进行push时而导致的莫名其妙的错误
+			// 只能在created生命周期定义children，如果在data定义，会因为循环引用而报错
 			this.children = [];
-		},
-		provide() {
-			return {
-				UIndexList: this
-			}
 		},
 		data() {
 			return {
@@ -282,7 +276,7 @@
 		position: fixed;
 		top: 50%;
 		right: 0;
-		display: flex;
+		@include vue-flex;
 		flex-direction: column;
 		text-align: center;
 		transform: translateY(-50%);
@@ -308,7 +302,7 @@
 		font-size: 50rpx;
 		color: #fff;
 		background-color: rgba(0, 0, 0, 0.65);
-		display: flex;
+		@include vue-flex;
 		justify-content: center;
 		align-items: center;
 		padding: 0;

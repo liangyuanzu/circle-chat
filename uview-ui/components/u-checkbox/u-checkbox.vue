@@ -1,7 +1,7 @@
 <template>
 	<view class="u-checkbox" :style="[checkboxStyle]">
 		<view class="u-checkbox__icon-wrap" @tap="toggle" :class="[iconClass]" :style="[iconStyle]">
-			<u-icon name="checkbox-mark" :size="checkboxIconSize" :color="iconColor"/>
+			<u-icon class="u-checkbox__icon-wrap__icon" name="checkbox-mark" :size="checkboxIconSize" :color="iconColor"/>
 		</view>
 		<view class="u-checkbox__label" @tap="onClickLabel" :style="{
 			fontSize: $u.addUnit(labelSize)
@@ -172,11 +172,14 @@
 			},
 			emitEvent() {
 				this.$emit('change', {
-					value: this.value,
+					value: !this.value,
 					name: this.name
 				})
 				// 执行父组件u-checkbox-group的事件方法
-				if(this.parent && this.parent.emitEvent) this.parent.emitEvent();
+				// 等待下一个周期再执行，因为this.$emit('input')作用于父组件，再反馈到子组件内部，需要时间
+				setTimeout(() => {
+					if(this.parent && this.parent.emitEvent) this.parent.emitEvent();
+				}, 80);
 			},
 			// 设置input的值，这里通过input事件，设置通过v-model绑定的组件的值
 			setValue() {
@@ -190,20 +193,17 @@
 				}
 				// 如果原来为选中状态，那么可以取消
 				if (this.value == true) {
+					this.emitEvent();
 					this.$emit('input', !this.value);
-					// 等待下一个周期再执行，因为this.$emit('input')作用于父组件，再反馈到子组件内部，需要时间
-					this.$nextTick(function() {
-						this.emitEvent();
-					})
-				} else if ((this.parent && checkedNum < this.parent.max) || !this.parent) {
+				} else {
+					// 如果超出最多可选项，提示
+					if(this.parent && checkedNum >= this.parent.max) {
+						return this.$u.toast(`最多可选${this.parent.max}项`);
+					}
 					// 如果原来为未选中状态，需要选中的数量少于父组件中设置的max值，才可以选中
+					this.emitEvent();
 					this.$emit('input', !this.value);
-					// 等待下一个周期再执行，因为this.$emit('input')作用于父组件，再反馈到子组件内部，需要时间
-					this.$nextTick(function() {
-						this.emitEvent();
-					})
 				}
-
 			}
 		}
 	};
@@ -213,7 +213,9 @@
 	@import "../../libs/css/style.components.scss";
 
 	.u-checkbox {
+		/* #ifndef APP-NVUE */
 		display: inline-flex;
+		/* #endif */
 		align-items: center;
 		overflow: hidden;
 		user-select: none;
@@ -223,7 +225,7 @@
 			color: $u-content-color;
 			flex: none;
 			display: -webkit-flex;
-			display: flex;
+			@include vue-flex;
 			align-items: center;
 			justify-content: center;
 			box-sizing: border-box;
@@ -235,6 +237,13 @@
 			font-size: 20px;
 			border: 1px solid #c8c9cc;
 			transition-duration: 0.2s;
+			
+			/* #ifdef MP-TOUTIAO */
+			// 头条小程序兼容性问题，需要设置行高为0，否则图标偏下
+			&__icon {
+				line-height: 0;
+			}
+			/* #endif */
 			
 			&--circle {
 				border-radius: 100%;

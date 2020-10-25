@@ -110,7 +110,7 @@ export default {
 	width: 100%;
 	position: relative;
 	text-align: center;
-	display: flex;
+	@include vue-flex;
 	justify-content: center;
 	align-items: center;
 	overflow: hidden;
@@ -146,6 +146,8 @@ export default {
 .u-divider-text {
 	white-space: nowrap;
 	padding: 0 16rpx;
-	display: inline-flex;
+	/* #ifndef APP-NVUE */
+	display: inline-flex;		
+	/* #endif */
 }
 </style>

@@ -2,7 +2,7 @@
 	<view class="u-char-box">
 		<view class="u-char-flex">
 			<input :disabled="disabledKeyboard" :value="valueModel" type="number" :focus="focus" :maxlength="maxlength" class="u-input" @input="getVal"/>
-			<view v-for="(item, index) in maxlength" :key="index">
+			<view v-for="(item, index) in loopCharArr" :key="index">
 				<view :class="[breathe && charArrLength == index ? 'u-breathe' : '', 'u-char-item',
 				charArrLength === index && mode == 'box' ? 'u-box-active' : '',
 				mode === 'box' ? 'u-box' : '']" :style="{
@@ -10,7 +10,8 @@
 					fontSize: fontSize + 'rpx',
 					width: width + 'rpx',
 					height: width + 'rpx',
-					color: inactiveColor
+					color: inactiveColor,
+					borderColor: charArrLength === index && mode == 'box' ? activeColor : inactiveColor
 				}">
 					<view class="u-placeholder-line" :style="{
 							display: charArrLength === index ? 'block' : 'none',
@@ -118,13 +119,13 @@
 			}
 		},
 		watch: {
-			maxlength: {
-				// 此值设置为true，会在组件加载后无需maxlength变化就会执行一次本监听函数，无需再created生命周期中处理
-				immediate: true,
-				handler(val) {
-					this.maxlength = Number(val);
-				}
-			},
+			// maxlength: {
+			// 	// 此值设置为true，会在组件加载后无需maxlength变化就会执行一次本监听函数，无需再created生命周期中处理
+			// 	immediate: true,
+			// 	handler(val) {
+			// 		this.maxlength = Number(val);
+			// 	}
+			// }, 
 			value: {
 				immediate: true,
 				handler(val) {
@@ -154,6 +155,10 @@
 			},
 			charArrLength() {
 				return this.charArr.length;
+			},
+			// 根据长度，循环输入框的个数，因为头条小程序数值不能用于v-for
+			loopCharArr() {
+				return new Array(this.maxlength);
 			}
 		},
 		methods: {
@@ -196,7 +201,7 @@
 	}
 
 	.u-char-flex {
-		display: flex;
+		@include vue-flex;
 		justify-content: center;
 		flex-wrap: wrap;
 		position: relative;
@@ -223,7 +228,7 @@
 		font-weight: bold;
 		color: $u-main-color;
 		line-height: 90rpx;
-		display: flex;
+		@include vue-flex;
 		justify-content: center;
 		align-items: center;
 	}
@@ -256,7 +261,9 @@
 	}
 
 	.u-placeholder-line {
+		/* #ifndef APP-NVUE */
 		display: none;
+		/* #endif */
 		position: absolute;
 		left: 50%;
 		top: 50%;

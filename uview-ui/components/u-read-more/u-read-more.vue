@@ -2,7 +2,7 @@
 	<view class="">
 		<view class="u-content" :class="[elId]" :style="{ 
 			height: isLongContent && !showMore ? showHeight + 'rpx' : 'auto',
-			textIndent: this.textIndent
+			textIndent: textIndent
 		}">
 			<slot></slot>
 		</view>
@@ -114,7 +114,7 @@
 			};
 		},
 		mounted() {
-			this.$nextTick(function() {
+			this.$nextTick(() => {
 				this.init();
 			})
 		},
@@ -160,12 +160,12 @@
 			position: relative;
 			width: 100%;
 			padding-bottom: 26rpx;
-			display: flex;
+			@include vue-flex;
 			align-items: center;
 			justify-content: center;
 
 			&__readmore-btn {
-				display: flex;
+				@include vue-flex;
 				align-items: center;
 				justify-content: center;
 				line-height: 1;
