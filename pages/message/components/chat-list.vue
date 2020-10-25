@@ -66,7 +66,8 @@ export default {
         const circleinfo = {
           circleId: item.circleId,
           circleName: item.circleName,
-          circleAvatar: item.avatar
+          circleAvatar: item.avatar,
+          circleType: item.circleType
         }
         uni.navigateTo({
           url:

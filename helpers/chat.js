@@ -20,6 +20,7 @@ export function chatFormat(res, options = { isCircle: false }, data) {
 					circleId: res.body.circleId,
 					circleName: res.body.circleName,
 					avatar: data.circleAvatar || res.body.circleImg,
+					circleType: data.circleType || res.body.circleType,
 					time: res.body.createTime,
 					data: formatMsg(res.body.type, {
 						username: res.body.username,
@@ -86,6 +87,7 @@ export function chatFormat(res, options = { isCircle: false }, data) {
 						circleId: data.circleId,
 						circleName: data.circleName,
 						circleImg: data.circleAvatar,
+						circleType: data.circleType,
 						userId: data.userId,
 						userImg: data.avatar,
 						content: res.msg.content,

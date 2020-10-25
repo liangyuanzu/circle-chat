@@ -99,7 +99,8 @@ export default {
       const circleinfo = {
         circleId: this.info.circleId,
         circleName: this.info.circleName,
-        circleAvatar: this.info.img
+        circleAvatar: this.info.img,
+        circleType: this.info.type
       }
       uni.navigateTo({
         url:

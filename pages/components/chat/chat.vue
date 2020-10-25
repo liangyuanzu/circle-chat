@@ -434,13 +434,14 @@ export default {
       // 修改标题
       uni.setNavigationBarTitle({ title: username })
     } else if (options.circleinfo) {
-      const { circleId, circleName, circleAvatar } = JSON.parse(
+      const { circleId, circleName, circleAvatar, circleType } = JSON.parse(
         options.circleinfo
       )
       this.$store.commit('chat/setCurrentToCircle', {
         circleId,
         circleName,
-        circleAvatar
+        circleAvatar,
+        circleType
       })
       // 修改标题
       uni.setNavigationBarTitle({ title: circleName })
@@ -477,7 +478,8 @@ export default {
       this.$store.commit('chat/setCurrentToCircle', {
         circleId: 0,
         circleName: '',
-        circleAvatar: ''
+				circleAvatar: '',
+				circleType: ''
       })
       // 修改圈状态
       this.$store.commit('chat/setIsCircle', false)

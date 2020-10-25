@@ -27,7 +27,8 @@ const state = {
 	CurrentToCircle: {
 		circleId: 0,
 		circleName: '',
-		circleAvatar: ''
+		circleAvatar: '',
+		circleType: ''
 	}
 }
 
@@ -48,10 +49,14 @@ const mutations = {
 		state.CurrentToUser.username = username
 		state.CurrentToUser.avatar = avatar
 	},
-	setCurrentToCircle(state, { circleId, circleName, circleAvatar }) {
+	setCurrentToCircle(
+		state,
+		{ circleId, circleName, circleAvatar, circleType }
+	) {
 		state.CurrentToCircle.circleId = circleId
 		state.CurrentToCircle.circleName = circleName
 		state.CurrentToCircle.circleAvatar = circleAvatar
+		state.CurrentToCircle.circleType = circleType
 	}
 }
 
@@ -134,6 +139,7 @@ const actions = {
 				circleId: state.CurrentToCircle.circleId,
 				circleName: state.CurrentToCircle.circleName,
 				circleAvatar: state.CurrentToCircle.circleAvatar,
+				circleType: state.CurrentToCircle.circleType,
 				userId: rootGetters['user/userId'],
 				avatar: rootGetters['user/avatar']
 			}
