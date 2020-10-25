@@ -190,10 +190,21 @@ export default {
     },
 
     confirm() {
+      uni.showLoading({
+        title: '加载中...'
+      })
+      this.$refs.uDropdown.close()
       this.activeOption = this.options
         .filter((item) => item.active)
         .map((i) => i.value)
-      this.$refs.uDropdown.close()
+      if (this.activeOption) {
+        this.list = this.list.filter((i) =>
+          this.activeOption.includes(i.circleType)
+        )
+      } else {
+        this.getList()
+      }
+      uni.hideLoading()
     }
   }
 }
