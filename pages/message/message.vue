@@ -3,6 +3,38 @@
     <!-- #ifndef MP-BAIDU	 -->
     <nav-bar />
     <!-- #endif -->
+    <!-- #ifdef MP-BAIDU -->
+    <view class="bar">
+      <u-search
+        placeholder="搜索圈"
+        v-model="keyword"
+        :clearabled="false"
+        :show-action="false"
+        class="search"
+      ></u-search>
+      <u-dropdown ref="uDropdown">
+        <u-dropdown-item></u-dropdown-item>
+        <u-dropdown-item></u-dropdown-item>
+        <u-dropdown-item title="筛选">
+          <view class="slot-content">
+            <view class="item-box">
+              <view
+                class="item"
+                :class="[item.active ? item.activeClass : '']"
+                :style="[{ color: item.color, border: item.border }]"
+                @tap="tagClick(index)"
+                v-for="(item, index) in options"
+                :key="index"
+              >
+                {{ item.label }}
+              </view>
+            </view>
+            <u-button type="primary" @click="confirm">确定</u-button>
+          </view>
+        </u-dropdown-item>
+      </u-dropdown>
+    </view>
+    <!-- #endif -->
     <chat-list :list="list" />
   </view>
 </template>
@@ -33,6 +65,42 @@ export default {
 
   data() {
     return {
+      keyword: '',
+      options: [
+        {
+          label: '交友圈',
+          value: '交友圈',
+          color: '#2979ff',
+          border: '1px solid #2979ff',
+          active: false,
+          activeClass: 'primaryAct'
+        },
+        {
+          label: '固定圈',
+          value: '固定圈',
+          color: '#ff9900',
+          border: '1px solid #ff9900',
+          active: false,
+          activeClass: 'warningAct'
+        },
+        {
+          label: '紧急圈',
+          value: '紧急圈',
+          color: '#fa3534',
+          border: '1px solid #fa3534',
+          active: false,
+          activeClass: 'errorAct'
+        },
+        {
+          label: '我的圈',
+          value: '我创建的',
+          color: '#19be6b',
+          border: '1px solid #19be6b',
+          active: false,
+          activeClass: 'successAct'
+        }
+      ],
+      activeOption: [],
       list: []
     }
   },
@@ -115,10 +183,84 @@ export default {
   methods: {
     getList() {
       this.list = localStore.get(chatListName) || []
+    },
+
+    tagClick(index) {
+      this.options[index].active = !this.options[index].active
+    },
+
+    confirm() {
+      this.activeOption = this.options
+        .filter((item) => item.active)
+        .map((i) => i.value)
+      this.$refs.uDropdown.close()
     }
   }
 }
 </script>
 
 <style lang="scss">
+.bar {
+  position: relative;
+  background-color: #fff;
+
+  .search {
+    width: 60%;
+    position: absolute;
+    left: 10%;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 999;
+  }
+}
+
+.u-dropdown__menu__item {
+  &:nth-child(1),
+  &:nth-child(2) {
+    visibility: hidden;
+  }
+}
+
+.slot-content {
+  background-color: #ffffff;
+  padding: 24rpx;
+
+  .item-box {
+    margin-bottom: 50rpx;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+
+    .item {
+      // border: 1px solid $u-type-primary;
+      // color: $u-type-primary;
+      padding: 8rpx 40rpx;
+      border-radius: 100rpx;
+      margin-top: 30rpx;
+    }
+
+    .primaryAct,
+    .warningAct,
+    .errorAct,
+    .successAct {
+      color: #ffffff !important;
+    }
+
+    .primaryAct {
+      background-color: $u-type-primary;
+    }
+
+    .warningAct {
+      background-color: $u-type-warning;
+    }
+
+    .errorAct {
+      background-color: $u-type-error;
+    }
+
+    .successAct {
+      background-color: $u-type-success;
+    }
+  }
+}
 </style>
