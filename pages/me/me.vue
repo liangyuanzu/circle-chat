@@ -1,63 +1,72 @@
 <template>
   <view class="content">
-    <!-- 头像 -->
-    <view class="avatar">
-      <!-- <view
-        class="cu-avatar xl round margin-left"
-        :style="{ backgroundImage: 'url(' + avatar + ')'}"
-      ></view>-->
-      <u-avatar
-        :src="avatar"
-        size="large"
-        style="margin-left: 30rpx"
-      ></u-avatar>
-      <view class="change-avatar" @click="changeAvatar()">
-        <text>更换头像</text>
-        <text class="lg text-gray cuIcon-right"></text>
+    <view class="avatar" hover-class="uni-list-item--hover" @click="toInfo">
+      <view class="avatar-left">
+        <u-avatar
+          :src="avatar"
+          mode="square"
+          size="large"
+          show-sex
+          :sex-icon="formatGender"
+          style="margin-left: 30rpx"
+        >
+        </u-avatar>
+        <view class="info">
+          <view class="text-lg text-black text-cut" style="width: 470rpx">
+            {{ username }}
+          </view>
+          <view class="text-sm text-grey text-cut" style="width: 470rpx">
+            {{ autograph }}
+          </view>
+        </view>
       </view>
+
+      <uni-icons
+        :size="16"
+        class="uni-icon-wrapper"
+        color="#bbb"
+        type="arrowright"
+      />
     </view>
 
-    <!-- 相关操作 -->
-    <view class="operate">
-      <view @click="toInfo">
-        <text>昵称：</text>
-        <text>{{ this.username }}</text>
-        <text class="info">
-          <text>个人信息</text>
-          <text class="lg text-gray cuIcon-right"></text>
-        </text>
-      </view>
-      <view @click="toFocusList()">
-        <text>关注列表</text>
-        <text class="lg text-gray cuIcon-right"></text>
-      </view>
-      <view>
-        <text>默认加圈</text>
-        <text class="lg text-gray cuIcon-right"></text>
-      </view>
-      <view>
-        <text>消息通知</text>
-        <text class="lg text-gray cuIcon-right"></text>
-      </view>
+    <view style="margin-top: 20rpx">
+      <uni-list>
+        <uni-list-item
+          v-for="(item, index) in list"
+          :key="index"
+          :title="item.title"
+          show-extra-icon
+          :extraIcon="item.extraIcon"
+          :showArrow="item.showArrow"
+          clickable
+          @click="onClick(item.title)"
+          :showSwitch="item.showSwitch"
+          @switchChange="switchChange"
+        ></uni-list-item>
+      </uni-list>
     </view>
 
-    <!-- 退出登录 -->
-    <view class="logout">
-      <view @click="open">
-        <text>退出登录</text>
-        <text class="lg text-gray cuIcon-right"></text>
-      </view>
+    <view style="margin-top: 20rpx">
+      <uni-list>
+        <uni-list-item
+          title="退出登录"
+          show-extra-icon
+          :extraIcon="logoutIcon"
+          showArrow
+          clickable
+          @click="logout"
+        ></uni-list-item>
+      </uni-list>
+
+      <u-modal
+        v-model="showModal"
+        title="退出登录"
+        content="是否确认退出登录?"
+        show-cancel-button
+        @confirm="confirm"
+        ref="uModal"
+      ></u-modal>
     </view>
-    <u-modal
-      v-model="show"
-      :title="title"
-      :content="content"
-      show-cancel-button
-      confirm-color="#fa3534"
-      @confirm="confirm"
-      ref="uModal"
-      :async-close="true"
-    ></u-modal>
   </view>
 </template>
 
@@ -67,22 +76,84 @@ import { mapGetters } from 'vuex'
 export default {
   data() {
     return {
-      show: false,
-      title: '确认退出?',
-      content: ''
+      showModal: false,
+      list: [
+        {
+          title: '个人信息',
+          extraIcon: {
+            color: '#2979ff',
+            size: '22',
+            type: 'contact-filled'
+          },
+          showArrow: true
+        },
+        {
+          title: '关注列表',
+          extraIcon: {
+            color: '#ff9900',
+            size: '22',
+            type: 'star-filled'
+          },
+          showArrow: true
+        },
+        {
+          title: '默认加圈',
+          extraIcon: {
+            color: '#909399',
+            size: '22',
+            type: 'circle-filled'
+          },
+          showArrow: false,
+          showSwitch: true
+        },
+        {
+          title: '消息通知',
+          extraIcon: {
+            color: '#ff9900',
+            size: '22',
+            type: 'sound-filled'
+          },
+          showArrow: false,
+          showSwitch: true
+        }
+      ],
+      logoutIcon: {
+        color: '#fa3534',
+        size: '22',
+        type: 'gear-filled'
+      }
     }
   },
 
   computed: {
-    ...mapGetters('user', ['username', 'email', 'avatar'])
+    ...mapGetters('user', ['username', 'email', 'avatar', 'sex', 'autograph']),
+    formatGender() {
+      if (this.sex === '男') return 'man'
+      if (this.sex === '女') return 'woman'
+    }
   },
 
   methods: {
+    onClick(title) {
+      switch (title) {
+        case '个人信息':
+          this.toInfo()
+          break
+        case '关注列表':
+          this.toFocusList()
+          break
+      }
+    },
+
+    switchChange(e) {
+      console.log(e)
+    },
+
     changeAvatar() {
       uni.chooseImage({
         count: 1,
-        sizeType: ['original', 'compressed'], //可以指定是原图还是压缩图，默认二者都有
-        sourceType: ['album'], //从相册选择
+        sizeType: ['original', 'compressed'],
+        sourceType: ['album'],
         success: (res) => {
           uni.showLoading()
           console.log(res)
@@ -115,21 +186,33 @@ export default {
       })
     },
 
-    open() {
-      this.show = true
+    logout() {
+      this.showModal = true
     },
 
     confirm() {
+      this.showModal = false
+      uni.showLoading({
+        title: '加载中...'
+      })
       this.$store
         .dispatch('user/logout')
         .then(() => {
-          this.show = false
-          uni.reLaunch({
-            url: '/pages/login/login'
-          })
+          uni.hideLoading()
+          setTimeout(() => {
+            uni.showToast({
+              title: '退出成功！',
+              icon: 'none'
+            })
+            setTimeout(() => {
+              uni.reLaunch({
+                url: '/pages/login/login'
+              })
+            }, 500)
+          }, 500)
         })
         .catch(() => {
-          this.$refs.uModal.clearLoading()
+          uni.hideLoading()
         })
     }
   }
@@ -141,60 +224,24 @@ export default {
   .avatar {
     width: 100%;
     height: 150rpx;
+    padding-right: 30rpx;
     display: flex;
     justify-content: space-between;
     align-items: center;
     background-color: #fff;
-    color: #888;
 
-    .change-avatar {
-      margin-right: 30rpx;
-
-      text {
-        &:nth-of-type(1) {
-          margin-right: 5rpx;
-        }
-      }
-    }
-  }
-
-  .operate,
-  .logout {
-    width: 100%;
-    margin-top: 20rpx;
-    background-color: #fff;
-
-    & > view {
-      width: 100%;
-      height: 100rpx;
-      line-height: 100rpx;
-      padding: 0 30rpx;
-      border-bottom: 1px solid #f1f1f1;
-
-      & > text {
-        &:first-child {
-          font-weight: bold;
-          margin-right: 10rpx;
-        }
-
-        &:last-child {
-          float: right;
-        }
-      }
+    .avatar-left {
+      display: flex;
+      align-items: center;
 
       .info {
-        text {
-          &:first-child {
-            margin-right: 5rpx;
-            color: #888;
-          }
-        }
+        margin: 0 20rpx 0 40rpx;
       }
     }
   }
+}
 
-  .logout {
-    margin-top: 20rpx;
-  }
+.uni-list-item--hover {
+  background-color: $uni-bg-color-hover !important;
 }
 </style>

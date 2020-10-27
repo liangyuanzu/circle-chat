@@ -1,16 +1,21 @@
 <template>
-	<!-- #ifndef APP-NVUE -->
-	<view class="uni-list">
-		<view v-if="border" class="uni-list--border-top"></view>
-			<slot />
-		<view v-if="border" class="uni-list--border-bottom"></view>
-	</view>
-	<!-- #endif -->
-	<!-- #ifdef APP-NVUE -->
-	<list class="uni-list" :class="{'uni-list--border':border}" :enableBackToTop="enableBackToTop" loadmoreoffset="15">
-		<slot />
-	</list>
-	<!-- #endif -->
+  <!-- #ifndef APP-NVUE -->
+  <view class="uni-list">
+    <!-- <view v-if="border" class="uni-list--border-top"></view> -->
+    <slot />
+    <!-- <view v-if="border" class="uni-list--border-bottom"></view> -->
+  </view>
+  <!-- #endif -->
+  <!-- #ifdef APP-NVUE -->
+  <list
+    class="uni-list"
+    :class="{ 'uni-list--border': border }"
+    :enableBackToTop="enableBackToTop"
+    loadmoreoffset="15"
+  >
+    <slot />
+  </list>
+  <!-- #endif -->
 </template>
 
 <script>
