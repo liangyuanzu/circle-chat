@@ -111,3 +111,15 @@ export function queryUserMsg(userId) {
 		}
 	})
 }
+
+/**
+ * 默认加圈，消息通知
+ * @param {string} defaultAdd -默认加圈
+ * @param {string} isNotice - 消息通知
+ */
+export function userSet(data) {
+	return $request('/user/userSet', {
+		method: 'POST',
+		data
+	})
+}

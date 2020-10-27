@@ -7,7 +7,8 @@ import {
 	updatePassword,
 	logout,
 	updatePhoto,
-	queryUserMsg
+	queryUserMsg,
+	userSet
 } from '@/api/user.js'
 import {
 	accessTokenName,
@@ -148,6 +149,10 @@ const actions = {
 				title: '获取用户信息接口异常'
 			})
 		}
+	},
+
+	async userSet({}, data) {
+		await userSet(data)
 	}
 }
 
