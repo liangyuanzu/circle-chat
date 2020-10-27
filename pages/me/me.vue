@@ -1,34 +1,6 @@
 <template>
-  <view class="content">
-    <view class="avatar" hover-class="uni-list-item--hover" @click="toInfo">
-      <view class="avatar-left">
-        <u-avatar
-          :src="avatar"
-          mode="square"
-          size="large"
-          show-sex
-          :sex-icon="formatGender"
-          style="margin-left: 30rpx"
-        >
-        </u-avatar>
-        <view class="info">
-          <view class="text-lg text-black text-cut" style="width: 470rpx">
-            {{ username }}
-          </view>
-          <view class="text-sm text-grey text-cut" style="width: 470rpx">
-            {{ autograph }}
-          </view>
-        </view>
-      </view>
-
-      <uni-icons
-        :size="16"
-        class="uni-icon-wrapper"
-        color="#bbb"
-        type="arrowright"
-      />
-    </view>
-
+  <view>
+    <avatar @toInfo="toInfo" />
     <view style="margin-top: 20rpx">
       <uni-list>
         <!-- 个人信息 关注列表 -->
@@ -100,8 +72,13 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import avatar from './components/avatar'
 
 export default {
+  components: {
+    avatar
+  },
+
   data() {
     return {
       addChecked: false,
@@ -157,14 +134,6 @@ export default {
         size: '22',
         type: 'gear-filled'
       }
-    }
-  },
-
-  computed: {
-    ...mapGetters('user', ['username', 'email', 'avatar', 'sex', 'autograph']),
-    formatGender() {
-      if (this.sex === '男') return 'man'
-      if (this.sex === '女') return 'woman'
     }
   },
 
@@ -338,28 +307,4 @@ export default {
 </script>
 
 <style lang="scss">
-.content {
-  .avatar {
-    width: 100%;
-    height: 150rpx;
-    padding-right: 30rpx;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #fff;
-
-    .avatar-left {
-      display: flex;
-      align-items: center;
-
-      .info {
-        margin: 0 20rpx 0 40rpx;
-      }
-    }
-  }
-}
-
-.uni-list-item--hover {
-  background-color: $uni-bg-color-hover !important;
-}
 </style>
