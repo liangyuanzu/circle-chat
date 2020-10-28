@@ -74,3 +74,18 @@ export function html2Escape(str) {
 		return { '<': '&lt;', '>': '&gt;', '&': '&amp;', '"': '&quot;' }[c]
 	})
 }
+
+/**
+ *
+ * @param {*} b64data base64 图片
+ */
+export function base64ToBlob(b64data) {
+	let byteString = atob(b64data.split(',')[1])
+	let mimeString = b64data.split(',')[0].split(':')[1].split(';')[0]
+	let ab = new ArrayBuffer(byteString.length)
+	let ia = new Uint8Array(ab)
+	for (let i = 0; i < byteString.length; i++) {
+		ia[i] = byteString.charCodeAt(i)
+	}
+	return new Blob([ab], { type: mimeString })
+}

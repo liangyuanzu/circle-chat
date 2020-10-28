@@ -2,7 +2,7 @@
   <view>
     <view style="margin-bottom: 20rpx">
       <uni-list>
-        <uni-list-item title="头像" showArrow clickable>
+        <uni-list-item title="头像" showArrow clickable @click="chooseAvatar">
           <template #right>
             <u-avatar :src="avatar" mode="square"> </u-avatar>
           </template>
@@ -27,6 +27,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import { base64ToPath } from '@/utils/image-tools/index.js'
 
 export default {
   data() {
@@ -64,10 +65,64 @@ export default {
     }
   },
 
+  created() {
+    // 监听从裁剪页发布的事件，获得裁剪结果
+    uni.$on('uAvatarCropper', (path) => {
+      uni.showLoading()
+      // #ifndef MP-BAIDU
+      base64ToPath(path)
+        .then((filePath) => {
+          console.log(filePath)
+          this.$store
+            .dispatch('user/updatePhoto', filePath)
+            .then(() => {
+              uni.hideLoading()
+              uni.showToast({
+                icon: 'none',
+                position: 'bottom',
+                title: '修改成功'
+              })
+            })
+            .catch(() => {
+              uni.hideLoading()
+            })
+        })
+        .catch((error) => {
+          console.error(error)
+        })
+      // #endif
+
+      // #ifdef MP-BAIDU
+      console.log(path)
+      this.$store
+        .dispatch('user/updatePhoto', path)
+        .then(() => {
+          uni.hideLoading()
+          uni.showToast({
+            icon: 'none',
+            position: 'bottom',
+            title: '修改成功'
+          })
+        })
+        .catch(() => {
+          uni.hideLoading()
+        })
+      // #endif
+    })
+  },
+
   methods: {
-    chagePwd() {
-      uni.navigateTo({
-        url: '/pages/login/forget'
+    chooseAvatar() {
+      this.$u.route({
+        url: '/uview-ui/components/u-avatar-cropper/u-avatar-cropper',
+        params: {
+          // 输出图片宽度，高等于宽，单位px
+          destWidth: 200,
+          // 裁剪框宽度，高等于宽，单位px
+          rectWidth: 200,
+          // 输出的图片类型，如果'png'类型发现裁剪的图片太大，改成"jpg"即可
+          fileType: 'jpg'
+        }
       })
     }
   }

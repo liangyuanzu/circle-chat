@@ -103,6 +103,13 @@
 				"navigationBarTitleText": "关注列表",
 				"navigationBarBackgroundColor": "#f1f1f1"
 			}
+		},
+		{
+			"path": "uview-ui/components/u-avatar-cropper/u-avatar-cropper",
+			"style": {
+				"navigationBarTitleText": "头像裁剪",
+				"navigationBarBackgroundColor": "#000000"
+			}
 		}
 	],
 	"globalStyle": {

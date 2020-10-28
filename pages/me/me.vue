@@ -51,30 +51,7 @@ export default {
   },
 
   methods: {
-    changeAvatar() {
-      uni.chooseImage({
-        count: 1,
-        sizeType: ['original', 'compressed'],
-        sourceType: ['album'],
-        success: (res) => {
-          uni.showLoading()
-          console.log(res)
-          this.$store
-            .dispatch('user/updatePhoto', JSON.stringify(res.tempFilePaths[0]))
-            .then(() => {
-              uni.hideLoading()
-              uni.showToast({
-                icon: 'none',
-                position: 'bottom',
-                title: '修改成功'
-              })
-            })
-            .catch(() => {
-              uni.hideLoading()
-            })
-        }
-      })
-    },
+
 
     toInfo() {
       uni.navigateTo({
