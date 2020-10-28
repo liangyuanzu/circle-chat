@@ -49,7 +49,7 @@ export default {
       // 初始化
       this.$store.dispatch('user/init', {}, { root: true })
       // 连接 socket
-      this.$store.dispatch('chat/open', {}, { root: true })
+      // this.$store.dispatch('chat/open', {}, { root: true })
     }
   },
   onShow: function () {

@@ -8,7 +8,6 @@ module.exports = {
 	receiveOneType: 'SEND_TO_USER_REQUEST',
 	sendCircleType: 'SEND_TO_ALL_REQUEST',
 	receiveCircleType: 'SEND_TO_CIRCLE_REQUEST',
-	userInfoName: 'userinfo',
 	chatListName: 'chatList',
 	noReadNumName: 'noReadNum',
 	textType: 'text',

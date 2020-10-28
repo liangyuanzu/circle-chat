@@ -10,45 +10,39 @@ import {
 	queryUserMsg,
 	userSet
 } from '@/api/user.js'
-import {
-	accessTokenName,
-	refreshTokenName,
-	userInfoName
-} from '@/config/config.js'
+import { accessTokenName, refreshTokenName } from '@/config/config.js'
 
 import localStore from '@/helpers/localStore.js'
 
 const state = {
-	userinfo: {}
+	userId: '',
+	username: '',
+	avatar: '',
+	age: '',
+	sex: '',
+	birthday: '',
+	autograph: ''
 }
 
 const getters = {
-	userinfo: (state) => state.userinfo,
-	userId: (state) => state.userinfo.userId,
-	username: (state) => state.userinfo.username,
-	avatar: (state) => state.userinfo.img,
-	email: (state) => state.userinfo.email,
-	age: (state) => state.userinfo.age,
-	sex: (state) => state.userinfo.sex,
-	birthday: (state) => state.userinfo.birthday,
-	autograph: (state) => state.userinfo.autograph
+	userId: (state) => state.userId,
+	username: (state) => state.username,
+	avatar: (state) => state.avatar,
+	age: (state) => state.age,
+	sex: (state) => state.sex,
+	birthday: (state) => state.birthday,
+	autograph: (state) => state.autograph
 }
 
 const mutations = {
-	setUserInfo(state, userinfo) {
-		state.userinfo = userinfo
+	setUserId(state, userId) {
+		state.userId = userId
 	},
 	setUsername(state, username) {
 		state.username = username
 	},
-	setEmail(state, email) {
-		state.email = email
-	},
 	setAvatar(state, avatar) {
 		state.avatar = avatar
-	},
-	setUserId(state, userId) {
-		state.userId = userId
 	},
 	setAge(state, age) {
 		state.age = age
@@ -65,9 +59,9 @@ const mutations = {
 }
 
 const actions = {
-	init({ commit }) {
-		const userinfo = localStore.get(userInfoName)
-		commit('setUserInfo', userinfo)
+	init({ dispatch }) {
+		dispatch('getUserInfo')
+		dispatch('chat/open', {}, { root: true })
 	},
 
 	async login({ dispatch }, userinfo) {
@@ -75,7 +69,7 @@ const actions = {
 		if (accessToken && refreshToken) {
 			localStore.set(accessTokenName, accessToken)
 			localStore.set(refreshTokenName, refreshToken)
-			dispatch('getUserInfo', accessToken)
+			dispatch('init')
 		} else {
 			uni.showToast({
 				icon: 'none',
@@ -84,13 +78,17 @@ const actions = {
 		}
 	},
 
-	async getUserInfo({ commit, dispatch }) {
+	async getUserInfo({ commit }) {
 		const token = localStore.get(accessTokenName)
-		const data = await getUserInfo(token)
-		if (Object.keys(data)) {
-			commit('setUserInfo', data)
-			localStore.set(userInfoName, data)
-			dispatch('chat/open', {}, { root: true })
+		const userinfo = await getUserInfo(token)
+		if (Object.keys(userinfo)) {
+			commit('setUserId', userinfo.userId)
+			commit('setUsername', userinfo.username)
+			commit('setAvatar', userinfo.img)
+			commit('setAge', userinfo.age)
+			commit('setSex', userinfo.sex)
+			commit('setBirthday', userinfo.birthday)
+			commit('setAutograph', userinfo.autograph)
 		} else {
 			uni.showToast({
 				icon: 'none',
@@ -121,8 +119,8 @@ const actions = {
 		await updatePassword(resetInfo)
 	},
 
-	async updatePhoto({ commit }, imgSrc) {
-		const avatar = await updatePhoto(imgSrc)
+	async updatePhoto({ commit }, path) {
+		const avatar = await updatePhoto(path)
 		if (avatar) {
 			commit('setAvatar', avatar)
 		} else {

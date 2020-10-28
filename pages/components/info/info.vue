@@ -68,24 +68,19 @@ export default {
   created() {
     // 监听从裁剪页发布的事件，获得裁剪结果
     uni.$on('uAvatarCropper', (path) => {
-      uni.showLoading()
       // #ifndef MP-BAIDU
       base64ToPath(path)
         .then((filePath) => {
-          console.log(filePath)
           this.$store
             .dispatch('user/updatePhoto', filePath)
             .then(() => {
-              uni.hideLoading()
               uni.showToast({
                 icon: 'none',
                 position: 'bottom',
                 title: '修改成功'
               })
             })
-            .catch(() => {
-              uni.hideLoading()
-            })
+            .catch(() => {})
         })
         .catch((error) => {
           console.error(error)
@@ -93,20 +88,16 @@ export default {
       // #endif
 
       // #ifdef MP-BAIDU
-      console.log(path)
       this.$store
         .dispatch('user/updatePhoto', path)
         .then(() => {
-          uni.hideLoading()
           uni.showToast({
             icon: 'none',
             position: 'bottom',
             title: '修改成功'
           })
         })
-        .catch(() => {
-          uni.hideLoading()
-        })
+        .catch(() => {})
       // #endif
     })
   },
