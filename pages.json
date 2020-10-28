@@ -85,8 +85,7 @@
 		{
 			"path": "pages/components/info/info",
 			"style": {
-				"navigationBarTitleText": "个人信息",
-				"navigationBarBackgroundColor": "#f1f1f1"
+				"navigationBarTitleText": "个人信息"
 			}
 		}, {
 			"path": "pages/components/search-map/search-map",
