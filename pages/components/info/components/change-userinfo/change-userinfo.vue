@@ -12,13 +12,18 @@
     </uni-nav-bar>
 
     <u-field
+      maxlength="20"
       v-model="name"
       v-if="title === '昵称'"
       focus
       :clearable="clearable"
       label-width="0"
       style="background-color: #fff"
-    ></u-field>
+    >
+      <template #right>
+        <view class="text-sm text-grey">{{ nameNum }}</view>
+      </template>
+    </u-field>
 
     <u-field
       type="textarea"
@@ -31,7 +36,7 @@
       style="background-color: #fff"
     >
       <template #right>
-        <view class="text-sm text-grey">{{ remainNum }}</view>
+        <view class="text-sm text-grey">{{ signatureNum }}</view>
       </template>
     </u-field>
   </view>
@@ -59,8 +64,17 @@ export default {
       if (this.name || this.signature) return false
       return true
     },
-    remainNum() {
-      if (this.signature.length == 0) {
+
+    nameNum() {
+      if (this.name.length === 0) {
+        return 20
+      } else {
+        return 20 - this.name.length
+      }
+    },
+
+    signatureNum() {
+      if (this.signature.length === 0) {
         return 60
       } else {
         return 60 - this.signature.length
