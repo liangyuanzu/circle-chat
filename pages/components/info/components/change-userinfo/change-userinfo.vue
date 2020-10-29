@@ -19,6 +19,21 @@
       label-width="0"
       style="background-color: #fff"
     ></u-field>
+
+    <u-field
+      type="textarea"
+      maxlength="60"
+      v-model="signature"
+      v-if="title === '个性签名'"
+      focus
+      :clearable="clearable"
+      label-width="0"
+      style="background-color: #fff"
+    >
+      <template #right>
+        <view class="text-sm text-grey">{{ remainNum }}</view>
+      </template>
+    </u-field>
   </view>
 </template>
 
@@ -33,6 +48,7 @@ export default {
     return {
       title: '',
       name: '',
+      signature: '',
       clearable: false
     }
   },
@@ -40,14 +56,22 @@ export default {
   computed: {
     ...mapGetters('user', ['username', 'sex', 'birthday', 'autograph']),
     disabled() {
-      if (this.name) return false
+      if (this.name || this.signature) return false
       return true
+    },
+    remainNum() {
+      if (this.signature.length == 0) {
+        return 60
+      } else {
+        return 60 - this.signature.length
+      }
     }
   },
 
   onLoad(options) {
     this.title = options.title
-    this.name = this.username
+    if (this.title === '昵称') this.name = this.username
+    if (this.title === '个性签名') this.signature = this.autograph
   },
 
   methods: {
@@ -59,6 +83,8 @@ export default {
       switch (this.title) {
         case '昵称':
           this.commit({ username: this.name })
+        case '个性签名':
+          this.commit({ autograph: this.signature })
       }
     },
 
