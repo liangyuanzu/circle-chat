@@ -95,8 +95,7 @@
 		}, {
 			"path": "pages/components/focus-list/focus-list",
 			"style": {
-				"navigationBarTitleText": "关注列表",
-				"navigationBarBackgroundColor": "#f1f1f1"
+				"navigationBarTitleText": "关注列表"
 			}
 		},
 		{

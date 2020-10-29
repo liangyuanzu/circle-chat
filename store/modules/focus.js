@@ -1,23 +1,35 @@
 import { queryMyFocus, addFocus, delFocus } from '@/api/focus.js'
 
 const state = {
-	list: []
+	myFocus: [],
+	focusMy: []
 }
 
 const getters = {
-	list: (state) => state.list
+	myFocus: (state) => state.myFocus,
+	focusMy: (state) => state.focusMy,
+	focusList: (state) => {
+		return [state.myFocus, state.focusMy]
+	}
 }
 
 const mutations = {
-	setList(state, list) {
-		state.list = list
+	setMyFocus(state, list) {
+		state.myFocus = list
+	},
+	setFocusMy(state, list) {
+		state.focusMy = list
 	}
 }
 
 const actions = {
-	async queryMyFocus({ commit }, type) {
+	async getFocusList({ commit }, type) {
 		const list = await queryMyFocus(type)
-		commit('setList', list)
+		if (type === 1) {
+			commit('setMyFocus', list)
+		} else if (type === 2) {
+			commit('setFocusMy', list)
+		}
 	},
 
 	async addFocus({ commit }, userId) {
