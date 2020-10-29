@@ -7,6 +7,7 @@ import {
 	updatePassword,
 	logout,
 	updatePhoto,
+	updateMessage,
 	queryUserMsg,
 	userSet
 } from '@/api/user.js'
@@ -129,6 +130,11 @@ const actions = {
 				title: '更换用户头像接口异常'
 			})
 		}
+	},
+
+	async updateMessage({ dispatch }, userinfo) {
+		await updateMessage(userinfo)
+		dispatch('getUserInfo')
 	},
 
 	async queryUserMsg({ commit }, userId) {

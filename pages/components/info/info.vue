@@ -20,6 +20,7 @@
         ellipsis="2"
         showArrow
         clickable
+        @click="onClick(item.title)"
       ></uni-list-item>
     </uni-list>
   </view>
@@ -115,6 +116,15 @@ export default {
           fileType: 'jpg'
         }
       })
+    },
+
+    onClick(title) {
+      this.$u.route(
+        '/pages/components/info/components/change-userinfo/change-userinfo',
+        {
+          title
+        }
+      )
     }
   }
 }

@@ -101,6 +101,20 @@ export function updatePhoto(filePath) {
 }
 
 /**
+ *
+ * @param {string} username - 用户名
+ * @param {string} sex - 性别
+ * @param {string} birthday - 生日
+ * @param {string} autograph - 个性签名
+ */
+export function updateMessage(data) {
+	return $request('/user/updateMessage', {
+		method: 'POST',
+		data
+	})
+}
+
+/**
  * 获取用户信息
  * @param {string} userId - 用户 id
  * */

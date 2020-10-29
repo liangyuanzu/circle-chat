@@ -110,6 +110,11 @@
 				"navigationBarTitleText": "头像裁剪",
 				"navigationBarBackgroundColor": "#000000"
 			}
+		}, {
+			"path": "pages/components/info/components/change-userinfo/change-userinfo",
+			"style": {
+				"navigationStyle": "custom"
+			}
 		}
 	],
 	"globalStyle": {
