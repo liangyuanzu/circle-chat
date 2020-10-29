@@ -86,8 +86,8 @@ export default {
         },
         {
           title: '个性签名',
-          rightText: this.autograph.length <= 20 && this.autograph,
-          note: this.autograph.length > 20 && this.autograph
+          rightText: this.autograph.length <= 20 ? this.autograph : '',
+          note: this.autograph.length > 20 ? this.autograph : ''
         }
       ]
     }
