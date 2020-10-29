@@ -7,23 +7,14 @@
     <view style="margin-top: 20rpx">
       <uni-list>
         <uni-list-item
-          title="退出登录"
+          title="设置"
           show-extra-icon
-          :extraIcon="logoutIcon"
+          :extraIcon="settingIcon"
           showArrow
           clickable
-          @click="logout"
+          @click="toSetting"
         ></uni-list-item>
       </uni-list>
-
-      <u-modal
-        v-model="showModal"
-        title="退出登录"
-        content="是否确认退出登录?"
-        show-cancel-button
-        @confirm="confirm"
-        ref="uModal"
-      ></u-modal>
     </view>
   </view>
 </template>
@@ -41,9 +32,8 @@ export default {
 
   data() {
     return {
-      showModal: false,
-      logoutIcon: {
-        color: '#fa3534',
+      settingIcon: {
+        color: '#2979ff',
         size: '22',
         type: 'gear-filled'
       }
@@ -51,42 +41,14 @@ export default {
   },
 
   methods: {
-
-
     toInfo() {
       uni.navigateTo({
         url: '/pages/components/info/info'
       })
     },
 
-    logout() {
-      this.showModal = true
-    },
-
-    confirm() {
-      this.showModal = false
-      uni.showLoading({
-        title: '加载中...'
-      })
-      this.$store
-        .dispatch('user/logout')
-        .then(() => {
-          uni.hideLoading()
-          setTimeout(() => {
-            uni.showToast({
-              title: '退出成功！',
-              icon: 'none'
-            })
-            setTimeout(() => {
-              uni.reLaunch({
-                url: '/pages/login/login'
-              })
-            }, 500)
-          }, 500)
-        })
-        .catch(() => {
-          uni.hideLoading()
-        })
+    toSetting() {
+      this.$u.route('/pages/components/setting/setting')
     }
   }
 }
