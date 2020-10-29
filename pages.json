@@ -60,7 +60,7 @@
 				}
 			}
 		}, {
-			"path": "pages/components/setting/setting",
+			"path": "pages/components/circle-setting/circle-setting",
 			"style": {
 				"navigationBarTitleText": "圈设置",
 				"navigationBarBackgroundColor": "#f1f1f1"
