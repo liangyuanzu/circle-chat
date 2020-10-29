@@ -23,12 +23,7 @@
 		}, {
 			"path": "pages/me/me",
 			"style": {
-				// "navigationBarTitleText": "我的",
-				// "navigationBarBackgroundColor": "#f1f1f1"
-				"mp-baidu": {
-					"navigationStyle": "default",
-					"navigationBarTitleText": "我的"
-				}
+				"navigationBarTitleText": "我的"
 			}
 		}, {
 			"path": "pages/components/detail/detail",
