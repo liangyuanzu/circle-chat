@@ -23,6 +23,12 @@
         @click="onClick(item.title)"
       ></uni-list-item>
     </uni-list>
+
+    <u-select
+      v-model="showSex"
+      :list="sexOptions"
+      @confirm="confirm"
+    ></u-select>
   </view>
 </template>
 
@@ -32,7 +38,19 @@ import { base64ToPath } from '@/utils/image-tools/index.js'
 
 export default {
   data() {
-    return {}
+    return {
+      showSex: false,
+      sexOptions: [
+        {
+          value: '男',
+          label: '男'
+        },
+        {
+          value: '女',
+          label: '女'
+        }
+      ]
+    }
   },
 
   computed: {
@@ -119,12 +137,35 @@ export default {
     },
 
     onClick(title) {
-      this.$u.route(
-        '/pages/components/info/components/change-userinfo/change-userinfo',
-        {
-          title
-        }
-      )
+      if (title === '性别') {
+        this.showSex = true
+      } else {
+        this.$u.route(
+          '/pages/components/info/components/change-userinfo/change-userinfo',
+          {
+            title
+          }
+        )
+      }
+    },
+
+    confirm(e) {
+      const userSex = e[0].value
+      uni.showLoading()
+      this.$store
+        .dispatch('user/updateMessage', { sex: userSex })
+        .then(() => {
+          uni.hideLoading()
+          setTimeout(() => {
+            uni.showToast({
+              title: '修改成功',
+              icon: 'none'
+            })
+          }, 500)
+        })
+        .catch(() => {
+          uni.hideLoading()
+        })
     }
   }
 }
