@@ -27,8 +27,15 @@
     <u-select
       v-model="showSex"
       :list="sexOptions"
-      @confirm="confirm"
+      @confirm="sexConfirm"
     ></u-select>
+
+    <u-picker
+      mode="time"
+      v-model="showBirthday"
+      :default-time="birthday"
+      @confirm="birthdayConfirm"
+    ></u-picker>
   </view>
 </template>
 
@@ -49,7 +56,8 @@ export default {
           value: '女',
           label: '女'
         }
-      ]
+      ],
+      showBirthday: false
     }
   },
 
@@ -139,6 +147,8 @@ export default {
     onClick(title) {
       if (title === '性别') {
         this.showSex = true
+      } else if (title === '生日') {
+        this.showBirthday = true
       } else {
         this.$u.route(
           '/pages/components/info/components/change-userinfo/change-userinfo',
@@ -149,11 +159,10 @@ export default {
       }
     },
 
-    confirm(e) {
-      const userSex = e[0].value
+    save(data) {
       uni.showLoading()
       this.$store
-        .dispatch('user/updateMessage', { sex: userSex })
+        .dispatch('user/updateMessage', data)
         .then(() => {
           uni.hideLoading()
           setTimeout(() => {
@@ -166,6 +175,16 @@ export default {
         .catch(() => {
           uni.hideLoading()
         })
+    },
+
+    sexConfirm(e) {
+      const userSex = e[0].value
+      this.save({ sex: userSex })
+    },
+
+    birthdayConfirm(e) {
+      const userBirthday = `${e.year}/${e.month}/${e.day}`
+      this.save({ birthday: userBirthday })
     }
   }
 }
