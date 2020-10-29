@@ -116,12 +116,12 @@ export function updateMessage(data) {
 
 /**
  * 获取用户信息
- * @param {string} userId - 用户 id
+ * @param {string} id - 用户 id
  * */
-export function queryUserMsg(userId) {
+export function queryUserMsg(id) {
 	return $request('/user/queryUserMsg', {
 		params: {
-			userId
+			id
 		}
 	})
 }

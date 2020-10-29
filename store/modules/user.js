@@ -22,7 +22,8 @@ const state = {
 	age: '',
 	sex: '',
 	birthday: '',
-	autograph: ''
+	autograph: '',
+	personinfo: ''
 }
 
 const getters = {
@@ -32,7 +33,8 @@ const getters = {
 	age: (state) => state.age,
 	sex: (state) => state.sex,
 	birthday: (state) => state.birthday,
-	autograph: (state) => state.autograph
+	autograph: (state) => state.autograph,
+	personinfo: (state) => state.personinfo
 }
 
 const mutations = {
@@ -56,6 +58,9 @@ const mutations = {
 	},
 	setAutograph(state, autograph) {
 		state.autograph = autograph
+	},
+	setPersonInfo(state, personinfo) {
+		state.personinfo = personinfo
 	}
 }
 
@@ -137,16 +142,10 @@ const actions = {
 		dispatch('getUserInfo')
 	},
 
-	async queryUserMsg({ commit }, userId) {
-		const { age, userMsg } = await queryUserMsg(userId)
-		if (age && userMsg) {
-			commit('setUsername', username)
-			commit('setEmail', email)
-			commit('setAge', age)
-			commit('setUserId', userMsg[0].userId)
-			commit('setSex', userMsg[0].sex)
-			commit('setBirthday', userMsg[0].birthday)
-			commit('setAutograph', userMsg[0].autograph)
+	async getPersonInfo({ commit }, userId) {
+		const personinfo = await queryUserMsg(userId)
+		if (Object.keys(personinfo)) {
+			commit('setPersonInfo', personinfo)
 		} else {
 			uni.showToast({
 				icon: 'none',

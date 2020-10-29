@@ -114,6 +114,16 @@
 			"style": {
 				"navigationBarTitleText": "设置"
 			}
+		}, {
+			"path": "pages/components/person-info/person-info",
+			"style": {
+				"navigationBarTitleText": "个人资料"
+			}
+		}, {
+			"path": "pages/components/person-signature/person-signature",
+			"style": {
+				"navigationBarTitleText": "个性签名"
+			}
 		}
 	],
 	"globalStyle": {

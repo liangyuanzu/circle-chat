@@ -16,6 +16,7 @@
           :thumb="i.img"
           thumbSize="lg"
           clickable
+          @click="toPersonInfo(i.userId)"
         >
         </uni-list-item>
       </uni-list>
@@ -74,6 +75,12 @@ export default {
       } else if (this.type === 2 && this.focusMy.length === 0) {
         this.getList(this.type)
       }
+    },
+
+    toPersonInfo(id) {
+      this.$u.route('/pages/components/person-info/person-info', {
+        id
+      })
     }
   }
 }
