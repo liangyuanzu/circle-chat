@@ -1,6 +1,6 @@
 <script>
 import Vue from 'vue'
-import { tokenName } from '@/config/config.js'
+import { accessTokenName } from '@/config/config.js'
 import localStore from '@/helpers/localStore.js'
 
 export default {
@@ -41,7 +41,7 @@ export default {
     })
 
     // 判断是否存在 token
-    if (!localStore.get(tokenName)) {
+    if (!localStore.get(accessTokenName)) {
       uni.reLaunch({
         url: '/pages/login/login'
       })

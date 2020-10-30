@@ -1,9 +1,16 @@
 import Request from '@/utils/luch-request/index.js'
-import { baseUrl, tokenName } from '@/config/config.js'
+import { baseUrl, accessTokenName, refreshTokenName } from '@/config/config.js'
 import localStore from '@/helpers/localStore.js'
 
-function refreshToken() {
-	return http.post('/user/refreshToken').then((res) => res.data)
+function refresh() {
+	const refreshToken = localStore.get(refreshTokenName)
+	return http
+		.get('/user/refreshToken', {
+			params: {
+				refreshToken
+			}
+		})
+		.then((res) => res.data)
 }
 
 const http = new Request()
@@ -13,14 +20,15 @@ http.setConfig((config) => {
 	return config
 })
 
-http.setToken = (token) => {
-	http.header.token = token
-	localStore.set(tokenName, token)
+http.setToken = (accessToken, refreshToken) => {
+	http.config.header.token = accessToken
+	localStore.set(accessTokenName, accessToken)
+	localStore.set(refreshTokenName, refreshToken)
 }
 
 http.interceptors.request.use(
 	(config) => {
-		const token = localStore.get(tokenName)
+		const token = localStore.get(accessTokenName)
 		token && (config.header.token = token)
 		return config
 	},
@@ -41,16 +49,16 @@ http.interceptors.response.use(
 			const config = response.config
 			if (!isRefreshing) {
 				isRefreshing = true
-				return refreshToken()
+				return refresh()
 					.then((res) => {
-						const { token } = res.data
-						http.setToken(token)
-						config.token = token
+						const { accessToken, refreshToken } = res.data
+						http.setToken(accessToken, refreshToken)
+						config.header.token = accessToken
 						config.baseURL = baseUrl
 						// 已经刷新了token，将所有队列中的请求进行重试
-						requests.forEach((cb) => cb(token))
+						requests.forEach((cb) => cb(accessToken))
 						requests = []
-						return http.setConfig(config)
+						return http.setConfig(() => config)
 					})
 					.catch((err) => {
 						console.error('refreshToken error =>', err)
@@ -68,10 +76,14 @@ http.interceptors.response.use(
 					requests.push((token) => {
 						config.baseURL = baseUrl
 						config.header.token = token
-						resolve(http.setConfig(config))
+						resolve(http.setConfig(() => config))
 					})
 				})
 			}
+		} else if (code == 403) {
+			uni.reLaunch({
+				url: '/pages/login/login'
+			})
 		}
 		return response
 	},
