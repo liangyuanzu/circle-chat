@@ -18,6 +18,26 @@
           clickable
           @click="toPersonInfo(i.userId)"
         >
+          <template #right>
+            <u-button
+              type="primary"
+              size="mini"
+              shape="circle"
+              plain
+              @click="onFocus(i.isFocus, i.userId)"
+            >
+              <uni-icons
+                :size="12"
+                color="#0081ff"
+                :type="!focusStatus(i.isFocus) ? 'plusempty' : ''"
+              />
+              <text
+                style="margin-left: 10rpx"
+                :class="[i.isFocus === 1 ? 'text-grey' : '']"
+                >{{ formatFocus(i.isFocus) }}</text
+              >
+            </u-button>
+          </template>
         </uni-list-item>
       </uni-list>
     </view>
@@ -71,6 +91,30 @@ export default {
       this.$u.route('/pages/components/person-info/person-info', {
         id
       })
+    },
+
+    focusStatus(isFocus) {
+      if (isFocus === 0 || isFocus === 2) return false
+      if (isFocus === 1 || isFocus === 3) return true
+    },
+
+    formatFocus(isFocus) {
+      if (isFocus === 1) {
+        return '已关注'
+      } else if (isFocus === 3) {
+        return '互相关注'
+      } else if (!this.focusStatus(isFocus)) {
+        return '关注'
+      }
+    },
+
+    async onFocus(isFocus, id) {
+      if (!this.focusStatus(isFocus)) {
+        await this.$store.dispatch('focus/addFocus', { id })
+      } else if (this.focusStatus(isFocus)) {
+        await this.$store.dispatch('focus/cancelFocus', { id })
+      }
+      await this.getList(this.type)
     }
   }
 }
