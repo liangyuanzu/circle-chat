@@ -152,7 +152,25 @@ export default {
     },
 
     sendMsg() {
-      console.log('发消息')
+      if (this.focusStatus !== 3) {
+        uni.showToast({
+          title: '互相关注后才可发消息',
+          icon: 'none'
+        })
+      } else {
+        const userinfo = {
+          userId: this.personinfo.userId,
+          username: this.personinfo.username,
+          avatar: this.personinfo.img
+        }
+        this.$u.route({
+          type: 'redirect',
+          url: '/pages/components/chat/chat',
+          params: {
+            userinfo: JSON.stringify(userinfo)
+          }
+        })
+      }
     }
   }
 }
