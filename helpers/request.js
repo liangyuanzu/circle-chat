@@ -1,7 +1,17 @@
 import Request from '@/utils/luch-request/index.js'
 import { baseUrl, accessTokenName, refreshTokenName } from '@/config/config.js'
 import localStore from '@/helpers/localStore.js'
-import { refresh } from '@/api/user.js'
+
+function refresh() {
+	const refreshToken = localStore.get(refreshTokenName)
+	return http
+		.get('/user/refreshToken', {
+			params: {
+				refreshToken
+			}
+		})
+		.then((res) => res.data)
+}
 
 const http = new Request()
 
@@ -10,12 +20,16 @@ http.setConfig((config) => {
 	return config
 })
 
+http.setToken = (accessToken, refreshToken) => {
+	http.config.header.token = accessToken
+	localStore.set(accessTokenName, accessToken)
+	localStore.set(refreshTokenName, refreshToken)
+}
+
 http.interceptors.request.use(
 	(config) => {
 		const token = localStore.get(accessTokenName)
-		if (token) {
-			config.header.token = token
-		}
+		token && (config.header.token = token)
 		return config
 	},
 	(error) => {
@@ -23,8 +37,54 @@ http.interceptors.request.use(
 	}
 )
 
+// 是否正在刷新的标记
+let isRefreshing = false
+// 重试队列，每一项将是一个待执行的函数形式
+let requests = []
+
 http.interceptors.response.use(
 	(response) => {
+		const { code } = response.data
+		if (code == 401) {
+			const config = response.config
+			if (!isRefreshing) {
+				isRefreshing = true
+				return refresh()
+					.then((res) => {
+						const { accessToken, refreshToken } = res.data
+						http.setToken(accessToken, refreshToken)
+						config.header.token = accessToken
+						config.baseURL = baseUrl
+						// 已经刷新了token，将所有队列中的请求进行重试
+						requests.forEach((cb) => cb(accessToken))
+						requests = []
+						return http.setConfig(() => config)
+					})
+					.catch((err) => {
+						console.error('refreshToken error =>', err)
+						uni.reLaunch({
+							url: '/pages/login/login'
+						})
+					})
+					.finally(() => {
+						isRefreshing = false
+					})
+			} else {
+				// 正在刷新token，将返回一个未执行resolve的promise
+				return new Promise((resolve) => {
+					// 将resolve放进队列，用一个函数形式来保存，等token刷新后直接执行
+					requests.push((token) => {
+						config.baseURL = baseUrl
+						config.header.token = token
+						resolve(http.setConfig(() => config))
+					})
+				})
+			}
+		} else if (code == 403) {
+			uni.reLaunch({
+				url: '/pages/login/login'
+			})
+		}
 		return response
 	},
 	(error) => {
@@ -54,21 +114,6 @@ http.interceptors.response.use(
 	}
 )
 
-function refreshToken() {
-	const { accessToken, refreshToken } = refresh(
-		localStore.get(refreshTokenName)
-	)
-	if (accessToken && refreshToken) {
-		localStore.set(accessTokenName, accessToken)
-		localStore.set(refreshTokenName, refreshToken)
-	} else {
-		uni.showToast({
-			icon: 'none',
-			title: '刷新token接口异常'
-		})
-	}
-}
-
 const $request = (url, Options) => {
 	return new Promise((resolve, reject) => {
 		http
@@ -84,10 +129,6 @@ const $request = (url, Options) => {
 				if (res.data.code == 0) {
 					resolve(res.data.data)
 				} else {
-					if (res.data.msg == 'token失效，请重新登录。') {
-						refreshToken()
-						return
-					}
 					uni.showToast({
 						icon: 'none',
 						title: res.data.msg

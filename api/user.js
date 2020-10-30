@@ -12,14 +12,6 @@ export function login(data) {
 	})
 }
 
-export function refresh(refreshToken) {
-	return $request('/user/refreshToken', {
-		params: {
-			refreshToken
-		}
-	})
-}
-
 export function getUserInfo(token) {
 	return $request('/user/getUserIdFromToken', {
 		params: {
