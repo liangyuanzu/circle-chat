@@ -11,7 +11,7 @@
 				"navigationBarTextStyle": "white"
 			}
 		}, {
-			"path": "pages/message/message",
+			"path": "pages/msg/msg",
 			"style": {
 				"navigationBarTitleText": "消息"
 			}
@@ -135,7 +135,7 @@
 		"fontSize": "14px",
 		"list": [{
 				"text": "消息",
-				"pagePath": "pages/message/message",
+				"pagePath": "pages/msg/msg",
 				"iconPath": "static/tabbar/xiaoxi.png",
 				"selectedIconPath": "static/tabbar/xiaoxi_cur.png"
 			},
