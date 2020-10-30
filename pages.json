@@ -13,8 +13,7 @@
 		{
 			"path": "pages/circle/circle",
 			"style": {
-				"navigationStyle": "custom", // 隐藏系统导航栏
-				"navigationBarTextStyle": "white"
+				"navigationBarTitleText": "附近的圈"
 			}
 		}, {
 			"path": "pages/me/me",
