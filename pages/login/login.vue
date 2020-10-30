@@ -246,7 +246,7 @@ export default {
           })
           setTimeout(() => {
             uni.reLaunch({
-              url: '/pages/index/index'
+              url: '/pages/msg/msg'
             })
           }, 1000)
         })

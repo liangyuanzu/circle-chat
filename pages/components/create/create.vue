@@ -14,7 +14,11 @@
       -->
 
       <u-form-item label="圈名称" prop="name" required>
-        <u-input v-model="form.name" maxlength="20" placeholder="请输入圈名称" />
+        <u-input
+          v-model="form.name"
+          maxlength="20"
+          placeholder="请输入圈名称"
+        />
       </u-form-item>
 
       <u-form-item label="圈类型" required>
@@ -23,7 +27,8 @@
             v-for="(item, index) in typeValueMap"
             :key="index"
             :name="item.value"
-          >{{ item.name }}</u-radio>
+            >{{ item.name }}</u-radio
+          >
         </u-radio-group>
       </u-form-item>
 
@@ -33,25 +38,46 @@
             v-for="(item, index) in rangeValueMap"
             :key="index"
             :name="item.value"
-          >{{ item.name }}</u-radio>
+            >{{ item.name }}</u-radio
+          >
         </u-radio-group>
       </u-form-item>
 
       <u-form-item label="有效期" required>
-        <u-number-box v-model="form.effective" :min="1" :max="7" @change="valChange"></u-number-box>
+        <u-number-box
+          v-model="form.effective"
+          :min="1"
+          :max="7"
+          @change="valChange"
+        ></u-number-box>
         <text>（天）</text>
       </u-form-item>
 
       <u-form-item label="圈说明">
-        <u-input type="textarea" maxlength="100" v-model="form.explain" placeholder="请输入圈说明" />
+        <u-input
+          type="textarea"
+          maxlength="100"
+          v-model="form.explain"
+          placeholder="请输入圈说明"
+        />
       </u-form-item>
 
       <u-form-item label="圈简介">
-        <u-input type="textarea" maxlength="100" v-model="form.synopsis" placeholder="请输入圈简介" />
+        <u-input
+          type="textarea"
+          maxlength="100"
+          v-model="form.synopsis"
+          placeholder="请输入圈简介"
+        />
       </u-form-item>
 
       <u-form-item label="圈公告">
-        <u-input type="textarea" maxlength="100" v-model="form.notice " placeholder="请输入公告" />
+        <u-input
+          type="textarea"
+          maxlength="100"
+          v-model="form.notice"
+          placeholder="请输入公告"
+        />
       </u-form-item>
 
       <view class="finish">
@@ -64,7 +90,7 @@
 <script>
 export default {
   onLoad: function (option) {
-    this.form = { ...this.form, ...option };
+    this.form = { ...this.form, ...option }
   },
 
   data() {
@@ -75,50 +101,50 @@ export default {
 
       typeValueMap: [
         {
-          name: "交友圈",
-          value: 0,
+          name: '交友圈',
+          value: 0
         },
         {
-          name: "固定圈",
-          value: 1,
+          name: '固定圈',
+          value: 1
         },
         {
-          name: "紧急圈",
-          value: 2,
-        },
+          name: '紧急圈',
+          value: 2
+        }
       ],
 
       rangeValueMap: [
         {
-          name: "100m",
-          value: "100",
+          name: '100m',
+          value: '100'
         },
         {
-          name: "200m",
-          value: "200",
+          name: '200m',
+          value: '200'
         },
         {
-          name: "500m",
-          value: "500",
+          name: '500m',
+          value: '500'
         },
         {
-          name: "1000m",
-          value: "1000",
-        },
+          name: '1000m',
+          value: '1000'
+        }
       ],
 
       // 表单验证
       form: {
         // avatar: [],
-        name: "",
-        position: "",
-        radius: "",
+        name: '',
+        position: '',
+        radius: '',
         circleType: 0,
-        circleRange: "100",
+        circleRange: '100',
         effective: 7,
-        synopsis: "",
-        explain: "",
-        notice: "",
+        synopsis: '',
+        explain: '',
+        notice: ''
       },
 
       // 表单校验规则
@@ -126,11 +152,11 @@ export default {
         name: [
           {
             required: true,
-            message: "请输入圈名称",
+            message: '请输入圈名称',
             // 可以单个或者同时写两个触发验证方式
-            trigger: ["change", "blur"],
-          },
-        ],
+            trigger: ['change', 'blur']
+          }
+        ]
         /*
         explain: [
           {
@@ -140,8 +166,8 @@ export default {
           },
 				],
 				*/
-      },
-    };
+      }
+    }
   },
 
   methods: {
@@ -151,9 +177,9 @@ export default {
     submit() {
       this.$refs.uForm.validate((valid) => {
         if (valid) {
-          uni.showLoading();
+          uni.showLoading()
           this.$store
-            .dispatch("circle/creatCircle", {
+            .dispatch('circle/creatCircle', {
               name: this.form.name,
               position: this.form.position,
               radius: this.form.radius
@@ -163,41 +189,41 @@ export default {
               effective: this.form.effective,
               synopsis: this.form.synopsis,
               explain: this.form.explain,
-              notice: this.form.notice,
+              notice: this.form.notice
             })
             .then(() => {
-              uni.hideLoading();
+              uni.hideLoading()
               uni.showToast({
-                icon: "success",
-                title: "创建圈成功",
-              });
+                icon: 'success',
+                title: '创建圈成功'
+              })
               setTimeout(() => {
                 uni.reLaunch({
-                  url: "/pages/index/index",
-                });
-              }, 1000);
+                  url: '/pages/msg/msg'
+                })
+              }, 1000)
             })
             .catch(() => {
-              uni.hideLoading();
-            });
+              uni.hideLoading()
+            })
         }
-      });
+      })
     },
 
     onUploaded(lists) {
-      this.filesArr = lists;
+      this.filesArr = lists
     },
 
     valChange(e) {
-      this.form.effective = e.value;
-    },
+      this.form.effective = e.value
+    }
   },
 
   // 必须要在onReady生命周期，因为onLoad生命周期组件可能尚未创建完毕
   onReady() {
-    this.$refs.uForm.setRules(this.rules);
-  },
-};
+    this.$refs.uForm.setRules(this.rules)
+  }
+}
 </script>
 
 <style lang="scss">
