@@ -49,23 +49,13 @@ export default {
     }
   },
 
-  onLoad() {
-    if (this.myFocus.length === 0 || !this.focusMy.length === 0) {
-      this.getList(this.type)
-    }
+  onShow() {
+    this.getList(this.type)
   },
 
   methods: {
     getList(type) {
-      uni.showLoading()
-      this.$store
-        .dispatch('focus/getFocusList', type)
-        .then(() => {
-          uni.hideLoading()
-        })
-        .catch(() => {
-          uni.hideLoading()
-        })
+      this.$store.dispatch('focus/getFocusList', type)
     },
 
     change(index) {
