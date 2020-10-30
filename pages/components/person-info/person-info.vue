@@ -33,18 +33,18 @@
           show-extra-icon
           :extraIcon="signatureIcon"
           clickable
-          @click="toSignature(personinfo)"
+          @click="toSignature"
         ></uni-list-item>
       </uni-list>
     </view>
 
     <view style="margin-top: 20rpx">
       <uni-list>
-        <uni-list-item clickable @click="focus">
+        <uni-list-item clickable @click="onFocus">
           <template>
             <view class="text-center text-blue text-df">
-              <uni-icons :size="16" color="#0081ff" type="star" />
-              <text style="margin-left: 20rpx">关注</text>
+              <uni-icons :size="16" color="#0081ff" :type="focus.icon" />
+              <text style="margin-left: 20rpx">{{ focus.text }}</text>
             </view>
           </template>
         </uni-list-item>
@@ -71,17 +71,13 @@ export default {
         color: '#909399',
         size: '22',
         type: 'compose'
-      },
-      focusIcon: {
-        color: '#909399',
-        size: '22',
-        type: 'star'
       }
     }
   },
 
   computed: {
     ...mapGetters('user', ['personinfo']),
+    ...mapGetters('focus', ['focusStatus']),
     formatGender() {
       if (this.sex === '男') return 'man'
       if (this.sex === '女') return 'woman'
@@ -93,30 +89,66 @@ export default {
     formatBirthday() {
       if (this.personinfo.birthday) return '生日：' + this.personinfo.birthday
       return ''
+    },
+    isFocus() {
+      if (this.focusStatus === 0 || this.focusStatus === 2) {
+        return false
+      } else if (this.focusStatus === 1 || this.focusStatus === 3) {
+        return true
+      }
+    },
+    focus() {
+      if (!this.isFocus) {
+        return {
+          icon: 'plusempty',
+          text: '关注'
+        }
+      } else if (this.focusStatus === 1) {
+        return {
+          icon: 'checkmarkempty',
+          text: '已关注'
+        }
+      } else if (this.focusStatus === 3) {
+        return {
+          icon: 'star-filled',
+          text: '互相关注'
+        }
+      } else {
+        return {
+          icon: '',
+          text: ''
+        }
+      }
     }
   },
 
   onLoad({ id }) {
-    uni.showLoading()
-    this.$store
-      .dispatch('user/getPersonInfo', id)
-      .then(() => {
-        uni.hideLoading()
-      })
-      .catch(() => {
-        uni.hideLoading()
-      })
+    this.getInfo(id)
   },
 
   methods: {
-    toSignature(personinfo) {
+    getInfo(id) {
+      this.$store.dispatch('user/getPersonInfo', id)
+      this.$store.dispatch('focus/getFocusStatus', id)
+    },
+
+    toSignature() {
       this.$u.route('/pages/components/person-signature/person-signature', {
-        personinfo: JSON.stringify(personinfo)
+        personinfo: JSON.stringify(this.personinfo)
       })
     },
 
-    focus() {
-      console.log('关注')
+    async onFocus() {
+      if (!this.isFocus) {
+        await this.$store.dispatch('focus/addFocus', {
+          id: this.personinfo.userId
+        })
+      } else if (this.isFocus) {
+        await this.$store.dispatch('focus/cancelFocus', {
+          id: this.personinfo.userId
+        })
+      }
+      await this.getInfo(this.personinfo.userId)
     },
 
     sendMsg() {
@@ -144,9 +176,5 @@ export default {
       margin: 0 20rpx 0 40rpx;
     }
   }
-}
-
-.uni-list-item--hover {
-  background-color: $uni-bg-color-hover !important;
 }
 </style>

@@ -1,8 +1,9 @@
-import { queryMyFocus, addFocus, delFocus } from '@/api/focus.js'
+import { queryMyFocus, queryFocusSb, addFocus, delFocus } from '@/api/focus.js'
 
 const state = {
 	myFocus: [],
-	focusMy: []
+	focusMy: [],
+	focusStatus: ''
 }
 
 const getters = {
@@ -10,7 +11,8 @@ const getters = {
 	focusMy: (state) => state.focusMy,
 	focusList: (state) => {
 		return [state.myFocus, state.focusMy]
-	}
+	},
+	focusStatus: (state) => state.focusStatus
 }
 
 const mutations = {
@@ -19,6 +21,9 @@ const mutations = {
 	},
 	setFocusMy(state, list) {
 		state.focusMy = list
+	},
+	setFocusStatus(state, focusStatus) {
+		state.focusStatus = focusStatus
 	}
 }
 
@@ -32,11 +37,16 @@ const actions = {
 		}
 	},
 
-	async addFocus({ commit }, userId) {
+	async getFocusStatus({ commit }, id) {
+		const status = await queryFocusSb(id)
+		commit('setFocusStatus', status)
+	},
+
+	async addFocus({}, userId) {
 		await addFocus(userId)
 	},
 
-	async delFocus({ commit }, userId) {
+	async cancelFocus({}, userId) {
 		await delFocus(userId)
 	}
 }
