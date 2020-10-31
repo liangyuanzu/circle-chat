@@ -128,7 +128,7 @@ const $request = (url, Options) => {
 				...Options
 			})
 			.then((res) => {
-				if (res.data.code == 0) {
+				if (res?.data.code == 0) {
 					resolve(res.data.data)
 				} else {
 					uni.showToast({
