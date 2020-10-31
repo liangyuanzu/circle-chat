@@ -8,7 +8,7 @@
         :show-action="false"
         class="search"
       ></u-search>
-      <view class="create">
+      <view class="create" @click="createCircle">
         <text>创建圈</text>
         <uni-icons size="16" color="#c0c4cc" type="plusempty"> </uni-icons>
       </view>
@@ -27,13 +27,18 @@ export default {
     tabs,
     'circle-list': circleList
   },
+
   data() {
     return {
       keyword: ''
     }
   },
-  onLoad() {},
-  methods: {}
+
+  methods: {
+    createCircle() {
+      this.$u.route('/pages/components/create-map/create-map')
+    }
+  }
 }
 </script>
 
