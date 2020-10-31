@@ -62,6 +62,7 @@ http.interceptors.response.use(
 					})
 					.catch((err) => {
 						console.error('refreshToken error =>', err)
+						localStore.delAll()
 						uni.reLaunch({
 							url: '/pages/login/login'
 						})
@@ -81,6 +82,7 @@ http.interceptors.response.use(
 				})
 			}
 		} else if (code == 403) {
+			localStore.delAll()
 			uni.reLaunch({
 				url: '/pages/login/login'
 			})
