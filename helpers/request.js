@@ -128,14 +128,14 @@ const $request = (url, Options) => {
 				...Options
 			})
 			.then((res) => {
-				if (res?.data.code == 0) {
+				if (res?.data?.code == 0) {
 					resolve(res.data.data)
 				} else {
 					uni.showToast({
 						icon: 'none',
-						title: res.data.msg
+						title: res?.data?.msg
 					})
-					reject(res.data)
+					reject(res?.data)
 				}
 			})
 			.catch((err) => {
