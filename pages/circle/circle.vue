@@ -13,19 +13,17 @@
         <uni-icons size="16" color="#c0c4cc" type="plusempty"> </uni-icons>
       </view>
     </view>
-    <tabs />
-    <circle-list />
+
+    <tabs-swiper />
   </view>
 </template>
 
 <script>
-import tabs from './components/tabs.vue'
-import circleList from './components/circle-list.vue'
+import tabsSwiper from './components/tabs-swiper.vue'
 
 export default {
   components: {
-    tabs,
-    'circle-list': circleList
+    tabsSwiper
   },
 
   data() {
