@@ -128,7 +128,7 @@ export default {
     reachBottom() {},
 
     toCircleDetail(item) {
-      this.$u.route('/pages/components/detail/detail', {
+      this.$u.route('/pages/components/circle-detail/circle-detail', {
         info: JSON.stringify(item)
       })
     },
