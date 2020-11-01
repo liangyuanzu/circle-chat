@@ -1,20 +1,16 @@
 <template>
   <view>
-    <view class="avatar">
-      <view class="avatar-left">
-        <u-avatar
-          :src="personinfo.img"
-          mode="square"
-          size="large"
-          show-sex
-          :sex-icon="formatGender"
-          style="margin-left: 30rpx"
-        >
-        </u-avatar>
-        <view class="info">
-          <view class="text-lg text-black text-cut" style="width: 470rpx">
-            {{ personinfo.username }}
-          </view>
+    <custom-avatar
+      :src="personinfo.img"
+      mode="square"
+      size="large"
+      show-sex
+      :sex-icon="formatGender"
+      :title="personinfo.username"
+      :note="autograph"
+    >
+      <template #bottom>
+        <view>
           <view class="text-sm text-grey text-cut" style="width: 470rpx">
             {{ formatAge }}
           </view>
@@ -22,8 +18,8 @@
             {{ formatBirthday }}
           </view>
         </view>
-      </view>
-    </view>
+      </template>
+    </custom-avatar>
 
     <view style="margin-top: 20rpx">
       <uni-list>
@@ -177,22 +173,4 @@ export default {
 </script>
 
 <style lang="scss">
-.avatar {
-  width: 100%;
-  height: 150rpx;
-  padding-right: 30rpx;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: #fff;
-
-  .avatar-left {
-    display: flex;
-    align-items: center;
-
-    .info {
-      margin: 0 20rpx 0 40rpx;
-    }
-  }
-}
 </style>

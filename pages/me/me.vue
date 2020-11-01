@@ -1,6 +1,17 @@
 <template>
   <view>
-    <avatar @toInfo="toInfo" />
+    <custom-avatar
+      :src="avatar"
+      mode="square"
+      size="large"
+      show-sex
+      :sex-icon="formatGender"
+      :title="username"
+      :note="autograph"
+      clickable
+      showArrow
+      @click="toInfo"
+    />
 
     <operateList @toInfo="toInfo" />
 
@@ -21,12 +32,10 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import avatar from './components/avatar'
 import operateList from './components/operateList'
 
 export default {
   components: {
-    avatar,
     operateList
   },
 
@@ -37,6 +46,14 @@ export default {
         size: '22',
         type: 'gear-filled'
       }
+    }
+  },
+
+  computed: {
+    ...mapGetters('user', ['username', 'avatar', 'sex', 'autograph']),
+    formatGender() {
+      if (this.sex === '男') return 'man'
+      if (this.sex === '女') return 'woman'
     }
   },
 
