@@ -7,7 +7,6 @@
       show-sex
       :sex-icon="formatGender"
       :title="personinfo.username"
-      :note="autograph"
     >
       <template #bottom>
         <view>
@@ -21,7 +20,7 @@
       </template>
     </custom-avatar>
 
-    <view style="margin-top: 20rpx">
+    <view style="margin-top: 20rpx" v-if="personinfo.autograph">
       <uni-list>
         <uni-list-item
           :title="personinfo.autograph"

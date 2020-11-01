@@ -162,7 +162,7 @@ export default {
     },
     // 描述
     note: {
-      type: String,
+      type: [String, Number],
       default: ''
     }
   },
