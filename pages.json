@@ -29,8 +29,7 @@
 		}, {
 			"path": "pages/components/create/create",
 			"style": {
-				"navigationBarTitleText": "创建圈",
-				"navigationBarBackgroundColor": "#f1f1f1"
+				"navigationBarTitleText": "创建圈"
 			}
 		}, {
 			"path": "pages/components/search/search",

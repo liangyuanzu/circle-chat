@@ -55,7 +55,7 @@ export default {
 
       this.timer = setInterval(() => {
         this.$store.dispatch('user/getPosition', {}, { root: true })
-      }, 30000)
+      }, 300000)
     }
   },
 
