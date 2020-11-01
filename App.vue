@@ -4,6 +4,12 @@ import { accessTokenName } from '@/config/config.js'
 import localStore from '@/helpers/localStore.js'
 
 export default {
+  data() {
+    return {
+      timer: ''
+    }
+  },
+
   created() {
     // #ifdef APP-PLUS
     plus.navigator.closeSplashscreen()
@@ -40,23 +46,26 @@ export default {
       }
     })
 
-    // 判断是否存在 token
     if (!localStore.get(accessTokenName)) {
       uni.reLaunch({
         url: '/pages/login/login'
       })
     } else {
-      // 初始化
       this.$store.dispatch('user/init', {}, { root: true })
-      // 连接 socket
-      // this.$store.dispatch('chat/open', {}, { root: true })
+
+      this.timer = setInterval(() => {
+        this.$store.dispatch('user/getPosition', {}, { root: true })
+      }, 30000)
     }
   },
+
   onShow: function () {
     console.log('App Show')
   },
+
   onHide: function () {
     console.log('App Hide')
+    clearInterval(this.timer)
   }
 }
 </script>

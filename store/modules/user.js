@@ -12,7 +12,6 @@ import {
 	userSet
 } from '@/api/user.js'
 import { accessTokenName, refreshTokenName } from '@/config/config.js'
-
 import localStore from '@/helpers/localStore.js'
 
 const state = {
@@ -23,7 +22,9 @@ const state = {
 	sex: '',
 	birthday: '',
 	autograph: '',
-	personinfo: ''
+	personinfo: '',
+	longitude: '', // 经度
+	latitude: '' // 纬度
 }
 
 const getters = {
@@ -34,7 +35,8 @@ const getters = {
 	sex: (state) => state.sex,
 	birthday: (state) => state.birthday,
 	autograph: (state) => state.autograph,
-	personinfo: (state) => state.personinfo
+	personinfo: (state) => state.personinfo,
+	position: (state) => state.longitude + ',' + state.latitude
 }
 
 const mutations = {
@@ -61,13 +63,30 @@ const mutations = {
 	},
 	setPersonInfo(state, personinfo) {
 		state.personinfo = personinfo
+	},
+	setPosition(state, { longitude, latitude }) {
+		state.longitude = longitude
+		state.latitude = latitude
 	}
 }
 
 const actions = {
 	init({ dispatch }) {
 		dispatch('getUserInfo')
+		dispatch('getPosition')
 		dispatch('chat/open', {}, { root: true })
+	},
+
+	getPosition({ commit }) {
+		uni.getLocation({
+			type: 'gcj02',
+			success: function (res) {
+				commit('setPosition', {
+					longitude: res.longitude,
+					latitude: res.latitude
+				})
+			}
+		})
 	},
 
 	async login({ dispatch }, userinfo) {
