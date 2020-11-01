@@ -131,7 +131,6 @@
 		"selectedColor": "#231815",
 		"borderStyle": "white",
 		"backgroundColor": "#fff",
-		"fontSize": "14px",
 		"list": [{
 				"text": "消息",
 				"pagePath": "pages/msg/msg",
