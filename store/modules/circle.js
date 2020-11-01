@@ -1,4 +1,9 @@
-import { nearlyCircle, creatCircle, updateCirclePhoto } from '@/api/circle.js'
+import {
+	nearlyCircle,
+	creatCircle,
+	updateCirclePhoto,
+	joinCircle
+} from '@/api/circle.js'
 
 const state = {
 	circleList: [],
@@ -40,6 +45,10 @@ const actions = {
 				title: '更换圈头像接口异常'
 			})
 		}
+	},
+
+	async joinCircle({}, circleId) {
+		await joinCircle(circleId)
 	}
 }
 

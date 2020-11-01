@@ -41,3 +41,14 @@ export function updateCirclePhoto(data) {
 		data
 	})
 }
+
+/**
+ * 加入圈
+ * @param {*} circleId - 圈id
+ */
+export function joinCircle(data) {
+	return $request('/circle/enterCircle', {
+		method: 'POST',
+		data
+	})
+}

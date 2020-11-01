@@ -23,8 +23,7 @@
 		}, {
 			"path": "pages/components/circle-detail/circle-detail",
 			"style": {
-				"navigationBarTitleText": "圈详情",
-				"navigationBarBackgroundColor": "#f1f1f1"
+				"navigationBarTitleText": "圈详情"
 			}
 		}, {
 			"path": "pages/components/create/create",
