@@ -61,6 +61,10 @@
                 </template>
               </uni-list-item>
             </uni-list>
+
+            <view class="empty" style="top: 36%">
+              <u-empty v-if="circleList.length === 0" mode="list"></u-empty>
+            </view>
           </view>
         </scroll-view>
       </swiper-item>

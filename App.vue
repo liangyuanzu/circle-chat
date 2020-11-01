@@ -77,4 +77,10 @@ export default {
 @import 'colorui/main.css';
 @import 'colorui/icon.css';
 /*每个页面公共css */
+.empty {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
 </style>

@@ -30,7 +30,11 @@
         </u-dropdown-item>
       </u-dropdown>
     </view>
+
     <chat-list :list="list" />
+    <view class="empty">
+      <u-empty v-if="list.length === 0" mode="list"></u-empty>
+    </view>
   </view>
 </template>
 
