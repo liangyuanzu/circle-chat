@@ -119,8 +119,12 @@ export default {
         circleAvatar: this.info.img,
         circleType: this.info.type
       }
-      this.$u.route('/pages/components/chat/chat', {
-        circleinfo: JSON.stringify(circleinfo)
+      this.$u.route({
+        type: 'redirect',
+        url: '/pages/components/chat/chat',
+        params: {
+          circleinfo: JSON.stringify(circleinfo)
+        }
       })
     },
 
