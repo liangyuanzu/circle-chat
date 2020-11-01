@@ -127,28 +127,28 @@
 		"backgroundColor": "#f1f1f1"
 	},
 	"tabBar": {
-		"color": "#aaa",
-		"selectedColor": "#0081ff",
-		"borderStyle": "black",
+		"color": "#333333",
+		"selectedColor": "#303133",
+		"borderStyle": "white",
 		"backgroundColor": "#fff",
 		"fontSize": "14px",
 		"list": [{
 				"text": "消息",
 				"pagePath": "pages/msg/msg",
-				"iconPath": "static/tabbar/xiaoxi.png",
-				"selectedIconPath": "static/tabbar/xiaoxi_cur.png"
+				"iconPath": "static/tabbar/msg.png",
+				"selectedIconPath": "static/tabbar/msg_select.png"
 			},
 			{
 				"text": "圈子",
 				"pagePath": "pages/circle/circle",
-				"iconPath": "static/tabbar/quanzi.png",
-				"selectedIconPath": "static/tabbar/quanzi_cur.png"
+				"iconPath": "static/tabbar/circle.png",
+				"selectedIconPath": "static/tabbar/circle_select.png"
 			},
 			{
 				"text": "我的",
 				"pagePath": "pages/me/me",
-				"iconPath": "static/tabbar/wode.png",
-				"selectedIconPath": "static/tabbar/wode_cur.png"
+				"iconPath": "static/tabbar/me.png",
+				"selectedIconPath": "static/tabbar/me_select.png"
 			}
 		]
 	}
