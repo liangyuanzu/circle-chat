@@ -1,5 +1,17 @@
 <template>
   <view>
+    <!-- 导航栏 -->
+    <uni-nav-bar
+      left-icon="back"
+      right-icon="more-filled"
+      :title="title"
+      :shadow="false"
+      fixed
+      status-bar
+      @clickLeft="back"
+      @clickRight="toSetting"
+    ></uni-nav-bar>
+    <!-- 内容 -->
     <view class="content" @touchstart="hideDrawer">
       <scroll-view
         class="msg-list"
@@ -236,6 +248,8 @@ import { mapGetters, mapState } from 'vuex'
 export default {
   data() {
     return {
+      // 标题
+      title: '',
       //文字消息
       textMsg: '',
       //消息列表
@@ -432,7 +446,7 @@ export default {
       const { userId, username, avatar } = JSON.parse(options.userinfo)
       this.$store.commit('chat/setCurrentToUser', { userId, username, avatar })
       // 修改标题
-      uni.setNavigationBarTitle({ title: username })
+      this.title = username
     } else if (options.circleinfo) {
       const { circleId, circleName, circleAvatar, circleType } = JSON.parse(
         options.circleinfo
@@ -444,7 +458,7 @@ export default {
         circleType
       })
       // 修改标题
-      uni.setNavigationBarTitle({ title: circleName })
+      this.title = circleName
       // 修改圈状态
       this.$store.commit('chat/setIsCircle', true)
     } else {
@@ -478,8 +492,8 @@ export default {
       this.$store.commit('chat/setCurrentToCircle', {
         circleId: 0,
         circleName: '',
-				circleAvatar: '',
-				circleType: ''
+        circleAvatar: '',
+        circleType: ''
       })
       // 修改圈状态
       this.$store.commit('chat/setIsCircle', false)
@@ -498,6 +512,21 @@ export default {
   },
 
   methods: {
+    back() {
+      this.$u.route({
+        type: 'back'
+      })
+    },
+
+    toSetting() {
+      if (this.isCircle) {
+        this.$u.route('/pages/components/circle-setting/circle-setting', {
+          circleId: this.CurrentToCircle.circleId
+        })
+      } else {
+      }
+    },
+
     // 时间格式化
     formatTime(time) {
       if (time) return Time.getTime(Number(time))

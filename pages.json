@@ -38,6 +38,7 @@
 		}, {
 			"path": "pages/components/chat/chat",
 			"style": {
+				"navigationStyle": "custom",
 				"navigationBarTitleText": "",
 				"navigationBarBackgroundColor": "#f2f2f2",
 				"backgroundColorTop": "#e5e5e5",
