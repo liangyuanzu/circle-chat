@@ -59,3 +59,15 @@ export function joinCircle(data) {
 export function getMyJoinCircle() {
 	return $request('/circle/queryMyCircle', {})
 }
+
+/**
+ *
+ * @param {number} circleId 圈id
+ */
+export function getCircleInfo(circleId) {
+	return $request('/circle/queryByCircleId', {
+		params: {
+			circleId
+		}
+	})
+}

@@ -1,19 +1,16 @@
 <template>
   <view class="content">
-    <!-- 头像 -->
-    <view class="avatar">
-      <!--  
-      <view
-        class="cu-avatar xl round margin-left"
-        style="background-image:url(https://ossweb-img.qq.com/images/lol/web201310/skin/big99008.jpg);"
-      ></view>
-      -->
-      <u-avatar :src="circleAvatar" size="large" style="margin-left: 30rpx"></u-avatar>
-      <view class="change-avatar" @click="changeCircleAvatar()">
-        <text>更换头像</text>
-        <text class="lg text-gray cuIcon-right"></text>
-      </view>
-    </view>
+    <custom-avatar
+      :src="circleInfo.img"
+      mode="square"
+      size="large"
+      :title="circleInfo.circleName"
+      :note="circleInfo.synopsis"
+      showArrow
+      clickable
+      @click="toCircleDetail"
+    >
+    </custom-avatar>
 
     <!-- 圈信息 -->
     <view class="info">
@@ -62,52 +59,62 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters } from 'vuex'
 
 export default {
   data() {
     return {
-      checked: false,
-    };
+      checked: false
+    }
   },
 
   computed: {
-    ...mapGetters("circle", ["circleAvatar"]),
+    ...mapGetters('circle', ['circleInfo'])
+  },
+
+  onLoad({ circleId }) {
+    this.$store.dispatch('circle/getCircleInfo', circleId)
   },
 
   methods: {
     changeCircleAvatar() {
       uni.chooseImage({
         count: 1,
-        sizeType: ["original", "compressed"], //可以指定是原图还是压缩图，默认二者都有
-        sourceType: ["album"], //从相册选择
+        sizeType: ['original', 'compressed'], //可以指定是原图还是压缩图，默认二者都有
+        sourceType: ['album'], //从相册选择
         success: (res) => {
-          uni.showLoading();
+          uni.showLoading()
           this.$store
-            .dispatch("circle/updateCirclePhoto", {
-              circleId: "1",
-              img: JSON.stringify(res.tempFilePaths[0]),
+            .dispatch('circle/updateCirclePhoto', {
+              circleId: '1',
+              img: JSON.stringify(res.tempFilePaths[0])
             })
             .then(() => {
-              uni.hideLoading();
+              uni.hideLoading()
               uni.showToast({
-                icon: "none",
-                position: "bottom",
-                title: "修改成功",
-              });
+                icon: 'none',
+                position: 'bottom',
+                title: '修改成功'
+              })
             })
             .catch(() => {
-              uni.hideLoading();
-            });
-        },
-      });
+              uni.hideLoading()
+            })
+        }
+      })
     },
 
     change(status) {
-      console.log(status);
+      console.log(status)
     },
-  },
-};
+
+    toCircleDetail() {
+      this.$u.route('/pages/components/circle-detail/circle-detail', {
+        info: JSON.stringify(this.circleInfo)
+      })
+    }
+  }
+}
 </script>
 
 <style lang="scss">
