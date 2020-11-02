@@ -1,9 +1,9 @@
 <template>
   <!-- #ifndef APP-NVUE -->
   <view class="uni-list uni-border-top-bottom">
-    <!-- <view v-if="border" class="uni-list--border-top"></view> -->
+    <view v-if="border" class="uni-list--border-top"></view>
     <slot />
-    <!-- <view v-if="border" class="uni-list--border-bottom"></view> -->
+    <view v-if="border" class="uni-list--border-bottom"></view>
   </view>
   <!-- #endif -->
   <!-- #ifdef APP-NVUE -->
@@ -42,7 +42,7 @@ export default {
     },
     border: {
       type: Boolean,
-      default: true
+      default: false
     }
   },
   provide() {
