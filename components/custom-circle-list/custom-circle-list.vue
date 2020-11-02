@@ -1,22 +1,24 @@
 <template>
   <view>
-    <uni-list :border="border">
+    <uni-list>
       <uni-list-item
         v-for="item in list"
         :key="item.circleId"
-        :title="item.circleName || item.name"
-        titleEllipsis="1"
-        noteEllipsis="1"
         :thumb="item.img"
         thumbSize="lg"
-        :note="item.synopsis"
         :showArrow="showArrow"
+        :border="border"
         clickable
         @click="onClick(item)"
       >
-        <template #footer>
+        <template #body>
           <view>
-            <view class="cu-capsule radius flex" v-if="item.member">
+            <!-- 标题 -->
+            <view class="text-lg text-black text-cut" style="width: 474rpx">
+              {{ item.circleName || item.name }}
+            </view>
+            <!-- 标签 -->
+            <view class="cu-capsule radius" v-if="item.member">
               <view class="cu-tag bg-blue sm">
                 <text class="cuIcon-group"></text>
               </view>
@@ -32,6 +34,22 @@
                 {{ formatRadius(item.radius) }}</view
               >
             </view>
+            <!-- 简介 -->
+            <view
+              class="text-sm text-grey my-text-cut"
+              style="width: 474rpx; margin-top: 10rpx"
+            >
+              {{ item.synopsis }}
+            </view>
+          </view>
+        </template>
+
+        <template #footer>
+          <view class="flex align-center">
+            <u-button type="primary" size="mini" shape="circle" plain>
+              <uni-icons :size="12" color="#0081ff" :type="'plusempty'" />
+              <text style="margin-left: 10rpx">加入</text>
+            </u-button>
           </view>
         </template>
       </uni-list-item>
@@ -43,7 +61,7 @@
 /**
  * custom-circle-list 自定义圈列表组件
  * @description 本组件是适用于本项目的圈列表组件，一般用于展示圈列表的地方，如附近的圈，我加入的圈。
- * @property {String} 	border = [true|false] 		边框
+ * @property {String} 	border = [true|false] 		列表项边框
  * @property {Boolean} 	showArrow = [true|false] 		是否右侧箭头
  * @property {Array} 	list 							圈列表
  * @event {Function} 	click 							点击 uniListItem 触发事件
@@ -52,7 +70,7 @@ export default {
   props: {
     border: {
       type: Boolean,
-      default: false
+      default: true
     },
     showArrow: {
       type: [Boolean, String],
@@ -81,7 +99,13 @@ export default {
 </script>
 
 <style lang="scss">
-.cu-capsule + .cu-capsule {
-  margin-left: 0;
+.my-text-cut {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  /*! autoprefixer: off */
+  -webkit-box-orient: vertical;
 }
 </style>

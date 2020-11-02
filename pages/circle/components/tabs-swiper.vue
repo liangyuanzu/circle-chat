@@ -27,7 +27,11 @@
           @scrolltolower="reachBottom"
         >
           <view>
-            <custom-circle-list :list="circleList" @click="toCircleDetail">
+            <custom-circle-list
+              :border="false"
+              :list="circleList"
+              @click="toCircleDetail"
+            >
             </custom-circle-list>
 
             <view class="empty" style="top: 36%" v-if="circleList.length === 0">
