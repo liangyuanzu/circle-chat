@@ -1,6 +1,6 @@
 <template>
   <view>
-    <uni-list :border="false">
+    <uni-list :border="border">
       <uni-list-item
         v-for="item in list"
         :key="item.circleId"
@@ -9,6 +9,7 @@
         :thumb="item.img"
         thumbSize="lg"
         :note="item.synopsis"
+        :showArrow="showArrow"
         clickable
         @click="onClick(item)"
       >
@@ -41,11 +42,21 @@
 /**
  * custom-circle-list 自定义圈列表组件
  * @description 本组件是适用于本项目的圈列表组件，一般用于展示圈列表的地方，如附近的圈，我加入的圈。
+ * @property {String} 	border = [true|false] 		边框
+ * @property {Boolean} 	showArrow = [true|false] 		是否右侧箭头
  * @property {Array} 	list 							圈列表
  * @event {Function} 	click 							点击 uniListItem 触发事件
  */
 export default {
   props: {
+    border: {
+      type: Boolean,
+      default: true
+    },
+    showArrow: {
+      type: [Boolean, String],
+      default: false
+    },
     list: {
       type: Array,
       default: []
