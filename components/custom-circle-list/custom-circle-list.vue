@@ -69,4 +69,7 @@ export default {
 </script>
 
 <style lang="scss">
+.cu-capsule + .cu-capsule {
+  margin-left: 0;
+}
 </style>
