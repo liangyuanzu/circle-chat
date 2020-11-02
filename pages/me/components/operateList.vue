@@ -20,7 +20,7 @@
         show-extra-icon
         :extraIcon="defalutAdd.extraIcon"
       >
-        <template #right>
+        <template #footer>
           <u-switch
             size="40"
             v-model="addChecked"
@@ -35,7 +35,7 @@
         show-extra-icon
         :extraIcon="notice.extraIcon"
       >
-        <template #right>
+        <template #footer>
           <u-switch
             size="40"
             v-model="noticeChecked"

@@ -13,7 +13,7 @@
         clickable
         @click="onClick(item)"
       >
-        <template #right>
+        <template #footer>
           <view>
             <view class="cu-capsule radius flex" v-if="item.member">
               <view class="cu-tag bg-blue sm">

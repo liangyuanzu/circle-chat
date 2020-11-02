@@ -18,25 +18,27 @@
           clickable
           @click="toPersonInfo(i.userId)"
         >
-          <template #right>
-            <u-button
-              type="primary"
-              size="mini"
-              shape="circle"
-              plain
-              @click="onFocus(i.isFocus, i.userId)"
-            >
-              <uni-icons
-                :size="12"
-                color="#0081ff"
-                :type="!focusStatus(i.isFocus) ? 'plusempty' : ''"
-              />
-              <text
-                style="margin-left: 10rpx"
-                :class="[i.isFocus === 1 ? 'text-grey' : '']"
-                >{{ formatFocus(i.isFocus) }}</text
+          <template #footer>
+            <view class="flex align-center">
+              <u-button
+                type="primary"
+                size="mini"
+                shape="circle"
+                plain
+                @click="onFocus(i.isFocus, i.userId)"
               >
-            </u-button>
+                <uni-icons
+                  :size="12"
+                  color="#0081ff"
+                  :type="!focusStatus(i.isFocus) ? 'plusempty' : ''"
+                />
+                <text
+                  style="margin-left: 10rpx"
+                  :class="[i.isFocus === 1 ? 'text-grey' : '']"
+                  >{{ formatFocus(i.isFocus) }}</text
+                >
+              </u-button>
+            </view>
           </template>
         </uni-list-item>
       </uni-list>

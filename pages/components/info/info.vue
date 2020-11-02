@@ -3,7 +3,7 @@
     <view style="margin-bottom: 20rpx">
       <uni-list>
         <uni-list-item title="头像" showArrow clickable @click="chooseAvatar">
-          <template #right>
+          <template #footer>
             <u-avatar :src="avatar" mode="square"> </u-avatar>
           </template>
         </uni-list-item>

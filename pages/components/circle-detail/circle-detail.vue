@@ -25,12 +25,12 @@
 
     <uni-list style="margin-top: 20rpx">
       <uni-list-item title="圈类型">
-        <template #right>
+        <template #footer>
           <u-tag :text="info.type" size="mini" :type="formatType" />
         </template>
       </uni-list-item>
       <uni-list-item title="圈人数">
-        <template #right>
+        <template #footer>
           <view class="cu-capsule radius flex">
             <view class="cu-tag bg-blue sm">
               <text class="cuIcon-group"></text>
@@ -42,7 +42,7 @@
         </template>
       </uni-list-item>
       <uni-list-item title="圈范围">
-        <template #right>
+        <template #footer>
           <view class="cu-capsule radius">
             <view class="cu-tag bg-black sm">
               <text class="cuIcon-radiobox"></text>
@@ -57,7 +57,7 @@
 
     <uni-list style="margin-top: 20rpx">
       <uni-list-item title="圈主" showArrow clickable @click="toOwner">
-        <template #right>
+        <template #footer>
           <u-avatar :src="info.userImg" mode="square" size="mini"></u-avatar>
         </template>
       </uni-list-item>

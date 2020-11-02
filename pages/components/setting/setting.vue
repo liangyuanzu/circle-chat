@@ -12,8 +12,10 @@
     <view style="margin-top: 20rpx">
       <uni-list>
         <uni-list-item clickable @click="logout">
-          <template>
-            <view class="text-center text-red text-df">退出登录</view>
+          <template #body>
+            <view class="text-center text-red text-df" style="width: 100%"
+              >退出登录</view
+            >
           </template>
         </uni-list-item>
       </uni-list>
