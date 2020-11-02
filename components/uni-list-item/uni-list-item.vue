@@ -53,15 +53,22 @@
               v-if="title"
               class="uni-list-item__content-title"
               :class="[
-                ellipsis !== 0 && ellipsis <= 2
-                  ? 'uni-ellipsis-' + ellipsis
+                titleEllipsis !== 0 && titleEllipsis <= 2
+                  ? 'uni-ellipsis-' + titleEllipsis
                   : ''
               ]"
               >{{ title }}</text
             >
-            <text v-if="note" class="uni-list-item__content-note">{{
-              note
-            }}</text>
+            <text
+              v-if="note"
+              class="uni-list-item__content-note"
+              :class="[
+                noteEllipsis !== 0 && noteEllipsis <= 2
+                  ? 'uni-ellipsis-' + noteEllipsis
+                  : ''
+              ]"
+              >{{ note }}</text
+            >
           </view>
         </slot>
         <slot name="footer">
@@ -106,6 +113,8 @@ import uniBadge from '../uni-badge/uni-badge.vue'
  * @tutorial https://ext.dcloud.net.cn/plugin?id=24
  * @property {String} 	title 							标题
  * @property {String} 	note 							描述
+ * @property {Number, String} 	titleEllipsis 							title 是否溢出隐藏，可选值，0:默认; 1:显示一行; 2:显示两行;
+ * @property {Number, String} 	noteEllipsis 							note 是否溢出隐藏，可选值，0:默认; 1:显示一行; 2:显示两行;
  * @property {String} 	thumb 							左侧缩略图，若thumb有值，则不会显示扩展图标
  * @property {String}  	thumbSize = [lg|base|sm]		略缩图大小
  * 	@value 	 lg			大图
@@ -152,7 +161,11 @@ export default {
       type: String,
       default: ''
     },
-    ellipsis: {
+    titleEllipsis: {
+      type: [Number, String],
+      default: 0
+    },
+    noteEllipsis: {
       type: [Number, String],
       default: 0
     },

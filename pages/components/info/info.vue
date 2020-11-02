@@ -17,7 +17,7 @@
         :title="item.title"
         :rightText="item.rightText"
         :note="item.note"
-        ellipsis="2"
+        noteEllipsis="2"
         showArrow
         clickable
         @click="onClick(item.title)"

@@ -24,7 +24,7 @@
       <uni-list>
         <uni-list-item
           :title="personinfo.autograph"
-          ellipsis="1"
+          titleEllipsis="1"
           show-extra-icon
           :extraIcon="signatureIcon"
           clickable
