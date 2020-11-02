@@ -2,8 +2,6 @@
   <view>
     <custom-avatar
       :src="personinfo.img"
-      mode="square"
-      size="large"
       show-sex
       :sex-icon="formatGender"
       :title="personinfo.username"

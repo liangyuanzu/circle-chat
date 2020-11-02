@@ -2,8 +2,6 @@
   <view>
     <custom-avatar
       :src="info.img"
-      mode="square"
-      size="large"
       :title="info.circleName"
       :note="info.circleId"
     >

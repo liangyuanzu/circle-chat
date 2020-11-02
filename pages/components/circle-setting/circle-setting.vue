@@ -2,8 +2,6 @@
   <view class="content">
     <custom-avatar
       :src="circleInfo.img"
-      mode="square"
-      size="large"
       :title="circleInfo.circleName"
       :note="circleInfo.synopsis"
       showArrow
