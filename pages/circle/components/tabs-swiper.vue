@@ -27,10 +27,7 @@
           @scrolltolower="reachBottom"
         >
           <view>
-            <custom-circle-list
-              :circleList="circleList"
-              @click="toCircleDetail"
-            >
+            <custom-circle-list :list="circleList" @click="toCircleDetail">
             </custom-circle-list>
 
             <view class="empty" style="top: 36%">
@@ -119,8 +116,5 @@ export default {
 }
 .swiper-item {
   height: 100%;
-}
-.cu-capsule + .cu-capsule {
-  margin-left: 0;
 }
 </style>

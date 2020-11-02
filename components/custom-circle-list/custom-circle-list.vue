@@ -2,7 +2,7 @@
   <view>
     <uni-list :border="false">
       <uni-list-item
-        v-for="item in circleList"
+        v-for="item in list"
         :key="item.circleId"
         :title="item.circleName || item.name"
         ellipsis="1"
@@ -41,12 +41,12 @@
 /**
  * custom-circle-list 自定义圈列表组件
  * @description 本组件是适用于本项目的圈列表组件，一般用于展示圈列表的地方，如附近的圈，我加入的圈。
- * @property {Array} 	circleList 							圈列表
+ * @property {Array} 	list 							圈列表
  * @event {Function} 	click 							点击 uniListItem 触发事件
  */
 export default {
   props: {
-    circleList: {
+    list: {
       type: Array,
       default: []
     }
