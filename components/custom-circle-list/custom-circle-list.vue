@@ -27,7 +27,7 @@
                 <text class="cuIcon-radiobox"></text>
               </view>
               <view class="cu-tag line-black sm">
-                {{ formatRadius(item?.radius) }}</view
+                {{ formatRadius(item.radius) }}</view
               >
             </view>
           </view>
