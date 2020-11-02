@@ -40,6 +40,10 @@
           </template>
         </uni-list-item>
       </uni-list>
+
+      <view class="empty" v-if="focusList[type - 1].length === 0">
+        <u-empty mode="list"></u-empty>
+      </view>
     </view>
   </view>
 </template>

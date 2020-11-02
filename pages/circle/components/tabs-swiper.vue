@@ -34,8 +34,8 @@
             >
             </custom-circle-list>
 
-            <view class="empty" style="top: 36%">
-              <u-empty v-if="circleList.length === 0" mode="list"></u-empty>
+            <view class="empty" style="top: 36%" v-if="circleList.length === 0">
+              <u-empty mode="list"></u-empty>
             </view>
           </view>
         </scroll-view>

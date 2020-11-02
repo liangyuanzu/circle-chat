@@ -1,6 +1,9 @@
 <template>
   <view>
     <custom-circle-list showArrow :list="myJoinCircle" @click="toCircleChat" />
+    <view class="empty" v-if="myJoinCircle.length === 0">
+      <u-empty mode="list"></u-empty>
+    </view>
   </view>
 </template>
 

@@ -32,8 +32,8 @@
     </view>
 
     <chat-list :list="list" />
-    <view class="empty">
-      <u-empty v-if="list.length === 0" mode="list"></u-empty>
+    <view class="empty" v-if="list.length === 0">
+      <u-empty mode="list"></u-empty>
     </view>
   </view>
 </template>
