@@ -8,6 +8,7 @@
       :shadow="false"
       fixed
       status-bar
+      background-color="#f1f1f1"
       @clickLeft="back"
       @clickRight="toSetting"
     ></uni-nav-bar>
@@ -448,9 +449,13 @@ export default {
       // 修改标题
       this.title = username
     } else if (options.circleinfo) {
-      const { circleId, circleName, circleAvatar, circleType } = JSON.parse(
-        options.circleinfo
-      )
+      const {
+        circleId,
+        circleName,
+        circleAvatar,
+        circleType,
+        member
+      } = JSON.parse(options.circleinfo)
       this.$store.commit('chat/setCurrentToCircle', {
         circleId,
         circleName,
@@ -458,7 +463,7 @@ export default {
         circleType
       })
       // 修改标题
-      this.title = circleName
+      this.title = `${circleName}（${member}）`
       // 修改圈状态
       this.$store.commit('chat/setIsCircle', true)
     } else {

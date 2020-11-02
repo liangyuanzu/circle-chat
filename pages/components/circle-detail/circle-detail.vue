@@ -117,7 +117,8 @@ export default {
         circleId: this.info.circleId,
         circleName: this.info.circleName,
         circleAvatar: this.info.img,
-        circleType: this.info.type
+        circleType: this.info.type,
+        member: this.info.member
       }
       this.$u.route({
         type: 'redirect',

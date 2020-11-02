@@ -67,7 +67,8 @@ export default {
           circleId: item.circleId,
           circleName: item.circleName,
           circleAvatar: item.avatar,
-          circleType: item.circleType
+          circleType: item.circleType,
+          member: item.member
         }
         uni.navigateTo({
           url:

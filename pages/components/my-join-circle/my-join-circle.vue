@@ -29,7 +29,8 @@ export default {
         circleId: info.circleId,
         circleName: info.name,
         circleAvatar: info.img,
-        circleType: info.type
+        circleType: info.type,
+        member: info.member
       }
       this.$u.route('/pages/components/chat/chat', {
         circleinfo: JSON.stringify(circleinfo)
