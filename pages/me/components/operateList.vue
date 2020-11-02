@@ -44,6 +44,24 @@
         </template>
       </uni-list-item>
     </uni-list>
+
+    <u-modal
+      v-model="addModal"
+      title="默认加圈"
+      content="开启后系统会自动为您加入一些圈，是否确认开启?"
+      show-cancel-button
+      @confirm="addConfirm"
+      ref="uModal"
+    ></u-modal>
+
+    <u-modal
+      v-model="noticeModal"
+      title="消息通知"
+      content="开启后您将会收到系统推送消息，是否确认开启?"
+      show-cancel-button
+      @confirm="noticeConfirm"
+      ref="uModal"
+    ></u-modal>
   </view>
 </template>
 
@@ -60,6 +78,8 @@ export default {
       addCloseStatus: false,
       noticeOpenStatus: false,
       noticeCloseStatus: false,
+      addModal: false,
+      noticeModal: false,
 
       list: [
         {
@@ -110,17 +130,7 @@ export default {
         // 避免造成无限循环
         this.addCloseStatus = true
         this.addChecked = false
-        this.addLoading = true
-        this.$store
-          .dispatch('user/userSet', {
-            defaultAdd: '111'
-          })
-          .then(() => {
-            this.addOpenStatus = true
-            this.addChecked = true
-            this.addLoading = false
-          })
-          .catch(() => (this.addLoading = false))
+        this.addModal = true
       } else {
         if (this.addCloseStatus) {
           this.addCloseStatus = false
@@ -138,7 +148,9 @@ export default {
             this.addChecked = false
             this.addLoading = false
           })
-          .catch(() => (this.addLoading = false))
+          .catch(() => {
+            this.addLoading = false
+          })
       }
     },
 
@@ -151,17 +163,7 @@ export default {
         // 避免造成无限循环
         this.noticeCloseStatus = true
         this.noticeChecked = false
-        this.noticeLoading = true
-        this.$store
-          .dispatch('user/userSet', {
-            isNotice: 0
-          })
-          .then(() => {
-            this.noticeOpenStatus = true
-            this.noticeChecked = true
-            this.noticeLoading = false
-          })
-          .catch(() => (this.noticeLoading = false))
+        this.noticeModal = true
       } else {
         if (this.noticeCloseStatus) {
           this.noticeCloseStatus = false
@@ -180,7 +182,9 @@ export default {
             this.noticeChecked = false
             this.noticeLoading = false
           })
-          .catch(() => (this.noticeLoading = false))
+          .catch(() => {
+            this.noticeLoading = false
+          })
       }
     }
   },
@@ -207,6 +211,40 @@ export default {
       uni.navigateTo({
         url: '/pages/components/focus-list/focus-list'
       })
+    },
+
+    addConfirm() {
+      this.addModal = false
+      this.addLoading = true
+      this.$store
+        .dispatch('user/userSet', {
+          defaultAdd: '111'
+        })
+        .then(() => {
+          this.addOpenStatus = true
+          this.addChecked = true
+          this.addLoading = false
+        })
+        .catch(() => {
+          this.addLoading = false
+        })
+    },
+
+    noticeConfirm() {
+      this.noticeModal = false
+      this.noticeLoading = true
+      this.$store
+        .dispatch('user/userSet', {
+          isNotice: 0
+        })
+        .then(() => {
+          this.noticeOpenStatus = true
+          this.noticeChecked = true
+          this.noticeLoading = false
+        })
+        .catch(() => {
+          this.noticeLoading = false
+        })
     }
   }
 }
