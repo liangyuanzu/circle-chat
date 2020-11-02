@@ -117,6 +117,11 @@
 			"style": {
 				"navigationBarTitleText": "个性签名"
 			}
+		}, {
+			"path": "pages/components/my-join-circle/my-join-circle",
+			"style": {
+				"navigationBarTitleText": "我加入的圈"
+			}
 		}
 	],
 	"globalStyle": {

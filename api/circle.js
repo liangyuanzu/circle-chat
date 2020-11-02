@@ -52,3 +52,10 @@ export function joinCircle(data) {
 		data
 	})
 }
+
+/**
+ * 查询我已加入的圈
+ */
+export function getMyJoinCircle() {
+	return $request('/circle/queryMyCircle', {})
+}

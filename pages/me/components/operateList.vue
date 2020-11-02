@@ -97,6 +97,14 @@ export default {
             size: '22',
             type: 'star-filled'
           }
+        },
+        {
+          title: '我加入的圈',
+          extraIcon: {
+            color: '#19be6b',
+            size: '22',
+            type: 'smallcircle'
+          }
         }
       ],
 
@@ -198,6 +206,9 @@ export default {
         case '关注列表':
           this.toFocusList()
           break
+        case '我加入的圈':
+          this.toMyJoinCircle()
+          break
         default:
           break
       }
@@ -211,6 +222,10 @@ export default {
       uni.navigateTo({
         url: '/pages/components/focus-list/focus-list'
       })
+    },
+
+    toMyJoinCircle() {
+      this.$u.route('/pages/components/my-join-circle/my-join-circle')
     },
 
     addConfirm() {
