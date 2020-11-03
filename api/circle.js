@@ -61,11 +61,23 @@ export function getMyJoinCircle() {
 }
 
 /**
- *
+ * 根据圈id查询圈信息
  * @param {number} circleId 圈id
  */
 export function getCircleInfo(circleId) {
 	return $request('/circle/queryByCircleId', {
+		params: {
+			circleId
+		}
+	})
+}
+
+/**
+ * 查询所有已进入圈的用户
+ * @param {number} circleId 圈id
+ */
+export function getCircleMember(circleId) {
+	return $request('/circle/queryAllInCircle', {
 		params: {
 			circleId
 		}

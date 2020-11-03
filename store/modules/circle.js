@@ -4,7 +4,8 @@ import {
 	updateCirclePhoto,
 	joinCircle,
 	getMyJoinCircle,
-	getCircleInfo
+	getCircleInfo,
+	getCircleMember
 } from '@/api/circle.js'
 
 const state = {
@@ -12,12 +13,14 @@ const state = {
 	circleAvatar:
 		'https://ossweb-img.qq.com/images/lol/web201310/skin/big11010.jpg',
 	myJoinCircle: [],
-	circleInfo: {}
+	circleInfo: {},
+	circleMember: []
 }
 
 const getters = {
 	circleAvatar: (state) => state.circleAvatar,
-	circleInfo: (state) => state.circleInfo
+	circleInfo: (state) => state.circleInfo,
+	circleMember: (state) => state.circleMember
 }
 
 const mutations = {
@@ -35,6 +38,10 @@ const mutations = {
 
 	setCircleInfo(state, circleInfo) {
 		state.circleInfo = circleInfo
+	},
+
+	setCircleMember(state, circleMember) {
+		state.circleMember = circleMember
 	}
 }
 
@@ -72,6 +79,11 @@ const actions = {
 	async getCircleInfo({ commit }, circleId) {
 		const circleInfo = await getCircleInfo(circleId)
 		if (circleInfo) commit('setCircleInfo', circleInfo)
+	},
+
+	async getCircleMember({ commit }, circleId) {
+		const circleMember = await getCircleMember(circleId)
+		if (circleMember) commit('setCircleMember', circleMember)
 	}
 }
 

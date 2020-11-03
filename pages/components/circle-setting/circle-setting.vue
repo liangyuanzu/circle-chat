@@ -10,7 +10,42 @@
     >
     </custom-avatar>
 
-    <!-- 圈信息 -->
+    <uni-list class="margin-top-sm">
+      <uni-list-item direction="column" clickable @click="toCircleMember">
+        <template #header>
+          <view class="flex justify-between">
+            <view class="text-lg text-black">圈聊成员</view>
+            <view class="text-sm text-grey">
+              <text class="margin-right-xs">共56人</text>
+              <text class="cuIcon-right"> </text>
+            </view>
+          </view>
+        </template>
+        <template #body>
+          <view class="grid col-5 margin-top-lg" style="text-align: center">
+            <view
+              v-for="item in bannerMember"
+              :key="item.userId"
+              @click.stop="toPersonInfo(item.userId)"
+            >
+              <u-avatar :src="item.img" mode="square"></u-avatar>
+              <view class="text-sm">{{ item.username }}</view>
+            </view>
+
+            <view>
+              <view
+                class="text-gray cuIcon-roundaddfill"
+                style="font-size: 90rpx"
+              >
+              </view>
+              <view class="text-sm text-grey">邀请</view>
+            </view>
+          </view>
+        </template>
+      </uni-list-item>
+    </uni-list>
+
+    <!-- 圈信息
     <view class="info">
       <view>
         <text>圈名称：</text>
@@ -37,7 +72,6 @@
       </view>
     </view>
 
-    <!-- 公告和说明 -->
     <view class="bottom">
       <view class="notice">
         <view class="title">圈公告</view>
@@ -49,10 +83,10 @@
       </view>
     </view>
 
-    <!-- 退出圈 -->
     <view class="exit">
       <text class="text-red">退出该圈</text>
     </view>
+		-->
   </view>
 </template>
 
@@ -67,11 +101,16 @@ export default {
   },
 
   computed: {
-    ...mapGetters('circle', ['circleInfo'])
+    ...mapGetters('circle', ['circleInfo', 'circleMember']),
+    bannerMember() {
+      if (this.circleMember.length < 4) return this.circleMember
+      return this.circleMember.slice(0, 4)
+    }
   },
 
   onLoad({ circleId }) {
     this.$store.dispatch('circle/getCircleInfo', circleId)
+    this.$store.dispatch('circle/getCircleMember', circleId)
   },
 
   methods: {
@@ -110,6 +149,14 @@ export default {
       this.$u.route('/pages/components/circle-detail/circle-detail', {
         info: JSON.stringify(this.circleInfo)
       })
+    },
+
+    toCircleMember() {
+      console.log('盒子')
+    },
+
+    toPersonInfo(id) {
+      this.$u.route('/pages/components/person-info/person-info', { id })
     }
   }
 }
