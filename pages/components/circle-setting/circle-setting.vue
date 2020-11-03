@@ -41,7 +41,7 @@
               <view class="text-sm">{{ item.username }}</view>
             </view>
 
-            <view @click.stop="toInviteMember">
+            <view v-if="isOwner" @click.stop="toInviteMember">
               <view
                 class="text-grey cuIcon-roundaddfill"
                 style="font-size: 90rpx"
@@ -69,13 +69,14 @@
       </uni-list-item>
     </uni-list>
 
-    <uni-list>
+    <uni-list v-if="isOwner">
       <uni-list-item
         title="管理圈"
-        rightText="设置圈聊资料"
+        rightText="编辑圈聊资料"
         :border="false"
         showArrow
         clickable
+        @click="toManageCircle"
       >
       </uni-list-item>
     </uni-list>
@@ -157,6 +158,11 @@ export default {
 
   computed: {
     ...mapGetters('circle', ['circleInfo', 'circleMember']),
+    ...mapGetters('user', ['userId']),
+    isOwner() {
+      if (this.userId == this.circleInfo.userId) return true
+      return false
+    },
     bannerMember() {
       if (this.circleMember.length < 4) return this.circleMember
       return this.circleMember.slice(0, 4)
@@ -251,6 +257,12 @@ export default {
 
     toInviteMember() {
       this.$u.route('/pages/components/invite-member/invite-member')
+    },
+
+    toManageCircle() {
+      this.$u.route('/pages/components/manage-circle/manage-circle', {
+				circleId: this.circleInfo.circleId
+			})
     }
   }
 }
