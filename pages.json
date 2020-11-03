@@ -122,6 +122,11 @@
 			"style": {
 				"navigationBarTitleText": "我加入的圈"
 			}
+		}, {
+			"path": "pages/components/circle-member/circle-member",
+			"style": {
+				"navigationBarTitleText": "圈聊成员"
+			}
 		}
 	],
 	"globalStyle": {

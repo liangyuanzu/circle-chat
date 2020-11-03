@@ -16,7 +16,7 @@
           <view class="flex justify-between">
             <view class="text-lg text-black">圈聊成员</view>
             <view class="text-sm text-grey">
-              <text class="margin-right-xs">共56人</text>
+              <text class="margin-right-xs">共{{ circleInfo.member }}人</text>
               <text class="cuIcon-right"> </text>
             </view>
           </view>
@@ -152,7 +152,9 @@ export default {
     },
 
     toCircleMember() {
-      console.log('盒子')
+      this.$u.route('/pages/components/circle-member/circle-member', {
+        circleMember: JSON.stringify(this.circleMember)
+      })
     },
 
     toPersonInfo(id) {
