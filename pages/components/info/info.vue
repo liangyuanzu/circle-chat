@@ -1,16 +1,8 @@
 <template>
   <view>
-    <view style="margin-bottom: 20rpx">
-      <uni-list>
-        <uni-list-item title="头像" showArrow clickable @click="chooseAvatar">
-          <template #footer>
-            <u-avatar :src="avatar" mode="square"> </u-avatar>
-          </template>
-        </uni-list-item>
-      </uni-list>
-    </view>
+    <custom-update-avatar title="头像" :src="avatar"></custom-update-avatar>
 
-    <uni-list>
+    <uni-list style="margin-top: 20rpx">
       <uni-list-item
         v-for="(item, index) in infoList"
         :key="index"
@@ -41,7 +33,6 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import { base64ToPath } from '@/utils/image-tools/index.js'
 
 export default {
   data() {
@@ -93,58 +84,7 @@ export default {
     }
   },
 
-  created() {
-    // 监听从裁剪页发布的事件，获得裁剪结果
-    uni.$on('uAvatarCropper', (path) => {
-      // #ifndef MP-BAIDU
-      base64ToPath(path)
-        .then((filePath) => {
-          this.$store
-            .dispatch('user/updatePhoto', filePath)
-            .then(() => {
-              uni.showToast({
-                icon: 'none',
-                position: 'bottom',
-                title: '修改成功'
-              })
-            })
-            .catch(() => {})
-        })
-        .catch((error) => {
-          console.error(error)
-        })
-      // #endif
-
-      // #ifdef MP-BAIDU
-      this.$store
-        .dispatch('user/updatePhoto', path)
-        .then(() => {
-          uni.showToast({
-            icon: 'none',
-            position: 'bottom',
-            title: '修改成功'
-          })
-        })
-        .catch(() => {})
-      // #endif
-    })
-  },
-
   methods: {
-    chooseAvatar() {
-      this.$u.route({
-        url: '/uview-ui/components/u-avatar-cropper/u-avatar-cropper',
-        params: {
-          // 输出图片宽度，高等于宽，单位px
-          destWidth: 200,
-          // 裁剪框宽度，高等于宽，单位px
-          rectWidth: 200,
-          // 输出的图片类型，如果'png'类型发现裁剪的图片太大，改成"jpg"即可
-          fileType: 'jpg'
-        }
-      })
-    },
-
     onClick(title) {
       if (title === '性别') {
         this.showSex = true
