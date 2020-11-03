@@ -17,6 +17,7 @@
  * @property {String} 	title 							标题
  * @property {String} src 头像路径，如加载失败，将会显示默认头像
  * @property {Boolean} isCircle = [true|false] 是否为群头像
+ * @property {Number, String} circleId 圈id
  *
  * @event {Function} click 头像被点击
  */
@@ -35,6 +36,10 @@ export default {
     isCircle: {
       type: Boolean,
       default: false
+    },
+    circleId: {
+      type: [Number, String],
+      default: 0
     }
   },
 
@@ -55,6 +60,20 @@ export default {
                 })
               })
               .catch(() => {})
+          } else {
+            this.$store
+              .dispatch('circle/updateCircleAvatar', {
+                filePath,
+                circleId: this.circleId
+              })
+              .then(() => {
+                uni.showToast({
+                  icon: 'none',
+                  position: 'bottom',
+                  title: '修改成功'
+                })
+              })
+              .catch(() => {})
           }
         })
         .catch((error) => {
@@ -66,6 +85,20 @@ export default {
       if (!this.isCircle) {
         this.$store
           .dispatch('user/updatePhoto', path)
+          .then(() => {
+            uni.showToast({
+              icon: 'none',
+              position: 'bottom',
+              title: '修改成功'
+            })
+          })
+          .catch(() => {})
+      } else {
+        this.$store
+          .dispatch('circle/updateCircleAvatar', {
+            filePath,
+            circleId: this.circleId
+          })
           .then(() => {
             uni.showToast({
               icon: 'none',

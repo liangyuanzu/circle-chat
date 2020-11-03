@@ -5,7 +5,8 @@ import {
 	joinCircle,
 	getMyJoinCircle,
 	getCircleInfo,
-	getCircleMember
+	getCircleMember,
+	updateCircleAvatar
 } from '@/api/circle.js'
 
 const state = {
@@ -84,6 +85,10 @@ const actions = {
 	async getCircleMember({ commit }, circleId) {
 		const circleMember = await getCircleMember(circleId)
 		if (circleMember) commit('setCircleMember', circleMember)
+	},
+
+	async updateCircleAvatar({}, data) {
+		await updateCircleAvatar(data)
 	}
 }
 

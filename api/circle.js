@@ -83,3 +83,18 @@ export function getCircleMember(circleId) {
 		}
 	})
 }
+
+/**
+ * 更换圈头像
+ * @param {string} filePath - 图片地址
+ * @param {string | Number} circleId - 圈id
+ * */
+export function updateCircleAvatar(data) {
+	return $request('/circle/updateCirclePhoto', {
+		method: 'UPLOAD',
+		filePath: data.filePath,
+		formData: {
+			circleId: data.circleId
+		}
+	})
+}
