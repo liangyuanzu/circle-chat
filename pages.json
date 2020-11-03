@@ -132,6 +132,16 @@
 			"style": {
 				"navigationBarTitleText": "邀请新圈友"
 			}
+		}, {
+			"path": "pages/components/manage-circle/manage-circle",
+			"style": {
+				"navigationBarTitleText": "管理圈"
+			}
+		}, {
+			"path": "pages/components/edit-circle-info/edit-circle-info",
+			"style": {
+				"navigationBarTitleText": "编辑资料"
+			}
 		}
 	],
 	"globalStyle": {
