@@ -127,6 +127,11 @@
 			"style": {
 				"navigationBarTitleText": "圈聊成员"
 			}
+		}, {
+			"path": "pages/components/invite-member/invite-member",
+			"style": {
+				"navigationBarTitleText": "邀请新圈友"
+			}
 		}
 	],
 	"globalStyle": {

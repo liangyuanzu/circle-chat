@@ -32,7 +32,7 @@
               <view class="text-sm">{{ item.username }}</view>
             </view>
 
-            <view>
+            <view @click.stop="toInviteMember">
               <view
                 class="text-gray cuIcon-roundaddfill"
                 style="font-size: 90rpx"
@@ -159,6 +159,10 @@ export default {
 
     toPersonInfo(id) {
       this.$u.route('/pages/components/person-info/person-info', { id })
+    },
+
+    toInviteMember() {
+      this.$u.route('/pages/components/invite-member/invite-member')
     }
   }
 }
