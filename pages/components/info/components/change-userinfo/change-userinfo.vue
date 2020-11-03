@@ -20,7 +20,7 @@
       label-width="0"
       style="background-color: #fff"
     >
-      <template #footer>
+      <template #right>
         <view class="text-sm text-grey">{{ nameNum }}</view>
       </template>
     </u-field>
@@ -35,7 +35,7 @@
       label-width="0"
       style="background-color: #fff"
     >
-      <template #footer>
+      <template #right>
         <view class="text-sm text-grey">{{ signatureNum }}</view>
       </template>
     </u-field>
