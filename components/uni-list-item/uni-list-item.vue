@@ -377,7 +377,8 @@ $list-item-pd: $uni-spacing-col-lg $uni-spacing-row-lg;
   color: #3b4144;
   // overflow: hidden;
   flex-direction: column;
-  justify-content: space-between;
+  // justify-content: space-around;
+  justify-content: center;
   overflow: hidden;
 }
 
