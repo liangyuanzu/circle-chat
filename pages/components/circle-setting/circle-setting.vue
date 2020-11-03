@@ -1,13 +1,22 @@
 <template>
-  <view class="content">
+  <view>
     <custom-avatar
       :src="circleInfo.img"
       :title="circleInfo.circleName"
-      :note="circleInfo.synopsis"
       showArrow
       clickable
       @click="toCircleDetail"
     >
+      <template #bottom>
+        <view>
+          <view class="text-sm text-grey text-cut" style="width: 470rpx">
+            {{ circleInfo.circleId }}
+          </view>
+          <view class="text-sm text-grey text-cut" style="width: 470rpx">
+            {{ circleInfo.synopsis }}
+          </view>
+        </view>
+      </template>
     </custom-avatar>
 
     <uni-list class="margin-top-sm">
@@ -34,7 +43,7 @@
 
             <view @click.stop="toInviteMember">
               <view
-                class="text-gray cuIcon-roundaddfill"
+                class="text-grey cuIcon-roundaddfill"
                 style="font-size: 90rpx"
               >
               </view>
@@ -45,48 +54,91 @@
       </uni-list-item>
     </uni-list>
 
-    <!-- 圈信息
-    <view class="info">
-      <view>
-        <text>圈名称：</text>
-        <text>贵族圈</text>
-      </view>
-      <view>
-        <text>圈类型：</text>
-        <text>交友圈</text>
-      </view>
-      <view class="owner">
-        <text>圈主：</text>
-        <text>小李</text>
-        <text class="lg text-gray cuIcon-right"></text>
-      </view>
-      <view>
-        <text>创建时间：</text>
-        <text>2020/8/1 12:00</text>
-      </view>
-      <view class="no-disturb">
-        <text>消息免打扰</text>
-        <view class="switch">
-          <u-switch v-model="checked" @change="change"></u-switch>
-        </view>
-      </view>
-    </view>
+    <uni-list class="margin-top-sm">
+      <uni-list-item
+        v-for="(item, index) in infoList"
+        :key="index"
+        :title="item.title"
+        :rightText="item.rightText"
+        :note="item.note"
+        noteEllipsis="2"
+        :border="false"
+        showArrow
+        clickable
+      >
+      </uni-list-item>
+    </uni-list>
 
-    <view class="bottom">
-      <view class="notice">
-        <view class="title">圈公告</view>
-        <view class="content">请友善发言</view>
-      </view>
-      <view class="explain">
-        <view class="title">圈说明</view>
-        <view class="content">闲聊，交友</view>
-      </view>
-    </view>
+    <uni-list>
+      <uni-list-item
+        title="管理圈"
+        rightText="设置圈聊资料"
+        :border="false"
+        showArrow
+        clickable
+      >
+      </uni-list-item>
+    </uni-list>
 
-    <view class="exit">
-      <text class="text-red">退出该圈</text>
-    </view>
-		-->
+    <uni-list class="margin-top-sm">
+      <uni-list-item title="圈类型" :border="false">
+        <template #footer>
+          <u-tag :text="circleInfo.type" size="mini" :type="formatType" />
+        </template>
+      </uni-list-item>
+      <uni-list-item title="圈范围" :border="false">
+        <template #footer>
+          <view class="cu-capsule radius">
+            <view class="cu-tag bg-black sm">
+              <text class="cuIcon-radiobox"></text>
+            </view>
+            <view class="cu-tag line-black sm"> {{ formatRadius }}</view>
+          </view>
+        </template>
+      </uni-list-item>
+    </uni-list>
+
+    <uni-list class="margin-top-sm">
+      <uni-list-item title="置顶">
+        <template #footer>
+          <u-switch
+            size="40"
+            v-model="setTop"
+            :loading="setTopLoading"
+          ></u-switch>
+        </template>
+      </uni-list-item>
+    </uni-list>
+
+    <uni-list>
+      <uni-list-item title="消息免打扰">
+        <template #footer>
+          <u-switch
+            size="40"
+            v-model="noNotice"
+            :loading="noNoticeLoading"
+          ></u-switch>
+        </template>
+      </uni-list-item>
+    </uni-list>
+
+    <uni-list class="margin-top-sm">
+      <uni-list-item clickable>
+        <template #body>
+          <view class="text-blue text-df">删除聊天记录</view>
+        </template>
+      </uni-list-item>
+    </uni-list>
+
+    <uni-list class="margin-top-sm">
+      <uni-list-item clickable>
+        <template #body>
+          <view class="text-center text-red text-df" style="width: 100%"
+            >退出该圈</view
+          >
+        </template>
+      </uni-list-item>
+    </uni-list>
   </view>
 </template>
 
@@ -96,7 +148,10 @@ import { mapGetters } from 'vuex'
 export default {
   data() {
     return {
-      checked: false
+      setTop: false,
+      setTopLoading: false,
+      noNotice: false,
+      noNoticeLoading: false
     }
   },
 
@@ -105,6 +160,43 @@ export default {
     bannerMember() {
       if (this.circleMember.length < 4) return this.circleMember
       return this.circleMember.slice(0, 4)
+    },
+    infoList() {
+      return [
+        {
+          title: '圈聊名称',
+          rightText: this.circleInfo.circleName
+        },
+        {
+          title: '圈简介',
+          rightText:
+            this.circleInfo.synopsis?.length <= 20
+              ? this.circleInfo.synopsis
+              : '',
+          note:
+            this.circleInfo.synopsis?.length > 20
+              ? this.circleInfo.synopsis
+              : ''
+        },
+        {
+          title: '圈公告',
+          rightText:
+            this.circleInfo.notice?.length <= 20 ? this.circleInfo.notice : '',
+          note:
+            this.circleInfo.notice?.length > 20 ? this.circleInfo.notice : ''
+        }
+      ]
+    },
+    formatType() {
+      if (this.circleInfo.type === '固定圈') return 'warning'
+      if (this.circleInfo.type === '紧急圈') return 'error'
+    },
+    formatRadius() {
+      if (this.circleInfo.radius > 0 && this.circleInfo.radius < 1000) {
+        return this.circleInfo.radius + ' m'
+      } else {
+        return parseInt(this.circleInfo.radius / 1000) + ' km'
+      }
     }
   },
 
@@ -141,10 +233,6 @@ export default {
       })
     },
 
-    change(status) {
-      console.log(status)
-    },
-
     toCircleDetail() {
       this.$u.route('/pages/components/circle-detail/circle-detail', {
         info: JSON.stringify(this.circleInfo)
@@ -169,99 +257,4 @@ export default {
 </script>
 
 <style lang="scss">
-.content {
-  .avatar {
-    width: 100%;
-    height: 150rpx;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #fff;
-    color: #888;
-
-    .change-avatar {
-      margin-right: 30rpx;
-
-      text {
-        &:nth-of-type(1) {
-          margin-right: 5rpx;
-        }
-      }
-    }
-  }
-
-  .info {
-    width: 100%;
-    margin-top: 20rpx;
-    background-color: #fff;
-
-    & > view {
-      width: 100%;
-      height: 100rpx;
-      line-height: 100rpx;
-      padding: 0 30rpx;
-      border-bottom: 1px solid #f1f1f1;
-
-      text {
-        &:nth-of-type(1) {
-          font-weight: bold;
-          margin-right: 10rpx;
-        }
-      }
-    }
-
-    .owner {
-      text {
-        &:nth-last-child(1) {
-          float: right;
-        }
-      }
-    }
-
-    .no-disturb {
-      position: relative;
-      .switch {
-        display: inline-block;
-        position: absolute;
-        top: 16rpx;
-        right: 30rpx;
-      }
-    }
-  }
-
-  .bottom {
-    width: 100%;
-    box-sizing: border-box;
-
-    .notice,
-    .explain {
-      width: 100%;
-      height: 250rpx;
-      background-color: #fff;
-      margin-top: 20rpx;
-      padding: 30rpx;
-
-      .title {
-        height: 50rpx;
-        line-height: 50rpx;
-        font-weight: bold;
-        color: #333;
-      }
-      .content {
-        height: 200rpx;
-        line-height: 50rpx;
-      }
-    }
-  }
-
-  .exit {
-    width: 100%;
-    height: 100rpx;
-    line-height: 100rpx;
-    margin-top: 20rpx;
-    text-align: center;
-    background-color: #fff;
-    // border-top: 20rpx solid #f1f1f1;
-  }
-}
 </style>
