@@ -39,6 +39,10 @@ export default {
   },
 
   methods: {
+    back() {
+      this.$u.route({ type: 'back' })
+    },
+
     save(content) {
       if (this.title === '昵称') {
         this.commit({ username: content })
@@ -59,7 +63,7 @@ export default {
               icon: 'none'
             })
             setTimeout(() => {
-              this.$u.route({ type: 'back' })
+              this.back()
             }, 500)
           }, 500)
         })
