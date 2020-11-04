@@ -3,8 +3,8 @@
     <custom-update-info
       :title="title"
       :data="data"
-      :isInput="isUsername"
-      :isTextarea="isAutograph"
+      :isInput="isInput"
+      :isTextarea="isTextarea"
       @top="save"
     ></custom-update-info>
   </view>
@@ -18,8 +18,8 @@ export default {
     return {
       title: '',
       data: '',
-      isUsername: false,
-      isAutograph: false
+      isInput: false,
+      isTextarea: false
     }
   },
 
@@ -31,19 +31,18 @@ export default {
     this.title = title
     if (this.title === '昵称') {
       this.data = this.username
-      this.isUsername = true
-    }
-    if (this.title === '个性签名') {
+      this.isInput = true
+    } else if (this.title === '个性签名') {
       this.data = this.autograph
-      this.isAutograph = true
+      this.isTextarea = true
     }
   },
 
   methods: {
     save(content) {
-      if (this.isUsername) {
+      if (this.title === '昵称') {
         this.commit({ username: content })
-      } else if (this.isAutograph) {
+      } else if (this.title === '个性签名') {
         this.commit({ autograph: content })
       }
     },
