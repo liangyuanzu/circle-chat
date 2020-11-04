@@ -49,10 +49,6 @@ export default {
     }
   },
 
-  onShow() {
-    console.log('sss')
-  },
-
   methods: {
     save(content) {
       if (this.title === '圈聊名称') {
