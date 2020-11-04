@@ -58,7 +58,7 @@ export default {
             this.circleInfo.notice?.length > 20 ? this.circleInfo.notice : ''
         },
         {
-          title: '入圈说明',
+          title: '入圈声明',
           rightText:
             this.circleInfo.explain?.length <= 20
               ? this.circleInfo.explain

@@ -35,7 +35,7 @@ export default {
     } else if (this.title === '圈公告') {
       this.data = circleInfo.notice
       this.isTextarea = true
-    } else if (this.title === '入圈说明') {
+    } else if (this.title === '入圈声明') {
       this.data = circleInfo.explain
       this.isTextarea = true
     }
@@ -49,7 +49,7 @@ export default {
         this.commit({ synopsis: content })
       } else if (this.title === '圈公告') {
         this.commit({ notice: content })
-      } else if (this.title === '入圈说明') {
+      } else if (this.title === '入圈声明') {
         this.commit({ explain: content })
       }
     },
