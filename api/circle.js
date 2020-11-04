@@ -125,3 +125,14 @@ export function addCircleEffective(data) {
 		data
 	})
 }
+
+/**
+ * 退出圈
+ * @param {string, Number} circleId - 圈id
+ * */
+export function exitCircle(data) {
+	return $request('/circle/exitCircle', {
+		method: 'POST',
+		data
+	})
+}

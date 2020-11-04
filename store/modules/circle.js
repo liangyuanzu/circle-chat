@@ -8,7 +8,8 @@ import {
 	getCircleMember,
 	updateCircleAvatar,
 	updateCircleInfo,
-	addCircleEffective
+	addCircleEffective,
+	exitCircle
 } from '@/api/circle.js'
 
 const state = {
@@ -99,6 +100,10 @@ const actions = {
 
 	async addCircleEffective({}, circleInfo) {
 		await addCircleEffective(circleInfo)
+	},
+
+	async exitCircle({}, circleId) {
+		await exitCircle(circleId)
 	}
 }
 

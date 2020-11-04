@@ -132,15 +132,25 @@
       </uni-list-item>
     </uni-list>
 
-    <uni-list class="margin-top-sm">
-      <uni-list-item clickable>
+    <uni-list class="margin-top-sm margin-bottom-xl">
+      <uni-list-item clickable @click="delExit">
         <template #body>
           <view class="text-center text-red text-df" style="width: 100%"
-            >退出该圈</view
+            >删除并退出</view
           >
         </template>
       </uni-list-item>
     </uni-list>
+
+    <u-modal
+      v-model="showModal"
+      :title="modalTitle"
+      :content="modalContent"
+      show-cancel-button
+      confirm-color="#fa3534"
+      @confirm="confirm"
+      ref="uModal"
+    ></u-modal>
   </view>
 </template>
 
@@ -153,7 +163,10 @@ export default {
       setTop: false,
       setTopLoading: false,
       noNotice: false,
-      noNoticeLoading: false
+      noNoticeLoading: false,
+      showModal: false,
+      modalTitle: '',
+      modalContent: ''
     }
   },
 
@@ -275,6 +288,45 @@ export default {
           circleInfo: encodeURIComponent(JSON.stringify(this.circleInfo))
         }
       )
+    },
+
+    delExit() {
+      this.modalTitle = '删除并退出'
+      this.modalContent = '删除并退出后，将不再接收此圈聊信息'
+      this.showModal = true
+    },
+
+    confirm() {
+      switch (this.modalTitle) {
+        case '删除并退出':
+          uni.showLoading()
+          this.$store
+            .dispatch('circle/exitCircle', {
+              circleId: this.circleInfo.circleId
+            })
+            .then(() => {
+              uni.hideLoading()
+              setTimeout(() => {
+                uni.showToast({
+                  title: '退出成功',
+                  icon: 'none'
+                })
+                setTimeout(() => {
+                  this.$u.route({
+                    url: '/pages/msg/msg',
+                    type: 'switchTab'
+                  })
+                }, 500)
+              }, 500)
+            })
+            .catch(() => {
+              uni.hideLoading()
+            })
+          break
+
+        default:
+          break
+      }
     }
   }
 }
