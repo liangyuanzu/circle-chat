@@ -85,14 +85,14 @@ export default {
       return true
     },
     inputNum() {
-      if (this.content.length === 0) {
+      if (!this.content) {
         return 20
       } else {
         return 20 - this.content.length
       }
     },
     textareaNum() {
-      if (this.content.length === 0) {
+      if (!this.content) {
         return 60
       } else {
         return 60 - this.content.length
