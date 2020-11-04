@@ -5,6 +5,7 @@
       :data="data"
       :isInput="isInput"
       :isTextarea="isTextarea"
+      :isNumberBox="isNumberBox"
       @top="save"
     ></custom-update-info>
   </view>
@@ -18,6 +19,7 @@ export default {
       data: '',
       isInput: false,
       isTextarea: false,
+      isNumberBox: false,
       circleInfo: {}
     }
   },
@@ -38,6 +40,9 @@ export default {
     } else if (this.title === '入圈声明') {
       this.data = circleInfo.explain
       this.isTextarea = true
+    } else if (this.title === '有效时间') {
+      this.data = circleInfo.effective
+      this.isNumberBox = true
     }
   },
 
@@ -51,6 +56,8 @@ export default {
         this.commit({ notice: content })
       } else if (this.title === '入圈声明') {
         this.commit({ explain: content })
+      } else if (this.title === '有效时间') {
+        this.commitEffective({ effective: content })
       }
     },
 
@@ -58,6 +65,30 @@ export default {
       uni.showLoading()
       this.$store
         .dispatch('circle/updateCircleInfo', {
+          circleId: this.circleInfo.circleId,
+          ...data
+        })
+        .then(() => {
+          uni.hideLoading()
+          setTimeout(() => {
+            uni.showToast({
+              title: '修改成功',
+              icon: 'none'
+            })
+            setTimeout(() => {
+              this.$u.route({ type: 'back' })
+            }, 500)
+          }, 500)
+        })
+        .catch(() => {
+          uni.hideLoading()
+        })
+    },
+
+    commitEffective(data) {
+      uni.showLoading()
+      this.$store
+        .dispatch('circle/addCircleEffective', {
           circleId: this.circleInfo.circleId,
           ...data
         })

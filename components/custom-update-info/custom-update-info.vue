@@ -39,6 +39,24 @@
         <view class="text-sm text-grey">{{ textareaNum }}</view>
       </template>
     </u-field>
+
+    <view v-if="isNumberBox">
+      <uni-list>
+        <uni-list-item title="增加有效期">
+          <template #footer>
+            <u-number-box
+              v-model="effective"
+              :min="0"
+              :max="14 - data"
+            ></u-number-box>
+          </template>
+        </uni-list-item>
+      </uni-list>
+      <view class="text-sm text-grey padding"
+        >当前有效时间为 {{ data }} 天，增加后有效时间为
+        {{ data + effective }} 天</view
+      >
+    </view>
   </view>
 </template>
 
@@ -50,13 +68,15 @@
  * @property {String} 	data 							原始数据
  * @property {Boolean} isInput = [true|false] 是否为输入框
  * @property {Boolean} isTextarea = [true|false] 是否为多行输入框
+ * @property {Boolean} isNumberBox = [true|false] 是否为歩进器
  *
  * @event {Function} click 头像被点击
  */
 export default {
   data() {
     return {
-      content: this.data
+      content: this.data,
+      effective: 0
     }
   },
 
@@ -66,7 +86,7 @@ export default {
       default: ''
     },
     data: {
-      type: String,
+      type: [String, Number],
       default: ''
     },
     isInput: {
@@ -76,12 +96,16 @@ export default {
     isTextarea: {
       type: Boolean,
       default: false
+    },
+    isNumberBox: {
+      type: Boolean,
+      default: false
     }
   },
 
   computed: {
     disabled() {
-      if (this.content) return false
+      if (this.content || this.effective) return false
       return true
     },
     inputNum() {
@@ -100,13 +124,18 @@ export default {
     }
   },
 
+  created() {
+    if (this.isNumberBox) this.content = ''
+  },
+
   methods: {
     back() {
       this.$u.route({ type: 'back' })
     },
 
     save() {
-      this.$emit('top', this.content)
+      if (!this.isNumberBox) this.$emit('top', this.content)
+      else this.$emit('top', this.effective)
     }
   }
 }

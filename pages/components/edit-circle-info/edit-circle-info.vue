@@ -65,6 +65,10 @@ export default {
               : '',
           note:
             this.circleInfo.explain?.length > 20 ? this.circleInfo.explain : ''
+        },
+        {
+          title: '有效时间',
+          rightText: this.circleInfo.effective + ' 天'
         }
       ]
     }

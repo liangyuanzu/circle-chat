@@ -113,3 +113,15 @@ export function updateCircleInfo(data) {
 		data
 	})
 }
+
+/**
+ * 增加圈额存在时长
+ * @param {string, Number} circleId - 圈id
+ * @param {Number} effective - 增加天数
+ * */
+export function addCircleEffective(data) {
+	return $request('/circle/addCircleEffective', {
+		method: 'POST',
+		data
+	})
+}
