@@ -1,104 +1,50 @@
 <template>
   <view>
-    <uni-nav-bar fixed status-bar left-icon="back" @clickLeft="back">
-      <template #left>
-        <view>{{ title }}</view>
-      </template>
-      <template #right>
-        <button type="primary" size="mini" :disabled="disabled" @tap="save">
-          保存
-        </button>
-      </template>
-    </uni-nav-bar>
-
-    <u-field
-      maxlength="20"
-      v-model="name"
-      v-if="title === '昵称'"
-      focus
-      :clearable="clearable"
-      label-width="0"
-      style="background-color: #fff"
-    >
-      <template #right>
-        <view class="text-sm text-grey">{{ nameNum }}</view>
-      </template>
-    </u-field>
-
-    <u-field
-      type="textarea"
-      maxlength="60"
-      v-model="signature"
-      v-if="title === '个性签名'"
-      focus
-      :clearable="clearable"
-      label-width="0"
-      style="background-color: #fff"
-    >
-      <template #right>
-        <view class="text-sm text-grey">{{ signatureNum }}</view>
-      </template>
-    </u-field>
+    <custom-update-info
+      :title="title"
+      :data="data"
+      :isInput="isUsername"
+      :isTextarea="isAutograph"
+      @top="save"
+    ></custom-update-info>
   </view>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
-import uniNavBar from '@/components/uni-nav-bar/uni-nav-bar.vue'
 
 export default {
-  components: { uniNavBar },
-
   data() {
     return {
       title: '',
-      name: '',
-      signature: '',
-      clearable: false
+      data: '',
+      isUsername: false,
+      isAutograph: false
     }
   },
 
   computed: {
-    ...mapGetters('user', ['username', 'sex', 'birthday', 'autograph']),
-    disabled() {
-      if (this.name || this.signature) return false
-      return true
-    },
+    ...mapGetters('user', ['username', 'autograph'])
+  },
 
-    nameNum() {
-      if (this.name.length === 0) {
-        return 20
-      } else {
-        return 20 - this.name.length
-      }
-    },
-
-    signatureNum() {
-      if (this.signature.length === 0) {
-        return 60
-      } else {
-        return 60 - this.signature.length
-      }
+  onLoad({ title }) {
+    this.title = title
+    if (this.title === '昵称') {
+      this.data = this.username
+      this.isUsername = true
+    }
+    if (this.title === '个性签名') {
+      this.data = this.autograph
+      this.isAutograph = true
     }
   },
 
-  onLoad(options) {
-    this.title = options.title
-    if (this.title === '昵称') this.name = this.username
-    if (this.title === '个性签名') this.signature = this.autograph
-  },
-
   methods: {
-    back() {
-      this.$u.route({ type: 'back' })
-    },
-
-    save() {
-      switch (this.title) {
-        case '昵称':
-          this.commit({ username: this.name })
-        case '个性签名':
-          this.commit({ autograph: this.signature })
+    save(content) {
+      if (this.isUsername) {
+        this.commit({ username: content })
+      } else if (this.isAutograph) {
+        this.commit({ autograph: content })
       }
     },
 
