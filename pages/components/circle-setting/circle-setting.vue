@@ -125,10 +125,12 @@
     </uni-list>
 
     <uni-list class="margin-top-sm">
-      <uni-list-item clickable>
-        <template #body>
-          <view class="text-blue text-df">删除聊天记录</view>
-        </template>
+      <uni-list-item
+        title="清空聊天记录"
+        showArrow
+        clickable
+        @click="clearChatDetail"
+      >
       </uni-list-item>
     </uni-list>
 
@@ -144,7 +146,7 @@
 
     <u-modal
       v-model="showModal"
-      :title="modalTitle"
+      :show-title="false"
       :content="modalContent"
       show-cancel-button
       confirm-color="#fa3534"
@@ -296,6 +298,12 @@ export default {
       this.showModal = true
     },
 
+    clearChatDetail() {
+      this.modalTitle = '清空聊天记录'
+      this.modalContent = '确定删除圈的聊天记录吗?'
+      this.showModal = true
+    },
+
     confirm() {
       switch (this.modalTitle) {
         case '删除并退出':
@@ -322,6 +330,12 @@ export default {
             .catch(() => {
               uni.hideLoading()
             })
+          break
+
+        case '清空聊天记录':
+          const key =
+            'chatDetail_' + this.userId + '_' + this.circleInfo.circleId
+          uni.removeStorageSync(key)
           break
 
         default:
