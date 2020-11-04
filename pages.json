@@ -142,6 +142,11 @@
 			"style": {
 				"navigationBarTitleText": "编辑资料"
 			}
+		}, {
+			"path": "pages/components/edit-circle-info/components/change-circle-info/change-circle-info",
+			"style": {
+				"navigationStyle": "custom"
+			}
 		}
 	],
 	"globalStyle": {

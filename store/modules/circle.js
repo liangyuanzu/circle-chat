@@ -6,7 +6,8 @@ import {
 	getMyJoinCircle,
 	getCircleInfo,
 	getCircleMember,
-	updateCircleAvatar
+	updateCircleAvatar,
+	updateCircleInfo
 } from '@/api/circle.js'
 
 const state = {
@@ -89,6 +90,10 @@ const actions = {
 
 	async updateCircleAvatar({}, data) {
 		await updateCircleAvatar(data)
+	},
+
+	async updateCircleInfo({}, circleInfo) {
+		await updateCircleInfo(circleInfo)
 	}
 }
 

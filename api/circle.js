@@ -98,3 +98,18 @@ export function updateCircleAvatar(data) {
 		}
 	})
 }
+
+/**
+ * 修改圈的信息
+ * @param {string, Number} circleId - 圈id
+ * @param {string} name - 圈名称
+ * @param {string} synopsis - 圈简介
+ * @param {string} notice - 圈公告
+ * @param {string} explain - 入圈声明
+ * */
+export function updateCircleInfo(data) {
+	return $request('/circle/updateCircleMsg', {
+		method: 'POST',
+		data
+	})
+}
