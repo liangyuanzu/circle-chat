@@ -4,7 +4,7 @@
       <template #left>
         <view>{{ title }}</view>
       </template>
-      <template #right>
+      <template #right v-if="isEdit">
         <button type="primary" size="mini" :disabled="disabled" @tap="save">
           保存
         </button>
@@ -15,12 +15,13 @@
       v-if="isInput"
       v-model="content"
       maxlength="20"
-      focus
+      :focus="isEdit"
+      :disabled="!isEdit"
       :clearable="false"
       label-width="0"
       class="bg-white"
     >
-      <template #right>
+      <template #right v-if="isEdit">
         <view class="text-sm text-grey">{{ inputNum }}</view>
       </template>
     </u-field>
@@ -30,12 +31,13 @@
       type="textarea"
       v-model="content"
       maxlength="60"
-      focus
+      :focus="isEdit"
+      :disabled="!isEdit"
       :clearable="false"
       label-width="0"
       class="bg-white"
     >
-      <template #right>
+      <template #right v-if="isEdit">
         <view class="text-sm text-grey">{{ textareaNum }}</view>
       </template>
     </u-field>
@@ -69,6 +71,7 @@
  * @property {Boolean} isInput = [true|false] 是否为输入框
  * @property {Boolean} isTextarea = [true|false] 是否为多行输入框
  * @property {Boolean} isNumberBox = [true|false] 是否为歩进器
+ * @property {Boolean} isEdit = [true|false] 是否可编辑
  *
  * @event {Function} click 头像被点击
  */
@@ -98,6 +101,10 @@ export default {
       default: false
     },
     isNumberBox: {
+      type: Boolean,
+      default: false
+    },
+    isEdit: {
       type: Boolean,
       default: false
     }

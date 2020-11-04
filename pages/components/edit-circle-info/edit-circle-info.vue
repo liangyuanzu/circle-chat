@@ -84,7 +84,8 @@ export default {
         '/pages/components/edit-circle-info/components/change-circle-info/change-circle-info',
         {
           title,
-          circleInfo: JSON.stringify(this.circleInfo)
+          isEdit: true,
+          circleInfo: encodeURIComponent(JSON.stringify(this.circleInfo))
         }
       )
     }

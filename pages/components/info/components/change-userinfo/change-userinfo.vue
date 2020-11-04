@@ -5,6 +5,7 @@
       :data="data"
       :isInput="isInput"
       :isTextarea="isTextarea"
+      :isEdit="true"
       @top="save"
     ></custom-update-info>
   </view>

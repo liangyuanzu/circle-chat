@@ -65,6 +65,7 @@
         :border="false"
         showArrow
         clickable
+        @click="onClick(item.title)"
       >
       </uni-list-item>
     </uni-list>
@@ -261,8 +262,19 @@ export default {
 
     toManageCircle() {
       this.$u.route('/pages/components/manage-circle/manage-circle', {
-				circleId: this.circleInfo.circleId
-			})
+        circleId: this.circleInfo.circleId
+      })
+    },
+
+    onClick(title) {
+      this.$u.route(
+        '/pages/components/edit-circle-info/components/change-circle-info/change-circle-info',
+        {
+          title,
+          isEdit: this.isOwner,
+          circleInfo: encodeURIComponent(JSON.stringify(this.circleInfo))
+        }
+      )
     }
   }
 }

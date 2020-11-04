@@ -6,6 +6,7 @@
       :isInput="isInput"
       :isTextarea="isTextarea"
       :isNumberBox="isNumberBox"
+      :isEdit="isEdit"
       @top="save"
     ></custom-update-info>
   </view>
@@ -20,12 +21,14 @@ export default {
       isInput: false,
       isTextarea: false,
       isNumberBox: false,
+      isEdit: false,
       circleInfo: {}
     }
   },
 
   onLoad(options) {
     this.title = options.title
+    this.isEdit = options.isEdit == 'true' ? true : false
     const circleInfo = JSON.parse(options.circleInfo)
     this.circleInfo = circleInfo
     if (this.title === '圈聊名称') {
@@ -44,6 +47,10 @@ export default {
       this.data = circleInfo.effective
       this.isNumberBox = true
     }
+  },
+
+  onShow() {
+    console.log('sss')
   },
 
   methods: {
