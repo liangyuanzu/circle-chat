@@ -1,5 +1,5 @@
 module.exports = {
-	baseUrl: 'http://39.99.156.255:8081',
+	baseUrl: 'https://www.circlechat.top',
 	accessTokenName: 'accessToken',
 	refreshTokenName: 'refreshToken',
 	websocketUrl: 'ws://39.99.156.255:8081/websocket',
