@@ -29,6 +29,7 @@
           <view>
             <custom-circle-list
               :border="false"
+              showJoin
               :list="circleList"
               @click="toCircleDetail"
             >

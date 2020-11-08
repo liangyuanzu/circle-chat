@@ -44,7 +44,7 @@
           </view>
         </template>
 
-        <template #footer>
+        <template #footer v-if="showJoin">
           <view class="flex align-center">
             <u-button type="primary" size="mini" shape="circle" plain>
               <uni-icons :size="12" color="#0081ff" :type="'plusempty'" />
@@ -62,7 +62,8 @@
  * custom-circle-list 自定义圈列表组件
  * @description 本组件是适用于本项目的圈列表组件，一般用于展示圈列表的地方，如附近的圈，我加入的圈。
  * @property {String} 	border = [true|false] 		列表项边框
- * @property {Boolean} 	showArrow = [true|false] 		是否右侧箭头
+ * @property {Boolean, String} 	showArrow = [true|false] 		是否显示右侧箭头
+ * @property {Boolean, String} 	showJoin = [true|false] 		是否显示加入按钮
  * @property {Array} 	list 							圈列表
  * @event {Function} 	click 							点击 uniListItem 触发事件
  */
@@ -73,6 +74,10 @@ export default {
       default: true
     },
     showArrow: {
+      type: [Boolean, String],
+      default: false
+    },
+    showJoin: {
       type: [Boolean, String],
       default: false
     },
