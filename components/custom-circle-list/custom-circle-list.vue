@@ -46,9 +46,23 @@
 
         <template #footer>
           <view class="flex align-center" v-if="showJoin">
-            <u-button type="primary" size="mini" shape="circle" plain>
-              <uni-icons :size="12" color="#0081ff" :type="'plusempty'" />
-              <text style="margin-left: 10rpx">加入</text>
+            <u-button
+              :type="item.inCircle ? 'default' : 'primary'"
+              size="mini"
+              shape="circle"
+              plain
+              @click="jionCircle(item)"
+            >
+              <uni-icons
+                :size="12"
+                color="#0081ff"
+                :type="item.inCircle ? '' : 'plusempty'"
+              />
+              <text
+                style="margin-left: 10rpx"
+                :class="[item.inCircle ? 'text-grey' : '']"
+                >{{ formatJoin(item.inCircle) }}</text
+              >
             </u-button>
           </view>
         </template>
@@ -98,8 +112,45 @@ export default {
       }
     },
 
+    formatJoin(inCircle) {
+      if (inCircle) return '已加入'
+      return '加入'
+    },
+
     onClick(item) {
       this.$emit('click', item)
+    },
+
+    toCircleChat(info) {
+      const circleinfo = {
+        circleId: info.circleId,
+        circleName: info.circleName,
+        circleAvatar: info.img,
+        circleType: info.type,
+        member: info.member
+      }
+      this.$u.route('/pages/components/chat/chat', {
+        circleinfo: encodeURIComponent(JSON.stringify(circleinfo))
+      })
+    },
+
+    jionCircle(circleinfo) {
+      if (circleinfo.inCircle) return
+      this.$store
+        .dispatch('circle/joinCircle', {
+          circleId: circleinfo.circleId
+        })
+        .then(() => {
+          setTimeout(() => {
+            uni.showToast({
+              title: '加入成功',
+              icon: 'none'
+            })
+            setTimeout(() => {
+              this.toCircleChat(circleinfo)
+            }, 500)
+          }, 500)
+        })
     }
   }
 }
