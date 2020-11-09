@@ -49,14 +49,14 @@
             <u-number-box
               v-model="effective"
               :min="0"
-              :max="14 - data"
+              :max="14 - oldData"
             ></u-number-box>
           </template>
         </uni-list-item>
       </uni-list>
       <view class="text-sm text-grey padding"
-        >当前有效时间为 {{ data }} 天，增加后有效时间为
-        {{ data + effective }} 天</view
+        >当前有效时间为 {{ oldData }} 天，增加后有效时间为
+        {{ oldData + effective }} 天</view
       >
     </view>
   </view>
@@ -67,7 +67,7 @@
  * custom-update-info 自定义更新资料组件
  * @description 本组件是适用于本项目的更新资料组件，一般用于展示更新资料的地方，如个人信息编辑，圈聊资料编辑。
  * @property {String} 	title 							标题
- * @property {String} 	data 							原始数据
+ * @property {String} 	oldData 							原始数据
  * @property {Boolean} isInput = [true|false] 是否为输入框
  * @property {Boolean} isTextarea = [true|false] 是否为多行输入框
  * @property {Boolean} isNumberBox = [true|false] 是否为歩进器
@@ -76,9 +76,11 @@
  * @event {Function} click 头像被点击
  */
 export default {
+  name: 'custom-update-info',
+
   data() {
     return {
-      content: this.data,
+      content: this.oldData,
       effective: 0
     }
   },
@@ -88,7 +90,7 @@ export default {
       type: String,
       default: ''
     },
-    data: {
+    oldData: {
       type: [String, Number],
       default: ''
     },

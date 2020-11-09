@@ -2,7 +2,7 @@
   <view>
     <custom-update-info
       :title="title"
-      :data="data"
+      :oldData="oldData"
       :isInput="isInput"
       :isTextarea="isTextarea"
       :isNumberBox="isNumberBox"
@@ -17,7 +17,7 @@ export default {
   data() {
     return {
       title: '',
-      data: '',
+      oldData: '',
       isInput: false,
       isTextarea: false,
       isNumberBox: false,
@@ -32,19 +32,19 @@ export default {
     const circleInfo = JSON.parse(options.circleInfo)
     this.circleInfo = circleInfo
     if (this.title === '圈聊名称') {
-      this.data = circleInfo.circleName
+      this.oldData = circleInfo.circleName
       this.isInput = true
     } else if (this.title === '圈简介') {
-      this.data = circleInfo.synopsis
+      this.oldData = circleInfo.synopsis
       this.isTextarea = true
     } else if (this.title === '圈公告') {
-      this.data = circleInfo.notice
+      this.oldData = circleInfo.notice
       this.isTextarea = true
     } else if (this.title === '入圈声明') {
-      this.data = circleInfo.explain
+      this.oldData = circleInfo.explain
       this.isTextarea = true
     } else if (this.title === '有效时间') {
-      this.data = circleInfo.effective
+      this.oldData = circleInfo.effective
       this.isNumberBox = true
     }
   },
@@ -64,12 +64,12 @@ export default {
       }
     },
 
-    commit(data) {
+    commit(newData) {
       uni.showLoading()
       this.$store
         .dispatch('circle/updateCircleInfo', {
           circleId: this.circleInfo.circleId,
-          ...data
+          ...newData
         })
         .then(() => {
           uni.hideLoading()
@@ -88,12 +88,12 @@ export default {
         })
     },
 
-    commitEffective(data) {
+    commitEffective(newData) {
       uni.showLoading()
       this.$store
         .dispatch('circle/addCircleEffective', {
           circleId: this.circleInfo.circleId,
-          ...data
+          ...newData
         })
         .then(() => {
           uni.hideLoading()

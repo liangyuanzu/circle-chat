@@ -2,7 +2,7 @@
   <view>
     <custom-update-info
       :title="title"
-      :data="data"
+      :oldData="oldData"
       :isInput="isInput"
       :isTextarea="isTextarea"
       :isEdit="true"
@@ -18,7 +18,7 @@ export default {
   data() {
     return {
       title: '',
-      data: '',
+      oldData: '',
       isInput: false,
       isTextarea: false
     }
@@ -31,10 +31,10 @@ export default {
   onLoad({ title }) {
     this.title = title
     if (this.title === '昵称') {
-      this.data = this.username
+      this.oldData = this.username
       this.isInput = true
     } else if (this.title === '个性签名') {
-      this.data = this.autograph
+      this.oldData = this.autograph
       this.isTextarea = true
     }
   },
@@ -48,10 +48,10 @@ export default {
       }
     },
 
-    commit(data) {
+    commit(newData) {
       uni.showLoading()
       this.$store
-        .dispatch('user/updateMessage', data)
+        .dispatch('user/updateMessage', newData)
         .then(() => {
           uni.hideLoading()
           setTimeout(() => {
