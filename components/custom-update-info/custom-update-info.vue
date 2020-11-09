@@ -4,8 +4,14 @@
       <template #left>
         <view>{{ title }}</view>
       </template>
-      <template #right v-if="isEdit">
-        <button type="primary" size="mini" :disabled="disabled" @tap="save">
+      <template #right>
+        <button
+          v-if="isEdit"
+          type="primary"
+          size="mini"
+          :disabled="disabled"
+          @tap="save"
+        >
           保存
         </button>
       </template>
@@ -21,8 +27,8 @@
       label-width="0"
       class="bg-white"
     >
-      <template #right v-if="isEdit">
-        <view class="text-sm text-grey">{{ inputNum }}</view>
+      <template #right>
+        <view v-if="isEdit" class="text-sm text-grey">{{ inputNum }}</view>
       </template>
     </u-field>
 
@@ -37,8 +43,8 @@
       label-width="0"
       class="bg-white"
     >
-      <template #right v-if="isEdit">
-        <view class="text-sm text-grey">{{ textareaNum }}</view>
+      <template #right>
+        <view v-if="isEdit" class="text-sm text-grey">{{ textareaNum }}</view>
       </template>
     </u-field>
 

@@ -44,8 +44,8 @@
           </view>
         </template>
 
-        <template #footer v-if="showJoin">
-          <view class="flex align-center">
+        <template #footer>
+          <view class="flex align-center" v-if="showJoin">
             <u-button type="primary" size="mini" shape="circle" plain>
               <uni-icons :size="12" color="#0081ff" :type="'plusempty'" />
               <text style="margin-left: 10rpx">加入</text>
