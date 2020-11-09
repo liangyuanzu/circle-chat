@@ -68,6 +68,8 @@
  * @event {Function} 	click 							点击 uniListItem 触发事件
  */
 export default {
+  name: 'custom-circle-list',
+
   props: {
     border: {
       type: Boolean,

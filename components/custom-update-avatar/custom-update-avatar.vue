@@ -24,6 +24,8 @@
 
 import { base64ToPath } from '@/utils/image-tools/index.js'
 export default {
+  name: 'custom-update-avatar',
+
   props: {
     title: {
       type: String,
