@@ -34,7 +34,7 @@ export default {
 
   methods: {
     createCircle() {
-      this.$u.route('/pages/components/create-map/create-map')
+      this.$u.route('/pages/components/create-circle-map/create-circle-map')
     }
   }
 }

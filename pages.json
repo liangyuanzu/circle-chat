@@ -26,7 +26,7 @@
 				"navigationBarTitleText": "圈详情"
 			}
 		}, {
-			"path": "pages/components/create/create",
+			"path": "pages/components/create-circle/create-circle",
 			"style": {
 				"navigationBarTitleText": "创建圈"
 			}
@@ -81,7 +81,7 @@
 				"navigationStyle": "custom"
 			}
 		}, {
-			"path": "pages/components/create-map/create-map",
+			"path": "pages/components/create-circle-map/create-circle-map",
 			"style": {
 				"navigationStyle": "custom"
 			}

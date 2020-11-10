@@ -187,7 +187,7 @@
 		create.onclick = e => {
 			e.stopPropagation()
 			uni.navigateTo({
-				url: '/pages/components/create-map/create-map'
+				url: '/pages/components/create-circle-map/create-circle-map'
 			})
 		}
 		const search = document.querySelector('#search')

@@ -98,7 +98,7 @@
 			e.stopPropagation()
 			const position = lng + ',' + lat
 			uni.navigateTo({
-				url: `/pages/components/create/create?position=${position}`
+				url: `/pages/components/create-circle/create-circle?position=${position}`
 			})
 		}
 	}
@@ -144,7 +144,7 @@
 				radius
 			} = event.target._opts
 			uni.navigateTo({
-				url: `/pages/components/create/create?position=${center}&radius=${radius}`
+				url: `/pages/components/create-circle/create-circle?position=${center}&radius=${radius}`
 			})
 		})
 	}
