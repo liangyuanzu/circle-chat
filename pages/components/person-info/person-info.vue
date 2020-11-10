@@ -31,7 +31,7 @@
       </uni-list>
     </view>
 
-    <view style="margin-top: 20rpx">
+    <view style="margin-top: 20rpx" v-if="userId !== personinfo.userId">
       <uni-list>
         <uni-list-item clickable @click="onFocus">
           <template #body>
@@ -69,7 +69,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters('user', ['personinfo']),
+    ...mapGetters('user', ['personinfo', 'userId']),
     ...mapGetters('focus', ['focusStatus']),
     formatGender() {
       if (this.sex === '男') return 'man'
