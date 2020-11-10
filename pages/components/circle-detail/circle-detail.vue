@@ -130,7 +130,7 @@ export default {
         type: 'redirect',
         url: '/pages/components/chat/chat',
         params: {
-          circleinfo: JSON.stringify(circleinfo)
+          circleinfo: encodeURIComponent(JSON.stringify(circleinfo))
         }
       })
     },

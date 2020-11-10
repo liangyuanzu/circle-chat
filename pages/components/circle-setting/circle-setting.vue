@@ -257,13 +257,13 @@ export default {
 
     toCircleDetail() {
       this.$u.route('/pages/components/circle-detail/circle-detail', {
-        info: JSON.stringify(this.circleInfo)
+        info: encodeURIComponent(JSON.stringify(this.circleInfo))
       })
     },
 
     toCircleMember() {
       this.$u.route('/pages/components/circle-member/circle-member', {
-        circleMember: JSON.stringify(this.circleMember)
+        circleMember: encodeURIComponent(JSON.stringify(this.circleMember))
       })
     },
 

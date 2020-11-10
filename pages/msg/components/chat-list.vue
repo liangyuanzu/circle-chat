@@ -60,7 +60,7 @@ export default {
         }
         uni.navigateTo({
           url:
-            '/pages/components/chat/chat?userinfo=' + JSON.stringify(userinfo)
+            '/pages/components/chat/chat?userinfo=' + encodeURIComponent(JSON.stringify(userinfo))
         })
       } else if (item.circleId) {
         const circleinfo = {
@@ -73,7 +73,7 @@ export default {
         uni.navigateTo({
           url:
             '/pages/components/chat/chat?circleinfo=' +
-            JSON.stringify(circleinfo)
+            encodeURIComponent(JSON.stringify(circleinfo))
         })
       }
 

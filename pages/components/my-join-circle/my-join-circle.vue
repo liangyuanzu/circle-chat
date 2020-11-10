@@ -33,7 +33,7 @@ export default {
         member: info.member
       }
       this.$u.route('/pages/components/chat/chat', {
-        circleinfo: JSON.stringify(circleinfo)
+        circleinfo: encodeURIComponent(JSON.stringify(circleinfo))
       })
     }
   }
