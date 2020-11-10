@@ -80,7 +80,7 @@ export default {
 
   methods: {
     getCircleList() {
-      this.$store.dispatch('circle/nearlyCircle')
+      this.$store.dispatch('circle/nearlyCircle', this.swiperCurrent)
     },
 
     tabsChange(index) {
@@ -96,14 +96,28 @@ export default {
       this.$refs.tabs.setFinishCurrent(current)
       this.swiperCurrent = current
       this.current = current
+      this.getCircleList()
     },
 
     reachBottom() {},
 
     toCircleDetail(item) {
-      this.$u.route('/pages/components/circle-detail/circle-detail', {
-        info: JSON.stringify(item)
-      })
+      if (item.inCircle) {
+        const circleinfo = {
+          circleId: item.circleId,
+          circleName: item.circleName,
+          circleAvatar: item.img,
+          circleType: item.type,
+          member: item.member
+        }
+        this.$u.route('/pages/components/chat/chat', {
+          circleinfo: encodeURIComponent(JSON.stringify(circleinfo))
+        })
+      } else {
+        this.$u.route('/pages/components/circle-detail/circle-detail', {
+          info: encodeURIComponent(JSON.stringify(item))
+        })
+      }
     }
   }
 }
