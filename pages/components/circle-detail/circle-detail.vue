@@ -62,7 +62,15 @@
     </uni-list>
 
     <view style="margin-top: 100rpx; padding: 0 20rpx">
-      <u-button type="primary" plain :loading="loading" @click="jionCircle"
+      <u-button v-if="info.inCircle" type="primary" plain @click="toCircleChat"
+        >发消息</u-button
+      >
+      <u-button
+        v-else
+        type="primary"
+        plain
+        :loading="loading"
+        @click="jionCircle"
         >加入圈</u-button
       >
     </view>
