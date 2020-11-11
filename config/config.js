@@ -1,7 +1,5 @@
 module.exports = {
 	baseUrl: 'https://www.circlechat.top',
-	accessTokenName: 'accessToken',
-	refreshTokenName: 'refreshToken',
 	websocketUrl: 'wss://www.circlechat.top/websocket',
 	tabBarIndex: 0, // 消息提示tabBar索引
 	sendOneType: 'SEND_TO_ONE_REQUEST',

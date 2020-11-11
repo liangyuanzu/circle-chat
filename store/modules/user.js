@@ -11,8 +11,6 @@ import {
 	queryUserMsg,
 	userSet
 } from '@/api/user.js'
-import { accessTokenName, refreshTokenName } from '@/config/config.js'
-import localStore from '@/helpers/localStore.js'
 
 const state = {
 	userId: '',
@@ -90,22 +88,12 @@ const actions = {
 	},
 
 	async login({ dispatch }, userinfo) {
-		const { accessToken, refreshToken } = await login(userinfo)
-		if (accessToken && refreshToken) {
-			localStore.set(accessTokenName, accessToken)
-			localStore.set(refreshTokenName, refreshToken)
-			dispatch('init')
-		} else {
-			uni.showToast({
-				icon: 'none',
-				title: '登录接口异常'
-			})
-		}
+		await login(userinfo)
+		dispatch('init')
 	},
 
 	async getUserInfo({ commit }) {
-		const token = localStore.get(accessTokenName)
-		const userinfo = await getUserInfo(token)
+		const userinfo = await getUserInfo()
 		if (Object.keys(userinfo)) {
 			commit('setUserId', userinfo.userId)
 			commit('setUsername', userinfo.username)
@@ -124,7 +112,7 @@ const actions = {
 
 	async logout({ dispatch }) {
 		await logout()
-		localStore.delAll()
+		uni.clearStorageSync()
 		dispatch('chat/close', {}, { root: true })
 	},
 

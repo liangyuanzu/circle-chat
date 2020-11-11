@@ -12,12 +12,8 @@ export function login(data) {
 	})
 }
 
-export function getUserInfo(token) {
-	return $request('/user/getUserIdFromToken', {
-		params: {
-			token
-		}
-	})
+export function getUserInfo() {
+	return $request('/user/getUserIdFromToken', {})
 }
 
 /**

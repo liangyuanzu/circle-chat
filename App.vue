@@ -1,7 +1,5 @@
 <script>
 import Vue from 'vue'
-import { accessTokenName } from '@/config/config.js'
-import localStore from '@/helpers/localStore.js'
 
 export default {
   data() {
@@ -46,17 +44,11 @@ export default {
       }
     })
 
-    if (!localStore.get(accessTokenName)) {
-      uni.reLaunch({
-        url: '/pages/login/login'
-      })
-    } else {
-      this.$store.dispatch('user/init', {}, { root: true })
+    this.$store.dispatch('user/init', {}, { root: true })
 
-      this.timer = setInterval(() => {
-        this.$store.dispatch('user/getPosition', {}, { root: true })
-      }, 300000)
-    }
+    this.timer = setInterval(() => {
+      this.$store.dispatch('user/getPosition', {}, { root: true })
+    }, 300000)
   },
 
   onShow: function () {
