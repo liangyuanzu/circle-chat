@@ -102,16 +102,20 @@ export default {
           value: '100'
         },
         {
-          name: '200m',
-          value: '200'
-        },
-        {
           name: '500m',
           value: '500'
         },
         {
           name: '1000m',
           value: '1000'
+        },
+        {
+          name: '1500m',
+          value: '1500'
+        },
+        {
+          name: '2000m',
+          value: '2000'
         }
       ]
     }
