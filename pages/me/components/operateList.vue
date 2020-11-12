@@ -105,6 +105,14 @@ export default {
             size: '22',
             type: 'smallcircle'
           }
+        },
+        {
+          title: '地图模式',
+          extraIcon: {
+            color: '#2979ff',
+            size: '22',
+            type: 'location-filled'
+          }
         }
       ],
 
@@ -201,31 +209,19 @@ export default {
     listItemClick(title) {
       switch (title) {
         case '个人信息':
-          this.toUserinfo()
+          this.$emit('toInfo')
           break
         case '关注列表':
-          this.toFocusList()
+          this.$u.route('/pages/components/focus-list/focus-list')
           break
         case '我加入的圈':
-          this.toMyJoinCircle()
+          this.$u.route('/pages/components/my-join-circle/my-join-circle')
           break
+        case '地图模式':
+          this.$u.route('/pages/components/map-mode/map-mode')
         default:
           break
       }
-    },
-
-    toUserinfo() {
-      this.$emit('toInfo')
-    },
-
-    toFocusList() {
-      uni.navigateTo({
-        url: '/pages/components/focus-list/focus-list'
-      })
-    },
-
-    toMyJoinCircle() {
-      this.$u.route('/pages/components/my-join-circle/my-join-circle')
     },
 
     addConfirm() {

@@ -147,6 +147,11 @@
 			"style": {
 				"navigationStyle": "custom"
 			}
+		}, {
+			"path": "pages/components/map-mode/map-mode",
+			"style": {
+				"navigationBarTitleText": "地图模式"
+			}
 		}
 	],
 	"globalStyle": {
