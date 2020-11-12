@@ -1,19 +1,16 @@
 <template>
-	<view>
-		<web-view src="/hybrid/html/create-map.html"></web-view>
-	</view>
+  <view>
+    <web-view src="/hybrid/html/create-circle-map.html"></web-view>
+  </view>
 </template>
 
 <script>
-	export default {
-		data() {
-			return {
-
-			};
-		}
-	}
+export default {
+  data() {
+    return {}
+  }
+}
 </script>
 
 <style lang="scss">
-
 </style>
