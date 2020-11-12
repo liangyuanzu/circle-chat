@@ -180,7 +180,7 @@
 		smple.onclick = e => {
 			e.stopPropagation()
 			uni.navigateTo({
-				url: '/pages/components/search/search'
+				url: '/pages/components/search-circle/search-circle'
 			})
 		}
 		const create = document.querySelector('#create')

@@ -31,7 +31,7 @@
 				"navigationBarTitleText": "创建圈"
 			}
 		}, {
-			"path": "pages/components/search/search",
+			"path": "pages/components/search-circle/search-circle",
 			"style": {
 				"navigationStyle": "custom"
 			}
