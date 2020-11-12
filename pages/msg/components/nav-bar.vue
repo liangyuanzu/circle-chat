@@ -46,7 +46,7 @@ export default {
   methods: {
     InputFocus() {
       uni.navigateTo({
-        url: '/pages/components/search-map/search-map'
+        url: '/pages/components/search-circle-map/search-circle-map'
       })
     },
     InputBlur() {
