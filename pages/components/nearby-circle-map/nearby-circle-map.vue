@@ -1,6 +1,6 @@
 <template>
   <view>
-    <web-view src="/hybrid/html/search-circle-map.html"></web-view>
+    <web-view src="/hybrid/html/nearby-circle-map.html"></web-view>
   </view>
 </template>
 

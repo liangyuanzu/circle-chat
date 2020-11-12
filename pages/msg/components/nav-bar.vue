@@ -4,7 +4,7 @@
       <view
         class="cu-avatar round"
         style="
-          background-image: url(https://ossweb-img.qq.com/images/lol/web201310/skin/big11010.jpg;
+          background-image: url(https://ossweb-img.qq.com/images/lol/web201310/skin/big11010.jpg;;
         "
       ></view>
       <view class="search-form round" :style="[{ top: StatusBar + 'px' }]">
@@ -46,7 +46,7 @@ export default {
   methods: {
     InputFocus() {
       uni.navigateTo({
-        url: '/pages/components/search-circle-map/search-circle-map'
+        url: '/pages/components/nearby-circle-map/nearby-circle-map'
       })
     },
     InputBlur() {

@@ -76,7 +76,7 @@
 				"navigationBarTitleText": "个人信息"
 			}
 		}, {
-			"path": "pages/components/search-circle-map/search-circle-map",
+			"path": "pages/components/nearby-circle-map/nearby-circle-map",
 			"style": {
 				"navigationStyle": "custom"
 			}

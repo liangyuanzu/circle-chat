@@ -39,7 +39,7 @@ export default {
           this.$u.route('/pages/components/create-circle-map/create-circle-map')
           break
         case '附近的圈':
-          this.$u.route('/pages/components/search-circle-map/search-circle-map')
+          this.$u.route('/pages/components/nearby-circle-map/nearby-circle-map')
           break
         default:
           break
