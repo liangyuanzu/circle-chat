@@ -1,6 +1,8 @@
 module.exports = {
 	baseUrl: 'https://www.circlechat.top',
 	websocketUrl: 'wss://www.circlechat.top/websocket',
+	createCircleMapUrl:
+		'https://www.circlechat.top/static/hybrid/html/create-circle-map.html',
 	tabBarIndex: 0, // 消息提示tabBar索引
 	sendOneType: 'SEND_TO_ONE_REQUEST',
 	receiveOneType: 'SEND_TO_USER_REQUEST',
