@@ -24,7 +24,7 @@ const textStyle = {
 const LabelsData = [
 	{
 		position: [115.032062, 27.111823],
-		zooms: [12, 20],
+		zooms: [11, 20],
 		icon,
 		text: {
 			content: '丰巢快递柜-花家地北里',
@@ -35,7 +35,7 @@ const LabelsData = [
 	},
 	{
 		position: [114.985403, 27.114911],
-		zooms: [12, 20],
+		zooms: [11, 20],
 		icon,
 		text: {
 			content: '丰巢快递柜-中环南路11号院',
@@ -46,7 +46,7 @@ const LabelsData = [
 	},
 	{
 		position: [115.046514, 27.073037],
-		zooms: [12, 20],
+		zooms: [11, 20],
 		icon,
 		text: {
 			content: 'E栈快递柜-夏都家园',
