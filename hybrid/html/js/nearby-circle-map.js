@@ -165,6 +165,13 @@ const locateSuccess = (data) => {
 					strokeWeight: 1 // 描边宽度
 				})
 				map.add(circleItem)
+
+				// 添加 card
+				const cardHtml = template('cardTemplate', circleInfo)
+				document.getElementById('card').innerHTML = cardHtml
+				// 修改头像
+				document.querySelector('.avatar').style.backgroundImage =
+					'url("' + circleInfo.img + '")'
 			})
 		})
 	})
