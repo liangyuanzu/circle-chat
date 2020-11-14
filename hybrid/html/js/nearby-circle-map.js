@@ -144,7 +144,13 @@ const locateSuccess = (data) => {
 		// 监听 marker 点击
 		markers.forEach((i) => {
 			i.on('click', async function (e) {
-				circleId = e.target._originOpts.extData.circleId
+				const cId = e.target._originOpts.extData.circleId
+				if (cId === circleId && circleItem) {
+					map.remove(circleItem)
+					circleItem = null
+					return
+				}
+				circleId = cId
 				circleInfo = await getCircleInfo(circleId)
 				// const position = circleInfo.geographicalPosition.split(',')
 				const position = e.target._originOpts.position
