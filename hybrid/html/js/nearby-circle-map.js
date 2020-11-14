@@ -192,7 +192,7 @@ const onMenu = () => {
 	typeList.forEach((item, index) => {
 		item.onclick = async () => {
 			if (index === circleType) return
-			labelsLayer.remove(markers)
+			layer.remove(markers)
 			circleType = index
 			circleList = await getNearlyCircle(circleType)
 			getLabelMarker(circleList)
