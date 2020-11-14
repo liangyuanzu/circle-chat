@@ -1,9 +1,17 @@
 let lng, lat
+let circleList = []
+let circleType = 0
+let markers = []
+let layer = new AMap.LabelsLayer({
+	zooms: [3, 20],
+	zIndex: 1000,
+	allowCollision: true
+})
 
 // 创建地图
 const map = new AMap.Map('container', {
 	resizeEnable: true,
-	zoom: '12'
+	zoom: '12.3'
 })
 
 // 获取定位
@@ -33,7 +41,7 @@ const locateSuccess = (data) => {
 	lng = data.position.lng
 	lat = data.position.lat
 	// 地图加载完成
-	map.on('complete', function () {
+	map.on('complete', async function () {
 		// 显示顶部工具
 		document.querySelector('.operate').removeAttribute('style')
 		// 监听关闭按钮点击
@@ -124,29 +132,11 @@ const locateSuccess = (data) => {
 		}
 		*/
 
-		var markers = []
-		var layer = new AMap.LabelsLayer({
-			zooms: [3, 20],
-			zIndex: 1000,
-			allowCollision: true
-		})
-
-		layer.add(markers)
 		// 图层添加到地图
 		map.add(layer)
 
-		// 初始化 labelMarker
-		LabelsData.forEach((item, index) => {
-			item.extData = {
-				index
-			}
-			const labelMarker = new AMap.LabelMarker(item)
-			markers.push(labelMarker)
-		})
-		// 将 marker 添加到图层
-		layer.add(markers)
-
-		map.setFitView(null, false, [100, 100, 10, 10])
+		circleList = await getNearlyCircle(circleType)
+		getLabelMarker(circleList)
 	})
 }
 
@@ -200,16 +190,64 @@ const onPull = () => {
 const onMenu = () => {
 	const typeList = document.querySelectorAll('#circleType li')
 	typeList.forEach((item, index) => {
-		item.onclick = () => {
-			console.log(index)
+		item.onclick = async () => {
+			if (index === circleType) return
+			labelsLayer.remove(markers)
+			circleType = index
+			circleList = await getNearlyCircle(circleType)
+			getLabelMarker(circleList)
 		}
 	})
 }
 
-// $request('/circle/nearlyCircle', {
-// 	params: {
-// 		type: 0
-// 	}
-// }).then((res) => {
-// 	alert(JSON.stringify(res))
-// })
+function getNearlyCircle(type) {
+	return $request('/circle/nearlyCircle', {
+		params: {
+			type
+		}
+	})
+}
+
+function getLabelMarker(list) {
+	const icon = {
+		type: 'image',
+		image:
+			'https://a.amap.com/jsapi_demos/static/demo-center/marker/express2.png',
+		size: [64, 30],
+		anchor: 'center'
+	}
+
+	const textStyle = {
+		fontSize: 12,
+		fontWeight: 'normal',
+		fillColor: '#22886f',
+		strokeColor: '#fff',
+		strokeWidth: 2,
+		fold: true,
+		padding: '2, 5'
+	}
+
+	const LabelsData = list.map((i) => {
+		return {
+			position: i.geographicalPosition.split(','),
+			zooms: [11, 20],
+			icon,
+			text: {
+				content: i.circleName,
+				direction: 'right',
+				offset: [-20, -5],
+				style: textStyle
+			}
+		}
+	})
+
+	// 初始化 labelMarker
+	LabelsData.forEach((item, index) => {
+		item.extData = {
+			index
+		}
+		const labelMarker = new AMap.LabelMarker(item)
+		markers.push(labelMarker)
+	})
+	layer.add(markers)
+}
