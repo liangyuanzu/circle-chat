@@ -1,6 +1,9 @@
 let lng, lat
 let circleList = []
 let circleType = 0
+let circleId
+let circleInfo = {}
+let circleItem
 let markers = []
 let layer = new AMap.LabelsLayer({
 	zooms: [3, 20],
@@ -137,6 +140,27 @@ const locateSuccess = (data) => {
 
 		circleList = await getNearlyCircle(circleType)
 		getLabelMarker(circleList)
+
+		// 监听 marker 点击
+		markers.forEach((i) => {
+			i.on('click', async function (e) {
+				circleId = e.target._originOpts.extData.circleId
+				circleInfo = await getCircleInfo(circleId)
+				// const position = circleInfo.geographicalPosition.split(',')
+				const position = e.target._originOpts.position
+				// 移除圈
+				if (circleItem) map.remove(circleItem)
+				// 添加圈
+				circleItem = new AMap.Circle({
+					center: new AMap.LngLat(position[0], position[1]), // 圆心位置
+					radius: circleInfo.radius, // 圆半径
+					fillColor: '#1791fc', // 圆形填充颜色
+					strokeColor: '#0093FF', // 描边颜色
+					strokeWeight: 1 // 描边宽度
+				})
+				map.add(circleItem)
+			})
+		})
 	})
 }
 
@@ -208,6 +232,14 @@ function getNearlyCircle(type) {
 	})
 }
 
+function getCircleInfo(circleId) {
+	return $request('/circle/queryByCircleId', {
+		params: {
+			circleId
+		}
+	})
+}
+
 function getLabelMarker(list) {
 	const icon = {
 		type: 'image',
@@ -227,6 +259,7 @@ function getLabelMarker(list) {
 		padding: '2, 5'
 	}
 
+	/*
 	const LabelsData = list.map((i) => {
 		return {
 			position: i.geographicalPosition.split(','),
@@ -237,15 +270,60 @@ function getLabelMarker(list) {
 				direction: 'right',
 				offset: [-20, -5],
 				style: textStyle
+			},
+			extData: {
+				circleId: i.circleId
 			}
 		}
 	})
+	*/
+	const LabelsData = [
+		{
+			position: [115.032062, 27.111823],
+			zooms: [12, 20],
+			icon,
+			text: {
+				content: '丰巢快递柜-花家地北里',
+				direction: 'right',
+				offset: [-20, -5],
+				style: textStyle
+			},
+			extData: {
+				circleId: 100001
+			}
+		},
+		{
+			position: [114.985403, 27.114911],
+			zooms: [12, 20],
+			icon,
+			text: {
+				content: '丰巢快递柜-中环南路11号院',
+				direction: 'right',
+				offset: [-20, -5],
+				style: textStyle
+			},
+			extData: {
+				circleId: 100002
+			}
+		},
+		{
+			position: [115.046514, 27.073037],
+			zooms: [12, 20],
+			icon,
+			text: {
+				content: 'E栈快递柜-夏都家园',
+				direction: 'right',
+				offset: [-20, -5],
+				style: textStyle
+			},
+			extData: {
+				circleId: 100003
+			}
+		}
+	]
 
 	// 初始化 labelMarker
-	LabelsData.forEach((item, index) => {
-		item.extData = {
-			index
-		}
+	LabelsData.forEach((item) => {
 		const labelMarker = new AMap.LabelMarker(item)
 		markers.push(labelMarker)
 	})
