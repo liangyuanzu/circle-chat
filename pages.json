@@ -152,6 +152,12 @@
 			"style": {
 				"navigationBarTitleText": "地图模式"
 			}
+		}, {
+			"path": "pages/login/login-baidu/login-baidu",
+			"style": {
+				"navigationBarTitleText": "授权登录"
+			}
+
 		}
 	],
 	"globalStyle": {
