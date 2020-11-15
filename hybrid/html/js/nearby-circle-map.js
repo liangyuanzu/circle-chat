@@ -192,6 +192,12 @@ const isShow = (name) => {
 	}
 }
 
+// 关闭 card
+const closeCard = () => {
+	let oCard = document.getElementById('card')
+	if (oCard.innerHTML) oCard.innerHTML = ''
+}
+
 // 监听 Marker 点击 (待定)
 /*
 	const onMarker = () => {
