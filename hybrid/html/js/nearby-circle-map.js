@@ -116,7 +116,7 @@ const locateError = (e) => {
 	log.error(e.info)
 }
 
-// 显示 / 隐藏
+// 菜单切换
 const isShow = (name) => {
 	const el = document.querySelector(name)
 	if (!el.style.display || el.style.display === 'none') {
@@ -233,7 +233,6 @@ function getLabelMarker(list) {
 		padding: '5, 25'
 	}
 
-	/*
 	const LabelsData = list.map((i) => {
 		return {
 			position: i.geographicalPosition.split(','),
@@ -250,53 +249,7 @@ function getLabelMarker(list) {
 			}
 		}
 	})
-	*/
-	const LabelsData = [
-		{
-			position: [115.032062, 27.111823],
-			zooms: [12, 20],
-			icon,
-			text: {
-				content: '丰巢快递柜-花家地北里',
-				direction: 'right',
-				offset: [-20, -5],
-				style: textStyle
-			},
-			extData: {
-				circleId: 100001
-			}
-		},
-		{
-			position: [114.985403, 27.114911],
-			zooms: [12, 20],
-			icon,
-			text: {
-				content: '丰巢快递柜-中环南路11号院',
-				direction: 'right',
-				offset: [-20, -5],
-				style: textStyle
-			},
-			extData: {
-				circleId: 100002
-			}
-		},
-		{
-			position: [115.046514, 27.073037],
-			zooms: [12, 20],
-			icon,
-			text: {
-				content: 'E栈快递柜-夏都家园',
-				direction: 'right',
-				offset: [-20, -5],
-				style: textStyle
-			},
-			extData: {
-				circleId: 100021
-			}
-		}
-	]
 
-	// 初始化 labelMarker
 	LabelsData.forEach((item) => {
 		const labelMarker = new AMap.LabelMarker(item)
 		markers.push(labelMarker)
