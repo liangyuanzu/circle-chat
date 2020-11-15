@@ -108,7 +108,7 @@ const circleRange = () => {
 		radius: 500, //半径
 		borderWeight: 3,
 		strokeColor: '#FF33FF',
-		strokeOpacity: 1,
+		strokeOpacity: 0.2,
 		strokeWeight: 6,
 		fillOpacity: 0.4,
 		strokeStyle: 'dashed',
