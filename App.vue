@@ -49,6 +49,28 @@ export default {
     this.timer = setInterval(() => {
       this.$store.dispatch('user/getPosition', {}, { root: true })
     }, 300000)
+
+    // #ifdef MP-BAIDU
+    uni.checkSession({
+      fail: () => {
+        uni.reLaunch({
+          url: '/pages/login/login-baidu/login-baidu'
+        })
+      }
+    })
+    // #endif
+
+    // if (uni.getStorageSync('token')) {
+    //   this.$store.dispatch('user/init', {}, { root: true })
+
+    //   this.timer = setInterval(() => {
+    //     this.$store.dispatch('user/getPosition', {}, { root: true })
+    //   }, 300000)
+    // } else {
+    //   uni.reLaunch({
+    //     url: '/pages/login/login'
+    //   })
+    // }
   },
 
   onShow: function () {
