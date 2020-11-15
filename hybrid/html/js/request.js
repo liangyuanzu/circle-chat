@@ -64,11 +64,8 @@ const $request = (url, Options) => {
 				if (res?.code == 0) {
 					resolve(res.data)
 				} else {
-					uni.showToast({
-						icon: 'none',
-						title: res?.msg
-					})
-					reject(res)
+					log.error(res?.msg)
+					// reject(res)
 				}
 			})
 			.catch((err) => {
