@@ -110,7 +110,6 @@ const circleRange = () => {
 		strokeColor: '#FF33FF',
 		strokeOpacity: 1,
 		strokeWeight: 6,
-		strokeOpacity: 0.2,
 		fillOpacity: 0.4,
 		strokeStyle: 'dashed',
 		strokeDasharray: [10, 10],
