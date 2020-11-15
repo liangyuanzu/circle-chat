@@ -8,6 +8,7 @@
 	<title>nearby-circle-map</title>
 	<link rel="stylesheet" type="text/css" href="./css/icon.css" />
 	<link rel="stylesheet" type="text/css" href="./css/main.css" />
+	<link rel="stylesheet" href="https://a.amap.com/jsapi_demos/static/demo-center/css/demo-center.css" />
 	<link rel="stylesheet" type="text/css" href="./css/nearby-circle-map.css" />
 </head>
 
@@ -52,12 +53,17 @@
 				</div>
 				<div class="button flex justify-between align-center">
 					<button class="btn btn-outline-secondary" onclick="toCircleDetail()">详情</button>
-					<button class="btn btn-primary">加入</button>
+					{{ if inCircle }}
+					<button class="btn btn-primary" disabled>已加入</button>
+					{{ else if !inCircle }}
+					<button class="btn btn-primary" onclick="toJoinCircle()">加入</button>
+					{{ /if }}
 				</div>
 			</div>
 		</div>
 
 	</script>
+	<script src="https://a.amap.com/jsapi_demos/static/demo-center/js/demoutils.js"></script>
 	<script type="text/javascript" src="./js/request.js"></script>
 	<script type="text/javascript" src="./js/markerData.js"></script>
 	<script type="text/javascript" src="./js/nearby-circle-map.js"></script>

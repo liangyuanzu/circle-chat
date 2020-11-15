@@ -69,72 +69,6 @@ const locateSuccess = (data) => {
 		})
 		map.add(circle)
 
-		// 创建 Marker 实例
-		/*
-		var markers = []
-		var positions = [
-			[116.353773, 40.001806],
-			[116.356738, 39.998682],
-			[116.3501, 39.998074]
-		]
-
-		for (var i = 0, marker; i < positions.length; i++) {
-			marker = new AMap.Marker({
-				map: map,
-				position: positions[i],
-				icon:
-					'https://a.amap.com/jsapi_demos/static/demo-center/icons/poi-marker-default.png',
-				offset: new AMap.Pixel(-13, -30),
-				label: {
-					//设置文本标注内容
-					content: `<div class='lable'>
-												<div class='info'>
-													<p>圈名称</p>
-													<p>人数：999</p>
-												</div>
-												<div class='range'>范围：100m</div>
-												<div class='operation'>
-													<button id='view_detail'>查看详情</button>
-													<button id='join'>加入</button>
-												</div>
-											</div>`,
-					direction: 'top' //设置文本标注方位
-				}
-			})
-			markers.push(marker)
-
-			// 监听 Marker 点击
-			marker.on('click', function (ev) {
-				const lable = ev.target.dom.querySelector('.amap-marker-label')
-				if (!lable.style.display || lable.style.display === 'none') {
-					// 排它
-					const lables = document.querySelectorAll('.amap-marker-label')
-					lables.forEach((lable) => (lable.style.display = 'none'))
-					// 切换
-					lable.style.display = 'block'
-					// 显示范围圈
-					const circle = new AMap.Circle({
-						center: new AMap.LngLat(116.353773, 40.001806), // 圆心位置
-						radius: 100, // 圆半径
-						fillColor: false, // 圆形填充颜色
-						strokeColor: '#0093FF', // 描边颜色
-						strokeWeight: 1 // 描边宽度
-					})
-					map.add(circle)
-
-					// 监听查看详情按钮点击
-					const viewDetail = document.querySelector('#view_detail')
-					viewDetail.onclick = (e) => {
-						e.stopPropagation()
-						console.log('点击')
-					}
-				} else {
-					lable.style.display = 'none'
-				}
-			})
-		}
-		*/
-
 		// 图层添加到地图
 		map.add(layer)
 
@@ -179,7 +113,7 @@ const locateSuccess = (data) => {
 
 // 定位失败
 const locateError = (e) => {
-	alert(e.info)
+	log.error(e.info)
 }
 
 // 显示 / 隐藏
@@ -192,13 +126,11 @@ const isShow = (name) => {
 	}
 }
 
-// 关闭 card
 const closeCard = () => {
 	let oCard = document.getElementById('card')
 	if (oCard.innerHTML) oCard.innerHTML = ''
 }
 
-// 跳转至详情页
 const toCircleDetail = () => {
 	uni.navigateTo({
 		url:
@@ -207,24 +139,30 @@ const toCircleDetail = () => {
 	})
 }
 
-// 监听 Marker 点击 (待定)
-/*
-	const onMarker = () => {
-		const list = document.querySelectorAll('.amap-marker')
-		const markers = []
-		list.forEach(item => {
-			if (item.querySelector('.amap-icon')) {
-				markers.push(item)
-			}
-		})
-
-		markers.forEach(item => {
-			item.onclick = e => {
-				console.log(e.target)
-			}
-		})
+const toCircleChat = (info) => {
+	const circleinfo = {
+		circleId: info.circleId,
+		circleName: info.circleName,
+		circleAvatar: info.img,
+		circleType: info.type,
+		member: info.member
 	}
-	*/
+	uni.redirectTo({
+		url: '/pages/components/chat/chat?circleinfo=' + JSON.stringify(circleinfo)
+	})
+}
+
+const toJoinCircle = async () => {
+	try {
+		await joinCircle(circleInfo.circleId)
+		log.success('加入成功')
+		setTimeout(() => {
+			toCircleChat(circleInfo)
+		}, 500)
+	} catch (error) {
+		log.error(JSON.stringify(error))
+	}
+}
 
 // 监听关闭按钮点击事件
 const onClose = () => {
@@ -263,6 +201,15 @@ function getNearlyCircle(type) {
 function getCircleInfo(circleId) {
 	return $request('/circle/queryByCircleId', {
 		params: {
+			circleId
+		}
+	})
+}
+
+function joinCircle(circleId) {
+	return $request('/circle/enterCircle', {
+		method: 'POST',
+		data: {
 			circleId
 		}
 	})
@@ -345,7 +292,7 @@ function getLabelMarker(list) {
 				style: textStyle
 			},
 			extData: {
-				circleId: 100003
+				circleId: 100021
 			}
 		}
 	]
