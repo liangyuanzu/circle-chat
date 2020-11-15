@@ -198,6 +198,15 @@ const closeCard = () => {
 	if (oCard.innerHTML) oCard.innerHTML = ''
 }
 
+// 跳转至详情页
+const toCircleDetail = () => {
+	uni.navigateTo({
+		url:
+			'/pages/components/circle-detail/circle-detail?info=' +
+			JSON.stringify(circleInfo)
+	})
+}
+
 // 监听 Marker 点击 (待定)
 /*
 	const onMarker = () => {
