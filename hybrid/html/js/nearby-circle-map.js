@@ -218,20 +218,19 @@ function joinCircle(circleId) {
 function getLabelMarker(list) {
 	const icon = {
 		type: 'image',
-		image:
-			'https://a.amap.com/jsapi_demos/static/demo-center/marker/express2.png',
-		size: [64, 30],
-		anchor: 'center'
+		image: 'https://webapi.amap.com/theme/v1.3/markers/n/mark_b.png',
+		size: [18, 27],
+		anchor: 'bottom-center'
 	}
 
 	const textStyle = {
-		fontSize: 12,
+		fontSize: 10,
 		fontWeight: 'normal',
 		fillColor: '#22886f',
 		strokeColor: '#fff',
 		strokeWidth: 2,
 		fold: true,
-		padding: '2, 5'
+		padding: '5, 25'
 	}
 
 	/*
