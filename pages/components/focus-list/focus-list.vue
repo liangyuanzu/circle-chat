@@ -8,40 +8,11 @@
     ></u-tabs>
 
     <view v-for="(item, index) in focusList" :key="index">
-      <uni-list v-if="type === index + 1">
-        <uni-list-item
-          v-for="i in item"
-          :key="i.userId"
-          :title="i.username"
-          :thumb="i.img"
-          thumbSize="lg"
-          clickable
-          @click="toPersonInfo(i.userId)"
-        >
-          <template #footer>
-            <view class="flex align-center">
-              <u-button
-                type="primary"
-                size="mini"
-                shape="circle"
-                plain
-                @click="onFocus(i.isFocus, i.userId)"
-              >
-                <uni-icons
-                  :size="12"
-                  color="#0081ff"
-                  :type="!focusStatus(i.isFocus) ? 'plusempty' : ''"
-                />
-                <text
-                  style="margin-left: 10rpx"
-                  :class="[i.isFocus === 1 ? 'text-grey' : '']"
-                  >{{ formatFocus(i.isFocus) }}</text
-                >
-              </u-button>
-            </view>
-          </template>
-        </uni-list-item>
-      </uni-list>
+      <custom-focus-list
+        v-if="type === index + 1"
+        :list="item"
+        @focusClick="onFocus"
+      ></custom-focus-list>
 
       <view class="empty" v-if="focusList[type - 1].length === 0">
         <u-empty mode="list"></u-empty>
@@ -93,33 +64,7 @@ export default {
       }
     },
 
-    toPersonInfo(id) {
-      this.$u.route('/pages/components/person-info/person-info', {
-        id
-      })
-    },
-
-    focusStatus(isFocus) {
-      if (isFocus === 0 || isFocus === 2) return false
-      if (isFocus === 1 || isFocus === 3) return true
-    },
-
-    formatFocus(isFocus) {
-      if (isFocus === 1) {
-        return '已关注'
-      } else if (isFocus === 3) {
-        return '互相关注'
-      } else if (!this.focusStatus(isFocus)) {
-        return '关注'
-      }
-    },
-
-    async onFocus(isFocus, id) {
-      if (!this.focusStatus(isFocus)) {
-        await this.$store.dispatch('focus/addFocus', { id })
-      } else if (this.focusStatus(isFocus)) {
-        await this.$store.dispatch('focus/cancelFocus', { id })
-      }
+    async onFocus() {
       await this.getList(this.type)
     }
   }
