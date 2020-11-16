@@ -1,6 +1,6 @@
 <template>
   <view>
-    <u-index-list :scrollTop="scrollTop">
+    <u-index-list :scrollTop="scrollTop" :index-list="letterArr">
       <view v-for="(item, index) in indexList" :key="index">
         <u-index-anchor :index="item.letter" />
         <custom-focus-list
@@ -25,7 +25,10 @@ export default {
   },
 
   computed: {
-    ...mapState('circle', ['indexList'])
+    ...mapState('circle', ['indexList']),
+    letterArr() {
+      return this.indexList.map((i) => i.letter)
+    }
   },
 
   onPageScroll(e) {
