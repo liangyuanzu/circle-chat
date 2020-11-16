@@ -263,7 +263,7 @@ export default {
 
     toCircleMember() {
       this.$u.route('/pages/components/circle-member/circle-member', {
-        circleMember: encodeURIComponent(JSON.stringify(this.circleMember))
+        circleId: this.circleInfo.circleId
       })
     },
 
