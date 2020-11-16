@@ -5,6 +5,7 @@
         <u-index-anchor :index="item.letter" />
         <custom-focus-list
           :list="item.list"
+          isMargin
           @focusClick="getIndexList"
         ></custom-focus-list>
       </view>

@@ -11,9 +11,12 @@
         @click="toPersonInfo(i.userId)"
       >
         <template #footer>
-          <view class="flex align-center">
+          <view
+            class="flex align-center"
+            :class="{ 'margin-right-xl': isMargin }"
+          >
             <u-button
-              type="primary"
+              :type="i.isFocus === 1 ? 'default' : 'primary'"
               size="mini"
               shape="circle"
               plain
@@ -42,6 +45,7 @@
  * custom-focus-list 自定义关注列表组件
  * @description 本组件是适用于本项目的关注列表组件，一般用于展示关注信息的地方，如关注列表，圈聊索引列表。
  * @property {Array} 	list 							数据列表
+ * @property {Boolean} isMargin = [true|false] 按钮右侧是否空出间距
  *
  * @event {Function} focusClick 按钮被点击
  */
@@ -52,6 +56,10 @@ export default {
     list: {
       type: Array,
       default: []
+    },
+    isMargin: {
+      type: Boolean,
+      default: false
     }
   },
 
