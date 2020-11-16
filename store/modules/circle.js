@@ -9,7 +9,8 @@ import {
 	updateCircleAvatar,
 	updateCircleInfo,
 	addCircleEffective,
-	exitCircle
+	exitCircle,
+	getIndexList
 } from '@/api/circle.js'
 
 const state = {
@@ -18,7 +19,8 @@ const state = {
 		'https://ossweb-img.qq.com/images/lol/web201310/skin/big11010.jpg',
 	myJoinCircle: [],
 	circleInfo: {},
-	circleMember: []
+	circleMember: [],
+	indexList: []
 }
 
 const getters = {
@@ -46,6 +48,10 @@ const mutations = {
 
 	setCircleMember(state, circleMember) {
 		state.circleMember = circleMember
+	},
+
+	setIndexList(state, list) {
+		state.indexList = list
 	}
 }
 
@@ -104,6 +110,11 @@ const actions = {
 
 	async exitCircle({}, circleId) {
 		await exitCircle(circleId)
+	},
+
+	async getIndexList({ commit }, circleId) {
+		const list = await getIndexList(circleId)
+		commit('setIndexList', list)
 	}
 }
 

@@ -136,3 +136,15 @@ export function exitCircle(data) {
 		data
 	})
 }
+
+/**
+ * 索引列表
+ * @param {number} circleId 圈id
+ */
+export function getIndexList(circleId) {
+	return $request('/circle/getUserInCircleBySort', {
+		params: {
+			circleId
+		}
+	})
+}
