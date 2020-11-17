@@ -11,14 +11,19 @@
       >登录帐号，可享受以下功能和权益</u-divider
     >
 
-    <u-grid :col="3" :border="false" class="margin-top-xl" hover-class="none">
+    <u-grid :col="3" class="margin-top-xl" hover-class="none">
       <u-grid-item v-for="(item, index) in gridList" :key="index">
         <u-icon :name="item.name" :size="46"></u-icon>
         <view class="grid-text">{{ item.tetx }}</view>
       </u-grid-item>
     </u-grid>
 
-    <u-button type="primary" shape="circle" style="margin-top: 200rpx"
+    <u-button
+      type="primary"
+      shape="circle"
+      style="margin-top: 200rpx"
+      open-type="getUserInfo"
+      @getuserinfo="decryptUserInfo"
       >百度用户授权登录</u-button
     >
   </view>
@@ -26,6 +31,7 @@
 
 <script>
 import logoUrl from './../logo.js'
+import { mapGetters } from 'vuex'
 
 export default {
   data() {
@@ -39,7 +45,7 @@ export default {
         },
         {
           name: 'map',
-          tetx: '查看地图'
+          tetx: '地图模式'
         },
         {
           name: 'star',
@@ -59,13 +65,60 @@ export default {
         }
       ]
     }
+  },
+
+  computed: {
+    ...mapGetters('user', ['userId'])
+  },
+
+  onLoad() {
+    uni.login({
+      success: ({ code }) => {
+        this.$store.dispatch('user/login_baidu', { code })
+      },
+      fail: () => {
+        uni.showToast({
+          title: '登录失败',
+          icon: 'none'
+        })
+      }
+    })
+  },
+
+  methods: {
+    decryptUserInfo(e) {
+      if (e.detail.errMsg == 'getUserInfo:ok') {
+        this.$store
+          .dispatch('user/getUserInfo_baidu', {
+            data: e.detail.encryptedData,
+            iv: e.detail.iv,
+            userId: this.userId
+          })
+          .then(() => {
+            uni.showToast({
+              title: '登录成功',
+              icon: 'none'
+            })
+            setTimeout(() => {
+              uni.switchTab({
+                url: '/pages/me/me'
+              })
+            }, 200)
+          })
+      } else if (e.detail.errMsg == 'getUserInfo:fail auth deny') {
+        uni.showToast({
+          title: '您已拒绝了授权，请重新点击并授权！',
+          icon: 'none'
+        })
+      }
+    }
   }
 }
 </script>
 
 <style lang="scss">
 page {
-  background-color: #FFFFFF !important;
+  background-color: #ffffff !important;
 }
 
 .content {

@@ -169,6 +169,16 @@ export default {
   },
 
   onShow() {
+    // #ifdef MP-BAIDU
+    uni.checkSession({
+      fail: () => {
+        uni.navigateTo({
+          url: '/pages/login/login-baidu/login-baidu'
+        })
+      }
+    })
+    // #endif
+
     // 获取列表
     this.getList()
   },

@@ -125,3 +125,26 @@ export function userSet(data) {
 		data
 	})
 }
+
+/**
+ * 百度登录
+ * @param {string} code - 授权标识
+ * */
+export function login_baidu(data) {
+	return $request('/baidu/login', {
+		method: 'POST',
+		data
+	})
+}
+
+/**
+ * 百度授权获取用户信息
+ * @param {string} data 开放数据密文
+ * @param {string} iv 加密向量
+ * */
+export function getUserInfo_baidu(data) {
+	return $request('/baidu/getUserMsg', {
+		method: 'POST',
+		data
+	})
+}

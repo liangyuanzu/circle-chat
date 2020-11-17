@@ -9,7 +9,9 @@ import {
 	updatePhoto,
 	updateMessage,
 	queryUserMsg,
-	userSet
+	userSet,
+	login_baidu,
+	getUserInfo_baidu
 } from '@/api/user.js'
 
 const state = {
@@ -88,7 +90,9 @@ const actions = {
 	},
 
 	async login({ dispatch }, userinfo) {
-		await login(userinfo)
+		// await login(userinfo)
+		const { accessToken } = await login(userinfo)
+		uni.setStorageSync('token', accessToken)
 		dispatch('init')
 	},
 
@@ -163,6 +167,18 @@ const actions = {
 
 	async userSet({}, data) {
 		await userSet(data)
+	},
+
+	async login_baidu({ commit }, code) {
+		const userId = await login_baidu(code)
+		commit('setUserId', userId)
+	},
+
+	async getUserInfo_baidu({ commit }, data) {
+		const userinfo = await getUserInfo_baidu(data)
+		commit('setUsername', userinfo.nickname)
+		commit('setAvatar', userinfo.img)
+		commit('setSex', userinfo.sex)
 	}
 }
 

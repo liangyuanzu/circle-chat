@@ -44,20 +44,14 @@ export default {
       }
     })
 
-    this.$store.dispatch('user/init', {}, { root: true })
+    // this.$store.dispatch('user/init', {}, { root: true })
 
-    this.timer = setInterval(() => {
-      this.$store.dispatch('user/getPosition', {}, { root: true })
-    }, 300000)
+    // this.timer = setInterval(() => {
+    //   this.$store.dispatch('user/getPosition', {}, { root: true })
+    // }, 300000)
 
     // #ifdef MP-BAIDU
-    uni.checkSession({
-      fail: () => {
-        uni.reLaunch({
-          url: '/pages/login/login-baidu/login-baidu'
-        })
-      }
-    })
+    uni.checkSession({})
     // #endif
 
     // if (uni.getStorageSync('token')) {
