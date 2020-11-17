@@ -19,6 +19,7 @@ http.interceptors.request.use(
 
 http.interceptors.response.use(
 	(response) => {
+		// #ifndef MP-BAIDU
 		const { code } = response.data
 		if (code == 401) {
 			uni.clearStorageSync()
@@ -26,6 +27,7 @@ http.interceptors.response.use(
 				url: '/pages/login/login'
 			})
 		}
+		// #endif
 		return response
 	},
 	(error) => {
