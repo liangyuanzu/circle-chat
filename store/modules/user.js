@@ -13,6 +13,7 @@ import {
 	login_baidu,
 	getUserInfo_baidu
 } from '@/api/user.js'
+import localStore from '@/helpers/localStore.js'
 
 const state = {
 	userId: '',
@@ -73,6 +74,15 @@ const mutations = {
 const actions = {
 	init({ dispatch }) {
 		dispatch('getUserInfo')
+		dispatch('getPosition')
+		dispatch('chat/open', {}, { root: true })
+	},
+
+	init_baidu({ commit, dispatch }) {
+		const userinfo = localStore.get('userinfo')
+		commit('setUsername', userinfo.username)
+		commit('setAvatar', userinfo.img)
+		commit('setSex', userinfo.sex)
 		dispatch('getPosition')
 		dispatch('chat/open', {}, { root: true })
 	},
@@ -174,11 +184,10 @@ const actions = {
 		commit('setUserId', userId)
 	},
 
-	async getUserInfo_baidu({ commit }, data) {
+	async getUserInfo_baidu({ dispatch }, data) {
 		const userinfo = await getUserInfo_baidu(data)
-		commit('setUsername', userinfo.nickname)
-		commit('setAvatar', userinfo.img)
-		commit('setSex', userinfo.sex)
+		localStore.set('userinfo', userinfo)
+		dispatch('init_baidu')
 	}
 }
 

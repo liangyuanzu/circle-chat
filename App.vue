@@ -51,7 +51,14 @@ export default {
     // }, 300000)
 
     // #ifdef MP-BAIDU
-    uni.checkSession({})
+    uni.checkSession({
+      success: () => {
+        this.$store.dispatch('user/init_baidu', {}, { root: true })
+        this.timer = setInterval(() => {
+          this.$store.dispatch('user/getPosition', {}, { root: true })
+        }, 300000)
+      }
+    })
     // #endif
 
     // if (uni.getStorageSync('token')) {
