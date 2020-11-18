@@ -1,13 +1,15 @@
 <template>
   <view>
     <view class="bar">
-      <u-search
-        placeholder="搜索圈"
-        v-model="keyword"
-        :clearabled="false"
-        :show-action="false"
-        class="search"
-      ></u-search>
+      <view class="search">
+        <u-search
+          placeholder="搜索圈"
+          v-model="keyword"
+          :clearabled="false"
+          :show-action="false"
+        ></u-search>
+      </view>
+
       <view class="create" @click="createCircle">
         <text>创建圈</text>
         <uni-icons size="16" color="#c0c4cc" type="plusempty"> </uni-icons>
