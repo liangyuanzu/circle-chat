@@ -17,8 +17,8 @@
         :rightText="item.rightText"
         :note="item.note"
         noteEllipsis="2"
-        showArrow
-        clickable
+        :showArrow="itemShowArrow(item.title)"
+        :clickable="itemClickable(item.title)"
         @click="onClick(item.title)"
       ></uni-list-item>
     </uni-list>
@@ -32,7 +32,7 @@
     <u-picker
       mode="time"
       v-model="showBirthday"
-      :default-time="birthday"
+      :defaultTime="defaultTime"
       @confirm="birthdayConfirm"
     ></u-picker>
   </view>
@@ -40,6 +40,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import time from '@/helpers/time.js'
 
 export default {
   data() {
@@ -55,7 +56,8 @@ export default {
           label: '女'
         }
       ],
-      showBirthday: false
+      showBirthday: false,
+      defaultTime: ''
     }
   },
 
@@ -103,6 +105,14 @@ export default {
     }
   },
 
+  onReady() {
+    if (this.birthday) {
+      this.defaultTime = this.birthday
+    } else {
+      this.defaultTime = time.format('yyyy-MM-dd')
+    }
+  },
+
   methods: {
     onClick(title) {
       if (title === '性别') {
@@ -145,6 +155,20 @@ export default {
     birthdayConfirm(e) {
       const userBirthday = `${e.year}/${e.month}/${e.day}`
       this.save({ birthday: userBirthday })
+    },
+
+    itemClickable(title) {
+      // #ifdef MP-BAIDU
+      if (title === '昵称' || title === '性别') return false
+      // #endif
+      return true
+    },
+
+    itemShowArrow(title) {
+      // #ifdef MP-BAIDU
+      if (title === '昵称' || title === '性别') return false
+      // #endif
+      return true
     }
   }
 }

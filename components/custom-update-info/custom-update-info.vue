@@ -4,49 +4,45 @@
       <template #left>
         <view>{{ title }}</view>
       </template>
+      <!-- #ifndef MP-BAIDU -->
       <template #right>
-        <button
-          v-if="isEdit"
-          type="primary"
-          size="mini"
-          :disabled="disabled"
-          @tap="save"
-        >
+        <button v-if="isEdit" type="primary" size="mini" @tap="save">
           保存
         </button>
       </template>
+      <!-- #endif -->
     </uni-nav-bar>
 
-    <u-field
-      v-if="isInput"
-      v-model="content"
-      maxlength="20"
-      :focus="isEdit"
-      :disabled="!isEdit"
-      :clearable="false"
-      label-width="0"
-      class="bg-white"
-    >
-      <template #right>
-        <view v-if="isEdit" class="text-sm text-grey">{{ inputNum }}</view>
-      </template>
-    </u-field>
+    <view class="bg-white" v-if="isInput">
+      <u-field
+        v-model="content"
+        maxlength="20"
+        :focus="isEdit"
+        :disabled="!isEdit"
+        :clearable="false"
+        label-width="0"
+      >
+        <template #right>
+          <view v-if="isEdit" class="text-sm text-grey">{{ inputNum }}</view>
+        </template>
+      </u-field>
+    </view>
 
-    <u-field
-      v-if="isTextarea"
-      type="textarea"
-      v-model="content"
-      maxlength="60"
-      :focus="isEdit"
-      :disabled="!isEdit"
-      :clearable="false"
-      label-width="0"
-      class="bg-white"
-    >
-      <template #right>
-        <view v-if="isEdit" class="text-sm text-grey">{{ textareaNum }}</view>
-      </template>
-    </u-field>
+    <view class="bg-white" v-if="isTextarea">
+      <u-field
+        type="textarea"
+        v-model="content"
+        maxlength="60"
+        :focus="isEdit"
+        :disabled="!isEdit"
+        :clearable="false"
+        label-width="0"
+      >
+        <template #right>
+          <view v-if="isEdit" class="text-sm text-grey">{{ textareaNum }}</view>
+        </template>
+      </u-field>
+    </view>
 
     <view v-if="isNumberBox">
       <uni-list>
@@ -65,6 +61,12 @@
         {{ oldData + effective }} 天</view
       >
     </view>
+
+    <!-- #ifdef MP-BAIDU -->
+    <view class="padding-lr-lg" style="margin-top: 200rpx">
+      <u-button type="primary" @click="save">保存</u-button>
+    </view>
+    <!-- #endif -->
   </view>
 </template>
 
