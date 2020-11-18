@@ -6,6 +6,7 @@
       :current="current"
       @change="tabsChange"
       :is-scroll="false"
+      :show-bar="showBar"
       swiperWidth="750"
     >
     </u-tabs-swiper>
@@ -71,7 +72,13 @@ export default {
   },
 
   computed: {
-    ...mapState('circle', ['circleList'])
+    ...mapState('circle', ['circleList']),
+    showBar() {
+      // #ifdef MP-BAIDU
+      return false
+      // #endif
+      return true
+    }
   },
 
   mounted() {
