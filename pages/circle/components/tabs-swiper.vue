@@ -36,7 +36,11 @@
             >
             </custom-circle-list>
 
-            <view class="empty" style="top: 36%" v-if="circleList.length === 0">
+            <view
+              class="empty"
+              :style="emptyTop"
+              v-if="circleList.length === 0"
+            >
               <u-empty mode="list"></u-empty>
             </view>
           </view>
@@ -78,6 +82,12 @@ export default {
       return false
       // #endif
       return true
+    },
+    emptyTop() {
+      // #ifdef MP-BAIDU
+      return 'top: 38%'
+      // #endif
+      return 'top: 36%'
     }
   },
 
