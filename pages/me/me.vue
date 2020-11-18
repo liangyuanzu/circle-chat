@@ -2,7 +2,7 @@
   <view>
     <custom-avatar
       :src="avatar"
-      show-sex
+      :show-sex="showSex"
       :sex-icon="formatGender"
       :title="username"
       :note="autograph"
@@ -52,6 +52,10 @@ export default {
     formatGender() {
       if (this.sex === '男') return 'man'
       if (this.sex === '女') return 'woman'
+    },
+    showSex() {
+      if (this.sex === '男' || this.sex === '女') return true
+      return false
     }
   },
 
