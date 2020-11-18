@@ -130,6 +130,11 @@ const actions = {
 		dispatch('chat/close', {}, { root: true })
 	},
 
+	logout_baidu({ dispatch }) {
+		uni.clearStorageSync()
+		dispatch('chat/close', {}, { root: true })
+	},
+
 	async sendRegisterEmail({}, email) {
 		await sendRegisterEmail(email)
 	},

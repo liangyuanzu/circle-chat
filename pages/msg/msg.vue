@@ -169,18 +169,21 @@ export default {
   },
 
   onShow() {
+    // 获取列表
+    this.getList()
+  },
+
+  onHide() {
     // #ifdef MP-BAIDU
     uni.checkSession({
       fail: () => {
-        uni.navigateTo({
+        this.$store.dispatch('user/logout_baidu')
+        uni.redirectTo({
           url: '/pages/login/login-baidu/login-baidu'
         })
       }
     })
     // #endif
-
-    // 获取列表
-    this.getList()
   },
 
   methods: {
