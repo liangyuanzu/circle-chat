@@ -2,7 +2,7 @@
   <view>
     <custom-avatar
       :src="personinfo.img"
-      show-sex
+      :show-sex="showSex"
       :sex-icon="formatGender"
       :title="personinfo.username"
     >
@@ -71,9 +71,14 @@ export default {
   computed: {
     ...mapGetters('user', ['personinfo', 'userId']),
     ...mapGetters('focus', ['focusStatus']),
+    showSex() {
+      if (this.personinfo.sex === '男' || this.personinfo.sex === '女')
+        return true
+      return false
+    },
     formatGender() {
-      if (this.sex === '男') return 'man'
-      if (this.sex === '女') return 'woman'
+      if (this.personinfo.sex === '男') return 'man'
+      if (this.personinfo.sex === '女') return 'woman'
     },
     formatAge() {
       if (this.personinfo.age) return '年龄：' + this.personinfo.age + ' 岁'
