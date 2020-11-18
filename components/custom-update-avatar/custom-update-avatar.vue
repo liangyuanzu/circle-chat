@@ -1,7 +1,12 @@
 <template>
   <view>
     <uni-list>
-      <uni-list-item :title="title" showArrow clickable @click="chooseAvatar">
+      <uni-list-item
+        :title="title"
+        :clickable="clickable"
+        :showArrow="showArrow"
+        @click="chooseAvatar"
+      >
         <template #footer>
           <u-avatar :src="src" mode="square"> </u-avatar>
         </template>
@@ -18,6 +23,8 @@
  * @property {String} src 头像路径，如加载失败，将会显示默认头像
  * @property {Boolean} isCircle = [true|false] 是否为群头像
  * @property {Number, String} circleId 圈id
+ * @property {Boolean} 	clickable = [true|false] 		是否开启点击反馈
+ * @property {Boolean} 	showArrow = [true|false] 		是否显示箭头图标
  *
  * @event {Function} click 头像被点击
  */
@@ -42,6 +49,14 @@ export default {
     circleId: {
       type: [Number, String],
       default: 0
+    },
+    clickable: {
+      type: Boolean,
+      default: true
+    },
+    showArrow: {
+      type: [Boolean, String],
+      default: true
     }
   },
 

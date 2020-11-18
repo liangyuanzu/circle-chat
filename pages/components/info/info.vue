@@ -1,7 +1,12 @@
 <template>
   <view>
     <view class="margin-bottom-sm">
-      <custom-update-avatar title="头像" :src="avatar"></custom-update-avatar>
+      <custom-update-avatar
+        title="头像"
+        :src="avatar"
+        :clickable="avatarClickable"
+        :showArrow="avatarShowArrow"
+      ></custom-update-avatar>
     </view>
 
     <uni-list>
@@ -62,6 +67,18 @@ export default {
       'birthday',
       'autograph'
     ]),
+
+    avatarClickable() {
+      // #ifdef MP-BAIDU
+      return false
+      // #endif
+    },
+
+    avatarShowArrow() {
+      // #ifdef MP-BAIDU
+      return false
+      // #endif
+    },
 
     infoList() {
       return [
