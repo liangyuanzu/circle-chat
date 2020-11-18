@@ -1,8 +1,10 @@
 <template>
   <view>
-    <custom-update-avatar title="头像" :src="avatar"></custom-update-avatar>
+    <view class="margin-bottom-sm">
+      <custom-update-avatar title="头像" :src="avatar"></custom-update-avatar>
+    </view>
 
-    <uni-list style="margin-top: 20rpx">
+    <uni-list>
       <uni-list-item
         v-for="(item, index) in infoList"
         :key="index"
