@@ -3,6 +3,7 @@
     <u-tabs
       :list="optionList"
       :is-scroll="false"
+      :show-bar="showBar"
       :current="current"
       @change="change"
     ></u-tabs>
@@ -43,6 +44,13 @@ export default {
     ...mapGetters('focus', ['myFocus', 'focusMy', 'focusList']),
     type() {
       return this.current + 1
+    },
+
+    showBar() {
+      // #ifdef MP-BAIDU
+      return false
+      // #endif
+      return true
     }
   },
 
