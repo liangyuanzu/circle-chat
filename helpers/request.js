@@ -22,15 +22,22 @@ http.interceptors.request.use(
 
 http.interceptors.response.use(
 	(response) => {
-		// #ifndef MP-BAIDU
 		const { code } = response.data
 		if (code == 401) {
 			uni.clearStorageSync()
+			// #ifndef MP-BAIDU
 			uni.reLaunch({
 				url: '/pages/login/login'
 			})
+			// #endif
+
+			// #ifdef MP-BAIDU
+			uni.reLaunch({
+				url: '/pages/login/login-baidu/login-baidu'
+			})
+			// #endif
 		}
-		// #endif
+
 		return response
 	},
 	(error) => {

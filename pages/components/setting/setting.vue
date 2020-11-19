@@ -1,5 +1,6 @@
 <template>
   <view>
+    <!-- #ifndef MP-BAIDU -->
     <uni-list>
       <uni-list-item
         title="修改密码"
@@ -8,6 +9,7 @@
         @click="changePwd"
       ></uni-list-item>
     </uni-list>
+    <!-- #endif -->
 
     <view style="margin-top: 20rpx">
       <uni-list>
@@ -54,6 +56,7 @@ export default {
       uni.showLoading({
         title: '加载中...'
       })
+      // #ifndef MP-BAIDU
       this.$store
         .dispatch('user/logout')
         .then(() => {
@@ -73,6 +76,29 @@ export default {
         .catch(() => {
           uni.hideLoading()
         })
+      // #endif
+
+      // #ifdef MP-BAIDU
+      this.$store
+        .dispatch('user/logout_baidu')
+        .then(() => {
+          uni.hideLoading()
+          setTimeout(() => {
+            uni.showToast({
+              title: '退出成功！',
+              icon: 'none'
+            })
+            setTimeout(() => {
+              uni.reLaunch({
+                url: '/pages/msg/msg'
+              })
+            }, 500)
+          }, 500)
+        })
+        .catch(() => {
+          uni.hideLoading()
+        })
+      // #endif
     }
   }
 }

@@ -176,6 +176,15 @@ export default {
   onHide() {
     // #ifdef MP-BAIDU
     uni.checkSession({
+      success: () => {
+        const userinfo = localStore.get('userinfo')
+        if (!userinfo) {
+          uni.reLaunch({
+            url: '/pages/login/login-baidu/login-baidu'
+          })
+        }
+      },
+
       fail: () => {
         this.$store.dispatch('user/logout_baidu')
         uni.reLaunch({

@@ -1,5 +1,6 @@
 <script>
 import Vue from 'vue'
+import localStore from '@/helpers/localStore.js'
 
 export default {
   data() {
@@ -44,34 +45,37 @@ export default {
       }
     })
 
-    // this.$store.dispatch('user/init', {}, { root: true })
-
-    // this.timer = setInterval(() => {
-    //   this.$store.dispatch('user/getPosition', {}, { root: true })
-    // }, 300000)
-
     // #ifdef MP-BAIDU
     uni.checkSession({
       success: () => {
-        this.$store.dispatch('user/init_baidu', {}, { root: true })
-        this.timer = setInterval(() => {
-          this.$store.dispatch('user/getPosition', {}, { root: true })
-        }, 300000)
+        const userinfo = localStore.get('userinfo')
+        if (userinfo) {
+          this.$store.dispatch('user/init_baidu', {}, { root: true })
+          this.timer = setInterval(() => {
+            this.$store.dispatch('user/getPosition', {}, { root: true })
+          }, 300000)
+        } else {
+          uni.reLaunch({
+            url: '/pages/login/login-baidu/login-baidu'
+          })
+        }
       }
     })
     // #endif
 
-    // if (uni.getStorageSync('token')) {
-    //   this.$store.dispatch('user/init', {}, { root: true })
+    // #ifndef MP-BAIDU
+    if (uni.getStorageSync('sessionId')) {
+      this.$store.dispatch('user/init', {}, { root: true })
 
-    //   this.timer = setInterval(() => {
-    //     this.$store.dispatch('user/getPosition', {}, { root: true })
-    //   }, 300000)
-    // } else {
-    //   uni.reLaunch({
-    //     url: '/pages/login/login'
-    //   })
-    // }
+      this.timer = setInterval(() => {
+        this.$store.dispatch('user/getPosition', {}, { root: true })
+      }, 300000)
+    } else {
+      uni.reLaunch({
+        url: '/pages/login/login'
+      })
+    }
+    // #endif
   },
 
   onShow: function () {

@@ -11,7 +11,8 @@ import {
 	queryUserMsg,
 	userSet,
 	login_baidu,
-	getUserInfo_baidu
+	getUserInfo_baidu,
+	logout_baidu
 } from '@/api/user.js'
 import localStore from '@/helpers/localStore.js'
 
@@ -126,10 +127,14 @@ const actions = {
 	async logout({ dispatch }) {
 		await logout()
 		uni.clearStorageSync()
+		commit('setUsername', '')
+		commit('setAvatar', '')
+		commit('setSex', '')
 		dispatch('chat/close', {}, { root: true })
 	},
 
-	logout_baidu({ dispatch }) {
+	async logout_baidu({ dispatch }) {
+		await logout_baidu()
 		uni.clearStorageSync()
 		dispatch('chat/close', {}, { root: true })
 	},

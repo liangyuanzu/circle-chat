@@ -148,3 +148,12 @@ export function getUserInfo_baidu(data) {
 		data
 	})
 }
+
+/**
+ * 退出登录
+ * */
+export function logout_baidu() {
+	return $request('/baidu/logout', {
+		method: 'POST'
+	})
+}
