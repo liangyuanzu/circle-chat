@@ -21,24 +21,6 @@
         :clickable="itemClickable(item.title)"
         @click="onClick(item.title)"
       >
-        <!-- #ifdef MP-BAIDU -->
-        <template #footer>
-          <view
-            v-show="item.title === '生日'"
-            style="width: 500rpx; text-align: right"
-          >
-            <picker
-              mode="date"
-              :value="date"
-              :start="startDate"
-              :end="endDate"
-              @change="bindDateChange"
-            >
-              <view class="text-sm" style="margin-top: 5rpx">{{ date }}</view>
-            </picker>
-          </view>
-        </template>
-        <!-- #endif-->
       </uni-list-item>
     </uni-list>
 
@@ -48,14 +30,12 @@
       @confirm="sexConfirm"
     ></u-select>
 
-    <!-- #ifndef MP-BAIDU -->
     <u-picker
       mode="time"
       v-model="showBirthday"
       :defaultTime="defaultTime"
       @confirm="birthdayConfirm"
     ></u-picker>
-    <!-- #endif -->
   </view>
 </template>
 
@@ -124,10 +104,12 @@ export default {
           title: '性别',
           rightText: this.sex
         },
+        // #ifndef MP-BAIDU
         {
           title: '生日',
           rightText: this.birthday
         },
+        // #endif
         {
           title: '个性签名',
           rightText: this.autograph.length <= 20 ? this.autograph : '',
