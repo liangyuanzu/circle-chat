@@ -20,7 +20,26 @@
         :showArrow="itemShowArrow(item.title)"
         :clickable="itemClickable(item.title)"
         @click="onClick(item.title)"
-      ></uni-list-item>
+      >
+        <!-- #ifdef MP-BAIDU -->
+        <template #footer>
+          <view
+            v-show="item.title === '生日'"
+            style="width: 500rpx; text-align: right"
+          >
+            <picker
+              mode="date"
+              :value="date"
+              :start="startDate"
+              :end="endDate"
+              @change="bindDateChange"
+            >
+              <view class="text-sm" style="margin-top: 5rpx">{{ date }}</view>
+            </picker>
+          </view>
+        </template>
+        <!-- #endif-->
+      </uni-list-item>
     </uni-list>
 
     <u-select
@@ -29,12 +48,14 @@
       @confirm="sexConfirm"
     ></u-select>
 
+    <!-- #ifndef MP-BAIDU -->
     <u-picker
       mode="time"
       v-model="showBirthday"
       :defaultTime="defaultTime"
       @confirm="birthdayConfirm"
     ></u-picker>
+    <!-- #endif -->
   </view>
 </template>
 
@@ -44,6 +65,9 @@ import time from '@/helpers/time.js'
 
 export default {
   data() {
+    const currentDate = this.getDate({
+      format: true
+    })
     return {
       showSex: false,
       sexOptions: [
@@ -57,7 +81,8 @@ export default {
         }
       ],
       showBirthday: false,
-      defaultTime: ''
+      defaultTime: '',
+      date: currentDate
     }
   },
 
@@ -69,6 +94,13 @@ export default {
       'birthday',
       'autograph'
     ]),
+
+    startDate() {
+      return this.getDate('start')
+    },
+    endDate() {
+      return this.getDate('end')
+    },
 
     avatarClickable() {
       // #ifdef MP-BAIDU
@@ -127,6 +159,26 @@ export default {
           }
         )
       }
+    },
+
+    bindDateChange: function (e) {
+      this.date = e.target.value
+    },
+
+    getDate(type) {
+      const date = new Date()
+      let year = date.getFullYear()
+      let month = date.getMonth() + 1
+      let day = date.getDate()
+
+      if (type === 'start') {
+        year = year - 60
+      } else if (type === 'end') {
+        year = year + 2
+      }
+      month = month > 9 ? month : '0' + month
+      day = day > 9 ? day : '0' + day
+      return `${year}-${month}-${day}`
     },
 
     save(data) {
