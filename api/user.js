@@ -157,3 +157,14 @@ export function logout_baidu() {
 		method: 'POST'
 	})
 }
+
+/**
+ * 更新用户位置信息
+ * @param {string} position 用户位置
+ * */
+export function updatePosition(data) {
+	return $request('/user/updatePosition', {
+		method: 'POST',
+		data
+	})
+}

@@ -12,7 +12,8 @@ import {
 	userSet,
 	login_baidu,
 	getUserInfo_baidu,
-	logout_baidu
+	logout_baidu,
+	updatePosition
 } from '@/api/user.js'
 import localStore from '@/helpers/localStore.js'
 
@@ -89,6 +90,7 @@ const actions = {
 	},
 
 	getPosition({ commit }) {
+		// #ifndef MP-BAIDU
 		uni.getLocation({
 			type: 'gcj02',
 			success: function (res) {
@@ -96,8 +98,45 @@ const actions = {
 					longitude: res.longitude,
 					latitude: res.latitude
 				})
+				const position = res.longitude + ',' + res.latitude
+				updatePosition({ position })
+			},
+			fail: () => {
+				uni.showToast({
+					title: '您已拒绝地理位置授权，请在设置中开启授权',
+					icon: 'none'
+				})
 			}
 		})
+		// #endif
+
+		// #ifdef MP-BAIDU
+		uni.authorize({
+			scope: 'scope.userLocation',
+			success() {
+				uni.getLocation({
+					type: 'gcj02',
+					success: function (res) {
+						commit('setPosition', {
+							longitude: res.longitude,
+							latitude: res.latitude
+						})
+						const position = res.longitude + ',' + res.latitude
+						updatePosition({ position })
+					}
+				})
+			},
+			fail() {
+				uni.showToast({
+					title: '您已拒绝地理位置授权，请开启授权',
+					icon: 'none'
+				})
+				setTimeout(() => {
+					uni.openSetting()
+				}, 500)
+			}
+		})
+		// #endif
 	},
 
 	async login({ dispatch }, userinfo) {
