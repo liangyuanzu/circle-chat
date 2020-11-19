@@ -100,9 +100,8 @@ const actions = {
 	},
 
 	async login({ dispatch }, userinfo) {
-		// await login(userinfo)
-		const { accessToken } = await login(userinfo)
-		uni.setStorageSync('token', accessToken)
+		const { sessionid } = await login(userinfo)
+		localStore.set('sessionId', sessionid)
 		dispatch('init')
 	},
 
@@ -185,8 +184,9 @@ const actions = {
 	},
 
 	async login_baidu({ commit }, code) {
-		const userId = await login_baidu(code)
+		const { userId, sessionid } = await login_baidu(code)
 		commit('setUserId', userId)
+		localStore.set('sessionId', sessionid)
 	},
 
 	async getUserInfo_baidu({ dispatch }, data) {

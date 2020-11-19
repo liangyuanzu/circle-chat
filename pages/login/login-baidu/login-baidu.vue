@@ -32,6 +32,7 @@
 <script>
 import logoUrl from './../logo.js'
 import { mapGetters } from 'vuex'
+import localStore from '@/helpers/localStore.js'
 
 export default {
   data() {
@@ -88,11 +89,13 @@ export default {
   methods: {
     decryptUserInfo(e) {
       if (e.detail.errMsg == 'getUserInfo:ok') {
+        const sessionId = localStore.get('sessionId')
         this.$store
           .dispatch('user/getUserInfo_baidu', {
             data: e.detail.encryptedData,
             iv: e.detail.iv,
-            userId: this.userId
+            userId: this.userId,
+            sessionid: sessionId
           })
           .then(() => {
             uni.showToast({

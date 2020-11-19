@@ -1,5 +1,6 @@
 import Request from '@/utils/luch-request/index.js'
 import { baseUrl } from '@/config/config.js'
+import localStore from '@/helpers/localStore.js'
 
 const http = new Request()
 
@@ -10,6 +11,8 @@ http.setConfig((config) => {
 
 http.interceptors.request.use(
 	(config) => {
+		const sessionId = localStore.get('sessionId')
+		if (sessionId) config.header.sessionId = sessionId
 		return config
 	},
 	(error) => {
