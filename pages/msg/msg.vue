@@ -178,7 +178,7 @@ export default {
     uni.checkSession({
       fail: () => {
         this.$store.dispatch('user/logout_baidu')
-        uni.redirectTo({
+        uni.reLaunch({
           url: '/pages/login/login-baidu/login-baidu'
         })
       }
