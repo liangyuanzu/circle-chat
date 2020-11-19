@@ -44,8 +44,8 @@
           </view>
         </template>
 
-        <template #footer>
-          <view class="flex align-center" v-if="showJoin">
+        <view slot="footer" class="flex align-center">
+          <view v-if="showJoin">
             <u-button
               :type="item.inCircle ? 'default' : 'primary'"
               size="mini"
@@ -65,7 +65,7 @@
               >
             </u-button>
           </view>
-        </template>
+        </view>
       </uni-list-item>
     </uni-list>
   </view>
