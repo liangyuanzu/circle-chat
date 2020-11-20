@@ -63,7 +63,7 @@
     </view>
 
     <!-- #ifdef MP-BAIDU -->
-    <view class="padding-lr-lg" style="margin-top: 200rpx">
+    <view v-if="isEdit" class="padding-lr-lg" style="margin-top: 200rpx">
       <u-button type="primary" @click="save">保存</u-button>
     </view>
     <!-- #endif -->
@@ -88,7 +88,7 @@ export default {
 
   data() {
     return {
-      content: this.oldData,
+      content: '',
       effective: 0
     }
   },
@@ -141,7 +141,13 @@ export default {
     }
   },
 
-  created() {
+  watch: {
+    oldData: function (val) {
+      this.content = val
+    }
+  },
+
+  mounted() {
     if (this.isNumberBox) this.content = ''
   },
 

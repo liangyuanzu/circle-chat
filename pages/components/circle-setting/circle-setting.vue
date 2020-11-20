@@ -200,6 +200,7 @@ export default {
     },
     bannerMember() {
       if (this.circleMember.length < 4) return this.circleMember
+      if (!this.isOwner) return this.circleMember.slice(0, 5)
       return this.circleMember.slice(0, 4)
     },
     infoList() {
