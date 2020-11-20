@@ -82,6 +82,7 @@ const actions = {
 
 	init_baidu({ commit, dispatch }) {
 		const userinfo = localStore.get('userinfo')
+		commit('setUserId', userinfo.userId)
 		commit('setUsername', userinfo.username)
 		commit('setAvatar', userinfo.img)
 		commit('setSex', userinfo.sex)

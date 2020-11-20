@@ -15,24 +15,26 @@
           class="flex align-center"
           :class="{ 'margin-right-xl': isMargin }"
         >
-          <u-button
-            :type="i.isFocus === 1 ? 'default' : 'primary'"
-            size="mini"
-            shape="circle"
-            plain
-            @click="onFocus(i.isFocus, i.userId)"
-          >
-            <uni-icons
-              :size="12"
-              color="#0081ff"
-              :type="!focusStatus(i.isFocus) ? 'plusempty' : ''"
-            />
-            <text
-              style="margin-left: 10rpx"
-              :class="[i.isFocus === 1 ? 'text-grey' : '']"
-              >{{ formatFocus(i.isFocus) }}</text
+          <view v-show="i.userId !== userId">
+            <u-button
+              :type="i.isFocus === 1 ? 'default' : 'primary'"
+              size="mini"
+              shape="circle"
+              plain
+              @click="onFocus(i.isFocus, i.userId)"
             >
-          </u-button>
+              <uni-icons
+                :size="12"
+                color="#0081ff"
+                :type="!focusStatus(i.isFocus) ? 'plusempty' : ''"
+              />
+              <text
+                style="margin-left: 10rpx"
+                :class="[i.isFocus === 1 ? 'text-grey' : '']"
+                >{{ formatFocus(i.isFocus) }}</text
+              >
+            </u-button>
+          </view>
         </view>
       </uni-list-item>
     </uni-list>
@@ -49,6 +51,8 @@
  * @event {Function} click 列表项被被点击
  * @event {Function} focusClick 按钮被点击
  */
+import { mapState } from 'vuex'
+
 export default {
   name: 'custom-focus-list',
 
@@ -61,6 +65,14 @@ export default {
       type: Boolean,
       default: false
     }
+  },
+
+  computed: {
+    ...mapState('user', ['userId'])
+  },
+
+  mounted() {
+    console.log(this.userId)
   },
 
   methods: {
