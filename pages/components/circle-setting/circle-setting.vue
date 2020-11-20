@@ -257,7 +257,7 @@ export default {
 
     toCircleDetail() {
       this.$u.route('/pages/components/circle-detail/circle-detail', {
-        info: encodeURIComponent(JSON.stringify(this.circleInfo))
+        circleId: this.circleInfo.circleId
       })
     },
 
@@ -287,7 +287,7 @@ export default {
         {
           title,
           isEdit: this.isOwner,
-          circleInfo: encodeURIComponent(JSON.stringify(this.circleInfo))
+          circleId: this.circleInfo.circleId
         }
       )
     },

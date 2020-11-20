@@ -22,16 +22,21 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   data() {
     return {
-      showHead: false,
-      personinfo: {}
+      showHead: false
     }
   },
 
-  onLoad({ personinfo }) {
-    this.personinfo = JSON.parse(personinfo)
+  computed: {
+    ...mapGetters('user', ['personinfo'])
+  },
+
+  onLoad({ personId }) {
+    this.$store.dispatch('user/getPersonInfo', personId)
   }
 }
 </script>

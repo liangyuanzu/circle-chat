@@ -45,9 +45,7 @@
             <view class="cu-tag bg-black sm">
               <text class="cuIcon-radiobox"></text>
             </view>
-            <view class="cu-tag line-black sm">
-              {{ info.radius }}</view
-            >
+            <view class="cu-tag line-black sm"> {{ info.radius }}</view>
           </view>
         </template>
       </uni-list-item>
@@ -78,6 +76,8 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   data() {
     return {
@@ -87,20 +87,20 @@ export default {
   },
 
   computed: {
+    ...mapGetters('circle', ['circleInfo', 'circleMember']),
     createTime() {
       return /(\d{4})\-(\d{2})\-(\d{2})/
-        .exec(this.info.createTime)[0]
+        .exec(this.circleInfo.createTime)[0]
         .replace(/(\d{4})\-(\d{2})\-(\d{2})/, '$1年$2月$3日')
     },
-
     formatType() {
-      if (this.info.type === '固定圈') return 'warning'
-      if (this.info.type === '紧急圈') return 'error'
+      if (this.circleInfo.type === '固定圈') return 'warning'
+      if (this.circleInfo.type === '紧急圈') return 'error'
     }
   },
 
-  onLoad(options) {
-    if (options.info) this.info = JSON.parse(options.info)
+  onLoad({ circleId }) {
+    this.$store.dispatch('circle/getCircleInfo', circleId)
   },
 
   methods: {
@@ -114,23 +114,16 @@ export default {
 
     toOwner() {
       this.$u.route('/pages/components/person-info/person-info', {
-        id: this.info.userId
+        id: this.circleInfo.userId
       })
     },
 
     toCircleChat() {
-      const circleinfo = {
-        circleId: this.info.circleId,
-        circleName: this.info.circleName,
-        circleAvatar: this.info.img,
-        circleType: this.info.type,
-        member: this.info.member
-      }
       this.$u.route({
         type: 'redirect',
         url: '/pages/components/chat/chat',
         params: {
-          circleinfo: encodeURIComponent(JSON.stringify(circleinfo))
+          circleId: this.circleInfo.circleId
         }
       })
     },
@@ -139,7 +132,7 @@ export default {
       this.loading = true
       this.$store
         .dispatch('circle/joinCircle', {
-          circleId: this.info.circleId
+          circleId: this.circleInfo.circleId
         })
         .then(() => {
           this.loading = false

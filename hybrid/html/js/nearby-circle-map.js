@@ -217,15 +217,8 @@ const toCircleDetail = () => {
 }
 
 const toCircleChat = (info) => {
-	const circleinfo = {
-		circleId: info.circleId,
-		circleName: info.circleName,
-		circleAvatar: info.img,
-		circleType: info.type,
-		member: info.member
-	}
 	uni.redirectTo({
-		url: '/pages/components/chat/chat?circleinfo=' + JSON.stringify(circleinfo)
+		url: '/pages/components/chat/chat?circleId=' + info.circleId
 	})
 }
 

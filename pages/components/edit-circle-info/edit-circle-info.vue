@@ -85,7 +85,7 @@ export default {
         {
           title,
           isEdit: true,
-          circleInfo: encodeURIComponent(JSON.stringify(this.circleInfo))
+					circleId: this.circleInfo.circleId
         }
       )
     }

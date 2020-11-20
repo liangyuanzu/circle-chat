@@ -422,8 +422,9 @@ export default {
   },
 
   computed: {
-    ...mapGetters('user', ['userId', 'username', 'avatar']),
-    ...mapState('chat', ['CurrentToUser', 'CurrentToCircle', 'isCircle'])
+    ...mapGetters('user', ['userId', 'username', 'avatar', 'personinfo']),
+    ...mapState('chat', ['CurrentToUser', 'CurrentToCircle', 'isCircle']),
+    ...mapGetters('circle', ['circleInfo'])
   },
 
   onReady() {
@@ -442,20 +443,22 @@ export default {
     })
   },
 
-  onLoad(options) {
-    if (options.userinfo) {
-      const { userId, username, avatar } = JSON.parse(options.userinfo)
+  async onLoad(options) {
+    if (options.personId) {
+      await this.$store.dispatch('user/getPersonInfo', options.personId)
+      const { userId, username, avatar } = this.personinfo
       this.$store.commit('chat/setCurrentToUser', { userId, username, avatar })
       // 修改标题
       this.title = username
-    } else if (options.circleinfo) {
+    } else if (options.circleId) {
+      await this.$store.dispatch('circle/getCircleInfo', options.circleId)
       const {
         circleId,
         circleName,
         circleAvatar,
         circleType,
         member
-      } = JSON.parse(options.circleinfo)
+      } = this.circleInfo
       this.$store.commit('chat/setCurrentToCircle', {
         circleId,
         circleName,

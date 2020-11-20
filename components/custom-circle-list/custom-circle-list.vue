@@ -34,7 +34,7 @@
             </view>
             <!-- 简介 -->
             <view
-							v-if="showNote"
+              v-if="showNote"
               class="text-sm text-grey my-text-cut"
               style="width: 474rpx; margin-top: 10rpx"
             >
@@ -96,8 +96,8 @@ export default {
     showJoin: {
       type: [Boolean, String],
       default: false
-		},
-		showNote: {
+    },
+    showNote: {
       type: [Boolean, String],
       default: true
     },
@@ -123,33 +123,17 @@ export default {
 
     onClick(item) {
       if (item.inCircle) {
-        const circleinfo = {
-          circleId: item.circleId,
-          circleName: item.circleName,
-          circleAvatar: item.img,
-          circleType: item.type,
-          member: item.member
-        }
-        this.$u.route('/pages/components/chat/chat', {
-          circleinfo: encodeURIComponent(JSON.stringify(circleinfo))
-        })
+        this.toCircleChat(item.circleId)
       } else {
         this.$u.route('/pages/components/circle-detail/circle-detail', {
-          info: encodeURIComponent(JSON.stringify(item))
+          circleId: item.circleId
         })
       }
     },
 
-    toCircleChat(info) {
-      const circleinfo = {
-        circleId: info.circleId,
-        circleName: info.circleName,
-        circleAvatar: info.img,
-        circleType: info.type,
-        member: info.member
-      }
+    toCircleChat(circleId) {
       this.$u.route('/pages/components/chat/chat', {
-        circleinfo: encodeURIComponent(JSON.stringify(circleinfo))
+        circleId
       })
     },
 
@@ -166,7 +150,7 @@ export default {
               icon: 'none'
             })
             setTimeout(() => {
-              this.toCircleChat(circleinfo)
+              this.toCircleChat(circleinfo.circleId)
             }, 500)
           }, 500)
         })

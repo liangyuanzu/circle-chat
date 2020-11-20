@@ -136,7 +136,7 @@ export default {
 
     toSignature() {
       this.$u.route('/pages/components/person-signature/person-signature', {
-        personinfo: encodeURIComponent(JSON.stringify(this.personinfo))
+        personId: this.personinfo.userId
       })
     },
 
@@ -160,16 +160,11 @@ export default {
           icon: 'none'
         })
       } else {
-        const userinfo = {
-          userId: this.personinfo.userId,
-          username: this.personinfo.username,
-          avatar: this.personinfo.img
-        }
         this.$u.route({
           type: 'redirect',
           url: '/pages/components/chat/chat',
           params: {
-            userinfo: encodeURIComponent(JSON.stringify(userinfo))
+            personId: this.personinfo.userId
           }
         })
       }

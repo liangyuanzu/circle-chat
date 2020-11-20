@@ -53,27 +53,14 @@ export default {
 
     toChatDetail(item) {
       if (item.userId) {
-        const userinfo = {
-          userId: item.userId,
-          username: item.username,
-          avatar: item.avatar
-        }
         uni.navigateTo({
           url:
-            '/pages/components/chat/chat?userinfo=' + encodeURIComponent(JSON.stringify(userinfo))
+            '/pages/components/chat/chat?personId=' + item.userId
         })
       } else if (item.circleId) {
-        const circleinfo = {
-          circleId: item.circleId,
-          circleName: item.circleName,
-          circleAvatar: item.avatar,
-          circleType: item.circleType,
-          member: item.member
-        }
         uni.navigateTo({
           url:
-            '/pages/components/chat/chat?circleinfo=' +
-            encodeURIComponent(JSON.stringify(circleinfo))
+            '/pages/components/chat/chat?circleId=' + item.circleId
         })
       }
 

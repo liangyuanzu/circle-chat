@@ -13,6 +13,8 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   data() {
     return {
@@ -21,30 +23,32 @@ export default {
       isInput: false,
       isTextarea: false,
       isNumberBox: false,
-      isEdit: false,
-      circleInfo: {}
+      isEdit: false
     }
   },
 
-  onLoad(options) {
+  computed: {
+    ...mapGetters('circle', ['circleInfo'])
+  },
+
+  async onLoad(options) {
     this.title = options.title
     this.isEdit = options.isEdit == 'true' ? true : false
-    const circleInfo = JSON.parse(options.circleInfo)
-    this.circleInfo = circleInfo
+    await this.$store.dispatch('circle/getCircleInfo', options.circleId)
     if (this.title === '圈聊名称') {
-      this.oldData = circleInfo.circleName
+      this.oldData = this.circleInfo.circleName
       this.isInput = true
     } else if (this.title === '圈简介') {
-      this.oldData = circleInfo.synopsis
+      this.oldData = this.circleInfo.synopsis
       this.isTextarea = true
     } else if (this.title === '圈公告') {
-      this.oldData = circleInfo.notice
+      this.oldData = this.circleInfo.notice
       this.isTextarea = true
     } else if (this.title === '入圈声明') {
-      this.oldData = circleInfo.explain
+      this.oldData = this.circleInfo.explain
       this.isTextarea = true
     } else if (this.title === '有效时间') {
-      this.oldData = circleInfo.effective
+      this.oldData = this.circleInfo.effective
       this.isNumberBox = true
     }
   },
