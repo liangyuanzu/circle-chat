@@ -2,11 +2,12 @@
   <view>
     <view class="bar">
       <u-search
-        placeholder="搜索圈"
-        v-model="keyword"
+        placeholder="搜索用户和圈"
+        class="search"
         :clearabled="false"
         :show-action="false"
-        class="search"
+        disabled
+        @click="toSearch"
       ></u-search>
       <u-dropdown ref="uDropdown">
         <u-dropdown-item></u-dropdown-item>
@@ -58,7 +59,6 @@ export default {
 
   data() {
     return {
-      keyword: '',
       options: [
         {
           label: '交友圈',
@@ -220,6 +220,10 @@ export default {
         this.getList()
       }
       uni.hideLoading()
+    },
+
+    toSearch() {
+      this.$u.route('/pages/components/search/search')
     }
   }
 }

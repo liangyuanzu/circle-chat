@@ -30,12 +30,24 @@
 			"style": {
 				"navigationBarTitleText": "创建圈"
 			}
-		}, {
-			"path": "pages/components/search-circle/search-circle",
+		},
+		// #ifdef MP-BAIDU
+		{
+			"path": "pages/components/search/search",
+			"style": {
+				"navigationBarTitleText": "搜索"
+			}
+		},
+		// #endif
+		// #ifndef MP-BAIDU
+		{
+			"path": "pages/components/search/search",
 			"style": {
 				"navigationStyle": "custom"
 			}
-		}, {
+		},
+		// #endif
+		{
 			"path": "pages/components/chat/chat",
 			"style": {
 				"navigationStyle": "custom",

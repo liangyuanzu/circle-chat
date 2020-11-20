@@ -3,10 +3,11 @@
     <view class="bar">
       <view class="search">
         <u-search
-          placeholder="搜索圈"
-          v-model="keyword"
+          placeholder="搜索用户和圈"
           :clearabled="false"
           :show-action="false"
+          disabled
+          @click="toSearch"
         ></u-search>
       </view>
 
@@ -37,6 +38,10 @@ export default {
   methods: {
     createCircle() {
       this.$u.route('/pages/components/create-circle-map/create-circle-map')
+    },
+
+    toSearch() {
+      this.$u.route('/pages/components/search/search')
     }
   }
 }

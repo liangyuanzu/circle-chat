@@ -1,3 +1,4 @@
+import { getSearch } from '@/api/chat.js'
 import {
 	websocketUrl,
 	receiveOneType,
@@ -29,7 +30,8 @@ const state = {
 		circleName: '',
 		circleAvatar: '',
 		circleType: ''
-	}
+	},
+	searchList: []
 }
 
 const getters = {}
@@ -57,6 +59,9 @@ const mutations = {
 		state.CurrentToCircle.circleName = circleName
 		state.CurrentToCircle.circleAvatar = circleAvatar
 		state.CurrentToCircle.circleType = circleType
+	},
+	setSearchList(state, searchList) {
+		state.searchList = searchList
 	}
 }
 
@@ -297,6 +302,11 @@ const actions = {
 
 		// 存储到本地
 		localStore.set(chatListName, chatList)
+	},
+
+	async getSearchList({ commit }, keyword) {
+		const searchList = await getSearch(keyword)
+		commit('setSearchList', searchList)
 	}
 }
 
