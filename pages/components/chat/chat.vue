@@ -486,7 +486,7 @@ export default {
   async onLoad(options) {
     if (options.personId) {
       await this.$store.dispatch('user/getPersonInfo', options.personId)
-      const { userId, username, avatar } = this.personinfo
+      const { userId, username, img: avatar } = this.personinfo
       this.$store.commit('chat/setCurrentToUser', { userId, username, avatar })
       // 修改标题
       this.title = username

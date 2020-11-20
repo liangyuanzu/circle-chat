@@ -11,7 +11,7 @@
         :time="formatTime(item.time)"
         :badgeText="formatBadge(item.noReadNum)"
         clickable
-        @click="toChatDetail(item)"
+        @click="toChatDetail(JSON.stringify(item))"
       >
       </uni-list-chat>
     </uni-list>
@@ -52,15 +52,14 @@ export default {
     },
 
     toChatDetail(item) {
+      item = JSON.parse(item)
       if (item.userId) {
         uni.navigateTo({
-          url:
-            '/pages/components/chat/chat?personId=' + item.userId
+          url: '/pages/components/chat/chat?personId=' + item.userId
         })
       } else if (item.circleId) {
         uni.navigateTo({
-          url:
-            '/pages/components/chat/chat?circleId=' + item.circleId
+          url: '/pages/components/chat/chat?circleId=' + item.circleId
         })
       }
 
