@@ -47,19 +47,19 @@
             </view>
           </block>
 					 -->
-          <view v-show="keywordList['用户'].length > 0">
+          <view v-show="keywordList.users.length > 0">
             <u-divider>用户</u-divider>
             <custom-focus-list
-              :list="keywordList['用户']"
+              :list="keywordList.users"
               @focusClick="getSearchList"
             ></custom-focus-list>
           </view>
-          <view v-show="keywordList['圈'].length > 0">
+          <view v-show="keywordList.circles.length > 0">
             <u-divider>圈</u-divider>
             <custom-circle-list
               :border="false"
               showJoin
-              :list="keywordList['圈']"
+              :list="keywordList.circles"
               @joinClick="getSearchList"
             >
             </custom-circle-list>
