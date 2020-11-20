@@ -32,7 +32,7 @@
               :border="false"
               showJoin
               :list="circleList"
-              @click="toCircleDetail"
+              @joinClick="getCircleList"
             >
             </custom-circle-list>
 
@@ -116,26 +116,7 @@ export default {
       this.getCircleList()
     },
 
-    reachBottom() {},
-
-    toCircleDetail(item) {
-      if (item.inCircle) {
-        const circleinfo = {
-          circleId: item.circleId,
-          circleName: item.circleName,
-          circleAvatar: item.img,
-          circleType: item.type,
-          member: item.member
-        }
-        this.$u.route('/pages/components/chat/chat', {
-          circleinfo: encodeURIComponent(JSON.stringify(circleinfo))
-        })
-      } else {
-        this.$u.route('/pages/components/circle-detail/circle-detail', {
-          info: encodeURIComponent(JSON.stringify(item))
-        })
-      }
-    }
+    reachBottom() {}
   }
 }
 </script>

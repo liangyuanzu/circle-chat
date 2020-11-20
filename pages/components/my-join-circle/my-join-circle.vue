@@ -1,6 +1,6 @@
 <template>
   <view>
-    <custom-circle-list showArrow :list="myJoinCircle" @click="toCircleChat" />
+    <custom-circle-list showArrow :list="myJoinCircle" />
     <view class="empty" v-if="myJoinCircle.length === 0">
       <u-empty mode="list"></u-empty>
     </view>
@@ -21,21 +21,6 @@ export default {
 
   onShow() {
     this.$store.dispatch('circle/getMyJoinCircle')
-  },
-
-  methods: {
-    toCircleChat(info) {
-      const circleinfo = {
-        circleId: info.circleId,
-        circleName: info.name,
-        circleAvatar: info.img,
-        circleType: info.type,
-        member: info.member
-      }
-      this.$u.route('/pages/components/chat/chat', {
-        circleinfo: encodeURIComponent(JSON.stringify(circleinfo))
-      })
-    }
   }
 }
 </script>
