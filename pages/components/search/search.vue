@@ -47,22 +47,33 @@
             </view>
           </block>
 					 -->
-          <view v-show="keywordList.users.length > 0">
-            <u-divider>用户</u-divider>
-            <custom-focus-list
-              :list="keywordList.users"
-              @focusClick="getSearchList"
-            ></custom-focus-list>
+          <view
+            v-if="
+              keywordList.users.length > 0 || keywordList.circles.length > 0
+            "
+          >
+            <view v-show="keywordList.users.length > 0">
+              <u-divider>用户</u-divider>
+              <custom-focus-list
+                :list="keywordList.users"
+                @click="itemClick"
+                @focusClick="btnClick"
+              ></custom-focus-list>
+            </view>
+            <view v-show="keywordList.circles.length > 0">
+              <u-divider>圈</u-divider>
+              <custom-circle-list
+                :border="false"
+                showJoin
+                :list="keywordList.circles"
+                @click="itemClick"
+                @joinClick="btnClick"
+              >
+              </custom-circle-list>
+            </view>
           </view>
-          <view v-show="keywordList.circles.length > 0">
-            <u-divider>圈</u-divider>
-            <custom-circle-list
-              :border="false"
-              showJoin
-              :list="keywordList.circles"
-              @joinClick="getSearchList"
-            >
-            </custom-circle-list>
+          <view class="empty" v-else>
+            <u-empty mode="list"></u-empty>
           </view>
         </scroll-view>
         <scroll-view class="keyword-box" v-show="!isShowKeywordList" scroll-y>
@@ -212,6 +223,7 @@ export default {
           this.isShowKeywordList = false
           return
         }
+        this.keyword = keyword
         this.isShowKeywordList = true
         this.getSearchList(keyword)
       }, 500)
@@ -276,13 +288,16 @@ export default {
     //执行搜索
     doSearch(keyword) {
       keyword = keyword === false ? this.keyword : keyword
+      if (!keyword) return
       this.keyword = keyword
       this.saveKeyword(keyword) //保存为历史
-      uni.showToast({
-        title: keyword,
-        icon: 'none',
-        duration: 2000
-      })
+      this.isShowKeywordList = true
+      this.getSearchList(keyword)
+      // uni.showToast({
+      //   title: keyword,
+      //   icon: 'none',
+      //   duration: 2000
+      // })
       //以下是示例跳转淘宝搜索，可自己实现搜索逻辑
       /*
 				//#ifdef APP-PLUS
@@ -324,6 +339,15 @@ export default {
           this.oldKeywordList = OldKeys //更新历史搜索
         }
       })
+    },
+
+    itemClick() {
+      this.saveKeyword(this.keyword)
+    },
+
+    btnClick() {
+      this.saveKeyword(this.keyword)
+      this.getSearchList()
     }
   }
 }

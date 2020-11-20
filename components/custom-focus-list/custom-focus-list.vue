@@ -8,7 +8,7 @@
         :thumb="i.img"
         thumbSize="lg"
         clickable
-        @click="toPersonInfo(i.userId)"
+        @click="onClick(i.userId)"
       >
         <template #footer>
           <view
@@ -47,6 +47,7 @@
  * @property {Array} 	list 							数据列表
  * @property {Boolean} isMargin = [true|false] 按钮右侧是否空出间距
  *
+ * @event {Function} click 列表项被被点击
  * @event {Function} focusClick 按钮被点击
  */
 export default {
@@ -64,10 +65,11 @@ export default {
   },
 
   methods: {
-    toPersonInfo(id) {
+    onClick(id) {
       this.$u.route('/pages/components/person-info/person-info', {
         id
-      })
+			})
+			this.$emit('click')
     },
 
     focusStatus(isFocus) {

@@ -79,6 +79,7 @@
  * @property {Boolean, String} 	showJoin = [true|false] 		是否显示加入按钮
  * @property {Boolean, String} 	showNote = [true|false] 		是否显示圈简介
  * @property {Array} 	list 							圈列表
+ * @event {Function} 	click 							点击列表项触发事件
  * @event {Function} 	joinClick 							点击 关注按钮 触发事件
  */
 export default {
@@ -129,6 +130,7 @@ export default {
           circleId: item.circleId
         })
       }
+      this.$emit('click')
     },
 
     toCircleChat(circleId) {
@@ -138,7 +140,7 @@ export default {
     },
 
     async jionCircle(circleinfo) {
-      if (circleinfo.inCircle) return
+      if (circleinfo?.inCircle) return
       await this.$store
         .dispatch('circle/joinCircle', {
           circleId: circleinfo.circleId
