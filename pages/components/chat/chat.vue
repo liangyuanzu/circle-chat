@@ -16,8 +16,10 @@
     <!-- #endif -->
     <!-- #ifdef MP-BAIDU -->
     <u-navbar
-      back-text="返回"
       :title="title"
+      back-text="返回"
+      customBack
+      @customBack="back"
       @titleClick="toSetting"
     ></u-navbar>
     <!-- #endif -->
@@ -559,8 +561,8 @@ export default {
 
   methods: {
     back() {
-      this.$u.route({
-        type: 'back'
+      uni.switchTab({
+        url: '/pages/msg/msg'
       })
     },
 
