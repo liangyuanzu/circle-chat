@@ -79,7 +79,7 @@
  * @property {Boolean, String} 	showArrow = [true|false] 		是否显示右侧箭头
  * @property {Boolean, String} 	showJoin = [true|false] 		是否显示加入按钮
  * @property {Array} 	list 							圈列表
- * @event {Function} 	click 							点击 uniListItem 触发事件
+ * @event {Function} 	joinClick 							点击 关注按钮 触发事件
  */
 export default {
   name: 'custom-circle-list',
@@ -118,7 +118,22 @@ export default {
     },
 
     onClick(item) {
-      this.$emit('click', item)
+      if (item.inCircle) {
+        const circleinfo = {
+          circleId: item.circleId,
+          circleName: item.circleName,
+          circleAvatar: item.img,
+          circleType: item.type,
+          member: item.member
+        }
+        this.$u.route('/pages/components/chat/chat', {
+          circleinfo: encodeURIComponent(JSON.stringify(circleinfo))
+        })
+      } else {
+        this.$u.route('/pages/components/circle-detail/circle-detail', {
+          info: encodeURIComponent(JSON.stringify(item))
+        })
+      }
     },
 
     toCircleChat(info) {
@@ -134,9 +149,9 @@ export default {
       })
     },
 
-    jionCircle(circleinfo) {
+    async jionCircle(circleinfo) {
       if (circleinfo.inCircle) return
-      this.$store
+      await this.$store
         .dispatch('circle/joinCircle', {
           circleId: circleinfo.circleId
         })
@@ -150,7 +165,8 @@ export default {
               this.toCircleChat(circleinfo)
             }, 500)
           }, 500)
-        })
+				})
+			this.$emit('joinClick')
     }
   }
 }
