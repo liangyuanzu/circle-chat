@@ -1,66 +1,79 @@
 <template>
   <view>
     <custom-avatar
-      :src="info.img"
-      :title="info.circleName"
-      :note="info.circleId"
+      :src="circleInfo.img"
+      :title="circleInfo.circleName"
+      :note="circleInfo.circleId"
     >
     </custom-avatar>
 
-    <view style="margin-top: 20rpx" class="text-df text-grey padding bg-white">
+    <view class="text-df text-grey padding bg-white margin-top-sm">
       <view>本圈创建于 {{ createTime }}</view>
-      <view v-if="info.synopsis">{{ info.synopsis }}</view>
+      <view v-if="circleInfo.synopsis">{{ circleInfo.synopsis }}</view>
     </view>
 
     <view
-      style="margin-top: 20rpx"
-      class="text-df text-grey padding bg-white"
-      v-if="info.explain"
+      class="text-df text-grey padding bg-white margin-top-sm"
+      v-if="circleInfo.explain"
     >
       <view>入圈说明</view>
-      <view>{{ info.explain }}</view>
+      <view>{{ circleInfo.explain }}</view>
     </view>
 
-    <uni-list style="margin-top: 20rpx">
-      <uni-list-item title="圈类型">
-        <template #footer>
-          <u-tag :text="info.type" size="mini" :type="formatType" />
-        </template>
-      </uni-list-item>
-      <uni-list-item title="圈人数">
-        <template #footer>
-          <view class="cu-capsule radius flex">
-            <view class="cu-tag bg-blue sm">
-              <text class="cuIcon-group"></text>
+    <view class="margin-top-sm">
+      <uni-list>
+        <uni-list-item title="圈类型">
+          <template #footer>
+            <u-tag :text="circleInfo.type" size="mini" :type="formatType" />
+          </template>
+        </uni-list-item>
+        <uni-list-item title="圈人数">
+          <template #footer>
+            <view class="cu-capsule radius flex">
+              <view class="cu-tag bg-blue sm">
+                <text class="cuIcon-group"></text>
+              </view>
+              <view class="cu-tag line-blue sm">
+                {{ circleInfo.member }}
+              </view>
             </view>
-            <view class="cu-tag line-blue sm">
-              {{ info.member }}
+          </template>
+        </uni-list-item>
+        <uni-list-item title="圈范围">
+          <template #footer>
+            <view class="cu-capsule radius">
+              <view class="cu-tag bg-black sm">
+                <text class="cuIcon-radiobox"></text>
+              </view>
+              <view class="cu-tag line-black sm">
+                {{ circleInfo.radius + 'm' }}</view
+              >
             </view>
-          </view>
-        </template>
-      </uni-list-item>
-      <uni-list-item title="圈范围">
-        <template #footer>
-          <view class="cu-capsule radius">
-            <view class="cu-tag bg-black sm">
-              <text class="cuIcon-radiobox"></text>
-            </view>
-            <view class="cu-tag line-black sm"> {{ info.radius }}</view>
-          </view>
-        </template>
-      </uni-list-item>
-    </uni-list>
+          </template>
+        </uni-list-item>
+      </uni-list>
+    </view>
 
-    <uni-list style="margin-top: 20rpx">
-      <uni-list-item title="圈主" showArrow clickable @click="toOwner">
-        <template #footer>
-          <u-avatar :src="info.userImg" mode="square" size="mini"></u-avatar>
-        </template>
-      </uni-list-item>
-    </uni-list>
+    <view class="margin-top-sm">
+      <uni-list>
+        <uni-list-item title="圈主" showArrow clickable @click="toOwner">
+          <template #footer>
+            <u-avatar
+              :src="circleInfo.userImg"
+              mode="square"
+              size="mini"
+            ></u-avatar>
+          </template>
+        </uni-list-item>
+      </uni-list>
+    </view>
 
     <view style="margin-top: 100rpx; padding: 0 20rpx">
-      <u-button v-if="info.inCircle" type="primary" plain @click="toCircleChat"
+      <u-button
+        v-if="circleInfo.inCircle"
+        type="primary"
+        plain
+        @click="toCircleChat"
         >发消息</u-button
       >
       <u-button
@@ -81,7 +94,6 @@ import { mapGetters } from 'vuex'
 export default {
   data() {
     return {
-      info: {},
       loading: false
     }
   },
