@@ -46,7 +46,7 @@
               <text class="cuIcon-radiobox"></text>
             </view>
             <view class="cu-tag line-black sm">
-              {{ formatRadius(info.radius) }}</view
+              {{ info.radius }}</view
             >
           </view>
         </template>

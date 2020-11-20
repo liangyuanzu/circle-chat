@@ -94,7 +94,7 @@
             <view class="cu-tag bg-black sm">
               <text class="cuIcon-radiobox"></text>
             </view>
-            <view class="cu-tag line-black sm"> {{ formatRadius }}</view>
+            <view class="cu-tag line-black sm"> {{ circleInfo.radius }}</view>
           </view>
         </template>
       </uni-list-item>

@@ -30,9 +30,7 @@
               <view class="cu-tag bg-black sm">
                 <text class="cuIcon-radiobox"></text>
               </view>
-              <view class="cu-tag line-black sm">
-                {{ formatRadius(item.radius) }}</view
-              >
+              <view class="cu-tag line-black sm"> {{ item.radius + 'm' }}</view>
             </view>
             <!-- 简介 -->
             <view
@@ -165,8 +163,8 @@ export default {
               this.toCircleChat(circleinfo)
             }, 500)
           }, 500)
-				})
-			this.$emit('joinClick')
+        })
+      this.$emit('joinClick')
     }
   }
 }
