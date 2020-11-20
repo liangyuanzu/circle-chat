@@ -34,20 +34,24 @@
     <view style="margin-top: 20rpx" v-if="userId !== personinfo.userId">
       <uni-list>
         <uni-list-item clickable @click="onFocus">
-          <template #body>
-            <view class="text-center text-blue text-df" style="width: 100%">
-              <uni-icons :size="16" color="#0081ff" :type="focus.icon" />
-              <text style="margin-left: 20rpx">{{ focus.text }}</text>
-            </view>
-          </template>
+          <view
+            slot="body"
+            class="text-center text-blue text-df"
+            style="width: 100%"
+          >
+            <uni-icons :size="16" color="#0081ff" :type="focus.icon" />
+            <text style="margin-left: 20rpx">{{ focus.text }}</text>
+          </view>
         </uni-list-item>
         <uni-list-item clickable @click="sendMsg">
-          <template #body>
-            <view class="text-center text-blue text-df" style="width: 100%">
-              <uni-icons :size="16" color="#0081ff" type="chatbubble" />
-              <text style="margin-left: 20rpx">发消息</text>
-            </view>
-          </template>
+          <view
+            slot="body"
+            class="text-center text-blue text-df"
+            style="width: 100%"
+          >
+            <uni-icons :size="16" color="#0081ff" type="chatbubble" />
+            <text style="margin-left: 20rpx">发消息</text>
+          </view>
         </uni-list-item>
       </uni-list>
     </view>
