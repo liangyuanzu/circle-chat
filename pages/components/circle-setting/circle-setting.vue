@@ -19,98 +19,110 @@
       </template>
     </custom-avatar>
 
-    <uni-list class="margin-top-sm">
-      <uni-list-item direction="column" clickable @click="toCircleMember">
-        <template #header>
-          <view class="flex justify-between">
-            <view class="text-lg text-black">圈聊成员</view>
-            <view class="text-sm text-grey">
-              <text class="margin-right-xs">共{{ circleInfo.member }}人</text>
-              <text class="cuIcon-right"> </text>
-            </view>
-          </view>
-        </template>
-        <template #body>
-          <view class="grid col-5 margin-top-lg" style="text-align: center">
-            <view
-              v-for="item in bannerMember"
-              :key="item.userId"
-              @click.stop="toPersonInfo(item.userId)"
-            >
-              <u-avatar :src="item.img" mode="square"></u-avatar>
-              <view class="text-sm">{{ item.username }}</view>
-            </view>
-
-            <view v-if="isOwner" @click.stop="toInviteMember">
-              <view
-                class="text-grey cuIcon-roundaddfill"
-                style="font-size: 90rpx"
-              >
+    <view class="margin-top-sm">
+      <uni-list>
+        <uni-list-item direction="column" clickable @click="toCircleMember">
+          <template #header>
+            <view class="flex justify-between">
+              <view class="text-lg text-black">圈聊成员</view>
+              <view class="text-sm text-grey">
+                <text class="margin-right-xs">共{{ circleInfo.member }}人</text>
+                <text class="cuIcon-right"> </text>
               </view>
-              <view class="text-sm text-grey">邀请</view>
             </view>
-          </view>
-        </template>
-      </uni-list-item>
-    </uni-list>
+          </template>
+          <template #body>
+            <view class="grid col-5 margin-top-lg" style="text-align: center">
+              <view
+                v-for="item in bannerMember"
+                :key="item.userId"
+                @click.stop="toPersonInfo(item.userId)"
+              >
+                <u-avatar :src="item.img" mode="square"></u-avatar>
+                <view class="text-sm">{{ item.username }}</view>
+              </view>
 
-    <uni-list class="margin-top-sm">
-      <uni-list-item
-        v-for="(item, index) in infoList"
-        :key="index"
-        :title="item.title"
-        :rightText="item.rightText"
-        :note="item.note"
-        noteEllipsis="2"
-        :border="false"
-        showArrow
-        clickable
-        @click="onClick(item.title)"
-      >
-      </uni-list-item>
-    </uni-list>
-
-    <uni-list v-if="isOwner">
-      <uni-list-item
-        title="管理圈"
-        rightText="编辑圈聊资料"
-        :border="false"
-        showArrow
-        clickable
-        @click="toManageCircle"
-      >
-      </uni-list-item>
-    </uni-list>
-
-    <uni-list class="margin-top-sm">
-      <uni-list-item title="圈类型" :border="false">
-        <template #footer>
-          <u-tag :text="circleInfo.type" size="mini" :type="formatType" />
-        </template>
-      </uni-list-item>
-      <uni-list-item title="圈范围" :border="false">
-        <template #footer>
-          <view class="cu-capsule radius">
-            <view class="cu-tag bg-black sm">
-              <text class="cuIcon-radiobox"></text>
+              <view v-if="isOwner" @click.stop="toInviteMember">
+                <view
+                  class="text-grey cuIcon-roundaddfill"
+                  style="font-size: 90rpx"
+                >
+                </view>
+                <view class="text-sm text-grey">邀请</view>
+              </view>
             </view>
-            <view class="cu-tag line-black sm"> {{ circleInfo.radius }}</view>
-          </view>
-        </template>
-      </uni-list-item>
-    </uni-list>
+          </template>
+        </uni-list-item>
+      </uni-list>
+    </view>
 
-    <uni-list class="margin-top-sm">
-      <uni-list-item title="置顶">
-        <template #footer>
-          <u-switch
-            size="40"
-            v-model="setTop"
-            :loading="setTopLoading"
-          ></u-switch>
-        </template>
-      </uni-list-item>
-    </uni-list>
+    <view class="margin-top-sm">
+      <uni-list>
+        <uni-list-item
+          v-for="(item, index) in infoList"
+          :key="index"
+          :title="item.title"
+          :rightText="item.rightText"
+          :note="item.note"
+          noteEllipsis="2"
+          :border="false"
+          showArrow
+          clickable
+          @click="onClick(item.title)"
+        >
+        </uni-list-item>
+      </uni-list>
+    </view>
+
+    <view v-if="isOwner">
+      <uni-list>
+        <uni-list-item
+          title="管理圈"
+          rightText="编辑圈聊资料"
+          :border="false"
+          showArrow
+          clickable
+          @click="toManageCircle"
+        >
+        </uni-list-item>
+      </uni-list>
+    </view>
+
+    <view class="margin-top-sm">
+      <uni-list>
+        <uni-list-item title="圈类型" :border="false">
+          <template #footer>
+            <u-tag :text="circleInfo.type" size="mini" :type="formatType" />
+          </template>
+        </uni-list-item>
+        <uni-list-item title="圈范围" :border="false">
+          <template #footer>
+            <view class="cu-capsule radius">
+              <view class="cu-tag bg-black sm">
+                <text class="cuIcon-radiobox"></text>
+              </view>
+              <view class="cu-tag line-black sm">
+                {{ circleInfo.radius + 'm' }}</view
+              >
+            </view>
+          </template>
+        </uni-list-item>
+      </uni-list>
+    </view>
+
+    <view class="margin-top-sm">
+      <uni-list>
+        <uni-list-item title="置顶">
+          <template #footer>
+            <u-switch
+              size="40"
+              v-model="setTop"
+              :loading="setTopLoading"
+            ></u-switch>
+          </template>
+        </uni-list-item>
+      </uni-list>
+    </view>
 
     <uni-list>
       <uni-list-item title="消息免打扰">
@@ -124,25 +136,32 @@
       </uni-list-item>
     </uni-list>
 
-    <uni-list class="margin-top-sm">
-      <uni-list-item
-        title="清空聊天记录"
-        showArrow
-        clickable
-        @click="clearChatDetail"
-      >
-      </uni-list-item>
-    </uni-list>
+    <view class="margin-top-sm">
+      <uni-list>
+        <uni-list-item
+          title="清空聊天记录"
+          showArrow
+          clickable
+          @click="clearChatDetail"
+        >
+        </uni-list-item>
+      </uni-list>
+    </view>
 
-    <uni-list class="margin-top-sm margin-bottom-xl">
-      <uni-list-item clickable @click="delExit">
-        <template #body>
-          <view class="text-center text-red text-df" style="width: 100%"
+    <view class="margin-top-sm margin-bottom-xl">
+      <uni-list>
+        <uni-list-item clickable @click="delExit">
+          <!-- <template #body> -->
+          <view
+            slot="body"
+            class="text-center text-red text-df"
+            style="width: 100%"
             >删除并退出</view
           >
-        </template>
-      </uni-list-item>
-    </uni-list>
+          <!-- </template> -->
+        </uni-list-item>
+      </uni-list>
+    </view>
 
     <u-modal
       v-model="showModal"
