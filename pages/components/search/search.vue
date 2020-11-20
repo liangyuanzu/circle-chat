@@ -138,7 +138,10 @@ export default {
       keyword: '',
       oldKeywordList: [],
       hotKeywordList: [],
-      keywordList: [],
+      keywordList: {
+        users: [],
+        circles: []
+      },
       forbid: '',
       isShowKeywordList: false
     }
