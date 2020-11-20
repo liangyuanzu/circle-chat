@@ -10,31 +10,30 @@
         clickable
         @click="onClick(i.userId)"
       >
-        <template #footer>
-          <view
-            class="flex align-center"
-            :class="{ 'margin-right-xl': isMargin }"
+        <view
+          slot="footer"
+          class="flex align-center"
+          :class="{ 'margin-right-xl': isMargin }"
+        >
+          <u-button
+            :type="i.isFocus === 1 ? 'default' : 'primary'"
+            size="mini"
+            shape="circle"
+            plain
+            @click="onFocus(i.isFocus, i.userId)"
           >
-            <u-button
-              :type="i.isFocus === 1 ? 'default' : 'primary'"
-              size="mini"
-              shape="circle"
-              plain
-              @click="onFocus(i.isFocus, i.userId)"
+            <uni-icons
+              :size="12"
+              color="#0081ff"
+              :type="!focusStatus(i.isFocus) ? 'plusempty' : ''"
+            />
+            <text
+              style="margin-left: 10rpx"
+              :class="[i.isFocus === 1 ? 'text-grey' : '']"
+              >{{ formatFocus(i.isFocus) }}</text
             >
-              <uni-icons
-                :size="12"
-                color="#0081ff"
-                :type="!focusStatus(i.isFocus) ? 'plusempty' : ''"
-              />
-              <text
-                style="margin-left: 10rpx"
-                :class="[i.isFocus === 1 ? 'text-grey' : '']"
-                >{{ formatFocus(i.isFocus) }}</text
-              >
-            </u-button>
-          </view>
-        </template>
+          </u-button>
+        </view>
       </uni-list-item>
     </uni-list>
   </view>
@@ -68,8 +67,8 @@ export default {
     onClick(id) {
       this.$u.route('/pages/components/person-info/person-info', {
         id
-			})
-			this.$emit('click')
+      })
+      this.$emit('click')
     },
 
     focusStatus(isFocus) {
