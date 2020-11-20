@@ -47,6 +47,7 @@
 			}
 		},
 		// #endif
+		// #ifndef MP-BAIDU
 		{
 			"path": "pages/components/chat/chat",
 			"style": {
@@ -60,7 +61,18 @@
 					"bounce": "none"
 				}
 			}
-		}, {
+		},
+		// #endif
+		// #ifdef MP-BAIDU
+		{
+			"path": "pages/components/chat/chat",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTitleText": "black"
+			}
+		},
+		// #endif
+		{
 			"path": "pages/components/circle-setting/circle-setting",
 			"style": {
 				"navigationBarTitleText": "圈设置"

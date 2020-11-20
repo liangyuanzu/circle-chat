@@ -1,6 +1,7 @@
 <template>
   <view>
     <!-- 导航栏 -->
+    <!-- #ifndef MP-BAIDU -->
     <uni-nav-bar
       left-icon="back"
       right-icon="more-filled"
@@ -12,6 +13,14 @@
       @clickLeft="back"
       @clickRight="toSetting"
     ></uni-nav-bar>
+    <!-- #endif -->
+    <!-- #ifdef MP-BAIDU -->
+    <u-navbar
+      back-text="返回"
+      :title="title"
+      @titleClick="toSetting"
+    ></u-navbar>
+    <!-- #endif -->
     <!-- 内容 -->
     <view class="content" @touchstart="hideDrawer">
       <scroll-view
@@ -246,6 +255,13 @@ import { html2text } from '@/helpers/utils.js'
 import * as _ from '@/utils/lodash/lodash.js'
 import { mapGetters, mapState } from 'vuex'
 
+// 获取系统状态栏的高度
+let systemInfo = uni.getSystemInfoSync()
+let menuButtonInfo = {}
+// 如果是小程序，获取右上角胶囊的尺寸信息，避免导航栏右侧内容与胶囊重叠(支付宝小程序非本API，尚未兼容)
+// #ifdef MP-WEIXIN || MP-BAIDU || MP-TOUTIAO || MP-QQ
+menuButtonInfo = uni.getMenuButtonBoundingClientRect()
+// #endif
 export default {
   data() {
     return {
@@ -424,7 +440,29 @@ export default {
   computed: {
     ...mapGetters('user', ['userId', 'username', 'avatar', 'personinfo']),
     ...mapState('chat', ['CurrentToUser', 'CurrentToCircle', 'isCircle']),
-    ...mapGetters('circle', ['circleInfo'])
+    ...mapGetters('circle', ['circleInfo']),
+    titleStyle() {
+      let style = {}
+      // #ifndef MP
+      style.left =
+        (systemInfo.windowWidth - uni.upx2px(this.titleWidth)) / 2 + 'px'
+      style.right =
+        (systemInfo.windowWidth - uni.upx2px(this.titleWidth)) / 2 + 'px'
+      // #endif
+      // #ifdef MP
+      // 此处是为了让标题显示区域即使在小程序有右侧胶囊的情况下也能处于屏幕的中间，是通过绝对定位实现的
+      let rightButtonWidth = systemInfo.windowWidth - menuButtonInfo.left
+      style.left =
+        (systemInfo.windowWidth - uni.upx2px(this.titleWidth)) / 2 + 'px'
+      style.right =
+        rightButtonWidth -
+        (systemInfo.windowWidth - uni.upx2px(this.titleWidth)) / 2 +
+        rightButtonWidth +
+        'px'
+      // #endif
+      style.width = uni.upx2px(this.titleWidth) + 'px'
+      return style
+    }
   },
 
   onReady() {
