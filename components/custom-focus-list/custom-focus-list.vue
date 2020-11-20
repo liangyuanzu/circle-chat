@@ -71,10 +71,6 @@ export default {
     ...mapState('user', ['userId'])
   },
 
-  mounted() {
-    console.log(this.userId)
-  },
-
   methods: {
     onClick(id) {
       this.$u.route('/pages/components/person-info/person-info', {
