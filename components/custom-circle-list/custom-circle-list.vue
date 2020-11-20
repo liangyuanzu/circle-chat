@@ -34,6 +34,7 @@
             </view>
             <!-- 简介 -->
             <view
+							v-if="showNote"
               class="text-sm text-grey my-text-cut"
               style="width: 474rpx; margin-top: 10rpx"
             >
@@ -76,6 +77,7 @@
  * @property {String} 	border = [true|false] 		列表项边框
  * @property {Boolean, String} 	showArrow = [true|false] 		是否显示右侧箭头
  * @property {Boolean, String} 	showJoin = [true|false] 		是否显示加入按钮
+ * @property {Boolean, String} 	showNote = [true|false] 		是否显示圈简介
  * @property {Array} 	list 							圈列表
  * @event {Function} 	joinClick 							点击 关注按钮 触发事件
  */
@@ -94,6 +96,10 @@ export default {
     showJoin: {
       type: [Boolean, String],
       default: false
+		},
+		showNote: {
+      type: [Boolean, String],
+      default: true
     },
     list: {
       type: Array,
