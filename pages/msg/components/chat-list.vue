@@ -53,18 +53,28 @@ export default {
 
     toChatDetail(item) {
       item = JSON.parse(item)
-      // 读取当前会话
-      read(item)
 
-      if (item.userId) {
-        uni.navigateTo({
-          url: '/pages/components/chat/chat?personId=' + item.userId
+      new Promise((resolve, reject) => {
+        // 读取当前会话
+        try {
+          read(item)
+          resolve()
+        } catch (e) {
+          reject(e)
+        }
+      })
+        .then(() => {
+          if (item.userId) {
+            uni.navigateTo({
+              url: '/pages/components/chat/chat?personId=' + item.userId
+            })
+          } else if (item.circleId) {
+            uni.navigateTo({
+              url: '/pages/components/chat/chat?circleId=' + item.circleId
+            })
+          }
         })
-      } else if (item.circleId) {
-        uni.navigateTo({
-          url: '/pages/components/chat/chat?circleId=' + item.circleId
-        })
-      }
+        .catch((err) => console.log(err))
     }
   }
 }
