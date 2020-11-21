@@ -53,6 +53,9 @@ export default {
 
     toChatDetail(item) {
       item = JSON.parse(item)
+      // 读取当前会话
+      read(item)
+
       if (item.userId) {
         uni.navigateTo({
           url: '/pages/components/chat/chat?personId=' + item.userId
@@ -62,9 +65,6 @@ export default {
           url: '/pages/components/chat/chat?circleId=' + item.circleId
         })
       }
-
-      // 读取当前会话
-      read(item)
     }
   }
 }
