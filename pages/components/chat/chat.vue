@@ -20,7 +20,7 @@
       back-text="返回"
       customBack
       @customBack="back"
-      @titleClick="toSetting"
+      @titleClick="titleClick"
     ></u-navbar>
     <!-- #endif -->
     <!-- 内容 -->
@@ -97,7 +97,7 @@
                 </view>
               </view>
               <!-- 右-头像 -->
-              <view class="right">
+              <view class="right" @tap="toPersonInfo(myuid)">
                 <image :src="row.msg.userinfo.face"></image>
               </view>
             </view>
@@ -106,7 +106,7 @@
               <!-- 时间 -->
               <view class="time">{{ formatTime(row.msg.time) }}</view>
               <!-- 左-头像 -->
-              <view class="left">
+              <view class="left" @tap="toPersonInfo(row.msg.userinfo.uid)">
                 <image :src="row.msg.userinfo.face"></image>
               </view>
               <!-- 右-用户名称-时间-消息 -->
@@ -566,12 +566,19 @@ export default {
       })
     },
 
-    toSetting() {
+    toPersonInfo(id) {
+      this.$u.route('/pages/components/person-info/person-info', {
+        id
+      })
+    },
+
+    titleClick() {
       if (this.isCircle) {
         this.$u.route('/pages/components/circle-setting/circle-setting', {
           circleId: this.CurrentToCircle.circleId
         })
       } else {
+        this.toPersonInfo(this.CurrentToUser.userId)
       }
     },
 
