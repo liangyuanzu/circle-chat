@@ -32,7 +32,22 @@
       </u-dropdown>
     </view>
 
-    <chat-list :list="list" />
+    <uni-list :border="false">
+      <uni-list-chat
+        v-for="item in list"
+        :key="formatKey(item)"
+        :title="item.circleId ? item.circleName : item.username"
+        :avatar="item.avatar"
+        :avatarList="item.avatarList"
+        :note="item.data"
+        :time="formatTime(item.time)"
+        :badgeText="formatBadge(item.noReadNum)"
+        clickable
+        @click="toChatDetail(formatKey(item))"
+      >
+      </uni-list-chat>
+    </uni-list>
+
     <view class="empty" v-if="list.length === 0">
       <u-empty mode="list"></u-empty>
     </view>
@@ -40,7 +55,8 @@
 </template>
 
 <script>
-import chatList from './components/chat-list.vue'
+import Time from '@/helpers/time.js'
+import { read } from '@/helpers/chat.js'
 
 import {
   chatListName,
@@ -53,10 +69,6 @@ import { chatFormat, formatMsg } from '@/helpers/chat.js'
 import { mapGetters, mapState } from 'vuex'
 
 export default {
-  components: {
-    'chat-list': chatList
-  },
-
   data() {
     return {
       options: [
@@ -196,6 +208,53 @@ export default {
   },
 
   methods: {
+    formatKey(item) {
+      return item.userId ?? item.circleId
+    },
+
+    formatTime(time) {
+      if (time) return Time.getTime(Number(time))
+    },
+
+    formatBadge(noReadNum) {
+      if (noReadNum > 0 && noReadNum <= 99) {
+        return noReadNum
+      } else if (noReadNum > 99) {
+        return '99+'
+      }
+      return ''
+    },
+
+    toChatDetail(id) {
+      const list = localStore.get(chatListName) || []
+      let item
+      list.forEach((i) => {
+        if (i.userId === id || i.circleId === id) item = i
+      })
+
+      new Promise((resolve, reject) => {
+        // 读取当前会话
+        try {
+          read(item)
+          resolve()
+        } catch (e) {
+          reject(e)
+        }
+      })
+        .then(() => {
+          if (item.userId) {
+            uni.navigateTo({
+              url: '/pages/components/chat/chat?personId=' + item.userId
+            })
+          } else if (item.circleId) {
+            uni.navigateTo({
+              url: '/pages/components/chat/chat?circleId=' + item.circleId
+            })
+          }
+        })
+        .catch((err) => console.log(err))
+    },
+
     getList() {
       this.list = localStore.get(chatListName) || []
     },
