@@ -1,5 +1,5 @@
 /** @format */
-
+// #ifndef MP-BAIDU
 import * as CryptoJS from '@/utils/crypto-js/crypto-js.js'
 import * as _ from '@/utils/lodash/lodash.js'
 
@@ -34,6 +34,41 @@ export function Decrypt(data) {
 		value = JSON.parse(decryptedData)
 	} catch (e) {
 		value = decryptedData
+	}
+
+	return value
+}
+// #endif
+
+/**
+ * 对象转字符串
+ * @return {string}
+ */
+export function obj2string(data) {
+	let key
+	if (typeof data === 'string' || typeof data === 'number') {
+		key = data
+	} else if (typeof data === 'object') {
+		key = JSON.stringify(data)
+	} else {
+		return ''
+	}
+	return key
+}
+
+/**
+ * 字符串转对象
+ * @return {string}
+ */
+export function string2obj(data) {
+	if (!data) {
+		return ''
+	}
+	let value
+	try {
+		value = JSON.parse(data)
+	} catch (e) {
+		value = data
 	}
 
 	return value

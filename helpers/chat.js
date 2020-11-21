@@ -126,7 +126,7 @@ export function read(item) {
 
 // 总未读数+1，修改tabBar信息数
 export function updateNoReadNum(options = {}) {
-	let noReadNum = uni.getStorageSync(noReadNumName)
+	let noReadNum = localStore.get(noReadNumName)
 	if (options.type == 'add') {
 		noReadNum++
 		// this.__Notify()
@@ -135,24 +135,25 @@ export function updateNoReadNum(options = {}) {
 	}
 	noReadNum = noReadNum || 0
 	updateTabBarBadge(noReadNum)
-	uni.setStorageSync(noReadNumName, noReadNum)
+	localStore.set(noReadNumName, noReadNum)
 }
 
 export function initTabBarBadge() {
-	const noReadNum = uni.getStorageSync(noReadNumName)
+	const noReadNum = localStore.get(noReadNumName)
 	noReadNum && updateTabBarBadge(noReadNum)
 }
 
 function updateTabBarBadge(num) {
 	if (num > 0) {
-		return uni.setTabBarBadge({
+		uni.setTabBarBadge({
 			index: tabBarIndex,
 			text: num > 99 ? '99+' : num.toString()
 		})
+	} else {
+		uni.removeTabBarBadge({
+			index: tabBarIndex
+		})
 	}
-	return uni.removeTabBarBadge({
-		index: tabBarIndex
-	})
 }
 
 export function formatMsg(type, options = { isCircle: false, isMe: false }) {

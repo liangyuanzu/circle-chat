@@ -67,7 +67,7 @@ const mutations = {
 
 const actions = {
 	open({ commit, dispatch, state, rootGetters }) {
-		if (state.isOpen || !rootGetters['user/userId']) return
+		if (state.isOpen || !rootGetters['user/userId'] || state.SocketTask) return
 		const socket = uni.connectSocket({
 			url: `${websocketUrl}?user=${rootGetters['user/userId']}`,
 			complete: () => {}
