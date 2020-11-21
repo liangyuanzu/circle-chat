@@ -17,7 +17,12 @@ import {
 const state = {
 	isOpen: false,
 	isCircle: false,
+	toClose: false, // 是否强制关闭连接
 	SocketTask: false,
+	lockReconnect: false, //避免重复连接
+	reconnectTimer: false,
+	clientTimer: false,
+	serverTimer: false,
 	// 当前聊天对象
 	CurrentToUser: {
 		userId: 0,
@@ -39,6 +44,21 @@ const getters = {}
 const mutations = {
 	setIsOpen(state, isOpen) {
 		state.isOpen = isOpen
+	},
+	setToClose(state, toClose) {
+		state.toClose = toClose
+	},
+	setLockReconnect(state, lockReconnect) {
+		state.lockReconnect = lockReconnect
+	},
+	setReconnectTimer(state, timer) {
+		state.reconnectTimer = timer
+	},
+	setClientTimer(state, timer) {
+		state.clientTimer = timer
+	},
+	setServerTimer(state, timer) {
+		state.serverTimer = timer
 	},
 	setIsCircle(state, isCircle) {
 		state.isCircle = isCircle
@@ -66,46 +86,114 @@ const mutations = {
 }
 
 const actions = {
-	open({ commit, dispatch, state, rootGetters }) {
-		if (state.isOpen || !rootGetters['user/userId'] || state.SocketTask) return
-		const socket = uni.connectSocket({
-			url: `${websocketUrl}?user=${rootGetters['user/userId']}`,
-			complete: () => {}
-		})
-		commit('setSocketTask', socket)
-		const { SocketTask } = state
-		if (!SocketTask) return
+	createWebSocket({ state: { SocketTask }, commit, dispatch, rootGetters }) {
+		if (SocketTask) return
+		try {
+			const socket = uni.connectSocket({
+				url: `${websocketUrl}?user=${rootGetters['user/userId']}`,
+				success: () => console.log('连接成功'),
+				fail: (e) => console.log('连接失败', e)
+			})
+			commit('setSocketTask', socket)
+			dispatch('init')
+		} catch (e) {
+			console.log('连接异常', e)
+			dispatch('reconnect')
+		}
+	},
+
+	init({ state: { SocketTask, toClose }, commit, dispatch }) {
+		// 取消强制关闭连接
+		if (toClose) commit('setToClose', false)
 
 		// 监听开启
 		SocketTask.onOpen(() => {
 			console.log('开启')
-			commit('setIsOpen', true)
+			//心跳检测重置
+			dispatch('heartCheck')
 		})
 		// 监听信息
 		dispatch('message')
 		// 监听关闭
 		SocketTask.onClose(() => {
 			console.log('关闭')
-			commit('setIsOpen', false)
 			commit('setSocketTask', false)
+			dispatch('reconnect')
 		})
 		// 监听错误
 		SocketTask.onError((e) => {
-			console.log(e)
-			commit('setIsOpen', false)
+			console.log('发生错误', e)
 			commit('setSocketTask', false)
+			dispatch('reconnect')
 		})
 	},
 
-	// 关闭连接
-	close({ state }) {
-		if (state.isOpen) {
-			state.SocketTask.close()
+	reconnect({
+		state: { lockReconnect, toClose, reconnectTimer },
+		commit,
+		dispatch
+	}) {
+		if (lockReconnect || toClose) return
+		commit('setLockReconnect', true)
+		//没连接上会一直重连，设置延迟避免请求过多
+		reconnectTimer && clearTimeout(reconnectTimer)
+		commit(
+			'setReconnectTimer',
+			setTimeout(() => {
+				dispatch('createWebSocket')
+				commit('setLockReconnect', false)
+			}, 3000)
+		)
+	},
+
+	heartCheck({ state: { clientTimer, serverTimer, SocketTask }, commit }) {
+		console.log('start')
+		clientTimer && clearTimeout(clientTimer)
+		serverTimer && clearTimeout(serverTimer)
+		commit(
+			'setClientTimer',
+			setTimeout(() => {
+				//这里发送一个心跳，后端收到后，返回一个心跳消息
+				console.log('发送心跳')
+				SocketTask.send({
+					data: JSON.stringify({
+						type: 'SEND_HEART_TEST_REQUEST',
+						body: {
+							message: '心跳检测'
+						}
+					}),
+					success: () => console.log('发送心跳成功'),
+					fail: (e) => console.log('发送心跳失败', e)
+				})
+				// 关闭连接
+				commit(
+					'setServerTimer',
+					setTimeout(() => {
+						console.log('服务器超时, 关闭连接')
+						if (SocketTask) {
+							SocketTask.close()
+							commit('setSocketTask', false)
+						}
+					}, 3000)
+				)
+			}, 3000)
+		)
+	},
+
+	// 强制关闭连接
+	close({ state: { SocketTask }, commit }) {
+		if (SocketTask) {
+			SocketTask.close()
+			commit('setToClose', true)
+			commit('setSocketTask', false)
 		}
 	},
 
 	message({ dispatch, state: { SocketTask, CurrentToUser, CurrentToCircle } }) {
 		SocketTask.onMessage((e) => {
+			// 当前连接正常, 发送心跳检测
+			dispatch('heartCheck')
+
 			const res = JSON.parse(e.data)
 			// 获取总未读数,并且渲染到tabBar的badge
 			initTabBarBadge()
@@ -136,7 +224,7 @@ const actions = {
 	},
 
 	// 发送消息
-	async send({ dispatch, rootGetters, state: { SocketTask, isCircle } }, res) {
+	send({ dispatch, rootGetters, state: { SocketTask, isCircle } }, res) {
 		// 发送的格式
 		let data
 		if (isCircle) {
@@ -159,9 +247,9 @@ const actions = {
 		const sendData = chatFormat(res, { type: 'send', isCircle }, data)
 		try {
 			// 发送到服务器
-			await SocketTask.send({
+			SocketTask.send({
 				data: JSON.stringify(sendData),
-				fail: (res) => console.log('发送失败')
+				fail: (e) => console.log('发送失败', e)
 			})
 			// 存储到chatDetail
 			dispatch('updateChatDetail', { res: sendData, isSend: true, isCircle })

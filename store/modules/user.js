@@ -77,7 +77,7 @@ const actions = {
 	init({ dispatch }) {
 		dispatch('getUserInfo')
 		dispatch('getPosition')
-		dispatch('chat/open', {}, { root: true })
+		dispatch('chat/createWebSocket', {}, { root: true })
 	},
 
 	init_baidu({ commit, dispatch }) {
@@ -87,7 +87,7 @@ const actions = {
 		commit('setAvatar', userinfo.img)
 		commit('setSex', userinfo.sex)
 		dispatch('getPosition')
-		dispatch('chat/open', {}, { root: true })
+		dispatch('chat/createWebSocket', {}, { root: true })
 	},
 
 	getPosition({ commit }) {
