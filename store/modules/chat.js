@@ -1,4 +1,4 @@
-import { getSearch } from '@/api/chat.js'
+
 import {
 	websocketUrl,
 	receiveOneType,
@@ -36,7 +36,7 @@ const state = {
 		circleAvatar: '',
 		circleType: ''
 	},
-	searchList: []
+
 }
 
 const getters = {}
@@ -80,9 +80,7 @@ const mutations = {
 		state.CurrentToCircle.circleAvatar = circleAvatar
 		state.CurrentToCircle.circleType = circleType
 	},
-	setSearchList(state, searchList) {
-		state.searchList = searchList
-	}
+
 }
 
 const actions = {
@@ -392,10 +390,7 @@ const actions = {
 		localStore.set(chatListName, chatList)
 	},
 
-	async getSearchList({ commit }, keyword) {
-		const searchList = await getSearch(keyword)
-		commit('setSearchList', searchList)
-	}
+
 }
 
 export default {

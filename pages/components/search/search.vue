@@ -156,7 +156,7 @@ export default {
       var style = `margin-top:${StatusBar}px;`
       return style
     },
-    ...mapState('chat', ['searchList'])
+    ...mapState(['searchList'])
   },
   onLoad() {
     this.init()
@@ -211,7 +211,7 @@ export default {
 
     // 更新列表
     getSearchList(keyword = this.keyword) {
-      this.$store.dispatch('chat/getSearchList', keyword).then(() => {
+      this.$store.dispatch('getSearchList', keyword).then(() => {
         this.keywordList = this.searchList
       })
     },
