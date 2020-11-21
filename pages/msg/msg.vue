@@ -160,7 +160,7 @@ export default {
             this.list[index].data = formatMsg(res.body.type, {
               username: res.body.username,
               content: res.body.content,
-              isCircle
+              isCircle: true
             })
           }
           this.list[index].time = res.body.createTime

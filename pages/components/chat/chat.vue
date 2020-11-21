@@ -495,8 +495,8 @@ export default {
       const {
         circleId,
         circleName,
-        circleAvatar,
-        circleType,
+        img: circleAvatar,
+        type: circleType,
         member
       } = this.circleInfo
       this.$store.commit('chat/setCurrentToCircle', {
