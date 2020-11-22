@@ -5,5 +5,9 @@ export default {
 
 	setImageUrl(state, url) {
 		state.imageUrl = url
+	},
+
+	setUploadUrl(state, url) {
+		state.uploadUrl = url
 	}
 }

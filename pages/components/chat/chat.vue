@@ -443,7 +443,7 @@ export default {
   },
 
   computed: {
-    ...mapState(['imageUrl']),
+    ...mapState(['imageUrl', 'uploadUrl']),
     ...mapGetters('user', ['userId', 'username', 'avatar', 'personinfo']),
     ...mapState('chat', ['CurrentToUser', 'CurrentToCircle', 'isCircle']),
     ...mapGetters('circle', ['circleInfo']),
@@ -941,10 +941,15 @@ export default {
                 console.log(image.width)
                 console.log(image.height)
                 this.$store
-                  .dispatch('uploadImage', res.tempFilePaths[i])
+                  .dispatch('uploadFile', {
+                    filePath: res.tempFilePaths[i],
+                    type: 'image',
+                    userId: this.userId
+                  })
                   .then(() => {
+                    console.log(this.uploadUrl)
                     let msg = {
-                      url: this.imageUrl,
+                      url: this.uploadUrl,
                       w: image.width,
                       h: image.height
                     }

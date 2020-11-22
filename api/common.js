@@ -22,3 +22,21 @@ export function uploadImage(filePath) {
 		filePath
 	})
 }
+
+/**
+ * 上传文件
+ * @param {string} filePath - 文件地址
+ * @param {string} type - 文件类型 voice 或者 image
+ * @param {string} userId - 用户 id
+ * */
+export function uploadFile({ filePath, type, userId }) {
+	return $request('/down/uploadFile', {
+		method: 'UPLOAD',
+		name: 'file',
+		filePath,
+		formData: {
+			type,
+			userId
+		}
+	})
+}

@@ -1,4 +1,4 @@
-import { getSearch, uploadImage } from '@/api/common.js'
+import { getSearch, uploadImage, uploadFile } from '@/api/common.js'
 
 export default {
 	async getSearchList({ commit }, keyword) {
@@ -9,5 +9,10 @@ export default {
 	async uploadImage({ commit }, path) {
 		const url = await uploadImage(path)
 		commit('setImageUrl', url)
+	},
+
+	async uploadFile({ commit }, fileInfo) {
+		const url = await uploadFile(fileInfo)
+		commit('setUploadUrl', url)
 	}
 }

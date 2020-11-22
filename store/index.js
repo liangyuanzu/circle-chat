@@ -8,7 +8,8 @@ Vue.use(Vuex)
 
 const state = {
 	searchList: [],
-	imageUrl: ''
+	imageUrl: '',
+	uploadUrl: '' // 文件上传后返回的 url
 }
 
 const files = require.context('./modules', false, /\.js$/)
