@@ -34,7 +34,7 @@
             </view>
             <!-- 简介 -->
             <view
-              v-if="showNote"
+              v-if="showNote && item.synopsis"
               class="text-sm text-grey my-text-cut"
               style="width: 474rpx; margin-top: 10rpx"
             >
