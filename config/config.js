@@ -1,6 +1,7 @@
 module.exports = {
 	baseUrl: 'https://www.circlechat.top',
 	websocketUrl: 'wss://www.circlechat.top/websocket',
+	emojiUrl: 'https://www.circlechat.top/files/emoji/',
 	createCircleMapUrl:
 		'https://www.circlechat.top/static/hybrid/html/create-circle-map.html',
 	nearbyCircleMapUrl:

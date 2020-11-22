@@ -259,6 +259,7 @@ import { chatFormat } from '@/helpers/chat.js'
 import { html2text } from '@/helpers/utils.js'
 import * as _ from '@/utils/lodash/lodash.js'
 import { mapGetters, mapState } from 'vuex'
+import { emojiUrl } from '@/config/config.js'
 
 // 获取系统状态栏的高度
 let systemInfo = uni.getSystemInfoSync()
@@ -1006,7 +1007,7 @@ export default {
             if (EM.alt == item) {
               //在线表情路径，图文混排必须使用网络路径，请上传一份表情到你的服务器后再替换此路径
               //比如你上传服务器后，你的100.gif路径为https://www.xxx.com/emoji/100.gif 则替换onlinePath填写为https://www.xxx.com/emoji/
-              let onlinePath = 'http://39.99.156.255:8080/CircleChat/emoji/'
+              let onlinePath = emojiUrl
               let imgstr =
                 '<img style="vertical-align:middle;" src="' +
                 onlinePath +
