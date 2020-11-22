@@ -440,6 +440,7 @@ export default {
   },
 
   computed: {
+    ...mapState(['imageUrl']),
     ...mapGetters('user', ['userId', 'username', 'avatar', 'personinfo']),
     ...mapState('chat', ['CurrentToUser', 'CurrentToCircle', 'isCircle']),
     ...mapGetters('circle', ['circleInfo']),
@@ -927,18 +928,27 @@ export default {
         sourceType: [type],
         sizeType: ['original', 'compressed'], //可以指定是原图还是压缩图，默认二者都有
         success: (res) => {
+          uni.showLoading({
+            title: '发送中...'
+          })
           for (let i = 0; i < res.tempFilePaths.length; i++) {
             uni.getImageInfo({
               src: res.tempFilePaths[i],
               success: (image) => {
                 console.log(image.width)
                 console.log(image.height)
-                let msg = {
-                  url: res.tempFilePaths[i],
-                  w: image.width,
-                  h: image.height
-                }
-                this.sendMsg(msg, 'img')
+                this.$store
+                  .dispatch('uploadImage', res.tempFilePaths[i])
+                  .then(() => {
+                    let msg = {
+                      url: this.imageUrl,
+                      w: image.width,
+                      h: image.height
+                    }
+                    uni.hideLoading()
+                    this.sendMsg(msg, 'img')
+                  })
+                  .catch(() => uni.hideLoading())
               }
             })
           }

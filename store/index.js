@@ -7,7 +7,8 @@ import actions from './actions'
 Vue.use(Vuex)
 
 const state = {
-	searchList: []
+	searchList: [],
+	imageUrl: ''
 }
 
 const files = require.context('./modules', false, /\.js$/)

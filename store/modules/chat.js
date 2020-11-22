@@ -1,4 +1,3 @@
-
 import {
 	websocketUrl,
 	receiveOneType,
@@ -35,8 +34,7 @@ const state = {
 		circleName: '',
 		circleAvatar: '',
 		circleType: ''
-	},
-
+	}
 }
 
 const getters = {}
@@ -79,8 +77,7 @@ const mutations = {
 		state.CurrentToCircle.circleName = circleName
 		state.CurrentToCircle.circleAvatar = circleAvatar
 		state.CurrentToCircle.circleType = circleType
-	},
-
+	}
 }
 
 const actions = {
@@ -90,7 +87,13 @@ const actions = {
 			const socket = uni.connectSocket({
 				url: `${websocketUrl}?user=${rootGetters['user/userId']}`,
 				success: () => console.log('连接成功'),
-				fail: (e) => console.log('连接失败', e)
+				fail: (e) => {
+					console.log('连接失败', e)
+					uni.showToast({
+						title: e.errMsg,
+						icon: 'none'
+					})
+				}
 			})
 			commit('setSocketTask', socket)
 			dispatch('init')
@@ -388,9 +391,7 @@ const actions = {
 
 		// 存储到本地
 		localStore.set(chatListName, chatList)
-	},
-
-
+	}
 }
 
 export default {

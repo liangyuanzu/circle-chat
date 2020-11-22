@@ -11,3 +11,14 @@ export function getSearch(data) {
 		}
 	})
 }
+
+/**
+ * 上传图片
+ * @param {string} filePath - 图片地址
+ * */
+export function uploadImage(filePath) {
+	return $request('/down/upload', {
+		method: 'UPLOAD',
+		filePath
+	})
+}
