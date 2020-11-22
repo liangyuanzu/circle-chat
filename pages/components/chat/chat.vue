@@ -1160,16 +1160,26 @@ export default {
       clearInterval(this.recordTimer)
       if (!this.willStop) {
         console.log('e: ' + JSON.stringify(e))
-        let msg = {
-          length: 0,
-          url: e.tempFilePath
-        }
-        let min = parseInt(this.recordLength / 60)
-        let sec = this.recordLength % 60
-        min = min < 10 ? '0' + min : min
-        sec = sec < 10 ? '0' + sec : sec
-        msg.length = min + ':' + sec
-        this.sendMsg(msg, 'voice')
+        this.$store
+          .dispatch('uploadFile', {
+            filePath: e.tempFilePath,
+            type: 'voice',
+            userId: this.userId
+          })
+          .then(() => {
+            console.log(this.uploadUrl)
+
+            let msg = {
+              length: 0,
+              url: this.uploadUrl
+            }
+            let min = parseInt(this.recordLength / 60)
+            let sec = this.recordLength % 60
+            min = min < 10 ? '0' + min : min
+            sec = sec < 10 ? '0' + sec : sec
+            msg.length = min + ':' + sec
+            this.sendMsg(msg, 'voice')
+          })
       } else {
         console.log('取消发送录音')
       }
