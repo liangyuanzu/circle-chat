@@ -89,12 +89,13 @@ export function getCircleMember(circleId) {
  * @param {string} filePath - 图片地址
  * @param {string | Number} circleId - 圈id
  * */
-export function updateCircleAvatar(data) {
+export function updateCircleAvatar({ filePath, circleId }) {
 	return $request('/circle/updateCirclePhoto', {
 		method: 'UPLOAD',
-		filePath: data.filePath,
+		name: 'file',
+		filePath,
 		formData: {
-			circleId: data.circleId
+			circleId
 		}
 	})
 }

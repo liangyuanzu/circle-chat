@@ -113,7 +113,7 @@ export default {
       } else {
         this.$store
           .dispatch('circle/updateCircleAvatar', {
-            filePath,
+            filePath: path,
             circleId: this.circleId
           })
           .then(() => {

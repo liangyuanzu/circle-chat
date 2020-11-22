@@ -69,7 +69,9 @@ export default {
     },
 
     commit(newData) {
-      uni.showLoading()
+      uni.showLoading({
+        title: '修改中...'
+      })
       this.$store
         .dispatch('circle/updateCircleInfo', {
           circleId: this.circleInfo.circleId,

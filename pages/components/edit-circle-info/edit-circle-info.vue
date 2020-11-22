@@ -7,19 +7,21 @@
       :circleId="circleInfo.circleId"
     ></custom-update-avatar>
 
-    <uni-list class="margin-top-sm">
-      <uni-list-item
-        v-for="(item, index) in infoList"
-        :key="index"
-        :title="item.title"
-        :rightText="item.rightText"
-        :note="item.note"
-        noteEllipsis="2"
-        showArrow
-        clickable
-        @click="onClick(item.title)"
-      ></uni-list-item>
-    </uni-list>
+    <view class="margin-top-sm">
+      <uni-list>
+        <uni-list-item
+          v-for="(item, index) in infoList"
+          :key="index"
+          :title="item.title"
+          :rightText="item.rightText"
+          :note="item.note"
+          noteEllipsis="2"
+          showArrow
+          clickable
+          @click="onClick(item.title)"
+        ></uni-list-item>
+      </uni-list>
+    </view>
   </view>
 </template>
 
@@ -85,7 +87,7 @@ export default {
         {
           title,
           isEdit: true,
-					circleId: this.circleInfo.circleId
+          circleId: this.circleInfo.circleId
         }
       )
     }

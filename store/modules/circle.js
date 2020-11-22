@@ -65,8 +65,8 @@ const actions = {
 		await creatCircle(createInfo)
 	},
 
-	async updateCirclePhoto({ commit }, imgSrc) {
-		const circleAvatar = await updateCirclePhoto(imgSrc)
+	async updateCirclePhoto({ commit }, avatarInfo) {
+		const circleAvatar = await updateCirclePhoto(avatarInfo)
 		if (circleAvatar) {
 			commit('setCircleAvatar', circleAvatar)
 		} else {
