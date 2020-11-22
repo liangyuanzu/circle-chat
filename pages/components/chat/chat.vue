@@ -27,7 +27,8 @@
     <view class="content" @touchstart="hideDrawer">
       <scroll-view
         class="msg-list"
-        scroll-y="true"
+        :scroll-y="true"
+        :adjust-position="false"
         :scroll-with-animation="scrollAnimation"
         :scroll-top="scrollTop"
         :scroll-into-view="scrollToView"
