@@ -217,7 +217,9 @@
         <view class="text-mode" :class="isVoice ? 'hidden' : ''">
           <view class="box">
             <textarea
-              auto-height="true"
+              :auto-height="true"
+              :show-confirm-bar="false"
+              :cursor-spacing="50"
               v-model="textMsg"
               @focus="textareaFocus"
             />
