@@ -15,9 +15,11 @@
         @focusClick="onFocus"
       ></custom-focus-list>
 
+      <!-- #ifndef MP-BAIDU -->
       <view class="empty" v-if="focusList[type - 1].length === 0">
         <u-empty mode="list"></u-empty>
       </view>
+      <!-- #endif -->
     </view>
   </view>
 </template>
