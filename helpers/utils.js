@@ -75,19 +75,6 @@ export function string2obj(data) {
 }
 
 /**
- * 将数组中某个元素置顶
- * @param {Array} arr
- * @param {Number | String} index
- * @return {Array}
- */
-export function toFirst(arr, index) {
-	if (index != 0) {
-		arr.unshift(arr?.splice(index, 1)[0])
-	}
-	return arr
-}
-
-/**
  * 提取 html 字符串的的内容
  * @param {string} str
  */
