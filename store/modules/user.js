@@ -77,8 +77,7 @@ const actions = {
 	async init({ dispatch }) {
 		await dispatch('getUserInfo')
 		await dispatch('getPosition')
-		await dispatch('chat/getOldChatList', 0, { root: true })
-		await dispatch('chat/createWebSocket', {}, { root: true })
+		await dispatch('chat/init', {}, { root: true })
 	},
 
 	async init_baidu({ commit, dispatch }) {
@@ -88,8 +87,7 @@ const actions = {
 		commit('setAvatar', userinfo.img)
 		commit('setSex', userinfo.sex)
 		await dispatch('getPosition')
-		await dispatch('chat/getOldChatList', 0, { root: true })
-		await dispatch('chat/createWebSocket', {}, { root: true })
+		await dispatch('chat/init', {}, { root: true })
 	},
 
 	getPosition({ commit }) {

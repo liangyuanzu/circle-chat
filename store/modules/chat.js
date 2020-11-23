@@ -12,7 +12,7 @@ import {
 	formatMsg,
 	chatListFormat
 } from '@/helpers/chat.js'
-import { getOldChatList, readMsg } from '@/api/chat.js'
+import { getOldChatList, getNoReadNum, readMsg } from '@/api/chat.js'
 
 const state = {
 	isOpen: false,
@@ -82,6 +82,12 @@ const mutations = {
 }
 
 const actions = {
+	async init({ dispatch }) {
+		await dispatch('getOldChatList', 0)
+		await dispatch('getNoReadNum')
+		await dispatch('createWebSocket')
+	},
+
 	createWebSocket({ state: { SocketTask }, commit, dispatch, rootGetters }) {
 		if (SocketTask) return
 		try {
@@ -97,14 +103,14 @@ const actions = {
 				}
 			})
 			commit('setSocketTask', socket)
-			dispatch('init')
+			dispatch('socketInit')
 		} catch (e) {
 			console.log('连接异常', e)
 			dispatch('reconnect')
 		}
 	},
 
-	init({ state: { SocketTask, toClose }, commit, dispatch }) {
+	socketInit({ state: { SocketTask, toClose }, commit, dispatch }) {
 		// 取消强制关闭连接
 		if (toClose) commit('setToClose', false)
 
@@ -451,6 +457,15 @@ const actions = {
 		const list = await getOldChatList(type)
 		const chatList = chatListFormat(list)
 		localStore.set(chatListName, chatList)
+	},
+
+	async getNoReadNum({}) {
+		const noReadNum = await getNoReadNum()
+		uni.setTabBarBadge({
+			index: 0,
+			text: noReadNum > 99 ? '99+' : noReadNum.toString()
+		})
+		localStore.set('noReadNum', noReadNum)
 	},
 
 	async readMsg({}, data) {

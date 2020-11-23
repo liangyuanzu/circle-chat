@@ -13,6 +13,13 @@ export function getOldChatList(type) {
 }
 
 /**
+ * 获取所有未读消息数
+ * */
+export function getNoReadNum() {
+	return $request('/chat/getNoReadNum', {})
+}
+
+/**
  * 读取消息
  * @param {number} toUserId 对方 id
  * @param {number} circleId 圈 id

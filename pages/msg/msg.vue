@@ -226,6 +226,15 @@ export default {
     // #endif
   },
 
+  onPullDownRefresh() {
+    Promise.all([
+      this.$store.dispatch('chat/getOldChatList', 0),
+      this.$store.dispatch('chat/getNoReadNum')
+    ]).then(() => {
+      uni.stopPullDownRefresh()
+    })
+  },
+
   methods: {
     formatKey(item) {
       return item.userId ?? item.circleId
@@ -269,7 +278,12 @@ export default {
       }
 
       // 缓存未读数更新
-      read(item)
+      new Promise((resolve) => {
+        read(id)
+        resolve()
+      }).then(() => {
+        item.noReadNum = 0
+      })
     },
 
     getList() {

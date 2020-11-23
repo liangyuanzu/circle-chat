@@ -122,7 +122,7 @@ export function chatListFormat(list) {
 					userId: i.userId,
 					username: i.username,
 					avatar: i.avatar,
-					content: i.content,
+					data: i.content,
 					createTime: i.createTime,
 					noReadNum: i.noReadNum
 				})
@@ -133,7 +133,7 @@ export function chatListFormat(list) {
 					circleName: i.circleName,
 					avatar: i.avatar,
 					circleType: i.circleType,
-					content: i.content,
+					data: i.content,
 					createTime: i.createTime,
 					noReadNum: i.noReadNum
 				})
@@ -144,19 +144,15 @@ export function chatListFormat(list) {
 	return chatList
 }
 // 读取当前会话
-export function read(item) {
-	if (!item.noReadNum) return
+export function read(id) {
 	let chatList = localStore.get(chatListName) || []
-	const index = chatList?.findIndex((value) => value.userId == item.userId)
+	const index = chatList?.findIndex((i) => i.userId === id || i.circleId === id)
 	// 如果会话存在
 	if (index !== -1) {
 		const oldNoReadNum = chatList[index].noReadNum
 		chatList[index].noReadNum = 0
 		localStore.set(chatListName, chatList)
-
-		new Promise(() => {
-			updateNoReadNum({ type: 'read', num: oldNoReadNum })
-		}).then(() => (item.noReadNum = 0))
+		updateNoReadNum({ type: 'read', num: oldNoReadNum })
 	}
 }
 
