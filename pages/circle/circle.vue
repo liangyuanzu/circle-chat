@@ -36,9 +36,16 @@ export default {
   },
 
   methods: {
+    // #ifndef MP-BAIDU
     createCircle() {
       this.$u.route('/pages/components/create-circle-map/create-circle-map')
     },
+    // #endif
+    // #ifdef MP-BAIDU
+    createCircle() {
+      this.$u.route('/pages/components/create-circle/create-circle')
+    },
+    // #endif
 
     toSearch() {
       this.$u.route('/pages/components/search/search')

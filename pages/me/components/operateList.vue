@@ -106,6 +106,7 @@ export default {
             type: 'smallcircle'
           }
         },
+        // #ifndef MP-BAIDU
         {
           title: '地图模式',
           extraIcon: {
@@ -114,6 +115,7 @@ export default {
             type: 'location-filled'
           }
         }
+        // #endif
       ],
 
       defalutAdd: {
