@@ -461,10 +461,12 @@ const actions = {
 
 	async getNoReadNum({}) {
 		const noReadNum = await getNoReadNum()
-		uni.setTabBarBadge({
-			index: 0,
-			text: noReadNum > 99 ? '99+' : noReadNum.toString()
-		})
+		if (noReadNum > 0) {
+			uni.setTabBarBadge({
+				index: 0,
+				text: noReadNum > 99 ? '99+' : noReadNum.toString()
+			})
+		}
 		localStore.set('noReadNum', noReadNum)
 	},
 
