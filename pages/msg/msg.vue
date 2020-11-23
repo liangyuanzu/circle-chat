@@ -32,21 +32,34 @@
       </u-dropdown>
     </view>
 
-    <uni-list :border="false">
-      <uni-list-chat
+    <view class="cu-list menu-avatar">
+      <view
+        class="cu-item"
         v-for="item in list"
         :key="formatKey(item)"
-        :title="item.circleId ? item.circleName : item.username"
-        :avatar="item.avatar"
-        :avatarList="item.avatarList"
-        :note="item.data"
-        :time="formatTime(item.time)"
-        :badgeText="formatBadge(item.noReadNum)"
-        clickable
         @click="toChatDetail(formatKey(item))"
       >
-      </uni-list-chat>
-    </uni-list>
+        <view
+          class="cu-avatar radius lg"
+          :style="'background-image: url(' + item.avatar + ')'"
+        ></view>
+        <view class="content">
+          <view class="text-cut">{{
+            item.userId ? item.username : item.circleName
+          }}</view>
+          <view class="text-gray text-sm flex">
+            <view class="text-cut">
+              <rich-text :nodes="item.data"></rich-text> </view
+          ></view>
+        </view>
+        <view class="action">
+          <view class="text-grey text-xs"> {{ formatTime(item.time) }}</view>
+          <view class="cu-tag round bg-red sm" v-show="item.noReadNum > 0">{{
+            formatBadge(item.noReadNum)
+          }}</view>
+        </view>
+      </view>
+    </view>
 
     <view class="empty" v-if="list.length === 0">
       <u-empty mode="list"></u-empty>
@@ -124,13 +137,16 @@ export default {
         )
         // 会话存在
         if (index !== -1) {
-          this.list[index].data = formatMsg(res.body.type, {
+          let item = this.list[index]
+          item.data = formatMsg(res.body.type, {
             content: res.body.content
           })
-          this.list[index].time = res.body.createTime
-          this.list[index].noReadNum++
+          item.time = res.body.createTime
+          item.noReadNum++
+          // 删除数组中这个元素
+          this.list.splice(index, 1)
           // 置顶
-          this.list = toFirst(this.list, index)
+          this.list.unshift(item)
           return
         }
         // 不存在
@@ -149,24 +165,27 @@ export default {
         )
         // 会话存在
         if (index !== -1) {
+          let item = this.list[index]
           // 判断是否是本人
           if (res.body.userId == this.userId) {
-            this.list[index].data = formatMsg(res.body.type, {
+            item.data = formatMsg(res.body.type, {
               content: res.body.content,
               isCircle: true,
               isMe: true
             })
           } else {
-            this.list[index].data = formatMsg(res.body.type, {
+            item.data = formatMsg(res.body.type, {
               username: res.body.username,
               content: res.body.content,
               isCircle: true
             })
           }
-          this.list[index].time = res.body.createTime
-          this.list[index].noReadNum++
+          item.time = res.body.createTime
+          item.noReadNum++
+          // 删除数组中这个元素
+          this.list.splice(index, 1)
           // 置顶
-          this.list = toFirst(this.list, index)
+          this.list.unshift(item)
           return
         }
         // 不存在
@@ -226,33 +245,31 @@ export default {
     },
 
     toChatDetail(id) {
-      const list = localStore.get(chatListName) || []
-      let item
-      list.forEach((i) => {
-        if (i.userId === id || i.circleId === id) item = i
-      })
+      const index = this.list.findIndex(
+        (i) => i.userId === id || i.circleId === id
+      )
+      const item = this.list[index]
 
-      new Promise((resolve, reject) => {
-        // 读取当前会话
-        try {
-          read(item)
-          resolve()
-        } catch (e) {
-          reject(e)
-        }
-      })
-        .then(() => {
-          if (item.userId) {
-            uni.navigateTo({
-              url: '/pages/components/chat/chat?personId=' + item.userId
-            })
-          } else if (item.circleId) {
-            uni.navigateTo({
-              url: '/pages/components/chat/chat?circleId=' + item.circleId
-            })
-          }
+      if (item.userId) {
+        uni.navigateTo({
+          url: '/pages/components/chat/chat?personId=' + item.userId
         })
-        .catch((err) => console.log(err))
+        // 服务端未读数更新
+        this.$store.dispatch('chat/readMsg', {
+          toUserId: item.userId
+        })
+      } else if (item.circleId) {
+        uni.navigateTo({
+          url: '/pages/components/chat/chat?circleId=' + item.circleId
+        })
+        // 服务端未读数更新
+        this.$store.dispatch('chat/readMsg', {
+          circleId: item.circleId
+        })
+      }
+
+      // 缓存未读数更新
+      read(item)
     },
 
     getList() {

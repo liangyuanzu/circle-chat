@@ -19,11 +19,11 @@ export function chatFormat(res, options = { isCircle: false }, data) {
 				let obj = {
 					circleId: res.body.circleId,
 					circleName: res.body.circleName,
-					avatar: data.circleAvatar || res.body.circleImg,
-					circleType: data.circleType || res.body.circleType,
+					avatar: res.body.circleImg,
+					circleType: res.body?.circleType,
 					time: res.body.createTime,
 					data: formatMsg(res.body.type, {
-						username: res.body.username,
+						username: res.body?.username,
 						content: res.body.content,
 						isCircle
 					}),
@@ -43,7 +43,7 @@ export function chatFormat(res, options = { isCircle: false }, data) {
 			let obj = {
 				userId: res.body.userId,
 				username: res.body.username,
-				avatar: data.toUserAvatar || res.body.userImg,
+				avatar: res.body.userImg,
 				time: res.body.createTime,
 				data: formatMsg(res.body.type, { content: res.body.content }),
 				noReadNum: 0 // 未读数
@@ -52,6 +52,7 @@ export function chatFormat(res, options = { isCircle: false }, data) {
 			if (res.body.userId == data.userId) {
 				obj.userId = data.toUser
 				obj.username = data.toUserName
+				obj.avatar = data.toUserAvatar
 			}
 			return obj
 
@@ -120,7 +121,10 @@ export function read(item) {
 		const oldNoReadNum = chatList[index].noReadNum
 		chatList[index].noReadNum = 0
 		localStore.set(chatListName, chatList)
-		updateNoReadNum({ type: 'read', num: oldNoReadNum })
+
+		new Promise(() => {
+			updateNoReadNum({ type: 'read', num: oldNoReadNum })
+		}).then(() => (item.noReadNum = 0))
 	}
 }
 

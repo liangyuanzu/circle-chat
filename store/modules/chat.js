@@ -5,13 +5,13 @@ import {
 	chatListName
 } from '@/config/config.js'
 import localStore from '@/helpers/localStore.js'
-import { toFirst } from '@/helpers/utils.js'
 import {
 	chatFormat,
 	updateNoReadNum,
 	initTabBarBadge,
 	formatMsg
 } from '@/helpers/chat.js'
+import { getOldChatList, readMsg } from '@/api/chat.js'
 
 const state = {
 	isOpen: false,
@@ -205,18 +205,18 @@ const actions = {
 			if (res.type === receiveOneType) {
 				// 全局通知接口
 				uni.$emit('UserChat', res)
-				// 存储到 chatDetail
-				dispatch('updateChatDetail', { res })
 				// 更新chatList（将当前会话置顶，修改chatList中当前会话的data和time显示）
 				dispatch('updateChatList', { res })
+				// 存储到 chatDetail
+				dispatch('updateChatDetail', { res })
 				// 总未读数+1，修改tabBar信息数
 				if (CurrentToUser.userId !== res.body.userId) {
 					updateNoReadNum({ type: 'add' })
 				}
 			} else if (res.type === receiveCircleType) {
 				uni.$emit('UserChat', res)
-				dispatch('updateChatDetail', { res, isCircle: true })
 				dispatch('updateChatList', { res, isCircle: true })
+				dispatch('updateChatDetail', { res, isCircle: true })
 				if (CurrentToCircle.circleId !== res.body.circleId) {
 					updateNoReadNum({ type: 'add' })
 				}
@@ -255,7 +255,7 @@ const actions = {
 			// 存储到chatDetail
 			dispatch('updateChatDetail', { res: sendData, isSend: true, isCircle })
 			// 存储到chatList（将当前会话置顶，修改chatList中当前会话的data和time显示）
-			dispatch('updateChatList', { res: sendData, isCircle })
+			dispatch('updateChatList', { res: sendData, isSend: true, isCircle })
 		} catch (error) {
 			console.log(error)
 		}
@@ -267,7 +267,8 @@ const actions = {
 		{ rootGetters, state },
 		{ res, isSend = false, isCircle = false }
 	) {
-		let chatDetail, circleId, userId
+		let chatDetail = []
+		let circleId, userId
 		if (isCircle) {
 			circleId = isSend ? state.CurrentToCircle.circleId : res.body.circleId
 			// 获取旧数据（ chatDetail_[当前用户id]_[聊天对象id] ）
@@ -280,10 +281,11 @@ const actions = {
 				'chatDetail_' + rootGetters['user/userId'] + '_' + userId
 			)
 		}
-		let list = chatDetail || []
+		let list = []
+		if (chatDetail.length > 0) list = chatDetail
 
 		// 追加
-		list.push(
+		list?.push(
 			chatFormat(res, {
 				type: 'chatDetail',
 				oldData: list,
@@ -304,93 +306,153 @@ const actions = {
 		}
 	},
 
-	updateChatList({ rootGetters, state }, { res, isCircle = false }) {
+	updateChatList(
+		{ rootGetters, state },
+		{ res, isSend = false, isCircle = false }
+	) {
 		// 获取旧数据
 		let chatList = localStore.get(chatListName) || []
-		// 判断是否为群聊
-		if (isCircle) {
-			const { circleId, userId, username, content, createTime } = res.body
-			// 判断是否已存在该会话，存在：将当前会话置顶；不存在：追加至头部
-			const index = chatList?.findIndex((item) => item?.circleId == circleId)
-			// 不存在
-			if (index == -1) {
-				const user = {
-					userId: rootGetters['user/userId']
-				}
-				let obj = chatFormat(res, { type: 'chatList', isCircle }, user)
-				// 忽略本人发送
-				if (userId !== rootGetters['user/userId']) {
-					obj.noReadNum = 1
-				}
-				chatList.unshift(obj)
-			} else {
-				// 存在：将当前会话置顶,修改chatList中当前会话的data和time显示
-				if (userId == rootGetters['user/userId']) {
-					chatList[index].data = formatMsg(res.body.type, {
+		if (isSend) {
+			// 发送圈聊消息
+			if (isCircle) {
+				const { circleId, userId, content, createTime } = res.body
+				// 判断是否已存在该会话，存在：将当前会话置顶；不存在：追加至头部
+				const index = chatList?.findIndex((item) => item?.circleId == circleId)
+				// 不存在
+				if (index === -1) {
+					const user = {
+						userId
+					}
+					let obj = chatFormat(res, { type: 'chatList', isCircle }, user)
+					chatList.unshift(obj)
+				} else {
+					// 存在：将当前会话置顶,修改chatList中当前会话的data和time显示
+					let item = chatList[index]
+					item.data = formatMsg(res.body.type, {
 						content,
 						isCircle,
 						isMe: true
 					})
+					item.time = createTime
+
+					// 删除数组中这个元素
+					chatList.splice(index, 1)
+					// 置顶
+					chatList.unshift(item)
+				}
+			} else {
+				// 发送私聊消息
+				const { userId, toUser, content, createTime } = res.body
+				// 判断是否已存在该会话，存在：将当前会话置顶；不存在：追加至头部
+				const index = chatList?.findIndex((item) => item.userId == toUser)
+				// 不存在
+				if (index === -1) {
+					const user = {
+						userId,
+						toUser,
+						toUserName: state.CurrentToUser.username,
+						toUserAvatar: state.CurrentToUser.avatar
+					}
+					let obj = chatFormat(res, { type: 'chatList' }, user)
+					chatList.unshift(obj)
 				} else {
-					chatList[index].data = formatMsg(res.body.type, {
+					// 存在：将当前会话置顶,修改chatList中当前会话的data和time显示
+					let item = chatList[index]
+					item.data = formatMsg(res.body.type, { content })
+					item.time = createTime
+
+					// 删除数组中这个元素
+					chatList.splice(index, 1)
+					// 置顶
+					chatList.unshift(item)
+				}
+			}
+		} else {
+			// 接收圈聊消息
+			if (isCircle) {
+				const { circleId, userId, username, content, createTime } = res.body
+				// 判断是否已存在该会话，存在：将当前会话置顶；不存在：追加至头部
+				const index = chatList?.findIndex((item) => item?.circleId == circleId)
+				// 不存在
+				if (index === -1) {
+					const user = {
+						userId: rootGetters['user/userId']
+					}
+					let obj = chatFormat(res, { type: 'chatList', isCircle }, user)
+					// 未读数加 1
+					obj.noReadNum = 1
+					chatList.unshift(obj)
+				} else {
+					// 存在：将当前会话置顶,修改chatList中当前会话的data和time显示
+					let item = chatList[index]
+					item.data = formatMsg(res.body.type, {
 						username,
 						content,
 						isCircle
 					})
-				}
-				chatList[index].time = createTime
+					item.time = createTime
+					// 当前聊天对象不是该id，未读数+1（排除本人发送消息）
+					if (
+						userId !== rootGetters['user/userId'] &&
+						state.CurrentToCircle.circleId !== item.circleId
+					) {
+						// 未读数加 1
+						item.noReadNum++
+					}
 
-				// 当前聊天对象不是该id，未读数+1（排除本人发送消息）
-				if (
-					userId !== rootGetters['user/userId'] &&
-					state.CurrentToCircle.circleId !== chatList[index].circleId
-				) {
-					chatList[index].noReadNum++
+					// 删除数组中这个元素
+					chatList.splice(index, 1)
+					// 置顶
+					chatList.unshift(item)
 				}
-				// 置顶当前会话
-				chatList = toFirst(chatList, index)
-			}
-		} else {
-			const { userId, toUserId, toUser, content, createTime } = res.body
-			// 判断是否已存在该会话，存在：将当前会话置顶；不存在：追加至头部
-			const index = chatList?.findIndex(
-				(item) =>
-					item.userId == userId ||
-					item.userId == toUserId ||
-					item.userId == toUser
-			)
-			// 不存在
-			if (index == -1) {
-				const user = {
-					userId: rootGetters['user/userId'],
-					toUser: state.CurrentToUser.userId,
-					toUserName: state.CurrentToUser.username,
-					toUserAvatar: state.CurrentToUser.avatar
-				}
-				let obj = chatFormat(res, { type: 'chatList' }, user)
-				// 忽略本人发送
-				if (userId !== rootGetters['user/userId']) {
-					obj.noReadNum = 1
-				}
-				chatList.unshift(obj)
 			} else {
-				// 存在：将当前会话置顶,修改chatList中当前会话的data和time显示
-				chatList[index].data = formatMsg(res.body.type, { content })
-				chatList[index].time = createTime
-				// 当前聊天对象不是该id，未读数+1（排除本人发送消息）
-				if (
-					userId !== rootGetters['user/userId'] &&
-					state.CurrentToUser.userId !== chatList[index].userId
-				) {
-					chatList[index].noReadNum++
+				// 接收私聊消息
+				const { userId, content, createTime } = res.body
+				// 判断是否已存在该会话，存在：将当前会话置顶；不存在：追加至头部
+				const index = chatList?.findIndex((item) => item.userId == userId)
+				// 不存在
+				if (index === -1) {
+					const user = {
+						userId: rootGetters['user/userId']
+					}
+					let obj = chatFormat(res, { type: 'chatList' }, user)
+					// 未读数加 1
+					obj.noReadNum = 1
+					chatList.unshift(obj)
+				} else {
+					// 存在：将当前会话置顶,修改chatList中当前会话的data和time显示
+					let item = chatList[index]
+					item.data = formatMsg(res.body.type, { content })
+					item.time = createTime
+					// 当前聊天对象不是该id，未读数+1（排除本人发送消息）
+					if (
+						userId !== rootGetters['user/userId'] &&
+						state.CurrentToUser.userId !== item.userId
+					) {
+						// 未读数加 1
+						item.noReadNum++
+					}
+
+					// 删除数组中这个元素
+					chatList.splice(index, 1)
+					// 置顶
+					chatList.unshift(item)
 				}
-				// 置顶当前会话
-				chatList = toFirst(chatList, index)
 			}
 		}
 
 		// 存储到本地
 		localStore.set(chatListName, chatList)
+	},
+
+	// 获取历史聊天列表
+	async getOldChatList({}, type) {
+		const list = await getOldChatList(type)
+		console.log(list)
+	},
+
+	async readMsg({}, data) {
+		await readMsg(data)
 	}
 }
 
