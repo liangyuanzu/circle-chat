@@ -20,6 +20,38 @@ export function getNoReadNum() {
 }
 
 /**
+ * 获取历史消息-私聊
+ * @param {string} toUserId - 对方 id
+ * @param {string} offset - 当前页
+ * @param {string} limit - 每页多少行
+ * */
+export function getOldChatDetailPrivate({ toUserId, offset }) {
+	return $request('/chat/queryPrivateChatByPage', {
+		params: {
+			toUserId,
+			offset,
+			limit: 20
+		}
+	})
+}
+
+/**
+ * 获取历史消息-圈聊
+ * @param {string} circleId - 圈 id
+ * @param {string} offset - 当前页
+ * @param {string} limit - 每页多少行
+ * */
+export function getOldChatDetailCircle({ circleId, offset }) {
+	return $request('/chat/queryCircleChatByPage', {
+		params: {
+			circleId,
+			offset,
+			limit: 20
+		}
+	})
+}
+
+/**
  * 读取消息
  * @param {number} toUserId 对方 id
  * @param {number} circleId 圈 id

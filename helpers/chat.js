@@ -143,6 +143,31 @@ export function chatListFormat(list) {
 
 	return chatList
 }
+
+// 格式化历史聊天消息
+export function chatDetailFormat(list) {
+	if (list.length === 0) return []
+	let chatDetail = []
+	list.map((i) => {
+		chatDetail.push({
+			type: 'user',
+			msg: {
+				id: i.id,
+				type: i.type || 'text',
+				time: i.createTime,
+				userinfo: {
+					uid: i.userInfo.userId,
+					username: i.userInfo.username,
+					face: i.userInfo.face
+				},
+				content: i.context
+			}
+		})
+	})
+
+	return chatDetail
+}
+
 // 读取当前会话
 export function read(id) {
 	let chatList = localStore.get(chatListName) || []

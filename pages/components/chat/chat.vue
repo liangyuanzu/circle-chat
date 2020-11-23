@@ -260,6 +260,8 @@ import { html2text } from '@/helpers/utils.js'
 import * as _ from '@/utils/lodash/lodash.js'
 import { mapGetters, mapState } from 'vuex'
 import { emojiUrl } from '@/config/config.js'
+import { getOldChatDetailPrivate, getOldChatDetailCircle } from '@/api/chat.js'
+import { chatDetailFormat } from '@/helpers/chat.js'
 
 // 获取系统状态栏的高度
 let systemInfo = uni.getSystemInfoSync()
@@ -283,6 +285,8 @@ export default {
       msgList: [],
       msgImgList: [],
       myuid: 0,
+      // 历史聊天记录分页
+      offset: 2,
 
       //录音相关参数
       // #ifndef H5
@@ -637,7 +641,8 @@ export default {
     },
 
     //触发滑动到顶部(加载历史信息记录)
-    loadHistory(e) {
+    async loadHistory(e) {
+      /*
       if (this.isHistoryLoading) {
         return
       }
@@ -645,8 +650,9 @@ export default {
       this.scrollAnimation = false //关闭滑动动画
       let Viewid = this.msgList[0].msg.id //记住第一个信息ID
       //本地模拟请求历史记录效果
+
       setTimeout(() => {
-        // 消息列表
+				// 消息列表
         let list = [
           {
             type: 'user',
@@ -707,7 +713,8 @@ export default {
               content: { url: '/static/chat/voice/2.mp3', length: '00:06' }
             }
           }
-        ]
+				]
+
         // 获取消息中的图片,并处理显示尺寸
         for (let i = 0; i < list.length; i++) {
           if (list[i].type == 'user' && list[i].msg.type == 'img') {
@@ -726,7 +733,28 @@ export default {
           })
         })
         this.isHistoryLoading = false
-      }, 1000)
+			}, 1000)
+
+
+      // 获取历史记录
+      let obj
+      if (this.isCircle) {
+        obj = {
+          circleId: this.CurrentToCircle.circleId,
+          offset: this.offset
+        }
+      } else {
+        obj = {
+          toUserId: this.CurrentToUser.userId,
+          offset: this.offset
+        }
+      }
+      const detail = await getOldChatDetailPrivate(obj)
+      this.offset++
+      const detailList = chatDetailFormat(detail)
+      console.log(detail)
+			console.log(detailList)
+			*/
     },
     // 加载初始页面消息
     getMsgList() {
