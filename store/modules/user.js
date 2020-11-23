@@ -88,7 +88,7 @@ const actions = {
 		commit('setAvatar', userinfo.img)
 		commit('setSex', userinfo.sex)
 		await dispatch('getPosition')
-		// await dispatch('chat/getOldChatList', 0, { root: true })
+		await dispatch('chat/getOldChatList', 0, { root: true })
 		await dispatch('chat/createWebSocket', {}, { root: true })
 	},
 

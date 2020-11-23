@@ -9,7 +9,8 @@ import {
 	chatFormat,
 	updateNoReadNum,
 	initTabBarBadge,
-	formatMsg
+	formatMsg,
+	chatListFormat
 } from '@/helpers/chat.js'
 import { getOldChatList, readMsg } from '@/api/chat.js'
 
@@ -448,7 +449,8 @@ const actions = {
 	// 获取历史聊天列表
 	async getOldChatList({}, type) {
 		const list = await getOldChatList(type)
-		console.log(list)
+		const chatList = chatListFormat(list)
+		localStore.set(chatListName, chatList)
 	},
 
 	async readMsg({}, data) {

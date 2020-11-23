@@ -111,6 +111,38 @@ export function chatFormat(res, options = { isCircle: false }, data) {
 	}
 }
 
+// 格式化历史聊天列表
+export function chatListFormat(list) {
+	if (list.length === 0) return []
+	let chatList = []
+	list.map((i) => {
+		switch (i.type) {
+			case 'person':
+				chatList.push({
+					userId: i.userId,
+					username: i.username,
+					avatar: i.avatar,
+					content: i.content,
+					createTime: i.createTime,
+					noReadNum: i.noReadNum
+				})
+				break
+			case 'circle':
+				chatList.push({
+					circleId: i.circleId,
+					circleName: i.circleName,
+					avatar: i.avatar,
+					circleType: i.circleType,
+					content: i.content,
+					createTime: i.createTime,
+					noReadNum: i.noReadNum
+				})
+				break
+		}
+	})
+
+	return chatList
+}
 // 读取当前会话
 export function read(item) {
 	if (!item.noReadNum) return
