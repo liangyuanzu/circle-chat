@@ -74,20 +74,22 @@ const mutations = {
 }
 
 const actions = {
-	init({ dispatch }) {
-		dispatch('getUserInfo')
-		dispatch('getPosition')
-		dispatch('chat/createWebSocket', {}, { root: true })
+	async init({ dispatch }) {
+		await dispatch('getUserInfo')
+		await dispatch('getPosition')
+		await dispatch('chat/getOldChatList', 0, { root: true })
+		await dispatch('chat/createWebSocket', {}, { root: true })
 	},
 
-	init_baidu({ commit, dispatch }) {
+	async init_baidu({ commit, dispatch }) {
 		const userinfo = localStore.get('userinfo')
 		commit('setUserId', userinfo.userId)
 		commit('setUsername', userinfo.username)
 		commit('setAvatar', userinfo.img)
 		commit('setSex', userinfo.sex)
-		dispatch('getPosition')
-		dispatch('chat/createWebSocket', {}, { root: true })
+		await dispatch('getPosition')
+		// await dispatch('chat/getOldChatList', 0, { root: true })
+		await dispatch('chat/createWebSocket', {}, { root: true })
 	},
 
 	getPosition({ commit }) {
@@ -164,18 +166,27 @@ const actions = {
 		}
 	},
 
-	async logout({ dispatch }) {
+	async logout({ commit, dispatch }) {
 		await logout()
-		uni.clearStorageSync()
 		commit('setUsername', '')
 		commit('setAvatar', '')
 		commit('setSex', '')
+		uni.clearStorageSync()
+		uni.removeTabBarBadge({
+			index: 0
+		})
 		dispatch('chat/close', {}, { root: true })
 	},
 
-	async logout_baidu({ dispatch }) {
+	async logout_baidu({ commit, dispatch }) {
 		await logout_baidu()
+		commit('setUsername', '')
+		commit('setAvatar', '')
+		commit('setSex', '')
 		uni.clearStorageSync()
+		uni.removeTabBarBadge({
+			index: 0
+		})
 		dispatch('chat/close', {}, { root: true })
 	},
 
