@@ -27,22 +27,26 @@
           style="height: 100%; width: 100%"
           @scrolltolower="reachBottom"
         >
-          <view>
-            <custom-circle-list
-              :border="false"
-              showJoin
-              :list="circleList"
-              @joinClick="getCircleList"
-            >
-            </custom-circle-list>
+          <!-- #ifndef MP-BAIDU -->
+          <custom-circle-list
+            :border="false"
+            showJoin
+            :list="circleList"
+            @joinClick="getCircleList"
+          >
+          </custom-circle-list>
+          <!-- #endif -->
+          <!-- #ifdef MP-BAIDU -->
+          <custom-nearby-circle-list
+            showJoin
+            :list="circleList"
+            @joinClick="getCircleList"
+          >
+          </custom-nearby-circle-list>
+          <!-- #endif -->
 
-            <view
-              class="empty"
-              :style="emptyTop"
-              v-if="circleList.length === 0"
-            >
-              <u-empty mode="list"></u-empty>
-            </view>
+          <view class="empty" :style="emptyTop" v-if="circleList.length === 0">
+            <u-empty mode="list"></u-empty>
           </view>
         </scroll-view>
       </swiper-item>
