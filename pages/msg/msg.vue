@@ -307,21 +307,19 @@ export default {
     },
 
     confirm() {
-      uni.showLoading({
-        title: '加载中...'
-      })
+      const chatList = localStore.get(chatListName) || []
+      if (chatList.length === 0) return
       this.$refs.uDropdown.close()
       this.activeOption = this.options
         .filter((item) => item.active)
         .map((i) => i.value)
-      if (this.activeOption) {
-        this.list = this.list.filter((i) =>
+      if (this.activeOption.length > 0) {
+        this.list = chatList.filter((i) =>
           this.activeOption.includes(i.circleType)
         )
       } else {
         this.getList()
       }
-      uni.hideLoading()
     },
 
     toSearch() {
