@@ -101,6 +101,14 @@ export default {
           }
         },
         {
+          title: '我创建的圈',
+          extraIcon: {
+            color: '#9c26b0',
+            size: '22',
+            type: 'plus-filled'
+          }
+        },
+        {
           title: '我加入的圈',
           extraIcon: {
             color: '#19be6b',
@@ -217,6 +225,9 @@ export default {
           break
         case '关注列表':
           this.$u.route('/pages/components/focus-list/focus-list')
+          break
+        case '我创建的圈':
+          this.$u.route('/pages/components/my-create-circle/my-create-circle')
           break
         case '我加入的圈':
           this.$u.route('/pages/components/my-join-circle/my-join-circle')

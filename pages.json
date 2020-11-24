@@ -183,6 +183,12 @@
 				"navigationBarTitleText": "授权登录"
 			}
 
+		}, {
+			"path": "pages/components/my-create-circle/my-create-circle",
+			"style": {
+				"navigationBarTitleText": "我创建的圈"
+			}
+
 		}
 	],
 	"globalStyle": {

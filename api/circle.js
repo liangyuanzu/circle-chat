@@ -61,6 +61,13 @@ export function getMyJoinCircle() {
 }
 
 /**
+ * 查询我创建的圈
+ */
+export function getMyCreateCircle() {
+	return $request('/circle/getMyCircle', {})
+}
+
+/**
  * 根据圈id查询圈信息
  * @param {number} circleId 圈id
  */
