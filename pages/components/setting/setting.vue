@@ -1,14 +1,42 @@
 <template>
   <view>
-    <!-- #ifndef MP-BAIDU -->
+    <!-- 默认加圈 -->
     <uni-list>
-      <uni-list-item
-        title="修改密码"
-        showArrow
-        clickable
-        @click="changePwd"
-      ></uni-list-item>
+      <uni-list-item title="默认加圈" note="开启后，将会自动为您加入一些圈。">
+        <template #footer>
+          <u-switch
+            size="40"
+            v-model="addChecked"
+            @change="addConfirm"
+          ></u-switch>
+        </template>
+      </uni-list-item>
+
+      <!-- 消息通知 -->
+      <!-- #ifndef MP-BAIDU -->
+      <uni-list-item title="消息通知">
+        <template #footer>
+          <u-switch
+            size="40"
+            v-model="noticeChecked"
+            @change="noticeConfirm"
+          ></u-switch>
+        </template>
+      </uni-list-item>
+      <!-- #endif -->
     </uni-list>
+
+    <!-- #ifndef MP-BAIDU -->
+    <view class="margin-top-sm">
+      <uni-list>
+        <uni-list-item
+          title="修改密码"
+          showArrow
+          clickable
+          @click="changePwd"
+        ></uni-list-item>
+      </uni-list>
+    </view>
     <!-- #endif -->
 
     <view style="margin-top: 20rpx">
@@ -35,11 +63,25 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 export default {
   data() {
     return {
-      showModal: false
+      addChecked: false,
+      noticeChecked: false,
+      showModal: false // 退出登录
     }
+  },
+
+  computed: {
+    ...mapState('user', ['setting'])
+  },
+
+  async onLoad() {
+    await this.$store.dispatch('user/getUserSetting')
+    if (this.setting.default === '111') this.addChecked = true
+    if (this.setting.notice) this.noticeChecked = true
   },
 
   methods: {
@@ -99,6 +141,42 @@ export default {
           uni.hideLoading()
         })
       // #endif
+    },
+
+    addConfirm() {
+      uni.showLoading({
+        title: '设置中...'
+      })
+      this.$store
+        .dispatch('user/userSet', {
+          defaultAdd: this.addChecked ? '111' : '000'
+        })
+        .then(() => {
+          uni.hideLoading()
+          uni.showToast({
+            title: '设置成功',
+            icon: 'none'
+          })
+        })
+        .catch(() => (this.addChecked = !this.addChecked))
+    },
+
+    noticeConfirm() {
+      uni.showLoading({
+        title: '设置中...'
+      })
+      this.$store
+        .dispatch('user/userSet', {
+          isNotice: this.noticeChecked ? 0 : 1
+        })
+        .then(() => {
+          uni.hideLoading()
+          uni.showToast({
+            title: '设置成功',
+            icon: 'none'
+          })
+        })
+        .catch(() => (this.noticeChecked = !this.noticeChecked))
     }
   }
 }

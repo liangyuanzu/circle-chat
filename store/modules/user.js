@@ -13,7 +13,8 @@ import {
 	login_baidu,
 	getUserInfo_baidu,
 	logout_baidu,
-	updatePosition
+	updatePosition,
+	getUserSetting
 } from '@/api/user.js'
 import localStore from '@/helpers/localStore.js'
 
@@ -27,7 +28,8 @@ const state = {
 	autograph: '',
 	personinfo: '',
 	longitude: '', // 经度
-	latitude: '' // 纬度
+	latitude: '', // 纬度
+	setting: {}
 }
 
 const getters = {
@@ -70,6 +72,9 @@ const mutations = {
 	setPosition(state, { longitude, latitude }) {
 		state.longitude = longitude
 		state.latitude = latitude
+	},
+	setSetting(state, setting) {
+		state.setting = setting
 	}
 }
 
@@ -250,6 +255,11 @@ const actions = {
 		const userinfo = await getUserInfo_baidu(data)
 		localStore.set('userinfo', userinfo)
 		dispatch('init_baidu')
+	},
+
+	async getUserSetting({ commit }) {
+		const setting = await getUserSetting()
+		commit('setSetting', setting)
 	}
 }
 

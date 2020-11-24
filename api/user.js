@@ -168,3 +168,10 @@ export function updatePosition(data) {
 		data
 	})
 }
+
+/**
+ * 获取用户设置信息
+ * */
+export function getUserSetting() {
+	return $request('/user/getUserSet', {})
+}
