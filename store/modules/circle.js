@@ -10,7 +10,9 @@ import {
 	updateCircleInfo,
 	addCircleEffective,
 	exitCircle,
-	getIndexList
+	getIndexList,
+	getUsersInCircle,
+	inviteUsers
 } from '@/api/circle.js'
 
 const state = {
@@ -20,7 +22,8 @@ const state = {
 	myJoinCircle: [],
 	circleInfo: {},
 	circleMember: [],
-	indexList: []
+	indexList: [],
+	usersInCircleList: []
 }
 
 const getters = {
@@ -52,6 +55,10 @@ const mutations = {
 
 	setIndexList(state, list) {
 		state.indexList = list
+	},
+
+	setUsersInCircleList(state, list) {
+		state.usersInCircleList = list
 	}
 }
 
@@ -115,6 +122,15 @@ const actions = {
 	async getIndexList({ commit }, circleId) {
 		const list = await getIndexList(circleId)
 		commit('setIndexList', list)
+	},
+
+	async getUsersInCircleList({ commit }, circleId) {
+		const list = await getUsersInCircle(circleId)
+		commit('setUsersInCircleList', list)
+	},
+
+	async inviteUsers({}, data) {
+		await inviteUsers(data)
 	}
 }
 

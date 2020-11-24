@@ -303,7 +303,9 @@ export default {
     },
 
     toInviteMember() {
-      this.$u.route('/pages/components/invite-member/invite-member')
+      this.$u.route('/pages/components/invite-member/invite-member', {
+        circleId: this.circleInfo.circleId
+      })
     },
 
     toManageCircle() {
