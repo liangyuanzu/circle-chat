@@ -264,6 +264,10 @@ const actions = {
 			// 存储到chatList（将当前会话置顶，修改chatList中当前会话的data和time显示）
 			dispatch('updateChatList', { res: sendData, isSend: true, isCircle })
 		} catch (error) {
+			uni.showToast({
+				title: '发送失败',
+				icon: 'none'
+			})
 			console.log(error)
 		}
 	},
