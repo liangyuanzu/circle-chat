@@ -27,6 +27,7 @@
     <view class="content" @touchstart="hideDrawer">
       <scroll-view
         class="msg-list"
+        :style="style"
         :scroll-y="true"
         :adjust-position="false"
         :scroll-with-animation="scrollAnimation"
@@ -36,7 +37,7 @@
         upper-threshold="50"
       >
         <!-- 加载历史数据waitingUI -->
-        <view class="loading">
+        <view class="loading" v-if="showLoading">
           <view class="spinner">
             <view class="rect1"></view>
             <view class="rect2"></view>
@@ -65,7 +66,9 @@
             <!-- 自己发出的消息 -->
             <view class="my" v-if="row.msg.userinfo.uid == myuid">
               <!-- 时间 -->
-              <view class="time">{{ formatTime(row.msg.time) }}</view>
+              <view class="time text-sm text-grey">{{
+                formatTime(row.msg.time)
+              }}</view>
               <!-- 左-消息 -->
               <view class="left">
                 <!-- 文字消息 -->
@@ -105,14 +108,16 @@
             <!-- 别人发出的消息 -->
             <view class="other" v-if="row.msg.userinfo.uid != myuid">
               <!-- 时间 -->
-              <view class="time">{{ formatTime(row.msg.time) }}</view>
+              <view class="time text-sm text-grey">{{
+                formatTime(row.msg.time)
+              }}</view>
               <!-- 左-头像 -->
               <view class="left" @tap="toPersonInfo(row.msg.userinfo.uid)">
                 <image :src="row.msg.userinfo.face"></image>
               </view>
               <!-- 右-用户名称-时间-消息 -->
               <view class="right">
-                <view class="username">
+                <view class="username" v-if="isCircle">
                   <view class="name">{{ row.msg.userinfo.username }}</view>
                   <!-- <view class="time">{{ formatTime(row.msg.time) }}</view> -->
                 </view>
@@ -275,6 +280,8 @@ export default {
     return {
       // 标题
       title: '',
+      // loading
+      showLoading: false,
       //文字消息
       textMsg: '',
       //消息列表
@@ -452,6 +459,11 @@ export default {
     ...mapGetters('user', ['userId', 'username', 'avatar', 'personinfo']),
     ...mapState('chat', ['CurrentToUser', 'CurrentToCircle', 'isCircle']),
     ...mapGetters('circle', ['circleInfo']),
+    style() {
+      const CustomBar = this.CustomBar
+      const style = `padding-top:${CustomBar}px;`
+      return style
+    },
     titleStyle() {
       let style = {}
       // #ifndef MP
