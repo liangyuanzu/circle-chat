@@ -101,7 +101,7 @@ export default {
 			return '昨天'
 		} else if (nowYear === time2Year) {
 			// 今年
-			return this.dateFormat(new Date(time), '{MM}-{DD}')
+			return this.dateFormat(new Date(time), '{MM}月{DD}日')
 		} else {
 			// 隔年
 			return this.dateFormat(new Date(time), '{Y}-{MM}-{DD}')
@@ -128,7 +128,7 @@ export default {
 			return '昨天 ' + this.dateFormat(new Date(time), '{hh}:{ii}')
 		} else if (nowYear === time2Year) {
 			// 今年
-			return this.dateFormat(new Date(time), '{MM}-{DD} {hh}:{ii}')
+			return this.dateFormat(new Date(time), '{MM}月{DD}日 {hh}:{ii}')
 		} else {
 			// 一年前
 			return this.dateFormat(new Date(time), '{Y}-{MM}-{DD} {hh}:{ii}')
