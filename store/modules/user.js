@@ -86,6 +86,7 @@ const actions = {
 		commit('setUsername', userinfo.username)
 		commit('setAvatar', userinfo.img)
 		commit('setSex', userinfo.sex)
+		commit('setAutograph', userinfo.autograph)
 		await dispatch('getPosition')
 		await dispatch('chat/init', {}, { root: true })
 	},

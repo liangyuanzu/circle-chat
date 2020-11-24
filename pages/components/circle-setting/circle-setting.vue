@@ -12,7 +12,11 @@
           <view class="text-sm text-grey text-cut" style="width: 470rpx">
             {{ circleInfo.circleId }}
           </view>
-          <view class="text-sm text-grey text-cut" style="width: 470rpx">
+          <view
+            class="text-sm text-grey text-cut"
+            style="width: 470rpx"
+            v-if="circleInfo.synopsis"
+          >
             {{ circleInfo.synopsis }}
           </view>
         </view>
@@ -36,10 +40,11 @@
               <view
                 v-for="item in bannerMember"
                 :key="item.userId"
+                class="padding-lr-sm"
                 @click.stop="toPersonInfo(item.userId)"
               >
                 <u-avatar :src="item.img" mode="square"></u-avatar>
-                <view class="text-sm">{{ item.username }}</view>
+                <view class="text-sm text-cut">{{ item.username }}</view>
               </view>
 
               <view v-if="isOwner" @click.stop="toInviteMember">
@@ -110,6 +115,7 @@
       </uni-list>
     </view>
 
+    <!-- #ifndef MP-BAIDU -->
     <view class="margin-top-sm">
       <uni-list>
         <uni-list-item title="置顶">
@@ -135,6 +141,7 @@
         </template>
       </uni-list-item>
     </uni-list>
+    <!-- #endif -->
 
     <view class="margin-top-sm">
       <uni-list>

@@ -12,6 +12,7 @@
 </template>
 
 <script>
+import localStore from '@/helpers/localStore.js'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -49,10 +50,20 @@ export default {
     },
 
     commit(newData) {
-      uni.showLoading()
+      uni.showLoading({
+        title: '修改中...'
+      })
       this.$store
         .dispatch('user/updateMessage', newData)
         .then(() => {
+          // #ifdef MP-BAIDU
+          if (newData.autograph) {
+            this.$store.commit('user/setAutograph', newData.autograph)
+            let userinfo = localStore.get('userinfo')
+            userinfo.autograph = newData.autograph
+            localStore.set('userinfo', userinfo)
+          }
+          // #endif
           uni.hideLoading()
           setTimeout(() => {
             uni.showToast({

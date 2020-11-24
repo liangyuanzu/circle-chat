@@ -123,7 +123,7 @@ export function chatListFormat(list) {
 					username: i.username,
 					avatar: i.avatar,
 					data: i.content,
-					createTime: i.createTime,
+					time: i.createTime,
 					noReadNum: i.noReadNum
 				})
 				break
@@ -134,7 +134,7 @@ export function chatListFormat(list) {
 					avatar: i.avatar,
 					circleType: i.circleType,
 					data: i.content,
-					createTime: i.createTime,
+					time: i.createTime,
 					noReadNum: i.noReadNum
 				})
 				break

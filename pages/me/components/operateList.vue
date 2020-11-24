@@ -30,6 +30,7 @@
       </uni-list-item>
 
       <!-- 消息通知 -->
+      <!-- #ifndef MP-BAIDU -->
       <uni-list-item
         :title="notice.title"
         show-extra-icon
@@ -43,6 +44,7 @@
           ></u-switch>
         </template>
       </uni-list-item>
+      <!-- #endif -->
     </uni-list>
 
     <u-modal
