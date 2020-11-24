@@ -141,7 +141,7 @@ export function chatListFormat(list) {
 		}
 	})
 
-	return chatList
+	return chatList.sort((a, b) => b.time - a.time)
 }
 
 // 格式化历史聊天消息

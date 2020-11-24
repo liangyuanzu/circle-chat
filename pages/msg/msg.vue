@@ -232,6 +232,7 @@ export default {
       this.$store.dispatch('chat/getOldChatList', 0),
       this.$store.dispatch('chat/getNoReadNum')
     ]).then(() => {
+      this.getList()
       uni.stopPullDownRefresh()
     })
   },
