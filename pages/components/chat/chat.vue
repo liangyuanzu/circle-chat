@@ -292,6 +292,7 @@ export default {
       myuid: 0,
       toUserId: 0,
       // 历史聊天记录分页
+      defaultOffset: 1,
       offset: 2,
 
       //录音相关参数
@@ -693,259 +694,62 @@ export default {
       })
     },
 
+    // 获取分页消息
+    async getOffsetMsgList(offset) {
+      let detail
+      if (this.isCircle) {
+        detail = await getOldChatDetailCircle({
+          circleId: this.CurrentToCircle.circleId,
+          offset
+        })
+      } else {
+        detail = await getOldChatDetailPrivate({
+          toUserId: this.CurrentToUser.userId,
+          offset
+        })
+      }
+      const detailList = chatDetailFormat(detail)
+      return detailList
+    },
+
     //触发滑动到顶部(加载历史信息记录)
     async loadHistory(e) {
-      /*
-      if (this.isHistoryLoading) {
+      if (this.isHistoryLoading || this.showLoading) {
         return
       }
       this.isHistoryLoading = true //参数作为进入请求标识，防止重复请求
+      this.showLoading = true //开启 loading 动画
       this.scrollAnimation = false //关闭滑动动画
       let Viewid = this.msgList[0].msg.id //记住第一个信息ID
-      //本地模拟请求历史记录效果
-
-      setTimeout(() => {
-				// 消息列表
-        let list = [
-          {
-            type: 'user',
-            msg: {
-              id: 1,
-              type: 'text',
-              time: '12:56',
-              userinfo: {
-                uid: 0,
-                username: '大黑哥',
-                face: '/static/chat/img/face.jpg'
-              },
-              content: { text: '为什么温度会相差那么大？' }
-            }
-          },
-          {
-            type: 'user',
-            msg: {
-              id: 2,
-              type: 'text',
-              time: '12:57',
-              userinfo: {
-                uid: 1,
-                username: '售后客服008',
-                face: '/static/chat/img/im/face/face_2.jpg'
-              },
-              content: {
-                text:
-                  '这个是有偏差的，两个温度相差十几二十度是很正常的，如果相差五十度，那即是质量问题了。'
-              }
-            }
-          },
-          {
-            type: 'user',
-            msg: {
-              id: 3,
-              type: 'voice',
-              time: '12:59',
-              userinfo: {
-                uid: 1,
-                username: '售后客服008',
-                face: '/static/chat/img/im/face/face_2.jpg'
-              },
-              content: { url: '/static/chat/voice/1.mp3', length: '00:06' }
-            }
-          },
-          {
-            type: 'user',
-            msg: {
-              id: 4,
-              type: 'voice',
-              time: '13:05',
-              userinfo: {
-                uid: 0,
-                username: '大黑哥',
-                face: '/static/chat/img/face.jpg'
-              },
-              content: { url: '/static/chat/voice/2.mp3', length: '00:06' }
-            }
-          }
-				]
-
-        // 获取消息中的图片,并处理显示尺寸
-        for (let i = 0; i < list.length; i++) {
-          if (list[i].type == 'user' && list[i].msg.type == 'img') {
-            list[i].msg.content = this.setPicSize(list[i].msg.content)
-            this.msgImgList.unshift(list[i].msg.content.url)
-          }
-          list[i].msg.id = Math.floor(Math.random() * 1000 + 1)
-          this.msgList.unshift(list[i])
-        }
-
-        //这段代码很重要，不然每次加载历史数据都会跳到顶部
-        this.$nextTick(function () {
-          this.scrollToView = 'msg' + Viewid //跳转上次的第一行信息位置
-          this.$nextTick(function () {
-            this.scrollAnimation = true //恢复滚动动画
-          })
-        })
-        this.isHistoryLoading = false
-			}, 1000)
-
-
       // 获取历史记录
-      let obj
-      if (this.isCircle) {
-        obj = {
-          circleId: this.CurrentToCircle.circleId,
-          offset: this.offset
-        }
-      } else {
-        obj = {
-          toUserId: this.CurrentToUser.userId,
-          offset: this.offset
-        }
-      }
-      const detail = await getOldChatDetailPrivate(obj)
+      const detailList = await this.getOffsetMsgList(this.offset)
       this.offset++
-      const detailList = chatDetailFormat(detail)
-      console.log(detail)
-			console.log(detailList)
-			*/
+      let list = detailList || []
+      // 获取消息中的图片,并处理显示尺寸
+      for (let i = 0; i < list.length; i++) {
+        if (list[i].type == 'user' && list[i].msg.type == 'img') {
+          list[i].msg.content = this.setPicSize(list[i].msg.content)
+          this.msgImgList.unshift(list[i].msg.content.url)
+        }
+        list[i].msg.id = Math.floor(Math.random() * 1000 + 1)
+        this.msgList.unshift(list[i])
+      }
+
+      //这段代码很重要，不然每次加载历史数据都会跳到顶部
+      this.$nextTick(function () {
+        this.scrollToView = 'msg' + Viewid //跳转上次的第一行信息位置
+        this.$nextTick(function () {
+          this.scrollAnimation = true //恢复滚动动画
+        })
+      })
+      this.isHistoryLoading = false
+      this.showLoading = false
     },
     // 加载初始页面消息
-    getMsgList() {
+    async getMsgList() {
       // 消息列表
-      let list = [
-        /**
-         *
-        {
-          type: 'system | user',
-          msg: {
-            id: 0,
-            type: 'text | voice | img',
-            time?: '12:56',
-            userinfo?: {
-              uid: 0,
-              username?: '大黑哥',
-              face: '/static/chat/img/face.jpg'
-            },
-            content: { text | url : '欢迎进入HM-chat聊天室', w?: 200, h?: 200, length?: '00:06' }
-          }
-        }
-         */
-
-        {
-          type: 'system',
-          msg: {
-            id: 0,
-            type: 'text',
-            content: { text: '欢迎进入HM-chat聊天室' }
-          }
-        },
-        {
-          type: 'user',
-          msg: {
-            id: 1,
-            type: 'text',
-            time: '12:56',
-            userinfo: {
-              uid: 0,
-              username: '大黑哥',
-              face: '/static/chat/img/face.jpg'
-            },
-            content: { text: '为什么温度会相差那么大？' }
-          }
-        },
-        {
-          type: 'user',
-          msg: {
-            id: 2,
-            type: 'text',
-            time: '12:57',
-            userinfo: {
-              uid: 1,
-              username: '',
-              face: '/static/chat/img/im/face/face_2.jpg'
-            },
-            content: {
-              text:
-                '这个是有偏差的，两个温度相差十几二十度是很正常的，如果相差五十度，那即是质量问题了。'
-            }
-          }
-        },
-        {
-          type: 'user',
-          msg: {
-            id: 3,
-            type: 'voice',
-            time: '12:59',
-            userinfo: {
-              uid: 1,
-              username: '售后客服008',
-              face: '/static/chat/img/im/face/face_2.jpg'
-            },
-            content: { url: '/static/chat/voice/1.mp3', length: '00:06' }
-          }
-        },
-        {
-          type: 'user',
-          msg: {
-            id: 4,
-            type: 'voice',
-            time: '13:05',
-            userinfo: {
-              uid: 0,
-              username: '大黑哥',
-              face: '/static/chat/img/face.jpg'
-            },
-            content: { url: '/static/chat/voice/2.mp3', length: '00:06' }
-          }
-        },
-        {
-          type: 'user',
-          msg: {
-            id: 5,
-            type: 'img',
-            time: '13:05',
-            userinfo: {
-              uid: 0,
-              username: '大黑哥',
-              face: '/static/chat/img/face.jpg'
-            },
-            content: { url: '/static/chat/img/p10.jpg', w: 200, h: 200 }
-          }
-        },
-        {
-          type: 'user',
-          msg: {
-            id: 6,
-            type: 'img',
-            time: '12:59',
-            userinfo: {
-              uid: 1,
-              username: '售后客服008',
-              face: '/static/chat/img/im/face/face_2.jpg'
-            },
-            content: { url: '/static/chat/img/q.jpg', w: 1920, h: 1080 }
-          }
-        },
-        {
-          type: 'system',
-          msg: {
-            id: 7,
-            type: 'text',
-            content: { text: '欢迎进入HM-chat聊天室' }
-          }
-        }
-      ]
-      let chatDetail
-      if (this.isCircle) {
-        chatDetail = localStore.get(
-          'chatDetail_' + this.userId + '_' + this.CurrentToCircle.circleId
-        )
-      } else {
-        chatDetail = localStore.get(
-          'chatDetail_' + this.userId + '_' + this.CurrentToUser.userId
-        )
-      }
-      list = chatDetail || []
+      const detailList = await this.getOffsetMsgList(this.defaultOffset)
+      let list = detailList || []
       // 获取消息中的图片,并处理显示尺寸
       for (let i = 0; i < list.length; i++) {
         if (list[i].type == 'user' && list[i].msg.type == 'img') {

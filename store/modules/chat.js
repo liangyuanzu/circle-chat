@@ -215,7 +215,7 @@ const actions = {
 				// 更新chatList（将当前会话置顶，修改chatList中当前会话的data和time显示）
 				dispatch('updateChatList', { res })
 				// 存储到 chatDetail
-				dispatch('updateChatDetail', { res })
+				// dispatch('updateChatDetail', { res })
 				// 总未读数+1，修改tabBar信息数
 				if (CurrentToUser.userId !== res.body.userId) {
 					updateNoReadNum({ type: 'add' })
@@ -223,7 +223,7 @@ const actions = {
 			} else if (res.type === receiveCircleType) {
 				uni.$emit('UserChat', res)
 				dispatch('updateChatList', { res, isCircle: true })
-				dispatch('updateChatDetail', { res, isCircle: true })
+				// dispatch('updateChatDetail', { res, isCircle: true })
 				if (CurrentToCircle.circleId !== res.body.circleId) {
 					updateNoReadNum({ type: 'add' })
 				}
@@ -260,7 +260,7 @@ const actions = {
 				fail: (e) => console.log('发送失败', e)
 			})
 			// 存储到chatDetail
-			dispatch('updateChatDetail', { res: sendData, isSend: true, isCircle })
+			// dispatch('updateChatDetail', { res: sendData, isSend: true, isCircle })
 			// 存储到chatList（将当前会话置顶，修改chatList中当前会话的data和time显示）
 			dispatch('updateChatList', { res: sendData, isSend: true, isCircle })
 		} catch (error) {

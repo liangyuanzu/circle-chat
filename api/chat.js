@@ -30,7 +30,7 @@ export function getOldChatDetailPrivate({ toUserId, offset }) {
 		params: {
 			toUserId,
 			offset,
-			limit: 20
+			limit: 10
 		}
 	})
 }
@@ -46,7 +46,7 @@ export function getOldChatDetailCircle({ circleId, offset }) {
 		params: {
 			circleId,
 			offset,
-			limit: 20
+			limit: 10
 		}
 	})
 }
