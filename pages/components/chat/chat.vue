@@ -262,7 +262,7 @@ import { chatFormat } from '@/helpers/chat.js'
 import { html2text } from '@/helpers/utils.js'
 import * as _ from '@/utils/lodash/lodash.js'
 import { mapGetters, mapState } from 'vuex'
-import { emojiUrl } from '@/config/config.js'
+import { emojiUrl, receiveOneType, receiveCircleType } from '@/config/config.js'
 import { getOldChatDetailPrivate, getOldChatDetailCircle } from '@/api/chat.js'
 import { chatDetailFormat } from '@/helpers/chat.js'
 
@@ -490,16 +490,23 @@ export default {
   onReady() {
     // 开启监听
     uni.$on('UserChat', (data) => {
-      const msg = chatFormat(data, {
-        type: 'chatDetail',
-        oldData: this.msgList,
-        isCircle: this.isCircle
-      })
-      this.msgList?.push(msg)
-      // 滚动到底
-      this.$nextTick(function () {
-        this.scrollToView = 'msg' + msg.msg.id
-      })
+      if (
+        (this.CurrentToUser.userId === data.body.userId &&
+          data.type === receiveOneType) ||
+        (this.CurrentToCircle.circleId === data.body.circleId &&
+          data.type === receiveCircleType)
+      ) {
+        const msg = chatFormat(data, {
+          type: 'chatDetail',
+          oldData: this.msgList,
+          isCircle: this.isCircle
+        })
+        this.msgList?.push(msg)
+        // 滚动到底
+        this.$nextTick(() => {
+          this.scrollToView = 'msg' + msg.msg.id
+        })
+      }
     })
   },
 
