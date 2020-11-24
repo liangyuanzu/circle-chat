@@ -557,6 +557,10 @@ export default {
 
   onUnload() {
     if (this.isCircle) {
+      //  服务端未读数更新
+      this.$store.dispatch('chat/readMsg', {
+        circleId: this.CurrentToCircle.circleId
+      })
       // 重置圈聊天对象
       this.$store.commit('chat/setCurrentToCircle', {
         circleId: 0,
@@ -567,6 +571,10 @@ export default {
       // 修改圈状态
       this.$store.commit('chat/setIsCircle', false)
     } else {
+      //  服务端未读数更新
+      this.$store.dispatch('chat/readMsg', {
+        toUserId: this.CurrentToUser.userId
+      })
       // 重置单人聊天对象
       this.$store.commit('chat/setCurrentToUser', {
         userId: 0,
@@ -592,6 +600,19 @@ export default {
         }, 1000)
       }
       this.scrollTop = 9999999
+    }
+  },
+
+  onHide() {
+    // 服务端未读数更新
+    if (this.isCircle) {
+      this.$store.dispatch('chat/readMsg', {
+        circleId: this.CurrentToCircle.circleId
+      })
+    } else {
+      this.$store.dispatch('chat/readMsg', {
+        toUserId: this.CurrentToUser.userId
+      })
     }
   },
 

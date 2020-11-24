@@ -267,10 +267,6 @@ export default {
           uni.navigateTo({
             url: '/pages/components/chat/chat?personId=' + item.userId
           })
-          // 服务端未读数更新
-          this.$store.dispatch('chat/readMsg', {
-            toUserId: item.userId
-          })
         } else {
           uni.showToast({
             title: '双方关注才可聊天',
@@ -283,10 +279,6 @@ export default {
         if (inCircle) {
           uni.navigateTo({
             url: '/pages/components/chat/chat?circleId=' + item.circleId
-          })
-          // 服务端未读数更新
-          this.$store.dispatch('chat/readMsg', {
-            circleId: item.circleId
           })
         } else {
           uni.showToast({
