@@ -74,7 +74,7 @@ export default {
 
   onLoad() {
     uni.showLoading({
-      title: '登录中...'
+      title: '加载中...'
     })
     uni.login({
       success: ({ code }) => {

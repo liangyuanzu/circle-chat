@@ -6,7 +6,7 @@
           <button class="cu-btn round bg-white" @click="checkedAll">
             全选
           </button>
-          <button class="cu-btn round bg-white" @click="finish">完成</button>
+          <button class="cu-btn round bg-white" @click="finish">邀请</button>
         </view>
       </view>
 
@@ -24,7 +24,6 @@
 
             <view class="action">
               <u-checkbox
-                style="text-algin: right !important"
                 v-model="item.inCircle"
                 :name="item.userId"
               ></u-checkbox>
