@@ -124,7 +124,8 @@ export default {
   },
 
   computed: {
-    ...mapGetters('user', ['userId']),
+    ...mapGetters('user', ['userId', 'personinfo']),
+    ...mapGetters('circle', ['circleInfo']),
     ...mapState('chat', ['CurrentToUser'])
   },
 
@@ -253,28 +254,46 @@ export default {
       return ''
     },
 
-    toChatDetail(id) {
+    async toChatDetail(id) {
       const index = this.list.findIndex(
         (i) => i.userId === id || i.circleId === id
       )
       const item = this.list[index]
 
       if (item.userId) {
-        uni.navigateTo({
-          url: '/pages/components/chat/chat?personId=' + item.userId
-        })
-        // 服务端未读数更新
-        this.$store.dispatch('chat/readMsg', {
-          toUserId: item.userId
-        })
+        await this.$store.dispatch('user/getPersonInfo', item.userId)
+        const { isFocus } = this.personinfo
+        if (isFocus === 3) {
+          uni.navigateTo({
+            url: '/pages/components/chat/chat?personId=' + item.userId
+          })
+          // 服务端未读数更新
+          this.$store.dispatch('chat/readMsg', {
+            toUserId: item.userId
+          })
+        } else {
+          uni.showToast({
+            title: '双方关注才可聊天',
+            icon: 'none'
+          })
+        }
       } else if (item.circleId) {
-        uni.navigateTo({
-          url: '/pages/components/chat/chat?circleId=' + item.circleId
-        })
-        // 服务端未读数更新
-        this.$store.dispatch('chat/readMsg', {
-          circleId: item.circleId
-        })
+        await this.$store.dispatch('circle/getCircleInfo', item.circleId)
+        const { inCircle } = this.circleInfo
+        if (inCircle) {
+          uni.navigateTo({
+            url: '/pages/components/chat/chat?circleId=' + item.circleId
+          })
+          // 服务端未读数更新
+          this.$store.dispatch('chat/readMsg', {
+            circleId: item.circleId
+          })
+        } else {
+          uni.showToast({
+            title: '加入圈后才可聊天',
+            icon: 'none'
+          })
+        }
       }
 
       // 缓存未读数更新

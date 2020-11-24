@@ -290,6 +290,7 @@ export default {
       msgList: [],
       msgImgList: [],
       myuid: 0,
+      toUserId: 0,
       // 历史聊天记录分页
       offset: 2,
 
@@ -504,13 +505,12 @@ export default {
 
   async onLoad(options) {
     if (options.personId) {
+      this.toUserId = options.personId
       await this.$store.dispatch('user/getPersonInfo', options.personId)
       const { userId, username, img: avatar } = this.personinfo
       this.$store.commit('chat/setCurrentToUser', { userId, username, avatar })
       // 修改标题
       this.title = username
-      // 修改圈状态
-      this.$store.commit('chat/setIsCircle', false)
     } else if (options.circleId) {
       await this.$store.dispatch('circle/getCircleInfo', options.circleId)
       const {
@@ -576,8 +576,23 @@ export default {
     }
   },
 
-  onShow() {
-    this.scrollTop = 9999999
+  async onShow() {
+    if (this.toUserId) {
+      await this.$store.dispatch('user/getPersonInfo', this.toUserId)
+      const { isFocus } = this.personinfo
+      if (isFocus !== 3) {
+        uni.showToast({
+          title: '双方关注才可聊天',
+          icon: 'none'
+        })
+        setTimeout(() => {
+          uni.switchTab({
+            url: '/pages/msg/msg'
+          })
+        }, 1000)
+      }
+      this.scrollTop = 9999999
+    }
   },
 
   methods: {
