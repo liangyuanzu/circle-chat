@@ -241,7 +241,7 @@ export default {
     },
 
     formatTime(time) {
-      if (time) return Time.getTime(Number(time))
+      if (time) return Time.getListTime(Number(time))
     },
 
     formatBadge(noReadNum) {

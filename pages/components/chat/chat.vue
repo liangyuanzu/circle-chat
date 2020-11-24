@@ -595,7 +595,7 @@ export default {
 
     // 时间格式化
     formatTime(time) {
-      if (time) return Time.getTime(Number(time))
+      if (time) return Time.getDetailTime(Number(time))
     },
 
     // 接受消息(筛选处理)

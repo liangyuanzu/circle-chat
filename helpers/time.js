@@ -54,6 +54,12 @@ export default {
 			return parseInt(v1)
 		}
 	},
+	// 获取n天前0点时间戳
+	getZeroTimeStamp(n) {
+		const timeStamp = new Date(new Date().setHours(0, 0, 0, 0)).getTime()
+		//一天是86400秒   故n天前的时间戳为
+		return timeStamp - 86400 * 1000 * n
+	},
 	// 人性化时间格式
 	getTime(shortTime) {
 		shortTime = shortTime?.toString().length < 13 ? shortTime * 1000 : shortTime
@@ -72,6 +78,60 @@ export default {
 		} else {
 			// 隔年 显示完整日期+时间
 			return this.dateFormat(new Date(shortTime), '{Y}-{MM}-{DD} {A} {t}:{ii}')
+		}
+	},
+
+	// 格式化聊天列表时间
+	getListTime(time) {
+		time = time?.toString().length < 13 ? time * 1000 : time
+		// 当天零点时间
+		const zero = this.getZeroTimeStamp(0)
+		// 昨天零点时间
+		const lastZero = this.getZeroTimeStamp(1)
+		// 当前年份
+		const nowYear = new Date().getFullYear()
+		// 格式化
+		const time2Year = new Date(time).getFullYear()
+
+		if (zero < time) {
+			// 当天
+			return this.dateFormat(new Date(time), '{hh}:{ii}')
+		} else if (lastZero < time) {
+			// 昨天
+			return '昨天'
+		} else if (nowYear === time2Year) {
+			// 今年
+			return this.dateFormat(new Date(time), '{MM}-{DD}')
+		} else {
+			// 隔年
+			return this.dateFormat(new Date(time), '{Y}-{MM}-{DD}')
+		}
+	},
+
+	// 格式化聊天详情时间
+	getDetailTime(time) {
+		time = time?.toString().length < 13 ? time * 1000 : time
+		// 当天零点时间
+		const zero = this.getZeroTimeStamp(0)
+		// 昨天零点时间
+		const lastZero = this.getZeroTimeStamp(1)
+		// 当前年份
+		const nowYear = new Date().getFullYear()
+		// 格式化
+		const time2Year = new Date(time).getFullYear()
+
+		if (zero < time) {
+			// 当天
+			return this.dateFormat(new Date(time), '{hh}:{ii}')
+		} else if (lastZero < time) {
+			// 昨天
+			return '昨天 ' + this.dateFormat(new Date(time), '{hh}:{ii}')
+		} else if (nowYear === time2Year) {
+			// 今年
+			return this.dateFormat(new Date(time), '{MM}-{DD} {hh}:{ii}')
+		} else {
+			// 一年前
+			return this.dateFormat(new Date(time), '{Y}-{MM}-{DD} {hh}:{ii}')
 		}
 	},
 
