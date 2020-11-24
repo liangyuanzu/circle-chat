@@ -261,7 +261,9 @@ export default {
         sizeType: ['original', 'compressed'], //可以指定是原图还是压缩图，默认二者都有
         sourceType: ['album'], //从相册选择
         success: (res) => {
-          uni.showLoading()
+          uni.showLoading({
+            title: '修改中...'
+          })
           this.$store
             .dispatch('circle/updateCirclePhoto', {
               circleId: '1',
@@ -269,11 +271,13 @@ export default {
             })
             .then(() => {
               uni.hideLoading()
-              uni.showToast({
-                icon: 'none',
-                position: 'bottom',
-                title: '修改成功'
-              })
+              setTimeout(() => {
+                uni.showToast({
+                  icon: 'none',
+                  position: 'bottom',
+                  title: '修改成功'
+                })
+              }, 500)
             })
             .catch(() => {
               uni.hideLoading()
@@ -334,7 +338,9 @@ export default {
     confirm() {
       switch (this.modalTitle) {
         case '删除并退出':
-          uni.showLoading()
+          uni.showLoading({
+						title: '正在退出...'
+					})
           this.$store
             .dispatch('circle/exitCircle', {
               circleId: this.circleInfo.circleId

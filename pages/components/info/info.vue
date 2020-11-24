@@ -164,7 +164,9 @@ export default {
     },
 
     save(data) {
-      uni.showLoading()
+      uni.showLoading({
+				title: '修改中...'
+			})
       this.$store
         .dispatch('user/updateMessage', data)
         .then(() => {

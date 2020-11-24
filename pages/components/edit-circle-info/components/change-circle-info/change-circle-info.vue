@@ -95,7 +95,9 @@ export default {
     },
 
     commitEffective(newData) {
-      uni.showLoading()
+      uni.showLoading({
+        title: '修改中...'
+      })
       this.$store
         .dispatch('circle/addCircleEffective', {
           circleId: this.circleInfo.circleId,

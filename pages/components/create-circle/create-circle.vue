@@ -138,7 +138,9 @@ export default {
     creatCircle() {
       this.$refs.uForm.validate((valid) => {
         if (valid) {
-          uni.showLoading()
+          uni.showLoading({
+            title: '创建中...'
+          })
           this.$store
             .dispatch('circle/creatCircle', {
               name: this.form.name,

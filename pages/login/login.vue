@@ -230,7 +230,7 @@ export default {
 
       _this.isRotate = true
       uni.showLoading({
-        title: '登录中'
+        title: '登录中...'
       })
       this.$store
         .dispatch('user/login', {
