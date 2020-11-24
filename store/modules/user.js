@@ -219,7 +219,9 @@ const actions = {
 
 	async updateMessage({ dispatch }, userinfo) {
 		await updateMessage(userinfo)
+		// #ifndef MP-BAIDU
 		dispatch('getUserInfo')
+		// #endif
 	},
 
 	async getPersonInfo({ commit }, userId) {
