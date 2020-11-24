@@ -537,13 +537,6 @@ page {
 				justify-content: flex-end;
 				position: relative;
 
-				.time {
-					position: absolute;
-					left: 50%;
-					top: -50%;
-					transform: translateX(-50%);
-				}
-
 				.left {
 					min-height: 80upx;
 
@@ -593,12 +586,7 @@ page {
 				display: flex;
 				position: relative;
 
-				.time {
-					position: absolute;
-					left: 50%;
-					top: -50%;
-					transform: translateX(-50%);
-				}
+
 
 				.left {
 					margin-right: 15upx;

@@ -63,12 +63,14 @@
           </block>
           <!-- 用户消息 -->
           <block v-if="row.type == 'user'">
+            <!-- 时间 -->
+            <view
+              class="text-sm text-grey text-center margin-tb-sm"
+              style="width: 100%"
+              >{{ formatTime(row.msg.time) }}</view
+            >
             <!-- 自己发出的消息 -->
             <view class="my" v-if="row.msg.userinfo.uid == myuid">
-              <!-- 时间 -->
-              <view class="time text-sm text-grey">{{
-                formatTime(row.msg.time)
-              }}</view>
               <!-- 左-消息 -->
               <view class="left">
                 <!-- 文字消息 -->
@@ -107,10 +109,6 @@
             </view>
             <!-- 别人发出的消息 -->
             <view class="other" v-if="row.msg.userinfo.uid != myuid">
-              <!-- 时间 -->
-              <view class="time text-sm text-grey">{{
-                formatTime(row.msg.time)
-              }}</view>
               <!-- 左-头像 -->
               <view class="left" @tap="toPersonInfo(row.msg.userinfo.uid)">
                 <image :src="row.msg.userinfo.face"></image>
