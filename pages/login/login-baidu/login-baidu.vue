@@ -73,15 +73,20 @@ export default {
   },
 
   onLoad() {
+    uni.showLoading({
+      title: '登录中...'
+    })
     uni.login({
       success: ({ code }) => {
         this.$store.dispatch('user/login_baidu', { code })
+        uni.hideLoading()
       },
       fail: () => {
         uni.showToast({
           title: '登录失败',
           icon: 'none'
         })
+        uni.hideLoading()
       }
     })
   },
