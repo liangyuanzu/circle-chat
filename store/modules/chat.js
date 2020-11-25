@@ -257,7 +257,13 @@ const actions = {
 			// 发送到服务器
 			SocketTask.send({
 				data: JSON.stringify(sendData),
-				fail: (e) => console.log('发送失败', e)
+				fail: (e) => {
+					uni.showToast({
+						title: '发送失败',
+						icon: 'none'
+					})
+					console.log('发送失败', e)
+				}
 			})
 			// 存储到chatDetail
 			// dispatch('updateChatDetail', { res: sendData, isSend: true, isCircle })
