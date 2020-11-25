@@ -521,6 +521,8 @@ export default {
       this.$store.commit('chat/setCurrentToUser', { userId, username, avatar })
       // 修改标题
       this.title = username
+      // 修改圈状态
+      this.$store.commit('chat/setIsCircle', false)
     } else if (options.circleId) {
       await this.$store.dispatch('circle/getCircleInfo', options.circleId)
       const {
