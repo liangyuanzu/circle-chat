@@ -83,7 +83,7 @@ export default {
       },
       fail: () => {
         uni.showToast({
-          title: '登录失败',
+          title: '加载失败',
           icon: 'none'
         })
         uni.hideLoading()
@@ -112,6 +112,12 @@ export default {
                 url: '/pages/me/me'
               })
             }, 200)
+          })
+          .catch(() => {
+            uni.showToast({
+              title: '登录失败',
+              icon: 'none'
+            })
           })
       } else if (e.detail.errMsg == 'getUserInfo:fail auth deny') {
         uni.showToast({

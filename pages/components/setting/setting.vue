@@ -55,6 +55,7 @@
         title="退出登录"
         content="是否确认退出登录?"
         show-cancel-button
+        confirm-color="#fa3534"
         @confirm="confirm"
         ref="uModal"
       ></u-modal>
