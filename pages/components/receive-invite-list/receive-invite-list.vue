@@ -1,70 +1,77 @@
 <template>
   <view>
-    <view class="cu-bar bg-white margin-bottom-sm">
-      <view class="flex justify-end padding-right" style="width: 100%">
-        <button class="cu-btn round bg-white" @click="showModal = true">
-          清空
-        </button>
+    <view v-if="inviteList.length > 0">
+      <view class="cu-bar bg-white margin-bottom-sm">
+        <view class="flex justify-end padding-right" style="width: 100%">
+          <button class="cu-btn round bg-white" @click="showModal = true">
+            清空
+          </button>
+        </view>
       </view>
-    </view>
 
-    <view class="cu-list menu-avatar">
-      <view
-        v-for="item in inviteList"
-        :key="item.tId"
-        class="cu-item"
-        :class="modalName == 'move-box-' + item.tId ? 'move-cur' : ''"
-        :data-target="'move-box-' + item.tId"
-        @touchstart="ListTouchStart"
-        @touchmove="ListTouchMove"
-        @touchend="ListTouchEnd"
-      >
+      <view class="cu-list menu-avatar">
         <view
-          class="cu-avatar lg"
-          :style="[
-            {
-              backgroundImage: 'url(' + item.circleImg + ')'
-            }
-          ]"
-          @click="toCircleInvite(item.circleId)"
-        ></view>
-        <view class="content" @click="toCircleInvite(item.circleId)">
-          <view class="text-cut">{{ item.circleName }}</view>
-          <view>
-            <view class="cu-capsule radius" v-if="item.member">
-              <view class="cu-tag bg-blue sm">
-                <text class="cuIcon-group"></text>
+          v-for="item in inviteList"
+          :key="item.tId"
+          class="cu-item"
+          :class="modalName == 'move-box-' + item.tId ? 'move-cur' : ''"
+          :data-target="'move-box-' + item.tId"
+          @touchstart="ListTouchStart"
+          @touchmove="ListTouchMove"
+          @touchend="ListTouchEnd"
+        >
+          <view
+            class="cu-avatar lg"
+            :style="[
+              {
+                backgroundImage: 'url(' + item.circleImg + ')'
+              }
+            ]"
+            @click="toCircleInvite(item.circleId)"
+          ></view>
+          <view class="content" @click="toCircleInvite(item.circleId)">
+            <view class="text-cut">{{ item.circleName }}</view>
+            <view>
+              <view class="cu-capsule radius" v-if="item.member">
+                <view class="cu-tag bg-blue sm">
+                  <text class="cuIcon-group"></text>
+                </view>
+                <view class="cu-tag line-blue sm"> {{ item.member }} </view>
               </view>
-              <view class="cu-tag line-blue sm"> {{ item.member }} </view>
-            </view>
-            <view class="cu-capsule radius" v-if="item.radius">
-              <view class="cu-tag bg-black sm">
-                <text class="cuIcon-radiobox"></text>
+              <view class="cu-capsule radius" v-if="item.radius">
+                <view class="cu-tag bg-black sm">
+                  <text class="cuIcon-radiobox"></text>
+                </view>
+                <view class="cu-tag line-black sm">{{
+                  item.radius + 'm'
+                }}</view>
               </view>
-              <view class="cu-tag line-black sm">{{ item.radius + 'm' }}</view>
             </view>
+            <view class="text-gray text-sm flex" v-if="item.synopsis">
+              <view class="text-cut"> {{ item.synopsis }}</view></view
+            >
           </view>
-          <view class="text-gray text-sm flex" v-if="item.synopsis">
-            <view class="text-cut"> {{ item.synopsis }}</view></view
-          >
-        </view>
-        <view class="action margin-right">
-          <u-button
-            :type="btnType(item.handle, item.agree)"
-            size="mini"
-            shape="circle"
-            plain
-            @click="agreeInvite(item)"
-          >
-            {{ btnText(item.handle, item.agree) }}
-          </u-button>
-        </view>
-        <view class="move" style="width: 130rpx">
-          <view class="bg-red" @click="del(item.circleId)">删除</view>
+          <view class="action margin-right">
+            <u-button
+              :type="btnType(item.handle, item.agree)"
+              size="mini"
+              shape="circle"
+              plain
+              @click="agreeInvite(item)"
+            >
+              {{ btnText(item.handle, item.agree) }}
+            </u-button>
+          </view>
+          <view class="move" style="width: 130rpx">
+            <view class="bg-red" @click="del(item.circleId)">删除</view>
+          </view>
         </view>
       </view>
     </view>
 
+    <view class="empty" v-else>
+      <u-empty mode="list"></u-empty>
+    </view>
     <u-modal
       v-model="showModal"
       :show-title="false"
