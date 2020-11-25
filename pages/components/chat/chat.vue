@@ -733,9 +733,8 @@ export default {
           list[i].msg.content = this.setPicSize(list[i].msg.content)
           this.msgImgList.unshift(list[i].msg.content.url)
         }
-        list[i].msg.id = Math.floor(Math.random() * 1000 + 1)
-        this.msgList.unshift(list[i])
       }
+      this.msgList = [...list, ...this.msgList]
 
       //这段代码很重要，不然每次加载历史数据都会跳到顶部
       this.$nextTick(function () {

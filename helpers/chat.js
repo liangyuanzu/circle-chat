@@ -167,7 +167,7 @@ export function chatDetailFormat(list) {
 		})
 	})
 
-	return chatDetail.sort((a, b) => a.time - b.time)
+	return chatDetail.sort((a, b) => a.msg.time - b.msg.time)
 }
 
 // 读取当前会话
