@@ -68,7 +68,11 @@
       </uni-list>
     </view>
 
-    <view class="flex justify-between padding margin-top-lg">
+    <view class="padding margin-top-lg" v-if="handle">
+      <u-button style="width: 100%">{{ agree ? '已同意' : '已拒绝' }}</u-button>
+    </view>
+
+    <view class="flex justify-between padding margin-top-lg" v-else>
       <u-button style="width: 330rpx" @click="inviteHandle(false)"
         >拒绝</u-button
       >
@@ -86,7 +90,10 @@ import { mapGetters } from 'vuex'
 
 export default {
   data() {
-    return {}
+    return {
+      handle: false,
+      agree: false
+    }
   },
 
   computed: {
@@ -102,7 +109,9 @@ export default {
     }
   },
 
-  onLoad({ circleId }) {
+  onLoad({ circleId, handle, agree }) {
+    this.handle = handle
+    this.agree = agree
     this.$store.dispatch('circle/getCircleInfo', circleId)
   },
 

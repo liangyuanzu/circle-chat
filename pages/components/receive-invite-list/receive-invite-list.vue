@@ -27,9 +27,9 @@
                 backgroundImage: 'url(' + item.circleImg + ')'
               }
             ]"
-            @click="toCircleInvite(item.circleId)"
+            @click="toCircleInvite(item)"
           ></view>
-          <view class="content" @click="toCircleInvite(item.circleId)">
+          <view class="content" @click="toCircleInvite(item)">
             <view class="text-cut">{{ item.circleName }}</view>
             <view>
               <view class="cu-capsule radius" v-if="item.member">
@@ -135,10 +135,14 @@ export default {
       this.getList()
     },
 
-    toCircleInvite(circleId) {
+    toCircleInvite({ circleId, handle, agree }) {
       this.$u.route(
         '/pages/components/receive-invite-list/to-circle-invite/to-circle-invite',
-        { circleId }
+        {
+          circleId,
+          handle,
+          agree
+        }
       )
     },
 
