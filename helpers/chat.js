@@ -162,7 +162,7 @@ export function chatDetailFormat(list) {
 					username: i.userInfo.username,
 					face: i.userInfo.face
 				},
-				content: i.context.content
+				content: i.context
 			}
 		})
 	})

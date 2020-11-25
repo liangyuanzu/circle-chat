@@ -65,7 +65,7 @@
           <block v-if="row.type == 'user'">
             <!-- 时间 -->
             <view
-							v-show="row.msg.showTime"
+              v-show="row.msg.showTime"
               class="text-sm text-grey text-center margin-tb-sm"
               style="width: 100%"
               >{{ formatTime(row.msg.time) }}</view
@@ -513,6 +513,7 @@ export default {
   },
 
   async onLoad(options) {
+    this.showLoading = true //开启 loading 动画
     if (options.personId) {
       this.toUserId = options.personId
       await this.$store.dispatch('user/getPersonInfo', options.personId)
@@ -767,6 +768,7 @@ export default {
           this.scrollAnimation = true
         })
       })
+      this.showLoading = false
     },
     //处理图片尺寸，如果不处理宽高，新进入页面加载图片时候会闪
     setPicSize(content) {
@@ -925,8 +927,8 @@ export default {
       let msg = {
         type: 'user',
         msg: {
-					id: lastid,
-					showTime: Time.noFormatChatTime(nowDate, lastTime),
+          id: lastid,
+          showTime: Time.noFormatChatTime(nowDate, lastTime),
           time: nowDate,
           type: type,
           userinfo: {
