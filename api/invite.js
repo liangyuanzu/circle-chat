@@ -33,7 +33,7 @@ export function agreeInvite(data) {
 
 /**
  * 删除邀请通知
- * @param {Array} tIds 圈 ids
+ * @param {Array} tIds 表 ids
  * */
 export function delInvite(data) {
 	return $request('/invite/delInvitation', {

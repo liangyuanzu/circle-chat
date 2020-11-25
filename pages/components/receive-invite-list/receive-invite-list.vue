@@ -63,7 +63,7 @@
             </u-button>
           </view>
           <view class="move" style="width: 130rpx">
-            <view class="bg-red" @click="del(item.circleId)">删除</view>
+            <view class="bg-red" @click="del(item.tId)">删除</view>
           </view>
         </view>
       </view>
@@ -146,13 +146,13 @@ export default {
       )
     },
 
-    del(cid) {
-      this.clear([cid])
+    del(tId) {
+      this.clear([tId])
     },
 
     delAll() {
-      const cids = this.inviteList.map((i) => i.circleId)
-      this.clear(cids)
+      const tIds = this.inviteList.map((i) => i.tId)
+      this.clear(tIds)
     },
 
     clear(tIds) {
