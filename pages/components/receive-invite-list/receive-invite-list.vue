@@ -147,7 +147,6 @@ export default {
     },
 
     del(cid) {
-      console.log(cid, '删除')
       this.clear([cid])
     },
 
@@ -156,12 +155,12 @@ export default {
       this.clear(cids)
     },
 
-    clear(tids) {
+    clear(tIds) {
       uni.showLoading({
         title: '正在删除...'
       })
       this.$store
-        .dispatch('invite/delInvite', { tids })
+        .dispatch('invite/delInvite', { tIds })
         .then(() => {
           uni.hideLoading()
           this.getList()
