@@ -93,7 +93,6 @@ export default {
       modalName: null,
       listTouchStart: 0,
       listTouchDirection: null,
-      inviteList: [],
       showModal: false
     }
   },
