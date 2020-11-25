@@ -168,15 +168,3 @@ export function getUsersInCircle(circleId) {
 		}
 	})
 }
-
-/**
- * 邀请用户加入圈
- * @param {string, Number} circleId - 圈id
- * @param {Array} uids - 用户id数组
- * */
-export function inviteUsers(data) {
-	return $request('/invite/invitePartOfUser', {
-		method: 'POST',
-		data
-	})
-}

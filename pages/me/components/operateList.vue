@@ -39,6 +39,14 @@ export default {
           }
         },
         {
+          title: '受邀列表',
+          extraIcon: {
+            color: '#1cbbb4',
+            size: '22',
+            type: 'personadd-filled'
+          }
+        },
+        {
           title: '我创建的圈',
           extraIcon: {
             color: '#9c26b0',
@@ -76,6 +84,9 @@ export default {
           break
         case '关注列表':
           this.$u.route('/pages/components/focus-list/focus-list')
+          break
+        case '受邀列表':
+          this.$u.route('/pages/components/receive-invite-list/receive-invite-list')
           break
         case '我创建的圈':
           this.$u.route('/pages/components/my-create-circle/my-create-circle')

@@ -85,7 +85,7 @@ export default {
         title: '加载中...'
       })
       this.$store
-        .dispatch('circle/inviteUsers', {
+        .dispatch('invite/inviteUsers', {
           circleId: this.circleId,
           uids: this.uids
         })

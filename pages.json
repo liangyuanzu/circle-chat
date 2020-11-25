@@ -189,6 +189,16 @@
 				"navigationBarTitleText": "我创建的圈"
 			}
 
+		}, {
+			"path": "pages/components/receive-invite-list/receive-invite-list",
+			"style": {
+				"navigationBarTitleText": "受邀列表"
+			}
+		}, {
+			"path": "pages/components/receive-invite-list/to-circle-invite/to-circle-invite",
+			"style": {
+				"navigationBarTitleText": "入圈邀请"
+			}
 		}
 	],
 	"globalStyle": {
