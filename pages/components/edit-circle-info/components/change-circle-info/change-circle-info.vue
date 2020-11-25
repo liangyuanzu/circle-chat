@@ -85,7 +85,9 @@ export default {
               icon: 'none'
             })
             setTimeout(() => {
-              this.$u.route({ type: 'back' })
+              this.$store
+                .dispatch('circle/getCircleInfo', this.circleInfo.circleId)
+                .then(() => this.$u.route({ type: 'back' }))
             }, 500)
           }, 500)
         })
@@ -111,7 +113,9 @@ export default {
               icon: 'none'
             })
             setTimeout(() => {
-              this.$u.route({ type: 'back' })
+              this.$store
+                .dispatch('circle/getCircleInfo', this.circleInfo.circleId)
+                .then(() => this.$u.route({ type: 'back' }))
             }, 500)
           }, 500)
         })
