@@ -1,5 +1,7 @@
 <template>
   <view>
+    <u-no-network></u-no-network>
+
     <view class="bar">
       <u-search
         placeholder="搜索用户和圈"
