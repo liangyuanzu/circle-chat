@@ -65,6 +65,7 @@
           <block v-if="row.type == 'user'">
             <!-- 时间 -->
             <view
+							v-show="row.msg.showTime"
               class="text-sm text-grey text-center margin-tb-sm"
               style="width: 100%"
               >{{ formatTime(row.msg.time) }}</view
@@ -912,7 +913,7 @@ export default {
     // 发送消息
     async sendMsg(content, type) {
       //实际应用中，此处应该提交长连接，模板仅做本地处理。
-      var nowDate = new Date()
+      var nowDate = new Date().getTime()
       const lastTime =
         this.msgList?.length > 0
           ? [...this.msgList].reverse().find((i) => i.msg.time).msg.time
@@ -924,8 +925,9 @@ export default {
       let msg = {
         type: 'user',
         msg: {
-          id: lastid,
-          time: Time.noFormatChatTime(nowDate.getTime(), lastTime),
+					id: lastid,
+					showTime: Time.noFormatChatTime(nowDate, lastTime),
+          time: nowDate,
           type: type,
           userinfo: {
             uid: this.userId,

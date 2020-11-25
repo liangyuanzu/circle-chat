@@ -51,8 +51,9 @@ export default {
 		v1 = v1.toString().length < 13 ? v1 * 1000 : v1
 		v2 = v2.toString().length < 13 ? v2 * 1000 : v2
 		if ((parseInt(v1) - parseInt(v2)) / 1000 > 300) {
-			return parseInt(v1)
+			return true
 		}
+		return false
 	},
 	// 获取n天前0点时间戳
 	getZeroTimeStamp(n) {

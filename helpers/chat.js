@@ -69,7 +69,8 @@ export function chatFormat(res, options = { isCircle: false }, data) {
 				msg: {
 					id: lastId,
 					type: res.body.type,
-					time: Time.noFormatChatTime(res.body.createTime, lastTime),
+					showTime: Time.noFormatChatTime(res.body.createTime, lastTime),
+					time: res.body.createTime,
 					userinfo: {
 						uid: res.body.userId,
 						username: isCircle ? res.body.username : '',
@@ -154,13 +155,14 @@ export function chatDetailFormat(list) {
 			msg: {
 				id: i.id,
 				type: i.type || 'text',
+				showTime: i.show,
 				time: i.createTime,
 				userinfo: {
 					uid: i.userInfo.userId,
 					username: i.userInfo.username,
 					face: i.userInfo.face
 				},
-				content: i.context
+				content: i.context.content
 			}
 		})
 	})
