@@ -110,7 +110,8 @@ export default {
           border: '1px solid #fa3534',
           active: false,
           activeClass: 'errorAct'
-        },
+        }
+        /*
         {
           label: '我的圈',
           value: '我创建的',
@@ -118,7 +119,8 @@ export default {
           border: '1px solid #19be6b',
           active: false,
           activeClass: 'successAct'
-        }
+				}
+				 */
       ],
       activeOption: [],
       list: []
