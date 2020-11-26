@@ -636,15 +636,23 @@ export default {
     },
 
     toPersonInfo(id) {
-      this.$u.route('/pages/components/person-info/person-info', {
-        id
+      this.$u.route({
+        type: 'redirect',
+        url: '/pages/components/person-info/person-info',
+        params: {
+          id
+        }
       })
     },
 
     titleClick() {
       if (this.isCircle) {
-        this.$u.route('/pages/components/circle-setting/circle-setting', {
-          circleId: this.CurrentToCircle.circleId
+        this.$u.route({
+          type: 'redirect',
+          url: '/pages/components/circle-setting/circle-setting',
+          params: {
+            circleId: this.CurrentToCircle.circleId
+          }
         })
       } else {
         this.toPersonInfo(this.CurrentToUser.userId)
