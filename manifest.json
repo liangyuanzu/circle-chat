@@ -1,10 +1,34 @@
 {
     "name" : "circle-chat",
-    "appid" : "__UNI__5F0D731",
+    "appid" : "__UNI__229BE40",
     "description" : "",
     "versionName" : "1.0.0",
     "versionCode" : "100",
     "transformPx" : false,
+    "h5" : {
+        "devServer" : {
+            "port" : 8080,
+            "disableHostCheck" : true,
+            "proxy" : {
+                "/" : {
+                    "target" : "http://39.99.156.255:8081",
+                    "changeOrigin" : true,
+                    "secure" : false,
+                    "ws" : false,
+                    "pathRewrite" : {
+                        "^/" : ""
+                    }
+                }
+            }
+        },
+        "sdkConfigs" : {
+            "maps" : {
+                "qqmap" : {
+                    "key" : "BO7BZ-OK76O-JDHWZ-SIH4Z-GBXOQ-B6FAU"
+                }
+            }
+        }
+    },
     /* 5+App特有相关 */
     "app-plus" : {
         "usingComponents" : true,
@@ -57,9 +81,10 @@
     "quickapp" : {},
     /* 小程序特有相关 */
     "mp-weixin" : {
-        "appid" : "",
+        "appid" : "touristappid",
         "setting" : {
-            "urlCheck" : false
+            "urlCheck" : false,
+            "minified" : false
         },
         "usingComponents" : true
     },
@@ -67,12 +92,16 @@
         "usingComponents" : true
     },
     "mp-baidu" : {
-        "usingComponents" : true
+        "usingComponents" : true,
+        "setting" : {
+            "urlCheck" : false
+        },
+        "appid" : "22864830"
     },
     "mp-toutiao" : {
         "usingComponents" : true
     },
-    "uniStatistics": {  
-        "enable": false
+    "uniStatistics" : {
+        "enable" : false
     }
 }

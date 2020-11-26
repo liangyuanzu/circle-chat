@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="chrome=1">
+	<meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
+	<title>nearby-circle-map</title>
+	<link rel="stylesheet" href="https://a.amap.com/jsapi_demos/static/demo-center/css/demo-center.css" />
+	<link rel="stylesheet" type="text/css" href="./css/icon.css" />
+	<link rel="stylesheet" type="text/css" href="./css/main.css" />
+	<link rel="stylesheet" type="text/css" href="./css/nearby-circle-map.css" />
+</head>
+
+<body>
+	<div id="container"></div>
+
+	<div class="operate" style="display: none;">
+		<span class="lg cuIcon-close close"></span>
+		<div class="lg cuIcon-unfold pull">
+			<div class="menu">
+				<span class="arrow-to-top"></span>
+				<ul id="circleType">
+					<li>综合</li>
+					<li>交友圈</li>
+					<li>固定圈</li>
+					<li>紧急圈</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+	<div id="card"></div>
+
+	<script type="text/javascript" src="https://webapi.amap.com/maps?v=2.0&key=63963a1ff2103d0535996959db4f844a">
+	</script>
+	<script type="text/javascript" src="https://js.cdn.aliyun.dcloud.net.cn/dev/uni-app/uni.webview.1.5.2.js"></script>
+	<script type="text/javascript" src="https://unpkg.com/art-template@4.13.2/lib/template-web.js"></script>
+	<script type="text/html" id="cardTemplate">
+		<div class="card">
+			<div class="item">
+				<div class="list">
+					<div class="item">
+						<div class="avatar"></div>
+						<div class="content">
+							<div class="text-cut">{{ circleName }}</div>
+							<div class="text-gray text-sm text-cut">
+								{{ synopsis }}
+							</div>
+						</div>
+						<div class="card-close lg text-gray cuIcon-roundclose" onclick="closeCard()"></div>
+					</div>
+				</div>
+				<div class="button flex justify-between align-center">
+					<button class="btn btn-outline-secondary" onclick="toCircleDetail()">详情</button>
+					{{ if inCircle }}
+					<button class="btn btn-primary" disabled>已加入</button>
+					{{ else if !inCircle }}
+					<button class="btn btn-primary" onclick="toJoinCircle()">加入</button>
+					{{ /if }}
+				</div>
+			</div>
+		</div>
+
+	</script>
+	<script src="https://a.amap.com/jsapi_demos/static/demo-center/js/demoutils.js"></script>
+	<script type="text/javascript" src="./js/nearby-circle-map.js"></script>
+</body>
+
+</html>

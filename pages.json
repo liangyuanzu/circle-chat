@@ -1,16 +1,235 @@
 {
+	/* uview-ui 的 easycom规则 */
+	"easycom": {
+		"^u-(.*)": "@/uview-ui/components/u-$1/u-$1.vue"
+	},
 	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
 		{
-			"path": "pages/index/index",
+			"path": "pages/msg/msg",
 			"style": {
-				"navigationBarTitleText": "uni-app"
+				"navigationBarTitleText": "消息",
+				"enablePullDownRefresh": true
+			}
+		},
+		{
+			"path": "pages/circle/circle",
+			"style": {
+				"navigationBarTitleText": "附近的圈"
+			}
+		}, {
+			"path": "pages/me/me",
+			"style": {
+				"navigationBarTitleText": "我的"
+			}
+		}, {
+			"path": "pages/components/circle-detail/circle-detail",
+			"style": {
+				"navigationBarTitleText": "圈详情"
+			}
+		}, {
+			"path": "pages/components/create-circle/create-circle",
+			"style": {
+				"navigationBarTitleText": "创建圈"
+			}
+		},
+		// #ifdef MP-BAIDU
+		{
+			"path": "pages/components/search/search",
+			"style": {
+				"navigationBarTitleText": "搜索"
+			}
+		},
+		// #endif
+		// #ifndef MP-BAIDU
+		{
+			"path": "pages/components/search/search",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		},
+		// #endif
+		// #ifndef MP-BAIDU
+		{
+			"path": "pages/components/chat/chat",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTitleText": "",
+				"navigationBarBackgroundColor": "#f2f2f2",
+				"backgroundColorTop": "#e5e5e5",
+				"backgroundColorBottom": "#e5e5e5",
+				"app-plus": {
+					"softinputNavBar": "none",
+					"bounce": "none"
+				}
+			}
+		},
+		// #endif
+		// #ifdef MP-BAIDU
+		{
+			"path": "pages/components/chat/chat",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTitleText": "black"
+			}
+		},
+		// #endif
+		{
+			"path": "pages/components/circle-setting/circle-setting",
+			"style": {
+				"navigationBarTitleText": "圈设置"
+			}
+		},
+		{
+			"path": "pages/login/login",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		}, {
+			"path": "pages/login/forget",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		}, {
+			"path": "pages/login/register",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/components/info/info",
+			"style": {
+				"navigationBarTitleText": "个人信息"
+			}
+		}, {
+			"path": "pages/components/nearby-circle-map/nearby-circle-map",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		}, {
+			"path": "pages/components/create-circle-map/create-circle-map",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		}, {
+			"path": "pages/components/focus-list/focus-list",
+			"style": {
+				"navigationBarTitleText": "关注列表"
+			}
+		},
+		{
+			"path": "uview-ui/components/u-avatar-cropper/u-avatar-cropper",
+			"style": {
+				"navigationBarTitleText": "头像裁剪",
+				"navigationBarBackgroundColor": "#000000"
+			}
+		}, {
+			"path": "pages/components/info/components/change-userinfo/change-userinfo",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		}, {
+			"path": "pages/components/setting/setting",
+			"style": {
+				"navigationBarTitleText": "设置"
+			}
+		}, {
+			"path": "pages/components/person-info/person-info",
+			"style": {
+				"navigationBarTitleText": "个人资料"
+			}
+		}, {
+			"path": "pages/components/person-signature/person-signature",
+			"style": {
+				"navigationBarTitleText": "个性签名"
+			}
+		}, {
+			"path": "pages/components/my-join-circle/my-join-circle",
+			"style": {
+				"navigationBarTitleText": "我加入的圈"
+			}
+		}, {
+			"path": "pages/components/circle-member/circle-member",
+			"style": {
+				"navigationBarTitleText": "圈聊成员"
+			}
+		}, {
+			"path": "pages/components/invite-member/invite-member",
+			"style": {
+				"navigationBarTitleText": "邀请新圈友"
+			}
+		}, {
+			"path": "pages/components/manage-circle/manage-circle",
+			"style": {
+				"navigationBarTitleText": "管理圈"
+			}
+		}, {
+			"path": "pages/components/edit-circle-info/edit-circle-info",
+			"style": {
+				"navigationBarTitleText": "编辑资料"
+			}
+		}, {
+			"path": "pages/components/edit-circle-info/components/change-circle-info/change-circle-info",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		}, {
+			"path": "pages/components/map-mode/map-mode",
+			"style": {
+				"navigationBarTitleText": "地图模式"
+			}
+		}, {
+			"path": "pages/login/login-baidu/login-baidu",
+			"style": {
+				"navigationBarTitleText": "授权登录"
+			}
+
+		}, {
+			"path": "pages/components/my-create-circle/my-create-circle",
+			"style": {
+				"navigationBarTitleText": "我创建的圈"
+			}
+
+		}, {
+			"path": "pages/components/receive-invite-list/receive-invite-list",
+			"style": {
+				"navigationBarTitleText": "受邀列表"
+			}
+		}, {
+			"path": "pages/components/receive-invite-list/to-circle-invite/to-circle-invite",
+			"style": {
+				"navigationBarTitleText": "入圈邀请"
 			}
 		}
 	],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "uni-app",
-		"navigationBarBackgroundColor": "#F8F8F8",
-		"backgroundColor": "#F8F8F8"
+		"navigationBarBackgroundColor": "#fff",
+		"backgroundColor": "#f1f1f1"
+	},
+	"tabBar": {
+		"color": "#909399",
+		"selectedColor": "#231815",
+		"borderStyle": "white",
+		"backgroundColor": "#fff",
+		"list": [{
+				"text": "消息",
+				"pagePath": "pages/msg/msg",
+				"iconPath": "static/tabbar/msg.png",
+				"selectedIconPath": "static/tabbar/msg_select.png"
+			},
+			{
+				"text": "圈子",
+				"pagePath": "pages/circle/circle",
+				"iconPath": "static/tabbar/circle.png",
+				"selectedIconPath": "static/tabbar/circle_select.png"
+			},
+			{
+				"text": "我的",
+				"pagePath": "pages/me/me",
+				"iconPath": "static/tabbar/me.png",
+				"selectedIconPath": "static/tabbar/me_select.png"
+			}
+		]
 	}
 }
