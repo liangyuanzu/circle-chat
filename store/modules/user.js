@@ -130,6 +130,12 @@ const actions = {
 						})
 						const position = res.longitude + ',' + res.latitude
 						updatePosition({ position })
+					},
+					fail: function () {
+						uni.showToast({
+							title: '位置信息获取失败，请开启定位',
+							icon: 'none'
+						})
 					}
 				})
 			},
