@@ -63,7 +63,6 @@
             <view v-show="keywordList.circles.length > 0">
               <u-divider>圈</u-divider>
               <custom-circle-list
-                :border="false"
                 showJoin
                 :list="keywordList.circles"
                 @click="itemClick"
