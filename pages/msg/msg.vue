@@ -311,6 +311,9 @@ export default {
     },
 
     confirm() {
+      uni.showLoading({
+        title: '加载中...'
+      })
       const chatList = localStore.get(chatListName) || []
       if (chatList.length === 0) return
       this.$refs.uDropdown.close()
@@ -318,10 +321,18 @@ export default {
         .filter((item) => item.active)
         .map((i) => i.value)
       if (this.activeOption.length > 0) {
+        uni.hideLoading()
         this.list = chatList.filter((i) =>
           this.activeOption.includes(i.circleType)
         )
+        if (this.list.length === 0) {
+          uni.showToast({
+            title: '消息列表中没有您选的圈',
+            icon: 'none'
+          })
+        }
       } else {
+        uni.hideLoading()
         this.getList()
       }
     },
