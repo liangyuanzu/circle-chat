@@ -167,12 +167,23 @@
         indicator-dots="true"
         duration="150"
       >
+        <!--
         <swiper-item v-for="(page, pid) in emojiList" :key="pid">
           <view v-for="(em, eid) in page" :key="eid" @tap="addEmoji(em)">
             <image
               mode="widthFix"
               :src="'/static/chat/img/emoji/' + em.url"
             ></image>
+          </view>
+        </swiper-item>
+         -->
+        <swiper-item v-for="(page, pid) in emojis" :key="pid">
+          <view
+            v-for="(emoji, eid) in page"
+            :key="eid"
+            @tap="addEmoji(emoji.em)"
+          >
+            <view class="text-xxl">{{ emoji.em }}</view>
           </view>
         </swiper-item>
       </swiper>
@@ -450,6 +461,131 @@ export default {
           { url: '217.png', alt: '[蛋糕]' },
           { url: '218.png', alt: '[彩带]' },
           { url: '219.png', alt: '[礼物]' }
+        ]
+      ],
+      emojis: [
+        [
+          { em: '😋' },
+          { em: '😌' },
+          { em: '😍' },
+          { em: '😏' },
+          { em: '😜' },
+          { em: '😝' },
+          { em: '😞' },
+          { em: '😔' },
+          { em: '😪' },
+          { em: '😭' },
+          { em: '😁' },
+          { em: '😂' },
+          { em: '😃' },
+          { em: '😅' },
+          { em: '😆' },
+          { em: '👿' },
+          { em: '😒' },
+          { em: '😓' },
+          { em: '😖' },
+          { em: '😘' },
+          { em: '😚' },
+          { em: '😡' },
+          { em: '😢' },
+          { em: '😣' }
+        ],
+        [
+          { em: '😤' },
+          { em: '😨' },
+          { em: '😳' },
+          { em: '😵' },
+          { em: '😷' },
+          { em: '😸' },
+          { em: '😻' },
+          { em: '😼' },
+          { em: '😽' },
+          { em: '😾' },
+          { em: '😿' },
+          { em: '🙊' },
+          { em: '🙋' },
+          { em: '🙏' },
+          { em: '✈' },
+          { em: '🚇' },
+          { em: '🚃' },
+          { em: '🚌' },
+          { em: '🍄' },
+          { em: '🍅' },
+          { em: '🍆' },
+          { em: '🍇' },
+          { em: '🍈' },
+          { em: '🍉' }
+        ],
+        [
+          { em: '🍑' },
+          { em: '🍒' },
+          { em: '🍓' },
+          { em: '🐔' },
+          { em: '🐶' },
+          { em: '🐷' },
+          { em: '👦' },
+          { em: '👧' },
+          { em: '👱' },
+          { em: '👩' },
+          { em: '👰' },
+          { em: '👨' },
+          { em: '👲' },
+          { em: '👳' },
+          { em: '💃' },
+          { em: '💄' },
+          { em: '💅' },
+          { em: '💆' },
+          { em: '🌹' },
+          { em: '💑' },
+          { em: '💓' },
+          { em: '💘' },
+          { em: '🚲' },
+          { em: '🐛' }
+        ],
+        [
+          { em: '✊' },
+          { em: '✋' },
+          { em: '✌' },
+          { em: '👊' },
+          { em: '👍' },
+          { em: '☝' },
+          { em: '👆' },
+          { em: '👇' },
+          { em: '👈' },
+          { em: '👉' },
+          { em: '👋' },
+          { em: '👏' },
+          { em: '👌' },
+          { em: '👎' },
+          { em: '👐' },
+          { em: '🐌' },
+          { em: '🐍' },
+          { em: '🐎' },
+          { em: '🐫' },
+          { em: '🐗' },
+          { em: '🐘' },
+          { em: '🐨' },
+          { em: '🐒' },
+          { em: '🐑' }
+        ],
+        [
+          { em: '☀' },
+          { em: '☁' },
+          { em: '☔' },
+          { em: '⛄' },
+          { em: '⚡' },
+          { em: '🌀' },
+          { em: '🌂' },
+          { em: '🌄' },
+          { em: '🌈' },
+          { em: '❄' },
+          { em: '⛅' },
+          { em: '🌕' },
+          { em: '🌛' },
+          { em: '👀' },
+          { em: '👃' },
+          { em: '👻' },
+          { em: '👽' }
         ]
       ]
     }
@@ -875,7 +1011,8 @@ export default {
     },
     //添加表情
     addEmoji(em) {
-      this.textMsg += em.alt
+      // this.textMsg += em.alt
+      this.textMsg += em
     },
 
     //获取焦点，如果不是选表情ing,则关闭抽屉
@@ -890,8 +1027,9 @@ export default {
       if (!this.textMsg) {
         return
       }
-      let content = this.replaceEmoji(this.textMsg)
-      let msg = { text: content }
+      // let content = this.replaceEmoji(this.textMsg)
+      // let msg = { text: content }
+      let msg = { text: this.textMsg }
       this.sendMsg(msg, 'text')
       this.textMsg = '' //清空输入框
     },
