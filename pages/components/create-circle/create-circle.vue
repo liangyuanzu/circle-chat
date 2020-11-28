@@ -26,7 +26,8 @@
         </u-radio-group>
       </u-form-item>
 
-      <u-form-item label="圈范围" v-if="!this.form.radius">
+      <!--
+      <u-form-item label="圈范围">
         <u-radio-group v-model="form.circleRange">
           <u-radio
             v-for="(item, index) in circleRange"
@@ -36,8 +37,20 @@
           </u-radio>
         </u-radio-group>
       </u-form-item>
+			 -->
+
+      <u-form-item label="圈范围" prop="circleRange">
+        <u-input
+          type="number"
+          :maxlength="5"
+          :clearable="false"
+          v-model="form.circleRange"
+          placeholder="请输入圈范围"
+        />
+      </u-form-item>
 
       <u-form-item
+        v-show="form.circleType !== '固定圈'"
         label="有效期"
         :leftIconStyle="{ color: '#888', fontSize: '32rpx' }"
         left-icon="clock"
@@ -70,7 +83,7 @@ export default {
         position: '',
         radius: '',
         circleType: '交友圈',
-        circleRange: '100',
+        circleRange: '',
         effective: 7
       },
 
@@ -79,6 +92,22 @@ export default {
           {
             required: true,
             message: '请输入圈名称',
+            trigger: ['change', 'blur']
+          }
+        ],
+        circleRange: [
+          {
+            required: true,
+            type: 'number',
+            message: '圈范围半径为 100m~10km',
+            trigger: ['change', 'blur']
+          },
+          {
+            validator: (rule, value, callback) => {
+              if (value >= 100 && value <= 10000) return true
+              return false
+            },
+            message: '圈范围半径为 100m~10km',
             trigger: ['change', 'blur']
           }
         ]
