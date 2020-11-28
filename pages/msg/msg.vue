@@ -14,7 +14,8 @@
       <u-dropdown ref="uDropdown">
         <u-dropdown-item></u-dropdown-item>
         <u-dropdown-item></u-dropdown-item>
-        <u-dropdown-item title="筛选">
+        <!--
+        <u-dropdown-item title="筛选" >
           <view class="slot-content">
             <view class="item-box">
               <view
@@ -30,6 +31,14 @@
             </view>
             <u-button type="primary" @click="confirm">确定</u-button>
           </view>
+        </u-dropdown-item>
+				-->
+        <u-dropdown-item
+          title="筛选"
+          v-model="circleType"
+          :options="circleOptions"
+          @change="typeSelect"
+        >
         </u-dropdown-item>
       </u-dropdown>
     </view>
@@ -86,6 +95,21 @@ import { mapGetters, mapState } from 'vuex'
 export default {
   data() {
     return {
+      value1: '',
+      options1: [
+        {
+          label: '默认排序',
+          value: 1
+        },
+        {
+          label: '距离优先',
+          value: 2
+        },
+        {
+          label: '价格优先',
+          value: 3
+        }
+      ],
       options: [
         {
           label: '交友圈',
@@ -123,7 +147,26 @@ export default {
 				 */
       ],
       activeOption: [],
-      list: []
+      list: [],
+      circleType: '',
+      circleOptions: [
+        {
+          label: '综合',
+          value: '综合'
+        },
+        {
+          label: '交友圈',
+          value: '交友圈'
+        },
+        {
+          label: '固定圈',
+          value: '固定圈'
+        },
+        {
+          label: '紧急圈',
+          value: '紧急圈'
+        }
+      ]
     }
   },
 
@@ -339,6 +382,16 @@ export default {
 
     toSearch() {
       this.$u.route('/pages/components/search/search')
+    },
+
+    typeSelect(type) {
+      if (type === '综合') {
+        this.getList()
+      } else {
+        const chatList = localStore.get(chatListName) || []
+        this.list = chatList.filter((i) => i.circleType === type)
+        if (this.list.length === 0) this.$u.toast('消息列表中没有您选的圈')
+      }
     }
   }
 }
