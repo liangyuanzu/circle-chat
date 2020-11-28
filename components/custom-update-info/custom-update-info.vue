@@ -37,6 +37,8 @@
         :disabled="!isEdit"
         :clearable="false"
         label-width="0"
+        :auto-height="false"
+        :fieldStyle="textareaStyle"
       >
         <template #right>
           <view v-if="isEdit" class="text-sm text-grey">{{ textareaNum }}</view>
@@ -89,7 +91,10 @@ export default {
   data() {
     return {
       content: '',
-      effective: 0
+      effective: 0,
+      textareaStyle: {
+        height: '100rpx'
+      }
     }
   },
 
