@@ -235,7 +235,7 @@
             <textarea
               :auto-height="true"
               :show-confirm-bar="false"
-              :cursor-spacing="50"
+              :cursor-spacing="30"
               v-model="textMsg"
               @focus="textareaFocus"
             />
