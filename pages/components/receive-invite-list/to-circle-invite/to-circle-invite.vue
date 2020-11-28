@@ -46,7 +46,7 @@
                 <text class="cuIcon-radiobox"></text>
               </view>
               <view class="cu-tag line-black sm">
-                {{ circleInfo.radius + 'm' }}</view
+                {{ $formatRadius(circleInfo.radius) }}</view
               >
             </view>
           </template>
@@ -116,14 +116,6 @@ export default {
   },
 
   methods: {
-    formatRadius(radius) {
-      if (radius > 0 && radius < 1000) {
-        return radius + ' m'
-      } else {
-        return parseInt(radius / 1000) + ' km'
-      }
-    },
-
     toOwner() {
       this.$u.route('/pages/components/person-info/person-info', {
         id: this.circleInfo.userId

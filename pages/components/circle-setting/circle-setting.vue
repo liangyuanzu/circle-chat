@@ -107,7 +107,7 @@
                 <text class="cuIcon-radiobox"></text>
               </view>
               <view class="cu-tag line-black sm">
-                {{ circleInfo.radius + 'm' }}</view
+                {{ $formatRadius(circleInfo.radius) }}</view
               >
             </view>
           </template>
@@ -239,13 +239,6 @@ export default {
     formatType() {
       if (this.circleInfo.type === '固定圈') return 'warning'
       if (this.circleInfo.type === '紧急圈') return 'error'
-    },
-    formatRadius() {
-      if (this.circleInfo.radius > 0 && this.circleInfo.radius < 1000) {
-        return this.circleInfo.radius + ' m'
-      } else {
-        return parseInt(this.circleInfo.radius / 1000) + ' km'
-      }
     }
   },
 

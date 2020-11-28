@@ -99,15 +99,15 @@ export default {
           {
             required: true,
             type: 'number',
-            message: '圈范围半径为 100m~10km',
+            message: '圈范围半径最大为 10000m',
             trigger: ['change', 'blur']
           },
           {
             validator: (rule, value, callback) => {
-              if (value >= 100 && value <= 10000) return true
+              if (value >= 0 && value <= 10000) return true
               return false
             },
-            message: '圈范围半径为 100m~10km',
+            message: '圈范围半径最大为 10000m',
             trigger: ['change', 'blur']
           }
         ]

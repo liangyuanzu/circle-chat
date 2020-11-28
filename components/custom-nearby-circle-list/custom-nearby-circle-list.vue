@@ -24,7 +24,9 @@
               <view class="cu-tag bg-black sm">
                 <text class="cuIcon-radiobox"></text>
               </view>
-              <view class="cu-tag line-black sm">{{ item.radius + 'm' }}</view>
+              <view class="cu-tag line-black sm">{{
+                $formatRadius(item.radius)
+              }}</view>
             </view>
           </view>
           <view class="text-gray text-sm flex" v-if="showNote && item.synopsis">
@@ -87,14 +89,6 @@ export default {
   },
 
   methods: {
-    formatRadius(radius) {
-      if (radius > 0 && radius < 1000) {
-        return radius + ' m'
-      } else {
-        return parseInt(radius / 1000) + ' km'
-      }
-    },
-
     formatJoin(inCircle) {
       if (inCircle) return '已加入'
       return '加入'

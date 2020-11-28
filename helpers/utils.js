@@ -111,3 +111,18 @@ export function base64ToBlob(b64data) {
 	}
 	return new Blob([ab], { type: mimeString })
 }
+
+/**
+ * 格式化圈范围
+ * @param {number, string} radius 半径
+ */
+export function formatRadius(radius) {
+	radius = Number(radius)
+	if (radius > 0 && radius < 1000) {
+		return radius + ' m'
+	} else if ((radius / 1000) % 1 > 0) {
+		return (radius / 1000).toFixed(2) + ' km'
+	} else {
+		return parseInt(radius / 1000) + ' km'
+	}
+}
