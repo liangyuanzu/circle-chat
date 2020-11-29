@@ -476,6 +476,10 @@ const actions = {
 				index: 0,
 				text: noReadNum > 99 ? '99+' : noReadNum.toString()
 			})
+		} else if (noReadNum == 0) {
+			uni.removeTabBarBadge({
+				index: 0
+			})
 		}
 		localStore.set('noReadNum', noReadNum)
 	},

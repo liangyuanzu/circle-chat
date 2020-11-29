@@ -704,11 +704,9 @@ export default {
   },
 
   onUnload() {
+    // 读取消息
+    this.readMsg()
     if (this.isCircle) {
-      //  服务端未读数更新
-      this.$store.dispatch('chat/readMsg', {
-        circleId: this.CurrentToCircle.circleId
-      })
       // 重置圈聊天对象
       this.$store.commit('chat/setCurrentToCircle', {
         circleId: 0,
@@ -719,10 +717,6 @@ export default {
       // 修改圈状态
       this.$store.commit('chat/setIsCircle', false)
     } else {
-      //  服务端未读数更新
-      this.$store.dispatch('chat/readMsg', {
-        toUserId: this.CurrentToUser.userId
-      })
       // 重置单人聊天对象
       this.$store.commit('chat/setCurrentToUser', {
         userId: 0,
@@ -752,16 +746,8 @@ export default {
   },
 
   onHide() {
-    // 服务端未读数更新
-    if (this.isCircle) {
-      this.$store.dispatch('chat/readMsg', {
-        circleId: this.CurrentToCircle.circleId
-      })
-    } else {
-      this.$store.dispatch('chat/readMsg', {
-        toUserId: this.CurrentToUser.userId
-      })
-    }
+    // 读取消息
+    this.readMsg()
   },
 
   methods: {
@@ -840,6 +826,21 @@ export default {
         // 滚动到底
         this.scrollToView = 'msg' + msg.msg.id
       })
+    },
+
+    // 读取消息
+    async readMsg() {
+      if (this.isCircle) {
+        await this.$store.dispatch('chat/readMsg', {
+          circleId: this.CurrentToCircle.circleId
+        })
+      } else {
+        await this.$store.dispatch('chat/readMsg', {
+          toUserId: this.CurrentToUser.userId
+        })
+      }
+      await this.$store.dispatch('chat/getOldChatList', 0)
+      await this.$store.dispatch('chat/getNoReadNum')
     },
 
     // 获取分页消息

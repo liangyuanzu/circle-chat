@@ -255,7 +255,9 @@ export default {
 
   onShow() {
     // 获取列表
-    this.getList()
+    setTimeout(() => {
+      this.getList()
+    }, 800)
   },
 
   onHide() {
@@ -345,12 +347,14 @@ export default {
       }
 
       // 缓存未读数更新
+      /*
       new Promise((resolve) => {
         read(id)
         resolve()
       }).then(() => {
         item.noReadNum = 0
-      })
+			})
+			 */
     },
 
     getList() {
