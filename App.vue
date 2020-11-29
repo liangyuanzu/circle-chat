@@ -46,6 +46,7 @@ export default {
     })
 
     // #ifdef MP-BAIDU
+    /*
     uni.checkSession({
       success: () => {
         const userinfo = localStore.get('userinfo')
@@ -60,7 +61,8 @@ export default {
           })
         }
       }
-    })
+		})
+		*/
     // #endif
 
     // #ifndef MP-BAIDU

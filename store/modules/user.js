@@ -25,6 +25,7 @@ const state = {
 	age: '',
 	sex: '',
 	birthday: '',
+	timer: '', // 更新位置信息定时器
 	autograph: '',
 	personinfo: '',
 	longitude: '', // 经度
@@ -69,6 +70,9 @@ const mutations = {
 	setPersonInfo(state, personinfo) {
 		state.personinfo = personinfo
 	},
+	setTimer(state, timer) {
+		state.timer = timer
+	},
 	setPosition(state, { longitude, latitude }) {
 		state.longitude = longitude
 		state.latitude = latitude
@@ -85,14 +89,19 @@ const actions = {
 		await dispatch('chat/init', {}, { root: true })
 	},
 
-	async init_baidu({ commit, dispatch }) {
+	async init_baidu({ state: { timer }, commit, dispatch }) {
 		const userinfo = localStore.get('userinfo')
 		commit('setUserId', userinfo.userId)
 		commit('setUsername', userinfo.username)
 		commit('setAvatar', userinfo.img)
 		commit('setSex', userinfo.sex)
 		commit('setAutograph', userinfo.autograph)
-		await dispatch('getPosition')
+		dispatch('getPosition')
+		timer && clearInterval(timer)
+		commit(
+			'setTimer',
+			setInterval(() => dispatch('getPosition'), 300000)
+		)
 		await dispatch('chat/init', {}, { root: true })
 	},
 
@@ -188,11 +197,12 @@ const actions = {
 		dispatch('chat/close', {}, { root: true })
 	},
 
-	async logout_baidu({ commit, dispatch }) {
+	async logout_baidu({ state: { timer }, commit, dispatch }) {
 		await logout_baidu()
 		commit('setUsername', '')
 		commit('setAvatar', '')
 		commit('setSex', '')
+		timer && clearInterval(timer)
 		uni.clearStorageSync()
 		uni.removeTabBarBadge({
 			index: 0

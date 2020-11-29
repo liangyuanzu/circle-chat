@@ -263,7 +263,9 @@ export default {
     uni.checkSession({
       success: () => {
         const userinfo = localStore.get('userinfo')
-        if (!userinfo) {
+        if (userinfo) {
+          this.$store.dispatch('user/init_baidu')
+        } else {
           uni.reLaunch({
             url: '/pages/login/login-baidu/login-baidu'
           })
