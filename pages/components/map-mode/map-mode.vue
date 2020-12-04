@@ -24,10 +24,12 @@ export default {
           title: '创建圈',
           rightText: '通过地图确定圈范围'
         },
+        // #ifndef MP-BAIDU
         {
           title: '附近的圈',
           rightText: '在地图中查看附近的圈'
         }
+        // #endif
       ]
     }
   },

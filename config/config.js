@@ -4,6 +4,8 @@ module.exports = {
 	emojiUrl: 'https://www.circlechat.top/files/emoji/',
 	createCircleMapUrl:
 		'https://www.circlechat.top/static/hybrid/html/create-circle-map.html',
+	createCircleMapUrl_baidu:
+		'https://www.circlechat.top/static/hybrid/html/create-circle-map_baidu.html',
 	nearbyCircleMapUrl:
 		'https://www.circlechat.top/static/hybrid/html/nearby-circle-map.html',
 	tabBarIndex: 0, // 消息提示tabBar索引

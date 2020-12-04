@@ -62,7 +62,6 @@ export default {
             type: 'smallcircle'
           }
         },
-        // #ifndef MP-BAIDU
         {
           title: '地图模式',
           extraIcon: {
@@ -71,7 +70,6 @@ export default {
             type: 'location-filled'
           }
         }
-        // #endif
       ]
     }
   },
@@ -86,7 +84,9 @@ export default {
           this.$u.route('/pages/components/focus-list/focus-list')
           break
         case '受邀列表':
-          this.$u.route('/pages/components/receive-invite-list/receive-invite-list')
+          this.$u.route(
+            '/pages/components/receive-invite-list/receive-invite-list'
+          )
           break
         case '我创建的圈':
           this.$u.route('/pages/components/my-create-circle/my-create-circle')

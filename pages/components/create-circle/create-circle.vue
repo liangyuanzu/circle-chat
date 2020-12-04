@@ -39,7 +39,7 @@
       </u-form-item>
 			 -->
 
-      <u-form-item label="圈范围" prop="circleRange">
+      <u-form-item label="圈范围" prop="circleRange" v-if="!form.radius">
         <u-input
           type="number"
           :maxlength="5"
