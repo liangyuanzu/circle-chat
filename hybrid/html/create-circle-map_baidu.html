@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+	<title>创建圈</title>
+	<link href="https://mapopen.cdn.bcebos.com/github/BMapGLLib/DrawingManager/src/DrawingManager.min.css"
+		rel="stylesheet">
+	<link href="./font/create-circle-map_baidu/iconfont.css" rel="stylesheet">
+	<link href="./css/create-circle-map_baidu.css" rel="stylesheet">
+</head>
+
+<body>
+	<div id="container"></div>
+
+	<!-- 顶部工具栏 -->
+	<div class="operate">
+		<span class="iconfont icon-guanbi close"></span>
+		<div class="iconfont icon-xiala pull">
+			<div class="menu">
+				<span class="arrow-to-top"></span>
+				<ul>
+					<li id="simple">极简模式</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+	<div class="info">操作说明：先点击地图，然后通过拖拽按钮来绘制圆确定圈范围。拖拽地图需结合底部按钮。</div>
+
+	<div class="dragging">
+		<button id="startDragging" class="btn btn-primary">开始拖拽</button>
+		<button id="endDragging" class="btn btn-primary">结束拖拽</button>
+	</div>
+
+	<script type="text/javascript"
+		src="https://api.map.baidu.com/api?type=webgl&v=1.0&ak=KE48vRpMzvqHZU8lY6gRFdfC47fk78Z8"></script>
+	<script type="text/javascript" src="./js/DrawingManager.js"></script>
+	<!-- <script type="text/javascript" src="https://b.bdstatic.com/searchbox/icms/searchbox/js/swan-2.0.21.js"></script> -->
+	<script type="text/javascript" src="https://js.cdn.aliyun.dcloud.net.cn/dev/uni-app/uni.webview.1.5.2.js"></script>
+	<script type="text/javascript" src="./js/create-circle-map_baidu.js"></script>
+</body>
+
+</html>
