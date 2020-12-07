@@ -182,6 +182,32 @@ export default {
     ...mapState('chat', ['CurrentToUser'])
   },
 
+  onReady() {
+    // #ifdef MP-BAIDU
+    uni.checkSession({
+      fail: () => {
+        const chatList = localStore.get(chatListName) || []
+        if (chatList.length === 0) {
+          const data = {
+            type: 'person',
+            userId: 63,
+            username: '小提示',
+            avatar: 'https://circlechat.top/files/img/male.jpeg',
+            data: '欢迎来到圈聊小程序，登录即可体验所有功能...',
+            time: new Date().getTime(),
+            noReadNum: 1
+          }
+          this.list.push(data)
+          uni.setTabBarBadge({
+            index: 0,
+            text: '1'
+          })
+        }
+      }
+    })
+    // #endif
+  },
+
   onLoad() {
     // 开启监听
     uni.$on('UserChat', (res) => {
@@ -358,7 +384,17 @@ export default {
     },
 
     getList() {
-      this.list = localStore.get(chatListName) || []
+      // #ifdef MP-BAIDU
+      const chatList = localStore.get(chatListName) || []
+      uni.checkSession({
+        success: () => {
+          this.list = chatList
+        },
+        fail: () => {
+          if (chatList.length !== 0) this.list = chatList
+        }
+      })
+      // #endif
     },
 
     tagClick(index) {
