@@ -8,6 +8,8 @@ module.exports = {
 		'https://www.circlechat.top/static/hybrid/html/create-circle-map_baidu.html',
 	nearbyCircleMapUrl:
 		'https://www.circlechat.top/static/hybrid/html/nearby-circle-map.html',
+	nearbyCircleMapUrl_baidu:
+		'https://www.circlechat.top/static/hybrid/html/nearby-circle-map_baidu.html',
 	tabBarIndex: 0, // 消息提示tabBar索引
 	sendOneType: 'SEND_TO_ONE_REQUEST',
 	receiveOneType: 'SEND_TO_USER_REQUEST',

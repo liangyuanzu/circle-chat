@@ -1,0 +1,215 @@
+* {
+	margin: 0;
+	padding: 0;
+}
+
+html,
+body,
+#allmap {
+	width: 100%;
+	height: 100%;
+	font-size: 14px;
+	color: #333333;
+}
+
+.operate {
+	width: 100%;
+	position: fixed;
+	left: 0;
+	top: 1rem;
+	z-index: 99999;
+	padding: 1rem;
+	font-size: 16px;
+	display: flex;
+	justify-content: space-between;
+	box-sizing: border-box;
+}
+
+.close,
+.pull {
+	width: 1.5rem;
+	height: 1.5rem;
+	line-height: 1.5rem;
+	text-align: center;
+	border-radius: .25rem;
+	background-color: #fff;
+	box-shadow: 0 0 .25rem rgba(0, 0, 0, .5);
+}
+
+.pull {
+	position: relative;
+}
+
+.pull .menu {
+	width: 5rem;
+	box-sizing: border-box;
+	position: fixed;
+	right: 1rem;
+	top: 3.8rem;
+	text-align: left;
+	font-size: 16px !important;
+	border-radius: .25rem;
+	background-color: #fff;
+	box-shadow: 0 0 .25rem rgba(0, 0, 0, .5);
+	display: none;
+}
+
+.menu .arrow-to-top {
+	position: fixed;
+	right: 1.5rem;
+	top: 3.3rem;
+	display: inline-block;
+	width: 0;
+	height: 0;
+	border: .25rem solid transparent;
+	border-bottom-color: #fff;
+}
+
+.menu>ul>li {
+	list-style: none;
+	height: 2.5rem;
+	line-height: 2.5rem;
+	text-align: center;
+	color: #666;
+}
+
+.card {
+	width: 100%;
+	height: 150px;
+	position: absolute;
+	bottom: 10%;
+	display: block;
+	overflow: hidden;
+	box-sizing: border-box;
+}
+
+.card>.item {
+	width: 90%;
+	height: 85%;
+	margin: 0 auto;
+	overflow: hidden;
+	box-sizing: border-box;
+	border-radius: 5px;
+	box-shadow: 3px 3px 4px rgba(26, 26, 26, 0.2);
+	background-color: #ffffff;
+}
+
+.card>.item>.list {
+	overflow: hidden;
+	box-sizing: border-box;
+	border-bottom: 0.5px solid #ddd;
+}
+
+.list>.item {
+	height: 70px;
+	position: relative;
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+}
+
+.list>.item>.avatar {
+	width: 48px;
+	height: 48px;
+	box-sizing: border-box;
+	position: absolute;
+	left: 15px;
+	font-size: 2em;
+	font-variant: small-caps;
+	display: inline-flex;
+	text-align: center;
+	justify-content: center;
+	align-items: center;
+	background-color: #ccc;
+	color: #ffffff;
+	white-space: nowrap;
+	background-size: cover;
+	background-position: center;
+	vertical-align: middle;
+	border-radius: 2500px;
+}
+
+.list>.item>.content {
+	width: calc(100% - 48px - 30px - 10px);
+	position: absolute;
+	left: 73px;
+	line-height: 1.6em;
+	flex: 1;
+	box-sizing: border-box;
+}
+
+.list>.item>.card-close {
+	position: absolute;
+	right: 0;
+	top: 0;
+	width: 25px;
+	height: 25px;
+	line-height: 25px;
+	text-align: center;
+}
+
+.card>.item>.button {
+	height: 57px;
+	padding: 0 20px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.btn {
+	width: 45%;
+	display: inline-block;
+	font-weight: 400;
+	color: #212529;
+	text-align: center;
+	vertical-align: middle;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	background-color: transparent;
+	border: 1px solid transparent;
+	padding: .375rem .75rem;
+	font-size: 1rem;
+	line-height: 1.5;
+	border-radius: .25rem;
+	transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+	outline: none;
+}
+
+.btn-primary {
+	color: #fff;
+	background-color: #007bff;
+	border-color: #007bff;
+}
+
+.btn-primary.disabled,
+.btn-primary:disabled {
+	color: #fff;
+	background-color: #007bff;
+	border-color: #007bff;
+}
+
+.btn.disabled,
+.btn:disabled {
+	opacity: .65;
+}
+
+.btn-outline-secondary {
+	color: #6c757d;
+	border-color: #6c757d;
+}
+
+.text-cut {
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+}
+
+.text-gray {
+	color: #aaaaaa;
+}
+
+.text-sm {
+	font-size: 12px;
+}

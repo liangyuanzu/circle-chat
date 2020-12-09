@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+	<title>附近的圈</title>
+	<link href="./font/nearby-circle-map_baidu/iconfont.css" rel="stylesheet">
+	<link href="./css/nearby-circle-map_baidu.css" rel="stylesheet">
+</head>
+
+<body>
+	<div id="allmap"></div>
+
+	<div class="operate">
+		<span class="iconfont icon-guanbi close"></span>
+		<div class="iconfont icon-xiala pull">
+			<div class="menu">
+				<span class="arrow-to-top"></span>
+				<ul id="circleType">
+					<li>综合</li>
+					<li>交友圈</li>
+					<li>固定圈</li>
+					<li>紧急圈</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+	<div id="card"></div>
+
+	<script type="text/javascript" src="https://api.map.baidu.com/api?v=3.0&ak=KE48vRpMzvqHZU8lY6gRFdfC47fk78Z8"></script>
+	<script type="text/javascript"
+		src="https://api.map.baidu.com/library/TextIconOverlay/1.2/src/TextIconOverlay_min.js"></script>
+	<!-- <script type="text/javascript"
+		src="https://api.map.baidu.com/library/MarkerClusterer/1.2/src/MarkerClusterer_min.js"></script> -->
+	<script type="text/javascript" src="./js/MarkerClusterer.js"></script>
+	<script type="text/javascript" src="https://unpkg.com/art-template@4.13.2/lib/template-web.js"></script>
+	<script type="text/html" id="cardTemplate">
+		<div class="card">
+			<div class="item">
+				<div class="list">
+					<div class="item">
+						<div class="avatar"></div>
+						<div class="content">
+							<div class="text-cut">{{ circleName }}</div>
+							<div class="text-gray text-sm text-cut">
+								{{ synopsis }}
+							</div>
+						</div>
+						<div class="card-close text-gray iconfont icon-guanbi" id="closeCard"></div>
+					</div>
+				</div>
+				<div class="button">
+					<button class="btn btn-outline-secondary" id="toCircleDetail">详情</button>
+					{{ if inCircle }}
+					<button class="btn btn-primary" disabled>已加入</button>
+					{{ else if !inCircle }}
+					<button class="btn btn-primary" id="toJoinCircle">加入</button>
+					{{ /if }}
+				</div>
+			</div>
+		</div>
+	</script>
+	<script type="text/javascript" src="https://b.bdstatic.com/searchbox/icms/searchbox/js/swan-2.0.21.js"></script>
+	<script type="text/javascript" src="https://js.cdn.aliyun.dcloud.net.cn/dev/uni-app/uni.webview.1.5.2.js"></script>
+	<script type="text/javascript" src="./js/request.js"></script>
+	<script type="text/javascript" src="./js/nearby-circle-map_baidu.js"></script>
+</body>
+
+</html>
