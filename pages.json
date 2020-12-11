@@ -79,6 +79,7 @@
 				"navigationBarTitleText": "圈设置"
 			}
 		},
+		// #ifndef MP-BAIDU
 		{
 			"path": "pages/login/login",
 			"style": {
@@ -95,6 +96,7 @@
 				"navigationStyle": "custom"
 			}
 		},
+		// #endif
 		{
 			"path": "pages/components/info/info",
 			"style": {

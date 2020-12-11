@@ -28,8 +28,10 @@
  *
  * @event {Function} click 头像被点击
  */
-
+// #ifndef MP-BAIDU
 import { base64ToPath } from '@/utils/image-tools/index.js'
+// #endif
+
 export default {
   name: 'custom-update-avatar',
 
