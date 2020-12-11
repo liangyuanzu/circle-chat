@@ -30,7 +30,8 @@ const state = {
 	personinfo: '',
 	longitude: '', // 经度
 	latitude: '', // 纬度
-	setting: {}
+	setting: {},
+	isInit: false // 是否已初始化
 }
 
 const getters = {
@@ -42,7 +43,8 @@ const getters = {
 	birthday: (state) => state.birthday,
 	autograph: (state) => state.autograph,
 	personinfo: (state) => state.personinfo,
-	position: (state) => state.longitude + ',' + state.latitude
+	position: (state) => state.longitude + ',' + state.latitude,
+	isInit: (state) => state.isInit
 }
 
 const mutations = {
@@ -79,6 +81,9 @@ const mutations = {
 	},
 	setSetting(state, setting) {
 		state.setting = setting
+	},
+	setIsInit(state, isInit) {
+		state.isInit = isInit
 	}
 }
 
@@ -267,10 +272,12 @@ const actions = {
 		localStore.set('sessionId', sessionid)
 	},
 
-	async getUserInfo_baidu({ dispatch }, data) {
+	async getUserInfo_baidu({ commit, dispatch }, data) {
 		const userinfo = await getUserInfo_baidu(data)
 		localStore.set('userinfo', userinfo)
-		dispatch('init_baidu')
+		dispatch('init_baidu').then(() => {
+			commit('setIsInit', true)
+		})
 	},
 
 	async getUserSetting({ commit }) {

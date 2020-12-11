@@ -171,7 +171,7 @@ export function chatDetailFormat(list) {
 }
 
 // 读取当前会话
-export function read(id) {
+export function readMsg(id) {
 	let chatList = localStore.get(chatListName) || []
 	const index = chatList?.findIndex((i) => i.userId === id || i.circleId === id)
 	// 如果会话存在
@@ -206,7 +206,7 @@ function updateTabBarBadge(num) {
 	if (num > 0) {
 		uni.setTabBarBadge({
 			index: tabBarIndex,
-			text: num > 99 ? '99+' : num.toString()
+			text: num <= 99 ? num.toString() : '99+'
 		})
 	} else {
 		uni.removeTabBarBadge({

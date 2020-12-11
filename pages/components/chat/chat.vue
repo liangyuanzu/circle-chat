@@ -270,13 +270,12 @@
 <script>
 import localStore from '@/helpers/localStore.js'
 import Time from '@/helpers/time.js'
-import { chatFormat } from '@/helpers/chat.js'
+import { chatFormat, chatDetailFormat } from '@/helpers/chat.js'
 import { html2text } from '@/helpers/utils.js'
 import * as _ from '@/utils/lodash/lodash.js'
 import { mapGetters, mapState } from 'vuex'
 import { emojiUrl, receiveOneType, receiveCircleType } from '@/config/config.js'
 import { getOldChatDetailPrivate, getOldChatDetailCircle } from '@/api/chat.js'
-import { chatDetailFormat } from '@/helpers/chat.js'
 
 // 获取系统状态栏的高度
 let systemInfo = uni.getSystemInfoSync()
@@ -839,8 +838,6 @@ export default {
           toUserId: this.CurrentToUser.userId
         })
       }
-      await this.$store.dispatch('chat/getOldChatList', 0)
-      await this.$store.dispatch('chat/getNoReadNum')
     },
 
     // 获取分页消息

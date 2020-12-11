@@ -86,7 +86,7 @@
 
 <script>
 import Time from '@/helpers/time.js'
-import { read } from '@/helpers/chat.js'
+import { readMsg } from '@/helpers/chat.js'
 
 import {
   chatListName,
@@ -101,21 +101,6 @@ import { mapGetters, mapState } from 'vuex'
 export default {
   data() {
     return {
-      value1: '',
-      options1: [
-        {
-          label: '默认排序',
-          value: 1
-        },
-        {
-          label: '距离优先',
-          value: 2
-        },
-        {
-          label: '价格优先',
-          value: 3
-        }
-      ],
       options: [
         {
           label: '交友圈',
@@ -177,7 +162,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters('user', ['userId', 'personinfo']),
+    ...mapGetters('user', ['userId', 'personinfo', 'isInit']),
     ...mapGetters('circle', ['circleInfo']),
     ...mapState('chat', ['CurrentToUser'])
   },
@@ -281,9 +266,7 @@ export default {
 
   onShow() {
     // 获取列表
-    setTimeout(() => {
-      this.getList()
-    }, 800)
+    this.getList()
   },
 
   onHide() {
@@ -292,7 +275,11 @@ export default {
       success: () => {
         const userinfo = localStore.get('userinfo')
         if (userinfo) {
-          this.$store.dispatch('user/init_baidu')
+          if (!this.isInit) {
+            this.$store.dispatch('user/init_baidu').then(() => {
+              this.$store.commit('user/setIsInit', true)
+            })
+          }
         } else {
           uni.reLaunch({
             url: '/pages/login/login-baidu/login-baidu'
@@ -344,6 +331,10 @@ export default {
       )
       const item = this.list[index]
 
+      // 未读数更新
+      readMsg(id)
+      item.noReadNum = 0
+
       if (item.userId) {
         await this.$store.dispatch('user/getPersonInfo', item.userId)
         const { isFocus } = this.personinfo
@@ -371,16 +362,6 @@ export default {
           })
         }
       }
-
-      // 缓存未读数更新
-      /*
-      new Promise((resolve) => {
-        read(id)
-        resolve()
-      }).then(() => {
-        item.noReadNum = 0
-			})
-			 */
     },
 
     getList() {
