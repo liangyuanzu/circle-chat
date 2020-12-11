@@ -89,7 +89,13 @@ export default {
       this.hideModal()
       switch (text) {
         case '地图模式':
-          this.$u.route('/pages/components/create-circle-map/create-circle-map')
+          if (uni.getSystemInfoSync().platform === 'ios') {
+            this.$u.toast('ios 因兼容性问题暂未开放')
+          } else {
+            this.$u.route(
+              '/pages/components/create-circle-map/create-circle-map'
+            )
+          }
           break
         case '极简模式':
           this.$u.route('/pages/components/create-circle/create-circle')

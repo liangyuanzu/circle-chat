@@ -36,7 +36,13 @@ export default {
     listItemClick(title) {
       switch (title) {
         case '创建圈':
-          this.$u.route('/pages/components/create-circle-map/create-circle-map')
+          if (uni.getSystemInfoSync().platform === 'ios') {
+            this.$u.toast('ios 因兼容性问题暂未开放')
+          } else {
+            this.$u.route(
+              '/pages/components/create-circle-map/create-circle-map'
+            )
+          }
           break
         case '附近的圈':
           this.$u.route('/pages/components/nearby-circle-map/nearby-circle-map')
