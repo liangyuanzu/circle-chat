@@ -11,12 +11,7 @@
     >
     </u-tabs-swiper>
 
-    <swiper
-      class="swiper-box"
-      :current="swiperCurrent"
-      @transition="transition"
-      @animationfinish="animationfinish"
-    >
+    <swiper class="swiper-box" :current="swiperCurrent" @change="change">
       <swiper-item
         class="swiper-item"
         v-for="(item, index) in list"
@@ -75,7 +70,8 @@ export default {
         }
       ],
       current: 0,
-      swiperCurrent: 0
+      swiperCurrent: 0,
+      loading: false
     }
   },
 
@@ -101,20 +97,18 @@ export default {
 
   methods: {
     getCircleList() {
-      this.$store.dispatch('circle/nearlyCircle', this.swiperCurrent)
+      this.$store
+        .dispatch('circle/nearlyCircle', this.swiperCurrent)
+        .then(() => (this.loading = false))
     },
 
     tabsChange(index) {
       this.swiperCurrent = index
-      this.getCircleList()
     },
 
-    transition({ detail: { dx } }) {
-      this.$refs.tabs.setDx(dx)
-    },
-
-    animationfinish({ detail: { current } }) {
-      this.$refs.tabs.setFinishCurrent(current)
+    change({ detail: { current } }) {
+      if (this.loading) return
+      this.loading = true
       this.swiperCurrent = current
       this.current = current
       this.getCircleList()
