@@ -74,7 +74,7 @@ export default {
 
   computed: {
     ...mapGetters('user', ['personinfo', 'userId']),
-    ...mapGetters('focus', ['focusStatus']),
+    // ...mapGetters('focus', ['focusStatus']),
     showSex() {
       if (this.personinfo.sex === '男' || this.personinfo.sex === '女')
         return true
@@ -93,9 +93,12 @@ export default {
       return ''
     },
     isFocus() {
-      if (this.focusStatus === 0 || this.focusStatus === 2) {
+      if (this.personinfo.isFocus === 0 || this.personinfo.isFocus === 2) {
         return false
-      } else if (this.focusStatus === 1 || this.focusStatus === 3) {
+      } else if (
+        this.personinfo.isFocus === 1 ||
+        this.personinfo.isFocus === 3
+      ) {
         return true
       }
     },
@@ -105,12 +108,12 @@ export default {
           icon: 'plusempty',
           text: '关注'
         }
-      } else if (this.focusStatus === 1) {
+      } else if (this.personinfo.isFocus === 1) {
         return {
           icon: 'checkmarkempty',
           text: '已关注'
         }
-      } else if (this.focusStatus === 3) {
+      } else if (this.personinfo.isFocus === 3) {
         return {
           icon: 'star-filled',
           text: '互相关注'
@@ -131,7 +134,7 @@ export default {
   methods: {
     getInfo(id) {
       this.$store.dispatch('user/getPersonInfo', id)
-      this.$store.dispatch('focus/getFocusStatus', id)
+      // this.$store.dispatch('focus/getFocusStatus', id)
     },
 
     toSignature() {
@@ -156,7 +159,7 @@ export default {
     },
 
     sendMsg() {
-      if (this.focusStatus !== 3) {
+      if (this.personinfo.isFocus !== 3) {
         uni.showToast({
           title: '互相关注后才可发消息',
           icon: 'none'
