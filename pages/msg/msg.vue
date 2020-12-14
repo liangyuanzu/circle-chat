@@ -157,7 +157,8 @@ export default {
           label: '紧急圈',
           value: '紧急圈'
         }
-      ]
+      ],
+      refreshing: false
     }
   },
 
@@ -298,12 +299,15 @@ export default {
   },
 
   onPullDownRefresh() {
+    if (this.refreshing) return
+    this.refreshing = true
     Promise.all([
       this.$store.dispatch('chat/getOldChatList', 0),
       this.$store.dispatch('chat/getNoReadNum')
     ]).then(() => {
       this.getList()
       uni.stopPullDownRefresh()
+      this.refreshing = false
     })
   },
 
