@@ -697,6 +697,7 @@ export default {
   },
 
   async onShow() {
+    /*
     if (this.toUserId) {
       await this.$store.dispatch('user/getPersonInfo', this.toUserId)
       const { isFocus } = this.personinfo
@@ -712,7 +713,8 @@ export default {
         }, 1000)
       }
       this.scrollTop = 9999999
-    }
+		}
+		 */
   },
 
   onHide() {
