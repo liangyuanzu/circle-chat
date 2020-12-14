@@ -349,7 +349,12 @@ export default {
 
     btnClick() {
       this.saveKeyword(this.keyword)
-      this.getSearchList()
+      // this.getSearchList()
+      this.$store.dispatch('getSearchList', this.keyword).then(async () => {
+        this.keywordList = this.searchList
+        await this.$store.dispatch('chat/getOldChatList', 0)
+        await this.$store.dispatch('chat/getNoReadNum')
+      })
     }
   }
 }

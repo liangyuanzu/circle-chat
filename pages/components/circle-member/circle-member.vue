@@ -42,7 +42,12 @@ export default {
 
   methods: {
     getIndexList() {
-      this.$store.dispatch('circle/getIndexList', this.circleId)
+      this.$store
+        .dispatch('circle/getIndexList', this.circleId)
+        .then(async () => {
+          await this.$store.dispatch('chat/getOldChatList', 0)
+          await this.$store.dispatch('chat/getNoReadNum')
+        })
     }
   }
 }

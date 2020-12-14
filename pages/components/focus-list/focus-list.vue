@@ -76,6 +76,8 @@ export default {
 
     async onFocus() {
       await this.getList(this.type)
+      await this.$store.dispatch('chat/getOldChatList', 0)
+      await this.$store.dispatch('chat/getNoReadNum')
     }
   }
 }

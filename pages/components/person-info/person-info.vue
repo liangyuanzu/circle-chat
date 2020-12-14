@@ -151,6 +151,8 @@ export default {
         })
       }
       await this.getInfo(this.personinfo.userId)
+      await this.$store.dispatch('chat/getOldChatList', 0)
+      await this.$store.dispatch('chat/getNoReadNum')
     },
 
     sendMsg() {
