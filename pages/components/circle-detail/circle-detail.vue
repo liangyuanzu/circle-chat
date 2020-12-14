@@ -57,7 +57,7 @@ export default {
         .dispatch('circle/joinCircle', {
           circleId: this.circleInfo.circleId
         })
-        .then(() => {
+        .then(async () => {
           this.loading = false
           setTimeout(() => {
             uni.showToast({
@@ -68,6 +68,8 @@ export default {
               this.toCircleChat()
             }, 500)
           }, 500)
+          await this.$store.dispatch('chat/getOldChatList', 0)
+          await this.$store.dispatch('chat/getNoReadNum')
         })
         .catch(() => {
           this.loading = false

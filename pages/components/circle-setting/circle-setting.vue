@@ -334,13 +334,13 @@ export default {
       switch (this.modalTitle) {
         case '删除并退出':
           uni.showLoading({
-						title: '正在退出...'
-					})
+            title: '正在退出...'
+          })
           this.$store
             .dispatch('circle/exitCircle', {
               circleId: this.circleInfo.circleId
             })
-            .then(() => {
+            .then(async () => {
               uni.hideLoading()
               setTimeout(() => {
                 uni.showToast({
@@ -354,6 +354,8 @@ export default {
                   })
                 }, 500)
               }, 500)
+              await this.$store.dispatch('chat/getOldChatList', 0)
+              await this.$store.dispatch('chat/getNoReadNum')
             })
             .catch(() => {
               uni.hideLoading()

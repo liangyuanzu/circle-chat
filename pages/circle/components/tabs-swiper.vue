@@ -27,7 +27,7 @@
             :border="false"
             showJoin
             :list="circleList"
-            @joinClick="getCircleList"
+            @joinClick="joinClick"
           >
           </custom-circle-list>
           <!-- #endif -->
@@ -35,7 +35,7 @@
           <custom-nearby-circle-list
             showJoin
             :list="circleList"
-            @joinClick="getCircleList"
+            @joinClick="joinClick"
           >
           </custom-nearby-circle-list>
           <!-- #endif -->
@@ -112,6 +112,15 @@ export default {
       this.swiperCurrent = current
       this.current = current
       this.getCircleList()
+    },
+
+    joinClick() {
+      this.$store
+        .dispatch('circle/nearlyCircle', this.swiperCurrent)
+        .then(async () => {
+          await this.$store.dispatch('chat/getOldChatList', 0)
+          await this.$store.dispatch('chat/getNoReadNum')
+        })
     },
 
     reachBottom() {}
