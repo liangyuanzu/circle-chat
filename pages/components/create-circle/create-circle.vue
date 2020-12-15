@@ -193,6 +193,7 @@ export default {
                   })
                 }, 500)
               }, 500)
+              this.$store.dispatch('chat/getOldChatList', 0)
             })
             .catch(() => {
               uni.hideLoading()
