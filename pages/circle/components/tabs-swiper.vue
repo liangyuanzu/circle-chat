@@ -106,6 +106,7 @@ export default {
   },
 
   mounted() {
+    this.loading = true
     this.getCircleList()
   },
 
