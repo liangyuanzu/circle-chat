@@ -604,11 +604,13 @@ export default {
         (this.CurrentToCircle.circleId === data.body.circleId &&
           data.type === receiveCircleType)
       ) {
-        const msg = chatFormat(data, {
+        let msg = chatFormat(data, {
           type: 'chatDetail',
           oldData: this.msgList,
           isCircle: this.isCircle
         })
+        msg.msg.content = this.setPicSize(msg.msg.content)
+        this.msgImgList?.push(msg.msg.content.url)
         this.msgList?.push(msg)
         // 滚动到底
         this.$nextTick(() => {
