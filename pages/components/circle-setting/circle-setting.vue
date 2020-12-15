@@ -141,7 +141,6 @@
         </template>
       </uni-list-item>
     </uni-list>
-    <!-- #endif -->
 
     <view class="margin-top-sm">
       <uni-list>
@@ -154,6 +153,7 @@
         </uni-list-item>
       </uni-list>
     </view>
+    <!-- #endif -->
 
     <view class="margin-top-sm margin-bottom-xl">
       <uni-list>
