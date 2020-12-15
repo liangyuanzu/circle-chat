@@ -22,25 +22,38 @@
           style="height: 100%; width: 100%"
           @scrolltolower="reachBottom"
         >
+          <view v-if="loading">
+            <view v-for="(item, index2) in loadingList" :key="index2">
+              <view class="bg-white">
+                <skeleton avatarSize="80rpx" avatarShape="square" :row="1">
+                </skeleton>
+              </view>
+            </view>
+          </view>
+
           <!-- #ifndef MP-BAIDU -->
-          <custom-circle-list
-            :border="false"
-            showJoin
-            :list="circleList"
-            @joinClick="joinClick"
-          >
-          </custom-circle-list>
+          <view v-else-if="circleList.length > 0">
+            <custom-circle-list
+              :border="false"
+              showJoin
+              :list="circleList"
+              @joinClick="joinClick"
+            >
+            </custom-circle-list>
+          </view>
           <!-- #endif -->
           <!-- #ifdef MP-BAIDU -->
-          <custom-nearby-circle-list
-            showJoin
-            :list="circleList"
-            @joinClick="joinClick"
-          >
-          </custom-nearby-circle-list>
+          <view v-else-if="circleList.length > 0">
+            <custom-nearby-circle-list
+              showJoin
+              :list="circleList"
+              @joinClick="joinClick"
+            >
+            </custom-nearby-circle-list>
+          </view>
           <!-- #endif -->
 
-          <view class="empty" :style="emptyTop" v-if="circleList.length === 0">
+          <view class="empty" :style="emptyTop" v-else>
             <u-empty mode="list"></u-empty>
           </view>
         </scroll-view>
@@ -71,7 +84,8 @@ export default {
       ],
       current: 0,
       swiperCurrent: 0,
-      loading: false
+      loading: false,
+      loadingList: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
     }
   },
 

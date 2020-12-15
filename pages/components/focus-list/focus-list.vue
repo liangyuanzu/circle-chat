@@ -9,17 +9,31 @@
     ></u-tabs>
 
     <view v-for="(item, index) in focusList" :key="index">
-      <custom-focus-list
-        v-if="type === index + 1"
-        :list="item"
-        @focusClick="onFocus"
-      ></custom-focus-list>
+      <view v-if="loading">
+        <view v-for="(item, index) in list" :key="index">
+          <view class="bg-white">
+            <skeleton
+              avatarSize="80rpx"
+              avatarShape="square"
+              :row="1"
+              :showTitle="false"
+            >
+            </skeleton>
+          </view>
+        </view>
+      </view>
 
-      <!-- #ifndef MP-BAIDU -->
-      <view class="empty" v-if="focusList[type - 1].length === 0">
+      <view v-else-if="focusList[type - 1].length > 0">
+        <custom-focus-list
+          v-if="type === index + 1"
+          :list="item"
+          @focusClick="onFocus"
+        ></custom-focus-list>
+      </view>
+
+      <view class="empty" v-else>
         <u-empty mode="list"></u-empty>
       </view>
-      <!-- #endif -->
     </view>
   </view>
 </template>
@@ -38,7 +52,9 @@ export default {
           name: '关注我的'
         }
       ],
-      current: 0
+      current: 0,
+      loading: true,
+      list: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
     }
   },
 
@@ -62,7 +78,9 @@ export default {
 
   methods: {
     getList(type) {
-      this.$store.dispatch('focus/getFocusList', type)
+      this.$store
+        .dispatch('focus/getFocusList', type)
+        .then(() => (this.loading = false))
     },
 
     change(index) {

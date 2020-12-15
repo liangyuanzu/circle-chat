@@ -1,6 +1,20 @@
 <template>
   <view>
-    <view v-if="inviteList.length > 0">
+    <view v-if="loading">
+      <view v-for="(item, index) in list" :key="index">
+        <view class="bg-white">
+          <skeleton
+            avatarSize="80rpx"
+            avatarShape="square"
+            :row="1"
+            :showTitle="false"
+          >
+          </skeleton>
+        </view>
+      </view>
+    </view>
+
+    <view v-else-if="inviteList.length > 0">
       <view class="cu-bar bg-white margin-bottom-sm">
         <view class="flex justify-end padding-right" style="width: 100%">
           <button class="cu-btn round bg-white" @click="showModal = true">
@@ -72,6 +86,7 @@
     <view class="empty" v-else>
       <u-empty mode="list"></u-empty>
     </view>
+
     <u-modal
       v-model="showModal"
       :show-title="false"
@@ -93,7 +108,9 @@ export default {
       modalName: null,
       listTouchStart: 0,
       listTouchDirection: null,
-      showModal: false
+      showModal: false,
+      loading: true,
+      list: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
     }
   },
 
@@ -123,7 +140,9 @@ export default {
     },
 
     getList() {
-      this.$store.dispatch('invite/getInviteList')
+      this.$store
+        .dispatch('invite/getInviteList')
+        .then(() => (this.loading = false))
     },
 
     async agreeInvite(item) {

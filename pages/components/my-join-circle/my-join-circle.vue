@@ -1,7 +1,19 @@
 <template>
   <view>
-    <custom-circle-list showArrow :list="myJoinCircle" :showNote="false" />
-    <view class="empty" v-if="myJoinCircle.length === 0">
+    <view v-if="loading">
+      <view v-for="(item, index) in list" :key="index">
+        <view class="bg-white">
+          <skeleton avatarSize="80rpx" avatarShape="square" :row="1">
+          </skeleton>
+        </view>
+      </view>
+    </view>
+
+    <view v-else-if="myJoinCircle.length > 0">
+      <custom-circle-list showArrow :list="myJoinCircle" :showNote="false" />
+    </view>
+
+    <view class="empty" v-else>
       <u-empty mode="list"></u-empty>
     </view>
   </view>
@@ -12,7 +24,10 @@ import { mapState } from 'vuex'
 
 export default {
   data() {
-    return {}
+    return {
+      loading: true,
+      list: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+    }
   },
 
   computed: {
@@ -20,7 +35,9 @@ export default {
   },
 
   onShow() {
-    this.$store.dispatch('circle/getMyJoinCircle')
+    this.$store
+      .dispatch('circle/getMyJoinCircle')
+      .then(() => (this.loading = false))
   }
 }
 </script>
