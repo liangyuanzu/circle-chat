@@ -10,7 +10,7 @@
 
     <view v-for="(item, index) in focusList" :key="index">
       <view v-if="loading">
-        <view v-for="(item, index) in list" :key="index">
+        <view v-for="(item, index1) in list" :key="index1">
           <view class="bg-white">
             <skeleton
               avatarSize="80rpx"
