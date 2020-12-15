@@ -1,6 +1,20 @@
 <template>
   <view>
-    <view v-if="list.length > 0">
+    <view v-if="loading">
+      <view v-for="(item, index) in loadingList" :key="index">
+        <view class="bg-white">
+          <skeleton
+            avatarSize="80rpx"
+            avatarShape="square"
+            :row="1"
+            :showTitle="false"
+          >
+          </skeleton>
+        </view>
+      </view>
+    </view>
+
+    <view v-else-if="list.length > 0">
       <view class="cu-bar bg-white">
         <view class="flex justify-between" style="width: 100%">
           <button class="cu-btn round bg-white" @click="checkedAll">
@@ -47,7 +61,9 @@ export default {
       list: [],
       uids: [],
       circleId: 0,
-      isSelectAll: false
+      isSelectAll: false,
+      loading: true,
+      loadingList: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
     }
   },
 
@@ -58,6 +74,7 @@ export default {
   onLoad({ circleId }) {
     this.circleId = circleId
     this.$store.dispatch('circle/getUsersInCircleList', circleId).then(() => {
+      this.loading = false
       this.list = this.usersInCircleList.filter((i) => !i.inCircle)
     })
   },
