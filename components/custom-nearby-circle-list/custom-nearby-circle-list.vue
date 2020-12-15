@@ -96,7 +96,7 @@ export default {
 
     onClick(item) {
       if (item.inCircle) {
-        this.toCircleChat(item.circleId)
+        this.toCircleChat(item)
       } else {
         this.$u.route('/pages/components/circle-detail/circle-detail', {
           circleId: item.circleId
@@ -105,9 +105,9 @@ export default {
       this.$emit('click')
     },
 
-    toCircleChat(circleId) {
+    toCircleChat(circleInfo) {
       this.$u.route('/pages/components/chat/chat', {
-        circleId
+        circleInfo: encodeURIComponent(JSON.stringify(circleInfo))
       })
     },
 
@@ -124,7 +124,7 @@ export default {
               icon: 'none'
             })
             setTimeout(() => {
-              this.toCircleChat(circleinfo.circleId)
+              this.toCircleChat(circleinfo)
             }, 500)
           }, 500)
         })

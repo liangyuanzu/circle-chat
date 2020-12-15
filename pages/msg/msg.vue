@@ -344,7 +344,9 @@ export default {
         const { isFocus } = this.personinfo
         if (isFocus === 3) {
           uni.navigateTo({
-            url: '/pages/components/chat/chat?personId=' + item.userId
+            url:
+              '/pages/components/chat/chat?personInfo=' +
+              encodeURIComponent(JSON.stringify(this.personinfo))
           })
         } else {
           uni.showToast({
@@ -357,7 +359,9 @@ export default {
         const { inCircle } = this.circleInfo
         if (inCircle) {
           uni.navigateTo({
-            url: '/pages/components/chat/chat?circleId=' + item.circleId
+            url:
+              '/pages/components/chat/chat?circleInfo=' +
+              encodeURIComponent(JSON.stringify(this.circleInfo))
           })
         } else {
           uni.showToast({

@@ -620,24 +620,27 @@ export default {
 
   async onLoad(options) {
     this.showLoading = true //开启 loading 动画
-    if (options.personId) {
-      this.toUserId = options.personId
-      await this.$store.dispatch('user/getPersonInfo', options.personId)
-      const { userId, username, img: avatar } = this.personinfo
+    if (options.personInfo) {
+      const personInfo = JSON.parse(decodeURIComponent(options.personInfo))
+      // this.toUserId = options.personId
+      // await this.$store.dispatch('user/getPersonInfo', options.personId)
+      const { userId, username, img: avatar } = personInfo
+      this.toUserId = userId
       this.$store.commit('chat/setCurrentToUser', { userId, username, avatar })
       // 修改标题
       this.title = username
       // 修改圈状态
       this.$store.commit('chat/setIsCircle', false)
-    } else if (options.circleId) {
-      await this.$store.dispatch('circle/getCircleInfo', options.circleId)
+    } else if (options.circleInfo) {
+      const circleInfo = JSON.parse(decodeURIComponent(options.circleInfo))
+      // await this.$store.dispatch('circle/getCircleInfo', options.circleId)
       const {
         circleId,
         circleName,
         img: circleAvatar,
         type: circleType,
         member
-      } = this.circleInfo
+      } = circleInfo
       this.$store.commit('chat/setCurrentToCircle', {
         circleId,
         circleName,

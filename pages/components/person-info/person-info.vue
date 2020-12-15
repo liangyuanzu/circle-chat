@@ -169,7 +169,7 @@ export default {
           type: 'redirect',
           url: '/pages/components/chat/chat',
           params: {
-            personId: this.personinfo.userId
+            personInfo: encodeURIComponent(JSON.stringify(this.personinfo))
           }
         })
       }

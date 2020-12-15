@@ -30,7 +30,9 @@
               <view class="cu-tag bg-black sm">
                 <text class="cuIcon-radiobox"></text>
               </view>
-              <view class="cu-tag line-black sm"> {{ $formatRadius(item.radius)}}</view>
+              <view class="cu-tag line-black sm">
+                {{ $formatRadius(item.radius) }}</view
+              >
             </view>
             <!-- 简介 -->
             <view
@@ -116,7 +118,7 @@ export default {
 
     onClick(item) {
       if (item.inCircle) {
-        this.toCircleChat(item.circleId)
+        this.toCircleChat(item)
       } else {
         this.$u.route('/pages/components/circle-detail/circle-detail', {
           circleId: item.circleId
@@ -125,9 +127,12 @@ export default {
       this.$emit('click')
     },
 
-    toCircleChat(circleId) {
+    toCircleChat(circleInfo) {
+      if (!circleInfo.circleName && circleInfo.name) {
+        circleInfo.circleName = circleInfo.name
+      }
       this.$u.route('/pages/components/chat/chat', {
-        circleId
+        circleInfo: encodeURIComponent(JSON.stringify(circleInfo))
       })
     },
 
@@ -144,7 +149,7 @@ export default {
               icon: 'none'
             })
             setTimeout(() => {
-              this.toCircleChat(circleinfo.circleId)
+              this.toCircleChat(circleinfo)
             }, 500)
           }, 500)
         })

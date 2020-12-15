@@ -160,7 +160,7 @@ function cardOperate() {
 			alert('加入成功')
 			setTimeout(() => {
 				uni.redirectTo({
-					url: '/pages/components/chat/chat?circleId=' + circleInfo.circleId
+					url: '/pages/components/chat/chat?circleInfo=' + encodeURIComponent(JSON.stringify(circleInfo))
 				})
 			}, 500)
 		} catch (error) {

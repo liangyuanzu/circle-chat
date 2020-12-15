@@ -58,7 +58,7 @@ export default {
               type: 'success',
               url: '/pages/components/chat/chat',
               params: {
-                circleId: this.circleInfo.circleId
+                circleInfo: encodeURIComponent(JSON.stringify(this.circleInfo))
               }
             })
           } else {

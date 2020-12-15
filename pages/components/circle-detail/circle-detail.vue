@@ -46,7 +46,7 @@ export default {
         type: 'redirect',
         url: '/pages/components/chat/chat',
         params: {
-          circleId: this.circleInfo.circleId
+          circleInfo: encodeURIComponent(JSON.stringify(this.circleInfo))
         }
       })
     },
