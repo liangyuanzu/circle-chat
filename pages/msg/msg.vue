@@ -158,7 +158,8 @@ export default {
           value: '紧急圈'
         }
       ],
-      refreshing: false
+      refreshing: false,
+      clicked: false
     }
   },
 
@@ -330,6 +331,9 @@ export default {
     },
 
     async toChatDetail(id) {
+      if (this.clicked) return
+      this.clicked = true
+
       const index = this.list.findIndex(
         (i) => i.userId === id || i.circleId === id
       )
@@ -354,6 +358,7 @@ export default {
             icon: 'none'
           })
         }
+        setTimeout(() => (this.clicked = false), 500)
       } else if (item.circleId) {
         await this.$store.dispatch('circle/getCircleInfo', item.circleId)
         const { inCircle } = this.circleInfo
@@ -369,6 +374,7 @@ export default {
             icon: 'none'
           })
         }
+        setTimeout(() => (this.clicked = false), 500)
       }
     },
 
