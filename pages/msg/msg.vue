@@ -66,8 +66,9 @@
           >
           <view class="text-gray text-sm flex">
             <view class="text-cut">
-              <rich-text :nodes="item.data"></rich-text> </view
-          ></view>
+              <text>{{ item.data }}</text>
+            </view></view
+          >
         </view>
         <view class="action">
           <view class="text-grey text-xs"> {{ formatTime(item.time) }}</view>

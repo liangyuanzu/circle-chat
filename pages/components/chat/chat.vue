@@ -236,6 +236,7 @@
               :auto-height="true"
               :show-confirm-bar="false"
               :cursor-spacing="30"
+              :maxlength="341"
               v-model="textMsg"
               @focus="textareaFocus"
             />
