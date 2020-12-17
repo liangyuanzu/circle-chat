@@ -97,6 +97,7 @@ export default {
 /* color-ui */
 @import 'colorui/main.css';
 @import 'colorui/icon.css';
+@import 'colorui/animation.css';
 /*每个页面公共css */
 .empty {
   position: fixed;

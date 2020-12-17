@@ -47,7 +47,13 @@
                 <view class="text-sm text-cut">{{ item.username }}</view>
               </view>
 
-              <view v-if="isOwner" @click.stop="toInviteMember">
+              <view class="invite" v-if="isOwner" @click.stop="toInviteMember">
+                <view class="tip animation-reverse" :class="tipAnimation">
+                  <view class="cu-tag bg-gray">邀请附近圈友</view>
+                  <view class="icon">
+                    <text class="lg text-gray cuIcon-usefullfill"></text>
+                  </view>
+                </view>
                 <view
                   class="text-grey cuIcon-roundaddfill"
                   style="font-size: 90rpx"
@@ -194,7 +200,8 @@ export default {
       noNoticeLoading: false,
       showModal: false,
       modalTitle: '',
-      modalContent: ''
+      modalContent: '',
+      tipAnimation: ''
     }
   },
 
@@ -240,6 +247,10 @@ export default {
       if (this.circleInfo.type === '固定圈') return 'warning'
       if (this.circleInfo.type === '紧急圈') return 'error'
     }
+  },
+
+  onReady() {
+    setTimeout(() => (this.tipAnimation = 'animation-fade'), 1000)
   },
 
   onLoad({ circleId }) {
@@ -377,4 +388,18 @@ export default {
 </script>
 
 <style lang="scss">
+.invite {
+  position: relative;
+
+  .tip {
+    position: absolute;
+    left: 50%;
+    top: -60%;
+    transform: translateX(-50%);
+
+    .icon {
+      transform: rotate(180deg);
+    }
+  }
+}
 </style>
