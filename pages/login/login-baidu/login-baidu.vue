@@ -102,7 +102,7 @@ export default {
             userId: this.userId,
             sessionid: sessionId
           })
-          .then(() => {
+          .then(async () => {
             uni.showToast({
               title: '登录成功',
               icon: 'none'
@@ -112,6 +112,8 @@ export default {
                 url: '/pages/me/me'
               })
             }, 200)
+            await this.$store.dispatch('chat/getOldChatList', 0)
+            await this.$store.dispatch('chat/getNoReadNum')
           })
           .catch(() => {
             uni.showToast({
