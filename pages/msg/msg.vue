@@ -636,8 +636,9 @@ export default {
   .refresh-animation {
     position: absolute;
     left: 50%;
+    top: -250rpx;
     transform: translateX(-50%);
-    animation: refresh 1s ease 0s infinite;
+    animation: refresh 1s ease 0s;
   }
 
   @keyframes refresh {
@@ -646,7 +647,7 @@ export default {
     }
 
     to {
-      top: -200rpx;
+      top: -250rpx;
     }
   }
 }
