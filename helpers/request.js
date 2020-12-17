@@ -32,7 +32,7 @@ http.interceptors.response.use(
 			// #endif
 
 			// #ifdef MP-BAIDU
-			uni.reLaunch({
+			uni.navigateTo({
 				url: '/pages/login/login-baidu/login-baidu'
 			})
 			// #endif

@@ -284,7 +284,7 @@ export default {
             })
           }
         } else {
-          uni.reLaunch({
+          uni.navigateTo({
             url: '/pages/login/login-baidu/login-baidu'
           })
         }
@@ -292,7 +292,7 @@ export default {
 
       fail: () => {
         this.$store.dispatch('user/logout_baidu')
-        uni.reLaunch({
+        uni.navigateTo({
           url: '/pages/login/login-baidu/login-baidu'
         })
       }
