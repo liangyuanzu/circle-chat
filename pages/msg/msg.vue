@@ -82,6 +82,58 @@
     <view class="empty" v-if="list.length === 0">
       <u-empty mode="list"></u-empty>
     </view>
+
+    <u-mask :show="show" :mask-click-able="maskClickAble" @click="show = false">
+      <view class="to-search" :style="to_search_style" v-if="show_search">
+        <u-search
+          placeholder="搜索用户和圈"
+          :style="mask_search_style"
+          :clearabled="false"
+          :show-action="false"
+          disabled
+        ></u-search>
+        <view class="search-animation">
+          <u-image width="100rpx" height="100rpx" :src="to_search"></u-image>
+        </view>
+        <view class="text-xl text-bold text-white margin-tb-sm">搜索功能</view>
+        <view class="text-white padding-xs"
+          >根据用户名和圈名搜索，<br />搜索后即可关注用户和加入圈。</view
+        >
+        <button
+          class="cu-btn round lines-white margin-top-sm"
+          @tap="konwClick('search')"
+        >
+          我知道了
+        </button>
+      </view>
+
+      <view class="to-fliter" :style="to_fliter_style" v-if="show_filter">
+        <view class="bg-white" :style="mask_fliter_style">
+          <text>筛选</text>
+          <text class="lg cuIcon-unfold"></text>
+        </view>
+        <view class="filter-img">
+          <u-image width="100rpx" height="100rpx" :src="to_filter"></u-image>
+        </view>
+        <view class="text-xl text-bold text-white margin-tb-sm">筛选功能</view>
+        <view class="text-white padding-xs"
+          >当聊天消息过多时，<br />可通过筛选功能，<br />快速找到你要的消息。</view
+        >
+        <button
+          class="cu-btn round lines-white margin-top-sm"
+          @tap="konwClick('filter')"
+        >
+          我知道了
+        </button>
+      </view>
+
+      <view class="to_refresh" v-if="show_refresh">
+        <view class="refresh-animation">
+          <u-image width="200rpx" height="200rpx" :src="to_refresh"></u-image>
+        </view>
+        <text class="text-white padding-xs">下拉即可刷新列表</text>
+      </view>
+    </u-mask>
   </view>
 </template>
 
@@ -160,14 +212,44 @@ export default {
         }
       ],
       refreshing: false,
-      clicked: false
+      clicked: false,
+      show: true,
+      maskClickAble: false,
+      show_search: true,
+      show_filter: false,
+      show_refresh: false,
+      to_search: '/static/guide/msg/to_search.png',
+      to_filter: '/static/guide/msg/to_filter.png',
+      to_refresh: '/static/guide/msg/to_refresh.png'
     }
   },
 
   computed: {
     ...mapGetters('user', ['userId', 'personinfo', 'isInit']),
     ...mapGetters('circle', ['circleInfo']),
-    ...mapState('chat', ['CurrentToUser'])
+    ...mapState('chat', ['CurrentToUser']),
+    to_search_style() {
+      const style = `position: fixed; left: 160rpx; top:${
+        this.CustomBar + 30
+      }px;`
+      return style
+    },
+    mask_search_style() {
+      const style = `width: 50%; position: fixed; left: 17%; top:${
+        this.CustomBar - 10
+      }px;`
+      return style
+    },
+    to_fliter_style() {
+      const style = `position: fixed; right: 100rpx; top:${
+        this.CustomBar + 30
+      }px;`
+      return style
+    },
+    mask_fliter_style() {
+      const style = `position: fixed; right: 17%; top:${this.CustomBar - 3}px;`
+      return style
+    }
   },
 
   onReady() {
@@ -436,6 +518,20 @@ export default {
         this.list = chatList.filter((i) => i.circleType === type)
         if (this.list.length === 0) this.$u.toast('消息列表中没有您选的圈')
       }
+    },
+
+    konwClick(type) {
+      switch (type) {
+        case 'search':
+          this.show_search = false
+          this.show_filter = true
+          break
+        case 'filter':
+          this.show_filter = false
+          this.show_refresh = true
+          this.maskClickAble = true
+          break
+      }
     }
   }
 }
@@ -502,6 +598,55 @@ export default {
 
     .successAct {
       background-color: $u-type-success;
+    }
+  }
+}
+
+.to-search {
+  .search-animation {
+    position: relative;
+    animation: search 1s ease 0s infinite alternate;
+  }
+
+  @keyframes search {
+    from {
+      top: 0rpx;
+    }
+
+    to {
+      top: -40rpx;
+    }
+  }
+}
+
+.to-fliter {
+  .filter-img {
+    position: relative;
+    left: 40%;
+    top: -15rpx;
+  }
+}
+
+.to_refresh {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+
+  .refresh-animation {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    animation: refresh 1s ease 0s infinite;
+  }
+
+  @keyframes refresh {
+    from {
+      top: -300rpx;
+    }
+
+    to {
+      top: -200rpx;
     }
   }
 }
