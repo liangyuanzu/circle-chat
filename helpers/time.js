@@ -89,10 +89,10 @@ export default {
 		const zero = this.getZeroTimeStamp(0)
 		// 昨天零点时间
 		const lastZero = this.getZeroTimeStamp(1)
-		// 上周日零点时间
+		// 周一零点时间
 		const curr = new Date()
-		const lastSunZero = new Date(
-			curr.setDate(curr.getDate() - curr.getDay())
+		const monZero = new Date(
+			curr.setDate(curr.getDate() - curr.getDay() + 1)
 		).setHours(0, 0, 0, 0)
 		// 当前年份
 		const nowYear = new Date().getFullYear()
@@ -105,9 +105,9 @@ export default {
 		} else if (lastZero < time) {
 			// 昨天
 			return '昨天'
-		} else if (lastSunZero < time) {
+		} else if (monZero < time) {
 			// 当前周
-			return '周' + '日一二三四五六'.charAt(new Date(lastSunZero).getDay())
+			return '周' + '一二三四五六'.charAt(new Date(time).getDay() - 1)
 		} else if (nowYear === time2Year) {
 			// 今年
 			return this.dateFormat(new Date(time), '{MM}月{DD}日')
@@ -124,9 +124,9 @@ export default {
 		const zero = this.getZeroTimeStamp(0)
 		// 昨天零点时间
 		const lastZero = this.getZeroTimeStamp(1)
-		// 上周日零点时间
+		// 周一零点时间
 		const curr = new Date()
-		const lastSunZero = new Date(
+		const monZero = new Date(
 			curr.setDate(curr.getDate() - curr.getDay())
 		).setHours(0, 0, 0, 0)
 		// 当前年份
@@ -140,11 +140,11 @@ export default {
 		} else if (lastZero < time) {
 			// 昨天
 			return '昨天 ' + this.dateFormat(new Date(time), '{hh}:{ii}')
-		} else if (lastSunZero < time) {
+		} else if (monZero < time) {
 			// 当前周
 			return (
 				'周' +
-				'日一二三四五六'.charAt(new Date(lastSunZero).getDay()) +
+				'一二三四五六'.charAt(new Date(time).getDay() - 1) +
 				' ' +
 				this.dateFormat(new Date(time), '{hh}:{ii}')
 			)
