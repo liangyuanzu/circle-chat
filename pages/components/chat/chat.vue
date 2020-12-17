@@ -23,6 +23,16 @@
       @titleClick="titleClick"
     ></u-navbar>
     <!-- #endif -->
+    <u-mask :show="showMask" :mask-click-able="true" @click="maskClick">
+      <view class="to_title">
+        <view class="title-img">
+          <u-image width="200rpx" height="200rpx" :src="to_title"></u-image>
+        </view>
+        <text class="text-white text-xl padding-xs"
+          >点击顶部标题，即可进入设置页</text
+        >
+      </view>
+    </u-mask>
     <!-- 内容 -->
     <view class="content" @touchstart="hideDrawer">
       <scroll-view
@@ -281,6 +291,9 @@ import { getOldChatDetailPrivate, getOldChatDetailCircle } from '@/api/chat.js'
 export default {
   data() {
     return {
+      // mask显示
+      showMask: false,
+      to_title: '/static/guide/to_title.png',
       // 标题
       title: '',
       // loading
@@ -597,6 +610,7 @@ export default {
   },
 
   onReady() {
+    if (!uni.getStorageSync('chatMaskShowed')) this.showMask = true
     // 开启监听
     uni.$on('UserChat', (data) => {
       if (
@@ -729,6 +743,11 @@ export default {
   },
 
   methods: {
+    maskClick() {
+      this.showMask = false
+      uni.setStorageSync('chatMaskShowed', true)
+    },
+
     back() {
       uni.switchTab({
         url: '/pages/msg/msg'
@@ -1215,4 +1234,28 @@ export default {
 </script>
 <style lang="scss">
 @import './style.scss';
+
+.to-create {
+  .create-img {
+    position: relative;
+    left: 40%;
+    top: -15rpx;
+  }
+}
+
+.to_title {
+  width: 100%;
+  text-align: center;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+
+  .title-img {
+    position: absolute;
+    top: -300rpx;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
 </style>
