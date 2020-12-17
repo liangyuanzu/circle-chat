@@ -1,5 +1,31 @@
 <template>
   <view>
+    <u-mask
+      :show="showMask"
+      :mask-click-able="maskClickAble"
+      @click="showMask = false"
+    >
+      <view class="mask-style" v-if="show_tip">
+        <view class="text-xxl text-bold text-white margin-tb">受邀列表</view>
+        <view class="text-xl text-white padding-xs"
+          >被圈主邀请时会在这里显示，<br />可以在这里直接加入圈哦！</view
+        >
+        <button
+          class="text-xl cu-btn round lines-white margin-top"
+          @tap="konwClick"
+        >
+          我知道了
+        </button>
+      </view>
+
+      <view class="to_slide" v-if="show_slide">
+        <view class="slide-animation">
+          <u-image width="100rpx" height="100rpx" :src="to_slide"></u-image>
+        </view>
+        <text class="text-xl text-white padding-xs">左滑可删除单条记录</text>
+      </view>
+    </u-mask>
+
     <view v-if="loading">
       <view v-for="(item, index) in list" :key="index">
         <view class="bg-white">
@@ -110,7 +136,12 @@ export default {
       listTouchDirection: null,
       showModal: false,
       loading: true,
-      list: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+      list: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+      showMask: false,
+      maskClickAble: false,
+      show_tip: true,
+      show_slide: false,
+      to_slide: '/static/guide/to_slide.png'
     }
   },
 
@@ -118,11 +149,22 @@ export default {
     ...mapState('invite', ['inviteList'])
   },
 
+  onReady() {
+    if (!uni.getStorageSync('receiveMaskShowed')) this.showMask = true
+  },
+
   onShow() {
     this.getList()
   },
 
   methods: {
+    konwClick() {
+      this.show_tip = false
+      this.show_slide = true
+      this.maskClickAble = true
+      uni.setStorageSync('receiveMaskShowed', true)
+    },
+
     btnType(handle, agree) {
       if (handle) {
         if (agree) return 'default'
@@ -220,5 +262,30 @@ export default {
 <style lang="scss" scoped>
 .cu-list > .cu-item.move-cur {
   transform: translateX(-130upx) !important;
+}
+
+.to_slide {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+
+  .slide-animation {
+    position: absolute;
+    top: -100rpx;
+    left: 40%;
+    transform: translateX(-40%);
+    animation: slide 0.5s linear 0s;
+  }
+
+  @keyframes slide {
+    from {
+      left: 60%;
+    }
+
+    to {
+      left: 40%;
+    }
+  }
 }
 </style>

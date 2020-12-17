@@ -1,5 +1,20 @@
 <template>
   <view>
+    <u-mask :show="showMask" :mask-click-able="false">
+      <view class="mask-style">
+        <view class="text-xxl text-bold text-white margin-tb">关注列表</view>
+        <view class="text-xl text-white padding-xs"
+          >关注和被关注会在这里显示，<br />互相关注才可聊天哦！</view
+        >
+        <button
+          class="text-xl cu-btn round lines-white margin-top"
+          @tap="konwClick"
+        >
+          我知道了
+        </button>
+      </view>
+    </u-mask>
+
     <u-tabs
       :list="optionList"
       :is-scroll="false"
@@ -54,7 +69,8 @@ export default {
       ],
       current: 0,
       loading: true,
-      list: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+      list: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+      showMask: false
     }
   },
 
@@ -72,11 +88,20 @@ export default {
     }
   },
 
+  onReady() {
+    if (!uni.getStorageSync('focusMaskShowed')) this.showMask = true
+  },
+
   onShow() {
     this.getList(this.type)
   },
 
   methods: {
+    konwClick() {
+      this.showMask = false
+      uni.setStorageSync('focusMaskShowed', true)
+    },
+
     getList(type) {
       this.$store
         .dispatch('focus/getFocusList', type)

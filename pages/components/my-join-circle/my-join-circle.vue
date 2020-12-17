@@ -1,5 +1,20 @@
 <template>
   <view>
+    <u-mask :show="showMask" :mask-click-able="false">
+      <view class="mask-style">
+        <view class="text-xxl text-bold text-white margin-tb">我加入的圈</view>
+        <view class="text-xl text-white padding-xs"
+          >加入的圈会在这里显示，<br />可以在这里快速找到你加入的圈哦！</view
+        >
+        <button
+          class="text-xl cu-btn round lines-white margin-top"
+          @tap="konwClick"
+        >
+          我知道了
+        </button>
+      </view>
+    </u-mask>
+
     <view v-if="loading">
       <view v-for="(item, index) in list" :key="index">
         <view class="bg-white">
@@ -26,7 +41,8 @@ export default {
   data() {
     return {
       loading: true,
-      list: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+      list: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+      showMask: false
     }
   },
 
@@ -34,10 +50,21 @@ export default {
     ...mapState('circle', ['myJoinCircle'])
   },
 
+  onReady() {
+    if (!uni.getStorageSync('joinMaskShowed')) this.showMask = true
+  },
+
   onShow() {
     this.$store
       .dispatch('circle/getMyJoinCircle')
       .then(() => (this.loading = false))
+  },
+
+  methods: {
+    konwClick() {
+      this.showMask = false
+      uni.setStorageSync('joinMaskShowed', true)
+    }
   }
 }
 </script>

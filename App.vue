@@ -105,4 +105,13 @@ export default {
   top: 50%;
   transform: translate(-50%, -50%);
 }
+
+.mask-style {
+  width: 100%;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
 </style>
