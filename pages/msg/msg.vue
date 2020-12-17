@@ -218,9 +218,9 @@ export default {
       show_search: true,
       show_filter: false,
       show_refresh: false,
-      to_search: '/static/guide/msg/to_search.png',
-      to_filter: '/static/guide/msg/to_filter.png',
-      to_refresh: '/static/guide/msg/to_refresh.png'
+      to_search: '/static/guide/to_search.png',
+      to_filter: '/static/guide/to_filter.png',
+      to_refresh: '/static/guide/to_refresh.png'
     }
   },
 

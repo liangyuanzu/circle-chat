@@ -99,8 +99,8 @@ export default {
       maskClickAble: false,
       show_create: true,
       show_slide: false,
-      to_create: '/static/guide/msg/to_create.png',
-      to_slide: '/static/guide/msg/to_slide.png'
+      to_create: '/static/guide/to_create.png',
+      to_slide: '/static/guide/to_slide.png'
     }
   },
 
