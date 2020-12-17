@@ -108,6 +108,7 @@ const actions = {
 			setInterval(() => dispatch('getPosition'), 300000)
 		)
 		await dispatch('chat/init', {}, { root: true })
+		await dispatch('circle/nearlyCircle', 0, { root: true })
 	},
 
 	getPosition({ commit }) {

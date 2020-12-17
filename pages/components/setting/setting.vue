@@ -132,7 +132,7 @@ export default {
               icon: 'none'
             })
             setTimeout(() => {
-              uni.reLaunch({
+              uni.switchTab({
                 url: '/pages/msg/msg'
               })
             }, 500)

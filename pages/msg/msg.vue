@@ -383,16 +383,41 @@ export default {
   },
 
   onPullDownRefresh() {
+    // #ifdef MP-BAIDU
     if (this.refreshing) return
     this.refreshing = true
-    Promise.all([
-      this.$store.dispatch('chat/getOldChatList', 0),
-      this.$store.dispatch('chat/getNoReadNum')
-    ]).then(() => {
-      this.getList()
-      uni.stopPullDownRefresh()
-      this.refreshing = false
+    uni.checkSession({
+      success: () => {
+        const userinfo = localStore.get('userinfo')
+        if (userinfo) {
+          Promise.all([
+            this.$store.dispatch('chat/getOldChatList', 0),
+            this.$store.dispatch('chat/getNoReadNum')
+          ]).then(() => {
+            this.getList()
+            uni.stopPullDownRefresh()
+            this.refreshing = false
+          })
+        } else {
+          uni.stopPullDownRefresh()
+          this.refreshing = false
+          uni.showToast({
+            title: '请先登录',
+            icon: 'none'
+          })
+        }
+      },
+
+      fail: () => {
+        uni.stopPullDownRefresh()
+        this.refreshing = false
+        uni.showToast({
+          title: '请先登录',
+          icon: 'none'
+        })
+      }
     })
+    // #endif
   },
 
   methods: {

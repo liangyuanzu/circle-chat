@@ -64,6 +64,7 @@
 
 <script>
 import { mapState } from 'vuex'
+import localStore from '@/helpers/localStore.js'
 
 export default {
   data() {
@@ -106,8 +107,22 @@ export default {
   },
 
   mounted() {
+    // #ifdef MP-BAIDU
+    uni.checkSession({
+      success: () => {
+        const userinfo = localStore.get('userinfo')
+        if (userinfo) {
+          this.loading = true
+          this.getCircleList()
+        }
+      }
+    })
+    // #endif
+
+    // #ifndef MP-BAIDU
     this.loading = true
     this.getCircleList()
+    // #endif
   },
 
   methods: {
