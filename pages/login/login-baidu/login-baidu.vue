@@ -115,7 +115,7 @@ export default {
             setTimeout(() => {
               uni.showToast({
                 title: '登录成功',
-                icon: 'success'
+                icon: 'none'
               })
               setTimeout(async () => {
                 uni.showLoading({
