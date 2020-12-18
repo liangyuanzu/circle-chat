@@ -110,21 +110,26 @@ export default {
             userId: this.userId,
             sessionid: sessionId
           })
-          .then(async () => {
+          .then(() => {
             uni.hideLoading()
             setTimeout(() => {
               uni.showToast({
                 title: '登录成功',
                 icon: 'success'
               })
-              setTimeout(() => {
+              setTimeout(async () => {
                 uni.switchTab({
                   url: '/pages/me/me'
                 })
+                uni.showLoading({
+                  title: '正在加载数据...'
+                })
+                await this.$store.dispatch('chat/getOldChatList', 0)
+                await this.$store.dispatch('chat/getNoReadNum')
+                await this.$store.dispatch('circle/nearlyCircle', 0)
+                uni.hideLoading()
               }, 500)
             }, 500)
-            await this.$store.dispatch('chat/getOldChatList', 0)
-            await this.$store.dispatch('chat/getNoReadNum')
           })
           .catch(() => {
             uni.hideLoading()
