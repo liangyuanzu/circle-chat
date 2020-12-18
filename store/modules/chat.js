@@ -83,8 +83,8 @@ const mutations = {
 
 const actions = {
 	async init({ dispatch }) {
-		await dispatch('getOldChatList', 0)
-		await dispatch('getNoReadNum')
+		// await dispatch('getOldChatList', 0)
+		// await dispatch('getNoReadNum')
 		await dispatch('createWebSocket')
 	},
 

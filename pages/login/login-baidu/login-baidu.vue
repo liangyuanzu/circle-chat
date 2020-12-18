@@ -118,16 +118,18 @@ export default {
                 icon: 'success'
               })
               setTimeout(async () => {
-                uni.switchTab({
-                  url: '/pages/me/me'
-                })
                 uni.showLoading({
-                  title: '正在加载数据...'
+                  title: '正在加载相关数据...'
                 })
                 await this.$store.dispatch('chat/getOldChatList', 0)
                 await this.$store.dispatch('chat/getNoReadNum')
                 await this.$store.dispatch('circle/nearlyCircle', 0)
                 uni.hideLoading()
+                setTimeout(() => {
+                  uni.switchTab({
+                    url: '/pages/me/me'
+                  })
+                }, 500)
               }, 500)
             }, 500)
           })
