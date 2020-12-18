@@ -34,7 +34,8 @@ const state = {
 		circleId: 0,
 		circleName: '',
 		circleAvatar: '',
-		circleType: ''
+		circleType: '',
+		notice: ''
 	}
 }
 
@@ -72,12 +73,13 @@ const mutations = {
 	},
 	setCurrentToCircle(
 		state,
-		{ circleId, circleName, circleAvatar, circleType }
+		{ circleId, circleName, circleAvatar, circleType, notice }
 	) {
 		state.CurrentToCircle.circleId = circleId
 		state.CurrentToCircle.circleName = circleName
 		state.CurrentToCircle.circleAvatar = circleAvatar
 		state.CurrentToCircle.circleType = circleType
+		state.CurrentToCircle.notice = notice
 	}
 }
 

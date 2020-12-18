@@ -33,6 +33,32 @@
         >
       </view>
     </u-mask>
+    <!-- 公告 -->
+    <view class="notice" v-if="CurrentToCircle.notice">
+      <view
+        class="notice-content"
+        :class="['animation-' + noticeAnimation]"
+        ref="notice"
+      >
+        <view class="cu-dialog">
+          <view class="cu-bar bg-white justify-end">
+            <view class="content">圈公告</view>
+          </view>
+          <view class="padding-xl">{{ CurrentToCircle.notice }}</view>
+        </view>
+      </view>
+      <button
+        class="cu-btn round notice-btn"
+        :class="{
+          'bg-blue': CurrentToCircle.circleType === '交友圈',
+          'bg-yellow': CurrentToCircle.circleType === '固定圈',
+          'bg-red': CurrentToCircle.circleType === '紧急圈'
+        }"
+        @click="noticeClick"
+      >
+        <text class="lg text-white cuIcon-right"></text>
+      </button>
+    </view>
     <!-- 内容 -->
     <view class="content" @touchstart="hideDrawer">
       <scroll-view
@@ -294,6 +320,9 @@ export default {
       // mask显示
       showMask: false,
       to_title: '/static/guide/to_title.png',
+      // 圈公告动画
+      noticeAnimation: '',
+      showNotice: false,
       // 标题
       title: '',
       // loading
@@ -656,13 +685,15 @@ export default {
         circleName,
         img: circleAvatar,
         type: circleType,
-        member
+        member,
+        notice
       } = circleInfo
       this.$store.commit('chat/setCurrentToCircle', {
         circleId,
         circleName,
         circleAvatar,
-        circleType
+        circleType,
+        notice
       })
       // 修改标题
       this.title = `${circleName}（${member}）`
@@ -746,6 +777,16 @@ export default {
     maskClick() {
       this.showMask = false
       uni.setStorageSync('chatMaskShowed', true)
+    },
+
+    noticeClick() {
+      if (!this.showNotice) {
+        this.showNotice = true
+        this.noticeAnimation = 'notice-slide-right'
+      } else {
+        this.showNotice = false
+        this.noticeAnimation = ''
+      }
     },
 
     back() {
@@ -1256,6 +1297,37 @@ export default {
     top: -300rpx;
     left: 50%;
     transform: translateX(-50%);
+  }
+}
+
+.notice {
+  position: fixed;
+  right: 0;
+  bottom: 50%;
+  z-index: 999;
+
+  .notice-content {
+    position: fixed;
+    top: 25%;
+    left: 100%;
+  }
+
+  @keyframes notice-slide-right {
+    0% {
+      opacity: 0;
+      left: 100%;
+    }
+
+    100% {
+      opacity: 1;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+  }
+
+  .notice-btn {
+    position: relative;
+    left: 30%;
   }
 }
 </style>
