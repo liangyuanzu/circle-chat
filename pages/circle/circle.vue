@@ -52,7 +52,7 @@
           <text class="lg cuIcon-add"></text>
         </view>
         <view class="create-img">
-          <u-image width="150rpx" height="150rpx" :src="to_create"></u-image>
+          <image style="width: 150rpx; height: 150rpx" :src="to_create"></image>
         </view>
         <view class="text-xl text-bold text-white margin-tb-sm">创建圈</view>
         <view class="text-white padding-xs"
@@ -65,7 +65,7 @@
 
       <view class="to_slide" v-if="show_slide">
         <view class="slide-animation">
-          <u-image width="100rpx" height="100rpx" :src="to_slide"></u-image>
+          <image style="width: 100rpx; height: 100rpx" :src="to_slide"></image>
         </view>
         <text class="text-white padding-xs">左滑查看更多分类</text>
       </view>

@@ -20,7 +20,7 @@
 
       <view class="to_slide" v-if="show_slide">
         <view class="slide-animation">
-          <u-image width="100rpx" height="100rpx" :src="to_slide"></u-image>
+          <image style="width: 100rpx; height: 100rpx" :src="to_slide"></image>
         </view>
         <text class="text-xl text-white padding-xs">左滑可删除单条记录</text>
       </view>

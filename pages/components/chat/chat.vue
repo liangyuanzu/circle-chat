@@ -26,7 +26,7 @@
     <u-mask :show="showMask" :mask-click-able="true" @click="maskClick">
       <view class="to_title">
         <view class="title-img">
-          <u-image width="200rpx" height="200rpx" :src="to_title"></u-image>
+          <image style="width: 200rpx; height: 200rpx" :src="to_title"></image>
         </view>
         <text class="text-white text-xl padding-xs"
           >点击顶部标题，即可进入设置页</text

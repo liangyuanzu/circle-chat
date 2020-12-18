@@ -93,7 +93,7 @@
           disabled
         ></u-search>
         <view class="search-animation">
-          <u-image width="100rpx" height="100rpx" :src="to_search"></u-image>
+          <image style="width: 100rpx; height: 100rpx" :src="to_search"></image>
         </view>
         <view class="text-xl text-bold text-white margin-tb-sm">搜索功能</view>
         <view class="text-white padding-xs"
@@ -113,7 +113,7 @@
           <text class="lg cuIcon-unfold"></text>
         </view>
         <view class="filter-img">
-          <u-image width="100rpx" height="100rpx" :src="to_filter"></u-image>
+          <image style="width: 100rpx; height: 100rpx" :src="to_filter"></image>
         </view>
         <view class="text-xl text-bold text-white margin-tb-sm">筛选功能</view>
         <view class="text-white padding-xs"
@@ -129,7 +129,7 @@
 
       <view class="to_refresh" v-if="show_refresh">
         <view class="refresh-animation">
-          <u-image width="200rpx" height="200rpx" :src="to_refresh"></u-image>
+          <image style="width: 200rpx; height: 200rpx" :src="to_refresh"></image>
         </view>
         <text class="text-white padding-xs">下拉即可刷新列表</text>
       </view>
