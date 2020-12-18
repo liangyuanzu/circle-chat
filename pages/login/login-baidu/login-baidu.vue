@@ -23,6 +23,7 @@
       shape="circle"
       style="margin-top: 200rpx"
       open-type="getUserInfo"
+      :disabled="disabled"
       @getuserinfo="decryptUserInfo"
       >百度用户授权登录</u-button
     >
@@ -30,15 +31,15 @@
 </template>
 
 <script>
-import logoUrl from './../logo.js'
+// import logoUrl from './../logo.js'
 import { mapGetters } from 'vuex'
 import localStore from '@/helpers/localStore.js'
 
 export default {
   data() {
     return {
-      logoUrl,
-      title: '咸鱼有梦的智能聊天定位软件',
+      logoUrl: '/static/logo.png',
+      title: '咸鱼有梦的圈聊软件',
       gridList: [
         {
           name: 'chat',
@@ -64,7 +65,8 @@ export default {
           name: 'clock',
           tetx: '历史记录'
         }
-      ]
+      ],
+      disabled: true
     }
   },
 
@@ -80,6 +82,7 @@ export default {
       success: ({ code }) => {
         this.$store.dispatch('user/login_baidu', { code })
         uni.hideLoading()
+        this.disabled = false
       },
       fail: () => {
         uni.showToast({
@@ -93,7 +96,12 @@ export default {
 
   methods: {
     decryptUserInfo(e) {
+      if (this.disabled) return
+      this.disabled = true // 避免重复点击按钮
       if (e.detail.errMsg == 'getUserInfo:ok') {
+        uni.showLoading({
+          title: '登录中...'
+        })
         const sessionId = localStore.get('sessionId')
         this.$store
           .dispatch('user/getUserInfo_baidu', {
@@ -103,23 +111,30 @@ export default {
             sessionid: sessionId
           })
           .then(async () => {
-            uni.showToast({
-              title: '登录成功',
-              icon: 'none'
-            })
+            uni.hideLoading()
             setTimeout(() => {
-              uni.switchTab({
-                url: '/pages/me/me'
+              uni.showToast({
+                title: '登录成功',
+                icon: 'success'
               })
-            }, 200)
+              setTimeout(() => {
+                uni.switchTab({
+                  url: '/pages/me/me'
+                })
+              }, 500)
+            }, 500)
             await this.$store.dispatch('chat/getOldChatList', 0)
             await this.$store.dispatch('chat/getNoReadNum')
           })
           .catch(() => {
-            uni.showToast({
-              title: '登录失败',
-              icon: 'none'
-            })
+            uni.hideLoading()
+            this.disabled = false
+            setTimeout(() => {
+              uni.showToast({
+                title: '登录失败',
+                icon: 'none'
+              })
+            }, 500)
           })
       } else if (e.detail.errMsg == 'getUserInfo:fail auth deny') {
         uni.showToast({
@@ -150,9 +165,9 @@ page {
       width: 161rpx;
       height: 161rpx;
       margin: 0 auto;
-      box-shadow: 0rpx 0rpx 60rpx 0rpx rgba(0, 0, 0, 0.1);
+      // box-shadow: 0rpx 0rpx 60rpx 0rpx rgba(0, 0, 0, 0.1);
       border-radius: 50%;
-      background-color: #000000;
+      // background-color: #000000;
 
       image {
         width: 161rpx;
