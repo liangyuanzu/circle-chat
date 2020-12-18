@@ -188,7 +188,7 @@ export default {
                   title: '创建圈成功'
                 })
                 setTimeout(() => {
-                  uni.reLaunch({
+                  uni.navigateTo({
                     url: '/pages/msg/msg'
                   })
                 }, 500)
