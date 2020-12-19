@@ -48,7 +48,11 @@
           </block>
 					 -->
           <view
-            v-if="
+            class="cu-load text-grey text-lg loading empty"
+            v-if="loading"
+          ></view>
+          <view
+            v-else-if="
               keywordList.users.length > 0 || keywordList.circles.length > 0
             "
           >
@@ -142,7 +146,8 @@ export default {
         circles: []
       },
       forbid: '',
-      isShowKeywordList: false
+      isShowKeywordList: false,
+      loading: false
     }
   },
   computed: {
@@ -210,8 +215,10 @@ export default {
 
     // 更新列表
     getSearchList(keyword = this.keyword) {
+      this.loading = true
       this.$store.dispatch('getSearchList', keyword).then(() => {
         this.keywordList = this.searchList
+        this.loading = false
       })
     },
 
@@ -349,9 +356,11 @@ export default {
 
     btnClick() {
       this.saveKeyword(this.keyword)
+      this.loading = true
       // this.getSearchList()
       this.$store.dispatch('getSearchList', this.keyword).then(async () => {
         this.keywordList = this.searchList
+        this.loading = false
         await this.$store.dispatch('chat/getOldChatList', 0)
         await this.$store.dispatch('chat/getNoReadNum')
       })
