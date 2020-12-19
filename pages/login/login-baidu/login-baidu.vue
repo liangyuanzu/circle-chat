@@ -80,9 +80,10 @@ export default {
     })
     uni.login({
       success: ({ code }) => {
-        this.$store.dispatch('user/login_baidu', { code })
-        uni.hideLoading()
-        this.disabled = false
+        this.$store.dispatch('user/login_baidu', { code }).then(() => {
+          uni.hideLoading()
+          this.disabled = false
+        })
       },
       fail: () => {
         uni.showToast({

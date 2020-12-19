@@ -188,9 +188,10 @@ export default {
                   title: '创建圈成功'
                 })
                 setTimeout(() => {
-                  uni.navigateTo({
-                    url: '/pages/msg/msg'
-                  })
+                  // uni.navigateTo({
+                  //   url: '/pages/msg/msg'
+                  // })
+                  uni.navigateBack()
                 }, 500)
               }, 500)
               this.$store.dispatch('chat/getOldChatList', 0)
