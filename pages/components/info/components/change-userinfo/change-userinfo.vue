@@ -57,7 +57,12 @@ export default {
         .dispatch('user/updateMessage', newData)
         .then(() => {
           // #ifdef MP-BAIDU
-          if (newData.autograph) {
+          if (newData.username) {
+            this.$store.commit('user/setUsername', newData.username)
+            let userinfo = localStore.get('userinfo')
+            userinfo.username = newData.username
+            localStore.set('userinfo', userinfo)
+          } else if (newData.autograph) {
             this.$store.commit('user/setAutograph', newData.autograph)
             let userinfo = localStore.get('userinfo')
             userinfo.autograph = newData.autograph

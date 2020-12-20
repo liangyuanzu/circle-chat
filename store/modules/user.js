@@ -101,6 +101,7 @@ const actions = {
 		commit('setAvatar', userinfo.img)
 		commit('setSex', userinfo.sex)
 		commit('setAutograph', userinfo.autograph)
+		commit('setBirthday', userinfo.birthday)
 		dispatch('getPosition')
 		timer && clearInterval(timer)
 		commit(

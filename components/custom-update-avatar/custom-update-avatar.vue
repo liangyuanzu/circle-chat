@@ -111,7 +111,6 @@ export default {
               title: '修改成功'
             })
           })
-          .catch(() => {})
       } else {
         this.$store
           .dispatch('circle/updateCircleAvatar', {
@@ -125,7 +124,6 @@ export default {
               title: '修改成功'
             })
           })
-          .catch(() => {})
       }
       // #endif
     })

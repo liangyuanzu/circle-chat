@@ -1,12 +1,7 @@
 <template>
   <view>
     <view class="margin-bottom-sm">
-      <custom-update-avatar
-        title="头像"
-        :src="avatar"
-        :clickable="avatarClickable"
-        :showArrow="avatarShowArrow"
-      ></custom-update-avatar>
+      <custom-update-avatar title="头像" :src="avatar"></custom-update-avatar>
     </view>
 
     <uni-list>
@@ -17,8 +12,8 @@
         :rightText="item.rightText"
         :note="item.note"
         noteEllipsis="2"
-        :showArrow="itemShowArrow(item.title)"
-        :clickable="itemClickable(item.title)"
+        :showArrow="true"
+        :clickable="true"
         @click="onClick(item.title)"
       >
       </uni-list-item>
@@ -32,6 +27,7 @@
 
     <u-picker
       mode="time"
+      :end-year="new Date().getFullYear()"
       v-model="showBirthday"
       :defaultTime="defaultTime"
       @confirm="birthdayConfirm"
@@ -42,6 +38,7 @@
 <script>
 import { mapGetters } from 'vuex'
 import time from '@/helpers/time.js'
+import localStore from '@/helpers/localStore.js'
 
 export default {
   data() {
@@ -82,18 +79,6 @@ export default {
       return this.getDate('end')
     },
 
-    avatarClickable() {
-      // #ifdef MP-BAIDU
-      return false
-      // #endif
-    },
-
-    avatarShowArrow() {
-      // #ifdef MP-BAIDU
-      return false
-      // #endif
-    },
-
     infoList() {
       return [
         {
@@ -104,12 +89,10 @@ export default {
           title: '性别',
           rightText: this.sex
         },
-        // #ifndef MP-BAIDU
         {
           title: '生日',
           rightText: this.birthday
         },
-        // #endif
         {
           title: '个性签名',
           rightText: this.autograph.length <= 20 ? this.autograph : '',
@@ -165,11 +148,22 @@ export default {
 
     save(data) {
       uni.showLoading({
-				title: '修改中...'
-			})
+        title: '修改中...'
+      })
       this.$store
         .dispatch('user/updateMessage', data)
         .then(() => {
+          if (data.sex) {
+            this.$store.commit('user/setSex', data.sex)
+            let userinfo = localStore.get('userinfo')
+            userinfo.sex = data.sex
+            localStore.set('userinfo', userinfo)
+          } else if (data.birthday) {
+            this.$store.commit('user/setBirthday', data.birthday)
+            let userinfo = localStore.get('userinfo')
+            userinfo.birthday = data.birthday
+            localStore.set('userinfo', userinfo)
+          }
           uni.hideLoading()
           setTimeout(() => {
             uni.showToast({
@@ -189,22 +183,8 @@ export default {
     },
 
     birthdayConfirm(e) {
-      const userBirthday = `${e.year}/${e.month}/${e.day}`
-      this.save({ birthday: userBirthday })
-    },
-
-    itemClickable(title) {
-      // #ifdef MP-BAIDU
-      if (title === '昵称' || title === '性别') return false
-      // #endif
-      return true
-    },
-
-    itemShowArrow(title) {
-      // #ifdef MP-BAIDU
-      if (title === '昵称' || title === '性别') return false
-      // #endif
-      return true
+      const newBirthday = `${e.year}-${e.month}-${e.day}`
+      this.save({ birthday: newBirthday })
     }
   }
 }

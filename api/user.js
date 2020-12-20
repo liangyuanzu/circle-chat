@@ -84,6 +84,7 @@ export function updatePassword(data) {
 export function updatePhoto(filePath) {
 	return $request('/user/updatePhoto', {
 		method: 'UPLOAD',
+		name: 'file',
 		filePath
 	})
 }
