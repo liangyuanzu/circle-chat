@@ -4,6 +4,7 @@
       <custom-update-avatar title="头像" :src="avatar"></custom-update-avatar>
     </view>
 
+    <!-- #ifndef MP-BAIDU -->
     <uni-list>
       <uni-list-item
         v-for="(item, index) in infoList"
@@ -18,6 +19,30 @@
       >
       </uni-list-item>
     </uni-list>
+    <!-- #endif -->
+
+    <!-- #ifdef MP-BAIDU -->
+    <view
+      class="cu-form-group"
+      v-for="(item, index) in infoList"
+      :key="index"
+      @click="onClick(item.title)"
+    >
+      <view class="title">{{ item.title }}</view>
+      <picker
+        :disabled="item.disabled"
+        :value="item.value"
+        :range="item.range"
+        :mode="item.mode"
+        :end="item.end"
+        @change="pickerChange"
+      >
+        <view class="picker">
+          {{ item.rightText || item.note }}
+        </view>
+      </picker>
+    </view>
+    <!-- #endif -->
 
     <u-select
       v-model="showSex"
@@ -57,6 +82,7 @@ export default {
           label: '女'
         }
       ],
+      sexPicker: ['男', '女'],
       showBirthday: false,
       defaultTime: '',
       date: currentDate
@@ -83,18 +109,26 @@ export default {
       return [
         {
           title: '昵称',
+          disabled: true,
           rightText: this.username
         },
         {
           title: '性别',
+          disabled: false,
+          range: this.sexPicker,
           rightText: this.sex
         },
         {
           title: '生日',
+          disabled: false,
+          mode: 'date',
+          end: time.format('yyyy-MM-dd'),
+          value: this.defaultTime,
           rightText: this.birthday
         },
         {
           title: '个性签名',
+          disabled: true,
           rightText: this.autograph.length <= 20 ? this.autograph : '',
           note: this.autograph.length > 20 ? this.autograph : ''
         }
@@ -113,9 +147,13 @@ export default {
   methods: {
     onClick(title) {
       if (title === '性别') {
+        // #ifndef MP-BAIDU
         this.showSex = true
+        // #endif
       } else if (title === '生日') {
+        // #ifndef MP-BAIDU
         this.showBirthday = true
+        // #endif
       } else {
         this.$u.route(
           '/pages/components/info/components/change-userinfo/change-userinfo',
@@ -185,6 +223,16 @@ export default {
     birthdayConfirm(e) {
       const newBirthday = `${e.year}-${e.month}-${e.day}`
       this.save({ birthday: newBirthday })
+    },
+
+    pickerChange(e) {
+      if (e.detail.value === 0 || e.detail.value === 1) {
+        const newSex = this.sexPicker[e.detail.value]
+        this.save({ sex: newSex })
+      } else {
+        const newBirthday = e.detail.value
+        this.save({ birthday: newBirthday })
+      }
     }
   }
 }
