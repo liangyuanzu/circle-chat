@@ -91,9 +91,14 @@ export default {
 		const lastZero = this.getZeroTimeStamp(1)
 		// 周一零点时间
 		const curr = new Date()
-		const monZero = new Date(
-			curr.setDate(curr.getDate() - curr.getDay() + 1)
-		).setHours(0, 0, 0, 0)
+		let monDate = null
+		if (curr.getDay() === 0) {
+			// 当天为周日
+			monDate = curr.getDate() - 7 + 1
+		} else {
+			monDate = curr.getDate() - curr.getDay() + 1
+		}
+		const monZero = new Date(curr.setDate(monDate)).setHours(0, 0, 0, 0)
 		// 当前年份
 		const nowYear = new Date().getFullYear()
 		// 格式化
@@ -126,9 +131,14 @@ export default {
 		const lastZero = this.getZeroTimeStamp(1)
 		// 周一零点时间
 		const curr = new Date()
-		const monZero = new Date(
-			curr.setDate(curr.getDate() - curr.getDay())
-		).setHours(0, 0, 0, 0)
+		let monDate = null
+		if (curr.getDay() === 0) {
+			// 当天为周日
+			monDate = curr.getDate() - 7 + 1
+		} else {
+			monDate = curr.getDate() - curr.getDay() + 1
+		}
+		const monZero = new Date(curr.setDate(monDate)).setHours(0, 0, 0, 0)
 		// 当前年份
 		const nowYear = new Date().getFullYear()
 		// 格式化
