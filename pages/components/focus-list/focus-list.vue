@@ -47,7 +47,9 @@
       </view>
 
       <view class="empty" v-else>
-        <u-empty mode="list"></u-empty>
+        <u-empty
+          :text="type === 1 ? '你还没有关注任何人' : '你还没有粉丝'"
+        ></u-empty>
       </view>
     </view>
   </view>

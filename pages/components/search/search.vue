@@ -76,7 +76,7 @@
             </view>
           </view>
           <view class="empty" v-else>
-            <u-empty mode="list"></u-empty>
+            <u-empty mode="search"></u-empty>
           </view>
         </scroll-view>
         <scroll-view class="keyword-box" v-show="!isShowKeywordList" scroll-y>

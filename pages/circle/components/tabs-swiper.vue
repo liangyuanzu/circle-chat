@@ -54,7 +54,11 @@
           <!-- #endif -->
 
           <view class="empty" :style="emptyTop" v-else>
-            <u-empty mode="list"></u-empty>
+            <u-empty text="附近没有圈">
+              <u-button slot="bottom" size="mini" @click="toCreateCircle">
+                去创建
+              </u-button>
+            </u-empty>
           </view>
         </scroll-view>
       </swiper-item>
@@ -126,6 +130,10 @@ export default {
   },
 
   methods: {
+    toCreateCircle() {
+      this.$u.route('/pages/components/create-circle/create-circle')
+    },
+
     getCircleList() {
       this.$store
         .dispatch('circle/nearlyCircle', this.swiperCurrent)

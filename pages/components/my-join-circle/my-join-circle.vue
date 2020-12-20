@@ -29,7 +29,11 @@
     </view>
 
     <view class="empty" v-else>
-      <u-empty mode="list"></u-empty>
+      <u-empty text="你还没有加入任何圈">
+        <u-button slot="bottom" size="mini" @click="toFindCircle">
+          去发现
+        </u-button>
+      </u-empty>
     </view>
   </view>
 </template>
@@ -64,6 +68,12 @@ export default {
     konwClick() {
       this.showMask = false
       uni.setStorageSync('joinMaskShowed', true)
+    },
+
+    toFindCircle() {
+      uni.switchTab({
+        url: '/pages/circle/circle'
+      })
     }
   }
 }

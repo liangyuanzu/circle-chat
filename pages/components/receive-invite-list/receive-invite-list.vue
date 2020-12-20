@@ -110,7 +110,7 @@
     </view>
 
     <view class="empty" v-else>
-      <u-empty mode="list"></u-empty>
+      <u-empty text="你还没有收到邀请"></u-empty>
     </view>
 
     <u-modal

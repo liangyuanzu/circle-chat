@@ -80,7 +80,7 @@
     </view>
 
     <view class="empty" v-if="list.length === 0">
-      <u-empty mode="list"></u-empty>
+      <u-empty mode="message"></u-empty>
     </view>
 
     <u-mask :show="show" :mask-click-able="maskClickAble" @click="show = false">
@@ -129,7 +129,10 @@
 
       <view class="to_refresh" v-if="show_refresh">
         <view class="refresh-animation">
-          <image style="width: 200rpx; height: 200rpx" :src="to_refresh"></image>
+          <image
+            style="width: 200rpx; height: 200rpx"
+            :src="to_refresh"
+          ></image>
         </view>
         <text class="text-white padding-xs">下拉即可刷新列表</text>
       </view>

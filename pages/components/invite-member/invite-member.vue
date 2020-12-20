@@ -48,7 +48,7 @@
     </view>
 
     <view class="empty" v-else>
-      <u-empty mode="list"></u-empty>
+      <u-empty text="附近没有可邀请的用户"></u-empty>
     </view>
   </view>
 </template>

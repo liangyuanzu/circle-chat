@@ -29,7 +29,11 @@
     </view>
 
     <view class="empty" v-else>
-      <u-empty mode="list"></u-empty>
+      <u-empty text="你还没有创建圈">
+        <u-button slot="bottom" size="mini" @click="toCreateCircle">
+          去创建
+        </u-button>
+      </u-empty>
     </view>
   </view>
 </template>
@@ -63,6 +67,10 @@ export default {
     konwClick() {
       this.showMask = false
       uni.setStorageSync('createMaskShowed', true)
+    },
+
+    toCreateCircle() {
+      this.$u.route('/pages/components/create-circle/create-circle')
     }
   }
 }
