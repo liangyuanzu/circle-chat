@@ -1,13 +1,28 @@
 import $request from '@/helpers/request.js'
 
 /**
- *
+ * 附近的圈
  * @param {number} type 圈类型
  */
 export function nearlyCircle(type) {
 	return $request('/circle/nearlyCircle', {
 		params: {
 			type
+		}
+	})
+}
+
+/**
+ * 附近的圈-分页
+ * @param {number} type 圈类型
+ * @param {number} offset 当前页
+ */
+export function nearlyCircleByPage({ type, offset }) {
+	return $request('/circle/nearlyCircleByPage', {
+		params: {
+			type,
+			offset,
+			limit: 10
 		}
 	})
 }

@@ -1,5 +1,6 @@
 import {
 	nearlyCircle,
+	nearlyCircleByPage,
 	creatCircle,
 	updateCirclePhoto,
 	joinCircle,
@@ -16,7 +17,28 @@ import {
 } from '@/api/circle.js'
 
 const state = {
-	circleList: [],
+	circleList: [
+		{
+			type: 0,
+			offset: 1,
+			list: []
+		},
+		{
+			type: 1,
+			offset: 1,
+			list: []
+		},
+		{
+			type: 2,
+			offset: 1,
+			list: []
+		},
+		{
+			type: 3,
+			offset: 1,
+			list: []
+		}
+	],
 	circleAvatar:
 		'https://ossweb-img.qq.com/images/lol/web201310/skin/big11010.jpg',
 	myJoinCircle: [],
@@ -30,12 +52,34 @@ const state = {
 const getters = {
 	circleAvatar: (state) => state.circleAvatar,
 	circleInfo: (state) => state.circleInfo,
-	circleMember: (state) => state.circleMember
+	circleMember: (state) => state.circleMember,
+	dataList: (state) => state.circleList.map((i) => i.list)
 }
 
 const mutations = {
-	setCircleList(state, circleList) {
-		state.circleList = circleList
+	setCircleList(state, { type, offset, list }) {
+		state.circleList.forEach((i) => {
+			if (i.type === type) {
+				if (i.offset < offset || (offset === 1 && i.list.length === 0)) {
+					i.offset = offset
+					i.list = [...i.list, ...list]
+				} else {
+					const index = i.list?.findIndex(
+						(val) => val?.circleId === list[0]?.circleId
+					)
+					if (index !== -1) {
+						i.list.splice(index, list.length, ...list)
+					}
+				}
+			}
+		})
+	},
+
+	resetCircleList(state) {
+		state.circleList.forEach((i) => {
+			i.offset = 1
+			i.list = []
+		})
 	},
 
 	setCircleAvatar(state, circleAvatar) {
@@ -71,6 +115,11 @@ const actions = {
 	async nearlyCircle({ commit }, type) {
 		const circleList = await nearlyCircle(type)
 		if (circleList) commit('setCircleList', circleList)
+	},
+
+	async nearlyCircleByPage({ commit }, pageInfo) {
+		const list = await nearlyCircleByPage(pageInfo)
+		if (list.length > 0) commit('setCircleList', { ...pageInfo, list })
 	},
 
 	async creatCircle({ commit }, createInfo) {

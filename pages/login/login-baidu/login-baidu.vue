@@ -124,7 +124,11 @@ export default {
                 })
                 await this.$store.dispatch('chat/getOldChatList', 0)
                 await this.$store.dispatch('chat/getNoReadNum')
-                await this.$store.dispatch('circle/nearlyCircle', 0)
+                // await this.$store.dispatch('circle/nearlyCircle', 0)
+                await this.$store.dispatch('circle/nearlyCircleByPage', {
+                  type: 0,
+                  offset: 1
+                })
                 uni.hideLoading()
                 setTimeout(() => {
                   uni.switchTab({

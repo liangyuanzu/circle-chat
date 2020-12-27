@@ -14,7 +14,8 @@
 		{
 			"path": "pages/circle/circle",
 			"style": {
-				"navigationBarTitleText": "附近的圈"
+				"navigationBarTitleText": "附近的圈",
+				"enablePullDownRefresh": true
 			}
 		}, {
 			"path": "pages/me/me",

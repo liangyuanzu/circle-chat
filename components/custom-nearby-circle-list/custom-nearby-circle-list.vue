@@ -3,7 +3,7 @@
     <view class="cu-list menu-avatar">
       <view
         class="cu-item"
-        v-for="item in list"
+        v-for="(item, index) in list"
         :key="item.circleId"
         @click="onClick(item)"
       >
@@ -40,7 +40,7 @@
               size="mini"
               shape="circle"
               plain
-              @click="jionCircle(item)"
+              @click="jionCircle(item, index)"
             >
               <uni-icons
                 :size="12"
@@ -111,7 +111,7 @@ export default {
       })
     },
 
-    async jionCircle(circleinfo) {
+    async jionCircle(circleinfo, index) {
       if (circleinfo?.inCircle) return
       await this.$store
         .dispatch('circle/joinCircle', {
@@ -128,7 +128,7 @@ export default {
             }, 500)
           }, 500)
         })
-      this.$emit('joinClick')
+      this.$emit('joinClick', { index })
     }
   }
 }

@@ -43,7 +43,78 @@
       </view>
     </view>
 
-    <tabs-swiper />
+    <view class="wrap">
+      <u-tabs-swiper
+        ref="tabs"
+        :list="tabList"
+        :current="current"
+        @change="tabsChange"
+        :is-scroll="false"
+        :show-bar="showBar"
+        swiperWidth="750"
+      >
+      </u-tabs-swiper>
+
+      <swiper class="swiper-box" :current="swiperCurrent" @change="change">
+        <swiper-item
+          class="swiper-item"
+          v-for="(item, index) in dataList"
+          :key="index"
+        >
+          <scroll-view
+            scroll-y
+            style="height: 100%; width: 100%"
+            @scrolltolower="reachBottom"
+          >
+            <view
+              class="cu-load text-grey text-lg loading empty"
+              :style="emptyTop"
+              v-if="loading"
+            ></view>
+
+            <!-- #ifndef MP-BAIDU -->
+            <view v-else-if="item.length > 0">
+              <custom-circle-list
+                :border="false"
+                showJoin
+                :list="item"
+                @joinClick="joinClick"
+              >
+              </custom-circle-list>
+              <u-loadmore
+                v-if="item.length >= 10"
+                :status="loadStatus[index]"
+                bgColor="#f2f2f2"
+              ></u-loadmore>
+            </view>
+            <!-- #endif -->
+            <!-- #ifdef MP-BAIDU -->
+            <view v-else-if="item.length > 0">
+              <custom-nearby-circle-list
+                showJoin
+                :list="item"
+                @joinClick="joinClick"
+              >
+              </custom-nearby-circle-list>
+              <u-loadmore
+                v-show="item.length >= 10"
+                :status="loadStatus[index]"
+                bgColor="#f2f2f2"
+              ></u-loadmore>
+            </view>
+            <!-- #endif -->
+
+            <view class="empty" :style="emptyTop" v-else>
+              <u-empty text="附近没有圈">
+                <u-button slot="bottom" size="mini" @click="toCreateCircle">
+                  去创建
+                </u-button>
+              </u-empty>
+            </view>
+          </scroll-view>
+        </swiper-item>
+      </swiper>
+    </view>
 
     <u-mask :show="show" :mask-click-able="maskClickAble" @click="show = false">
       <view class="to-create" :style="to_create_style" v-if="show_create">
@@ -74,13 +145,10 @@
 </template>
 
 <script>
-import tabsSwiper from './components/tabs-swiper.vue'
+import { mapState } from 'vuex'
+import localStore from '@/helpers/localStore.js'
 
 export default {
-  components: {
-    tabsSwiper
-  },
-
   data() {
     return {
       modalName: null,
@@ -100,11 +168,63 @@ export default {
       show_create: true,
       show_slide: false,
       to_create: '/static/guide/to_create.png',
-      to_slide: '/static/guide/to_slide.png'
+      to_slide: '/static/guide/to_slide.png',
+      refreshing: false,
+      tabList: [
+        {
+          name: '综合'
+        },
+        {
+          name: '交友圈'
+        },
+        {
+          name: '固定圈'
+        },
+        {
+          name: '紧急圈'
+        }
+      ],
+      current: 0,
+      swiperCurrent: 0,
+      loading: false,
+      loadingList: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+      offset: 1,
+      loadStatus: ['loadmore', 'loadmore', 'loadmore', 'loadmore'],
+      loadCount: 0
     }
   },
 
   computed: {
+    ...mapState('circle', ['circleList']),
+    curOffset() {
+      let offset
+      this.circleList.forEach((i) => {
+        if (i.type === this.current) offset = i.offset
+      })
+      return offset
+    },
+    curList() {
+      let curList
+      this.circleList.forEach((i) => {
+        if (i.type === this.current) curList = i.list
+      })
+      return curList
+    },
+    dataList() {
+      return this.circleList.map((i) => i.list)
+    },
+    showBar() {
+      // #ifdef MP-BAIDU
+      return false
+      // #endif
+      return true
+    },
+    emptyTop() {
+      // #ifdef MP-BAIDU
+      return 'top: 38%'
+      // #endif
+      return 'top: 36%'
+    },
     to_create_style() {
       const style = `position: fixed; right: 100rpx; top:${
         this.CustomBar + 30
@@ -115,6 +235,34 @@ export default {
       const style = `position: fixed; right: 17%; top:${this.CustomBar - 3}px;`
       return style
     }
+  },
+
+  onLoad() {
+    // #ifdef MP-BAIDU
+    uni.checkSession({
+      success: () => {
+        const userinfo = localStore.get('userinfo')
+        if (userinfo) {
+          this.loading = true
+          this.getCircleList()
+        }
+      }
+    })
+    // #endif
+
+    // #ifndef MP-BAIDU
+    this.loading = true
+    this.getCircleList()
+    // #endif
+  },
+
+  onPullDownRefresh() {
+    if (this.refreshing) return
+    this.refreshing = true
+    this.loading = true
+    this.$store.commit('circle/resetCircleList')
+    this.offset = this.curOffset
+    this.getCircleList()
   },
 
   methods: {
@@ -152,6 +300,75 @@ export default {
       this.show_create = false
       this.show_slide = true
       this.maskClickAble = true
+    },
+
+    toCreateCircle() {
+      this.$u.route('/pages/components/create-circle/create-circle')
+    },
+
+    getCircleList() {
+      this.$store
+        .dispatch('circle/nearlyCircleByPage', {
+          type: this.swiperCurrent,
+          offset: this.offset
+        })
+        .then(() => {
+          this.loading = false
+          this.refreshing = false
+          uni.stopPullDownRefresh()
+          if (this.curOffset === this.offset) {
+            this.loadStatus.splice(this.swiperCurrent, 1, 'loadmore')
+          } else {
+            this.loadStatus.splice(this.swiperCurrent, 1, 'nomore')
+          }
+        })
+        .catch(() => {
+          this.loading = false
+          this.refreshing = false
+          uni.stopPullDownRefresh()
+        })
+    },
+
+    tabsChange(index) {
+      this.swiperCurrent = index
+    },
+
+    change({ detail: { current } }) {
+      if (this.loading) return
+      this.swiperCurrent = current
+      this.current = current
+      this.offset = this.curOffset
+      if (this.curList.length === 0) {
+        this.loading = true
+        this.getCircleList()
+      } else {
+        this.loading = false
+      }
+    },
+
+    joinClick({ index }) {
+      let offset
+      if ((index / 10) % 1 > 0) {
+        offset = Math.ceil(index / 10)
+      } else {
+        offset = index / 10 + 1
+      }
+      this.$store
+        .dispatch('circle/nearlyCircleByPage', {
+          type: this.swiperCurrent,
+          offset
+        })
+        .then(async () => {
+          await this.$store.dispatch('chat/getOldChatList', 0)
+          await this.$store.dispatch('chat/getNoReadNum')
+        })
+    },
+
+    reachBottom() {
+      this.offset = this.curOffset
+      this.offset++
+      this.loadStatus.splice(this.swiperCurrent, 1, 'loading')
+      this.getCircleList()
     }
   }
 }
@@ -223,5 +440,18 @@ export default {
       left: 40%;
     }
   }
+}
+
+.wrap {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - var(--window-top));
+  width: 100%;
+}
+.swiper-box {
+  flex: 1;
+}
+.swiper-item {
+  height: 100%;
 }
 </style>
