@@ -107,7 +107,11 @@ const mutations = {
 	},
 
 	setUsersInCircleList(state, list) {
-		state.usersInCircleList = list
+		state.usersInCircleList = [...state.usersInCircleList, ...list]
+	},
+
+	resetUsersInCircleList(state) {
+		state.usersInCircleList = []
 	}
 }
 
@@ -183,9 +187,9 @@ const actions = {
 		commit('setIndexList', list)
 	},
 
-	async getUsersInCircleList({ commit }, circleId) {
-		const list = await getUsersInCircle(circleId)
-		commit('setUsersInCircleList', list)
+	async getUsersInCircleList({ commit }, info) {
+		const list = await getUsersInCircle(info)
+		if (list.length > 0) commit('setUsersInCircleList', list)
 	}
 }
 

@@ -1,18 +1,6 @@
 <template>
   <view>
-    <view v-if="loading">
-      <view v-for="(item, index) in loadingList" :key="index">
-        <view class="bg-white">
-          <skeleton
-            avatarSize="80rpx"
-            avatarShape="square"
-            :row="1"
-            :showTitle="false"
-          >
-          </skeleton>
-        </view>
-      </view>
-    </view>
+    <view class="cu-load text-grey text-lg loading empty" v-if="loading"></view>
 
     <view v-else-if="list.length > 0">
       <view class="cu-bar bg-white">
@@ -45,6 +33,12 @@
           </view>
         </view>
       </u-checkbox-group>
+
+      <u-loadmore
+        v-if="list.length >= 15"
+        :status="loadStatus"
+        bgColor="#f2f2f2"
+      ></u-loadmore>
     </view>
 
     <view class="empty" v-else>
@@ -55,6 +49,7 @@
 
 <script>
 import { mapState } from 'vuex'
+
 export default {
   data() {
     return {
@@ -62,8 +57,10 @@ export default {
       uids: [],
       circleId: 0,
       isSelectAll: false,
-      loading: true,
-      loadingList: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+      loading: false,
+      loadingList: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+      offset: 1,
+      loadStatus: 'loadmore'
     }
   },
 
@@ -73,13 +70,43 @@ export default {
 
   onLoad({ circleId }) {
     this.circleId = circleId
-    this.$store.dispatch('circle/getUsersInCircleList', circleId).then(() => {
-      this.loading = false
-      this.list = this.usersInCircleList.filter((i) => !i.inCircle)
-    })
+    if (this.usersInCircleList.length === 0) {
+      this.loading = true
+      this.getList()
+    }
+  },
+
+  onUnload() {
+    this.$store.commit('circle/resetUsersInCircleList')
+  },
+
+  onReachBottom() {
+    this.loadStatus = 'loading'
+    this.offset++
+    this.getList()
   },
 
   methods: {
+    getList() {
+      this.$store
+        .dispatch('circle/getUsersInCircleList', {
+          circleId: this.circleId,
+          offset: this.offset
+        })
+        .then(() => {
+          this.loading = false
+          if (this.list.length !== this.usersInCircleList.length) {
+            this.list = this.usersInCircleList.filter((i) => !i.inCircle)
+            this.loadStatus = 'loadmore'
+          } else {
+            this.loadStatus = 'nomore'
+          }
+        })
+        .catch(() => {
+          this.loading = false
+        })
+    },
+
     checkboxGroupChange(e) {
       this.uids = e
     },

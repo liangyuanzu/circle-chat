@@ -176,10 +176,12 @@ export function getIndexList(circleId) {
  * 获取圈内用户(地理位置)
  * @param {number} circleId 圈id
  */
-export function getUsersInCircle(circleId) {
+export function getUsersInCircle({ circleId, offset }) {
 	return $request('/circle/queryUserInCircle', {
 		params: {
-			circleId
+			circleId,
+			offset,
+			limit: 15
 		}
 	})
 }
