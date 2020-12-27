@@ -104,7 +104,7 @@ export default {
           },
           {
             validator: (rule, value, callback) => {
-              if (value >= 0 && value <= 10000) return true
+              if (value > 0 && value <= 10000) return true
               return false
             },
             message: '圈范围半径最大为 10000m',
