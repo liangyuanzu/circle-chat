@@ -153,6 +153,11 @@
               <!-- 右-用户名称-时间-消息 -->
               <view class="right">
                 <view class="username" v-if="isCircle">
+                  <view
+                    v-if="row.msg.userinfo.uid === CurrentToCircle.userId"
+                    class="cu-tag radius sm bg-yellow text-white margin-right-xs"
+                    >圈主</view
+                  >
                   <view class="name">{{ row.msg.userinfo.username }}</view>
                   <!-- <view class="time">{{ formatTime(row.msg.time) }}</view> -->
                 </view>
@@ -686,14 +691,16 @@ export default {
         img: circleAvatar,
         type: circleType,
         member,
-        notice
+        notice,
+        userId
       } = circleInfo
       this.$store.commit('chat/setCurrentToCircle', {
         circleId,
         circleName,
         circleAvatar,
         circleType,
-        notice
+        notice,
+        userId
       })
       // 修改标题
       this.title = `${circleName}（${member}）`
@@ -733,7 +740,8 @@ export default {
         circleId: 0,
         circleName: '',
         circleAvatar: '',
-        circleType: ''
+        circleType: '',
+        userId: 0
       })
       // 修改圈状态
       this.$store.commit('chat/setIsCircle', false)
