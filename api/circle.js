@@ -185,3 +185,22 @@ export function getUsersInCircle({ circleId, offset }) {
 		}
 	})
 }
+
+/**
+ * 设置紧急圈的丢失的人或物的信息
+ * @param {string, Number} circleId - 圈id
+ * @param {string} type - 人或物品 person | item
+ * @param {string} name - 名字或物品类别
+ * @param {string} size - 年龄大小或物品尺寸
+ * @param {string} form - 穿着打扮或物品形状
+ * @param {string} properties - 性格特征或物品特征
+ * @param {string} supply - 补充说明
+ * @param {string} picture - 人或物的照片
+ * @param {string} createTime - 丢失时间
+ * */
+export function urgentMsg(data) {
+	return $request('/circle/urgentMsg', {
+		method: 'POST',
+		data
+	})
+}

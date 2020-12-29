@@ -202,6 +202,13 @@
 			"style": {
 				"navigationBarTitleText": "入圈邀请"
 			}
+		}, {
+			"path": "pages/components/find-notice/find-notice",
+			"style": {
+				"navigationBarTitleText": "寻人寻物启示",
+				"enablePullDownRefresh": false
+			}
+
 		}
 	],
 	"globalStyle": {

@@ -99,6 +99,19 @@
       </uni-list>
     </view>
 
+    <view class="margin-top-sm" v-if="circleInfo.type === '紧急圈'">
+      <uni-list>
+        <uni-list-item
+          title="寻人寻物启示"
+          rightText="发布紧急寻人寻物公告"
+          showArrow
+          clickable
+          @click="toFindNotice"
+        >
+        </uni-list-item>
+      </uni-list>
+    </view>
+
     <view class="margin-top-sm">
       <uni-list>
         <uni-list-item title="圈类型" :border="false">
@@ -327,6 +340,12 @@ export default {
           circleId: this.circleInfo.circleId
         }
       )
+    },
+
+    toFindNotice() {
+      this.$u.route('/pages/components/find-notice/find-notice', {
+        circleId: this.circleInfo.circleId
+      })
     },
 
     delExit() {

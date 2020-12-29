@@ -13,7 +13,8 @@ import {
 	addCircleEffective,
 	exitCircle,
 	getIndexList,
-	getUsersInCircle
+	getUsersInCircle,
+	urgentMsg
 } from '@/api/circle.js'
 
 const state = {
@@ -190,6 +191,10 @@ const actions = {
 	async getUsersInCircleList({ commit }, info) {
 		const list = await getUsersInCircle(info)
 		if (list.length > 0) commit('setUsersInCircleList', list)
+	},
+
+	async urgentMsg({}, info) {
+		await urgentMsg(info)
 	}
 }
 
