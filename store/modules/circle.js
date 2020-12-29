@@ -15,7 +15,8 @@ import {
 	getIndexList,
 	getUsersInCircle,
 	urgentMsg,
-	getUrgent
+	getUrgent,
+	setFound
 } from '@/api/circle.js'
 
 const state = {
@@ -211,6 +212,10 @@ const actions = {
 		} else {
 			commit('setUrgent', {})
 		}
+	},
+
+	async setFound({}, found) {
+		await setFound(found)
 	}
 }
 

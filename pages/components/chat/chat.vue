@@ -113,7 +113,7 @@
         <view class="cu-bar bg-white">
           <view
             class="action margin-0 flex-sub solid-left"
-            @tap="showUrgent = false"
+            @tap="toFindNoticeView"
             >查看详情</view
           >
         </view>
@@ -909,6 +909,17 @@ export default {
       } else {
         this.toPersonInfo(this.CurrentToUser.userId)
       }
+    },
+
+    toFindNoticeView() {
+      this.$u.route({
+        type: 'redirect',
+        url: '/pages/components/find-notice/find-notice-view',
+        params: {
+					circleId: this.CurrentToCircle.circleId,
+					ownerId: this.CurrentToCircle.userId,
+        }
+      })
     },
 
     // 时间格式化

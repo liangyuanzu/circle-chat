@@ -216,3 +216,14 @@ export function getUrgent(circleId) {
 		}
 	})
 }
+
+/**
+ * 将 进行中的 寻人寻物启事 设为 已找到
+ * @param {string, number} circleId 圈id
+ */
+export function setFound(data) {
+	return $request('/circle/isHandle', {
+		method: 'POST',
+		data
+	})
+}

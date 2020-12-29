@@ -343,8 +343,9 @@ export default {
     },
 
     toFindNotice() {
-      this.$u.route('/pages/components/find-notice/find-notice', {
-        circleId: this.circleInfo.circleId
+      this.$u.route('/pages/components/find-notice/find-notice-view', {
+        circleId: this.circleInfo.circleId,
+        ownerId: this.circleInfo.userId
       })
     },
 
