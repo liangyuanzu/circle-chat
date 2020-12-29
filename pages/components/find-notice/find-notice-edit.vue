@@ -236,6 +236,12 @@ export default {
             })
             .catch(() => {
               uni.hideLoading()
+              setTimeout(() => {
+                uni.showToast({
+                  icon: 'none',
+                  title: '发布失败'
+                })
+              }, 500)
             })
         }
       })
