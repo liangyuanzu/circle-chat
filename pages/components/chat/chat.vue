@@ -708,6 +708,12 @@ export default {
     }
   },
 
+  watch: {
+    hasUrgent(val) {
+      this.showUrgent = val
+    }
+  },
+
   onReady() {
     if (!uni.getStorageSync('chatMaskShowed')) this.showMask = true
     // 显示寻人寻物启示
@@ -751,6 +757,8 @@ export default {
       this.title = username
       // 修改圈状态
       this.$store.commit('chat/setIsCircle', false)
+      // 清空寻人寻物启示
+      this.$store.commit('circle/setUrgent', {})
     } else if (options.circleInfo) {
       const circleInfo = JSON.parse(decodeURIComponent(options.circleInfo))
       // await this.$store.dispatch('circle/getCircleInfo', options.circleId)
