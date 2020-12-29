@@ -227,3 +227,20 @@ export function setFound(data) {
 		data
 	})
 }
+
+/**
+ * 更新 紧急圈 丢失的人或物品的信息（类别及丢失时间不能更改）
+ * @param {string, Number} circleId - 圈id
+ * @param {string} name - 名字或物品类别
+ * @param {string} size - 年龄大小或物品尺寸
+ * @param {string} form - 穿着打扮或物品形状
+ * @param {string} properties - 性格特征或物品特征
+ * @param {string} supply - 补充说明
+ * @param {string} picture - 人或物的照片
+ */
+export function updateUrgent(data) {
+	return $request('/circle/updateUrgentCircleMsg', {
+		method: 'POST',
+		data
+	})
+}

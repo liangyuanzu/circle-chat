@@ -16,7 +16,8 @@ import {
 	getUsersInCircle,
 	urgentMsg,
 	getUrgent,
-	setFound
+	setFound,
+	updateUrgent
 } from '@/api/circle.js'
 
 const state = {
@@ -216,6 +217,10 @@ const actions = {
 
 	async setFound({}, found) {
 		await setFound(found)
+	},
+
+	async updateUrgent({}, info) {
+		await updateUrgent(info)
 	}
 }
 

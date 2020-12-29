@@ -2,7 +2,7 @@
   <view class="wrap">
     <u-form :model="form" ref="uForm">
       <u-form-item label="类型" required>
-        <u-radio-group v-model="form.type">
+        <u-radio-group v-model="form.type" :disabled="disabled">
           <u-radio
             v-for="(item, index) in typeOptions"
             :key="index"
@@ -88,7 +88,8 @@
           placeholder="请选择时间"
           :select-open="pickerShow"
           v-model="form.createTime"
-          @click="pickerShow = true"
+          :disabled="disabled"
+          @click="disabled ? (pickerShow = false) : (pickerShow = true)"
         ></u-input>
       </u-form-item>
 
@@ -101,12 +102,16 @@
           :action="uploadUrgentImgUrl"
           :form-data="{ name: 'file', circleId }"
           :header="{ sessionid }"
+          :file-list="fileList"
+          :show-progress="false"
           ref="uUpload"
         ></u-upload>
       </u-form-item>
 
       <view style="margin-top: 100rpx">
-        <u-button @click="find">立即发布</u-button>
+        <u-button @click="btnClick">{{
+          hasUrgent ? '立即更改' : '立即发布'
+        }}</u-button>
       </view>
     </u-form>
 
@@ -170,12 +175,39 @@ export default {
         hour: true,
         minute: true,
         second: true
-      }
+      },
+      disabled: false,
+      fileList: []
+    }
+  },
+
+  computed: {
+    ...mapGetters('circle', ['urgent']),
+    hasUrgent() {
+      return Object.keys(this.urgent).length > 0 && !this.urgent.handle
     }
   },
 
   onReady() {
     this.$refs.uForm.setRules(this.rules)
+    this.$nextTick(() => {
+      if (this.hasUrgent) {
+        for (let key in this.urgent) {
+          if (this.urgent[key] && key !== 'circleId' && key !== 'picture') {
+            this.form[key] = this.urgent[key]
+          }
+        }
+        if (this.urgent.picture) {
+          this.form.picture = this.urgent.picture
+          let obj = {
+            url: this.urgent.picture
+          }
+          this.fileList.push(obj)
+        }
+        this.disabled = true
+        this.btnText = '立即更改'
+      }
+    })
   },
 
   onLoad({ circleId }) {
@@ -187,12 +219,12 @@ export default {
       this.form.createTime = `${e.year}-${e.month}-${e.day} ${e.hour}:${e.minute}:${e.second}`
     },
 
-    find() {
+    btnClick() {
       const files = this.$refs.uUpload.lists.filter(
         (val) => val.progress == 100
       )
       if (files.length > 0) {
-        let src = files[0].response.data
+        let src = files[0].response?.data || files[0]?.url
         if (typeof src === 'object' && Object.keys(src).length === 0) {
           uni.showToast({
             title: '图片上传失败，请重新上传',
@@ -208,41 +240,77 @@ export default {
       this.$refs.uForm.validate((valid) => {
         if (valid) {
           uni.showLoading({
-            title: '正在发布...'
+            title: this.hasUrgent ? '正在更改...' : '正在发布...'
           })
-          this.$store
-            .dispatch('circle/urgentMsg', {
-              circleId: this.circleId,
-              type: this.form.type,
-              name: this.form.name,
-              size: this.form.size,
-              form: this.form.form,
-              properties: this.form.properties,
-              supply: this.form.supply,
-              picture: this.form.picture,
-              createTime: this.form.createTime
-            })
-            .then(() => {
-              uni.hideLoading()
-              setTimeout(() => {
-                uni.showToast({
-                  icon: 'none',
-                  title: '发布成功'
-                })
+          if (this.hasUrgent) {
+            this.$store
+              .dispatch('circle/updateUrgent', {
+                circleId: this.circleId,
+                name: this.form.name,
+                size: this.form.size,
+                form: this.form.form,
+                properties: this.form.properties,
+                supply: this.form.supply,
+                picture: this.form.picture
+              })
+              .then(async () => {
+                await this.$store.dispatch('circle/getUrgent', this.circleId)
+                uni.hideLoading()
                 setTimeout(() => {
-                  uni.navigateBack()
+                  uni.showToast({
+                    icon: 'none',
+                    title: '更改成功'
+                  })
+                  setTimeout(() => {
+                    uni.navigateBack()
+                  }, 500)
                 }, 500)
-              }, 500)
-            })
-            .catch(() => {
-              uni.hideLoading()
-              setTimeout(() => {
-                uni.showToast({
-                  icon: 'none',
-                  title: '发布失败'
-                })
-              }, 500)
-            })
+              })
+              .catch(() => {
+                uni.hideLoading()
+                setTimeout(() => {
+                  uni.showToast({
+                    icon: 'none',
+                    title: '更改失败'
+                  })
+                }, 500)
+              })
+          } else {
+            this.$store
+              .dispatch('circle/urgentMsg', {
+                circleId: this.circleId,
+                type: this.form.type,
+                name: this.form.name,
+                size: this.form.size,
+                form: this.form.form,
+                properties: this.form.properties,
+                supply: this.form.supply,
+                picture: this.form.picture,
+                createTime: this.form.createTime
+              })
+              .then(async () => {
+                await this.$store.dispatch('circle/getUrgent', this.circleId)
+                uni.hideLoading()
+                setTimeout(() => {
+                  uni.showToast({
+                    icon: 'none',
+                    title: '发布成功'
+                  })
+                  setTimeout(() => {
+                    uni.navigateBack()
+                  }, 500)
+                }, 500)
+              })
+              .catch(() => {
+                uni.hideLoading()
+                setTimeout(() => {
+                  uni.showToast({
+                    icon: 'none',
+                    title: '发布失败'
+                  })
+                }, 500)
+              })
+          }
         }
       })
     }
