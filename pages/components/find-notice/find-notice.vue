@@ -199,9 +199,8 @@ export default {
             icon: 'none'
           })
           return
-        } else {
-          this.form.picture = src
         }
+        this.form.picture = src
       } else {
         this.form.picture = ''
       }
