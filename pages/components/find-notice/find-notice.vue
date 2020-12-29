@@ -98,8 +98,8 @@
           height="160"
           max-count="1"
           :size-type="['compressed']"
-          :action="uploadImgUrl"
-          :form-data="{ name: 'file' }"
+          :action="uploadUrgentImgUrl"
+          :form-data="{ name: 'file', circleId }"
           :header="{ sessionid }"
           ref="uUpload"
         ></u-upload>
@@ -122,7 +122,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import { uploadImgUrl } from '@/config/config.js'
+import { uploadUrgentImgUrl } from '@/config/config.js'
 import localStore from '@/helpers/localStore.js'
 import { filter } from '../../../uview-ui/components/u-parse/libs/config'
 import time from '@/helpers/time.js'
@@ -141,7 +141,7 @@ export default {
         picture: '',
         createTime: time.format('yyyy-MM-dd HH:mm:ss')
       },
-      uploadImgUrl,
+      uploadUrgentImgUrl,
       sessionid: localStore.get('sessionId'),
       rules: {
         name: [
@@ -174,10 +174,6 @@ export default {
     }
   },
 
-  computed: {
-    ...mapGetters('user', ['position'])
-  },
-
   onReady() {
     this.$refs.uForm.setRules(this.rules)
   },
@@ -196,10 +192,20 @@ export default {
         (val) => val.progress == 100
       )
       if (files.length > 0) {
-        this.picture = files[0].response
+        let src = files[0].response.data
+        if (typeof src === 'object' && Object.keys(src).length === 0) {
+          uni.showToast({
+            title: '图片上传失败，请重新上传',
+            icon: 'none'
+          })
+          return
+        } else {
+          this.form.picture = src
+        }
       } else {
-        this.picture = ''
+        this.form.picture = ''
       }
+
       this.$refs.uForm.validate((valid) => {
         if (valid) {
           uni.showLoading({
