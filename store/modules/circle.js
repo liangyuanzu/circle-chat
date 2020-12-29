@@ -51,7 +51,7 @@ const state = {
 	circleMember: [],
 	indexList: [],
 	usersInCircleList: [],
-	urgent: {} // 紧急圈寻人寻物启示
+	urgent: {} // 紧急圈寻人寻物启事
 }
 
 const getters = {

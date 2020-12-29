@@ -1,7 +1,7 @@
 <template>
   <view>
     <view class="empty" v-if="Object.keys(urgent).length === 0">
-      <u-empty text="还没有发布寻人寻物启示">
+      <u-empty text="还没有发布寻人寻物启事">
         <view slot="bottom">
           <u-button
             slot="bottom"
@@ -96,7 +96,7 @@
             </u-form-item>
 
             <text class="text-gray"
-              >设置为已找到后，将不能更改。并且寻人寻物启示不会在聊天界面中显示。</text
+              >设置为已找到后，将不能更改。并且寻人寻物启事不会在聊天界面中显示。</text
             >
 
             <view style="margin-top: 100rpx" class="flex justify-center">

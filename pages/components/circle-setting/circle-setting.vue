@@ -102,7 +102,7 @@
     <view class="margin-top-sm" v-if="circleInfo.type === '紧急圈'">
       <uni-list>
         <uni-list-item
-          title="寻人寻物启示"
+          title="寻人寻物启事"
           rightText="发布紧急寻人寻物公告"
           showArrow
           clickable

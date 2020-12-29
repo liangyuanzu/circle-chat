@@ -59,12 +59,12 @@
         <text class="lg text-white cuIcon-right"></text>
       </button>
     </view>
-    <!-- 寻人寻物启示 -->
+    <!-- 寻人寻启事 -->
     <view class="cu-modal" :class="showUrgent ? 'show' : ''">
       <view class="cu-dialog">
         <view class="cu-bar bg-white justify-end">
           <view class="content">
-            {{ urgent.type === 'person' ? '寻人启示' : '寻物启示' }}</view
+            {{ urgent.type === 'person' ? '寻人启事' : '寻物启事' }}</view
           >
           <view class="action" @tap="showUrgent = false">
             <text class="cuIcon-close text-red"></text>
@@ -388,7 +388,7 @@ export default {
       // 圈公告动画
       noticeAnimation: '',
       showNotice: false,
-      // 寻人寻物启示
+      // 寻人寻物启事
       showUrgent: false,
       // 标题
       title: '',
@@ -716,7 +716,7 @@ export default {
 
   onReady() {
     if (!uni.getStorageSync('chatMaskShowed')) this.showMask = true
-    // 显示寻人寻物启示
+    // 显示寻人寻物启事
     this.$nextTick(() => {
       if (this.hasUrgent) this.showUrgent = true
     })
@@ -757,7 +757,7 @@ export default {
       this.title = username
       // 修改圈状态
       this.$store.commit('chat/setIsCircle', false)
-      // 清空寻人寻物启示
+      // 清空寻人寻物启事
       this.$store.commit('circle/setUrgent', {})
     } else if (options.circleInfo) {
       const circleInfo = JSON.parse(decodeURIComponent(options.circleInfo))
@@ -783,11 +783,11 @@ export default {
       this.title = `${circleName}（${member}）`
       // 修改圈状态
       this.$store.commit('chat/setIsCircle', true)
-      // 紧急圈寻人寻物启示
+      // 紧急圈寻人寻物启事
       if (circleType === '紧急圈') {
         this.$store.dispatch('circle/getUrgent', circleId)
       } else {
-        // 清空寻人寻物启示
+        // 清空寻人寻物启事
         this.$store.commit('circle/setUrgent', {})
       }
     } else {
