@@ -204,3 +204,15 @@ export function urgentMsg(data) {
 		data
 	})
 }
+
+/**
+ * 获取紧急圈的 丢失的人或物的 信息
+ * @param {string, number} circleId 圈id
+ */
+export function getUrgent(circleId) {
+	return $request('/circle/getUrgentCircleMsg', {
+		params: {
+			circleId
+		}
+	})
+}

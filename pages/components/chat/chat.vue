@@ -59,6 +59,66 @@
         <text class="lg text-white cuIcon-right"></text>
       </button>
     </view>
+    <!-- 寻人寻物启示 -->
+    <view class="cu-modal" :class="showUrgent ? 'show' : ''">
+      <view class="cu-dialog">
+        <view class="cu-bar bg-white justify-end">
+          <view class="content">
+            {{ urgent.type === 'person' ? '寻人启示' : '寻物启示' }}</view
+          >
+          <view class="action" @tap="showUrgent = false">
+            <text class="cuIcon-close text-red"></text>
+          </view>
+        </view>
+        <view class="padding-xl text-left">
+          <view v-if="urgent.name" class="margin-bottom-xs text-cut">
+            <text>{{ urgent.type === 'person' ? '姓名：' : '名称：' }}</text>
+            <text>{{ urgent.name }}</text>
+          </view>
+          <view v-if="urgent.size" class="margin-tb-xs text-cut">
+            <text>{{ urgent.type === 'person' ? '年龄：' : '尺寸：' }}</text>
+            <text>{{ urgent.size }}</text>
+          </view>
+          <view v-if="urgent.form" class="margin-tb-xs text-cut">
+            <text>{{
+              urgent.type === 'person' ? '穿着打扮：' : '物品形状：'
+            }}</text>
+            <text>{{ urgent.form }}</text>
+          </view>
+          <view v-if="urgent.properties" class="margin-tb-xs text-cut">
+            <text>{{
+              urgent.type === 'person' ? '性格特征：' : '物品特征：'
+            }}</text>
+            <text>{{ urgent.properties }}</text>
+          </view>
+          <view v-if="urgent.supply" class="margin-tb-xs text-cut">
+            <text>补充说明：</text>
+            <text>{{ urgent.supply }}</text>
+          </view>
+          <view v-if="urgent.createTime" class="margin-tb-xs text-cut">
+            <text>{{
+              urgent.type === 'person' ? '走失时间：' : '丢失时间：'
+            }}</text>
+            <text>{{ urgent.createTime }}</text>
+          </view>
+
+          <view v-if="urgent.picture" class="margin-top-lg">
+            <u-image
+              width="100%"
+              height="300rpx"
+              :src="urgent.picture"
+            ></u-image>
+          </view>
+        </view>
+        <view class="cu-bar bg-white">
+          <view
+            class="action margin-0 flex-sub solid-left"
+            @tap="showUrgent = false"
+            >查看详情</view
+          >
+        </view>
+      </view>
+    </view>
     <!-- 内容 -->
     <view class="content" @touchstart="hideDrawer">
       <scroll-view
@@ -328,6 +388,8 @@ export default {
       // 圈公告动画
       noticeAnimation: '',
       showNotice: false,
+      // 寻人寻物启示
+      showUrgent: false,
       // 标题
       title: '',
       // loading
@@ -635,16 +697,23 @@ export default {
     ...mapState(['imageUrl', 'uploadUrl']),
     ...mapGetters('user', ['userId', 'username', 'avatar', 'personinfo']),
     ...mapState('chat', ['CurrentToUser', 'CurrentToCircle', 'isCircle']),
-    ...mapGetters('circle', ['circleInfo']),
+    ...mapGetters('circle', ['circleInfo', 'urgent']),
     style() {
       const CustomBar = this.CustomBar
       const style = `padding-top:${CustomBar}px;`
       return style
+    },
+    hasUrgent() {
+      return Object.keys(this.urgent).length > 0 && !this.urgent.handle
     }
   },
 
   onReady() {
     if (!uni.getStorageSync('chatMaskShowed')) this.showMask = true
+    // 显示寻人寻物启示
+    this.$nextTick(() => {
+      if (this.hasUrgent) this.showUrgent = true
+    })
     // 开启监听
     uni.$on('UserChat', (data) => {
       if (
@@ -706,6 +775,13 @@ export default {
       this.title = `${circleName}（${member}）`
       // 修改圈状态
       this.$store.commit('chat/setIsCircle', true)
+      // 紧急圈寻人寻物启示
+      if (circleType === '紧急圈') {
+        this.$store.dispatch('circle/getUrgent', circleId)
+      } else {
+        // 清空寻人寻物启示
+        this.$store.commit('circle/setUrgent', {})
+      }
     } else {
       uni.showToast({ title: '不存在的用户或圈', icon: 'none' })
       return uni.navigateBack()

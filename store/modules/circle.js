@@ -14,7 +14,8 @@ import {
 	exitCircle,
 	getIndexList,
 	getUsersInCircle,
-	urgentMsg
+	urgentMsg,
+	getUrgent
 } from '@/api/circle.js'
 
 const state = {
@@ -47,14 +48,16 @@ const state = {
 	circleInfo: {},
 	circleMember: [],
 	indexList: [],
-	usersInCircleList: []
+	usersInCircleList: [],
+	urgent: {} // 紧急圈寻人寻物启示
 }
 
 const getters = {
 	circleAvatar: (state) => state.circleAvatar,
 	circleInfo: (state) => state.circleInfo,
 	circleMember: (state) => state.circleMember,
-	dataList: (state) => state.circleList.map((i) => i.list)
+	dataList: (state) => state.circleList.map((i) => i.list),
+	urgent: (state) => state.urgent
 }
 
 const mutations = {
@@ -113,6 +116,10 @@ const mutations = {
 
 	resetUsersInCircleList(state) {
 		state.usersInCircleList = []
+	},
+
+	setUrgent(state, info) {
+		state.urgent = info
 	}
 }
 
@@ -195,6 +202,15 @@ const actions = {
 
 	async urgentMsg({}, info) {
 		await urgentMsg(info)
+	},
+
+	async getUrgent({ commit }, circleId) {
+		const info = await getUrgent(circleId)
+		if (info) {
+			commit('setUrgent', info)
+		} else {
+			commit('setUrgent', {})
+		}
 	}
 }
 
