@@ -63,19 +63,14 @@ const getters = {
 }
 
 const mutations = {
-	setCircleList(state, { type, offset, list }) {
+	setCircleList(state, { type, offset, index, list }) {
 		state.circleList.forEach((i) => {
 			if (i.type === type) {
 				if (i.offset < offset || (offset === 1 && i.list.length === 0)) {
 					i.offset = offset
 					i.list = [...i.list, ...list]
 				} else {
-					const index = i.list?.findIndex(
-						(val) => val?.circleId === list[0]?.circleId
-					)
-					if (index !== -1) {
-						i.list.splice(index, list.length, ...list)
-					}
+					i.list.splice(index, 1)
 				}
 			}
 		})

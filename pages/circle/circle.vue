@@ -346,22 +346,13 @@ export default {
       }
     },
 
-    joinClick({ index }) {
-      let offset
-      if ((index / 10) % 1 > 0) {
-        offset = Math.ceil(index / 10)
-      } else {
-        offset = index / 10 + 1
-      }
-      this.$store
-        .dispatch('circle/nearlyCircleByPage', {
-          type: this.swiperCurrent,
-          offset
-        })
-        .then(async () => {
-          await this.$store.dispatch('chat/getOldChatList', 0)
-          await this.$store.dispatch('chat/getNoReadNum')
-        })
+    async joinClick({ index }) {
+      this.$store.commit('circle/setCircleList', {
+        type: this.swiperCurrent,
+        index
+      })
+      await this.$store.dispatch('chat/getOldChatList', 0)
+      await this.$store.dispatch('chat/getNoReadNum')
     },
 
     reachBottom() {
