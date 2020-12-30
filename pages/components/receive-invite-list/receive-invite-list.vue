@@ -72,6 +72,13 @@
           <view class="content" @click="toCircleInvite(item)">
             <view class="text-cut">{{ item.circleName }}</view>
             <view>
+              <u-tag
+                v-if="item.type"
+                :text="item.type"
+                size="mini"
+                :type="$formatType(item.type)"
+                class="margin-right-xs"
+              />
               <view class="cu-capsule radius" v-if="item.member">
                 <view class="cu-tag bg-blue sm">
                   <text class="cuIcon-group"></text>

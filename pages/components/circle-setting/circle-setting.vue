@@ -116,7 +116,11 @@
       <uni-list>
         <uni-list-item title="圈类型" :border="false">
           <template #footer>
-            <u-tag :text="circleInfo.type" size="mini" :type="formatType" />
+            <u-tag
+              :text="circleInfo.type"
+              size="mini"
+              :type="$formatType(circleInfo.type)"
+            />
           </template>
         </uni-list-item>
         <uni-list-item title="圈范围" :border="false">
@@ -255,10 +259,6 @@ export default {
             this.circleInfo.notice?.length > 20 ? this.circleInfo.notice : ''
         }
       ]
-    },
-    formatType() {
-      if (this.circleInfo.type === '固定圈') return 'warning'
-      if (this.circleInfo.type === '紧急圈') return 'error'
     }
   },
 

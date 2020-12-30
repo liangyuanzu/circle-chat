@@ -24,7 +24,11 @@
       <uni-list>
         <uni-list-item title="圈类型">
           <template #footer>
-            <u-tag :text="circleInfo.type" size="mini" :type="formatType" />
+            <u-tag
+              :text="circleInfo.type"
+              size="mini"
+              :type="$formatType(circleInfo.type)"
+            />
           </template>
         </uni-list-item>
         <uni-list-item title="圈人数">
@@ -91,10 +95,6 @@ export default {
       return /(\d{4})\-(\d{2})\-(\d{2})/
         .exec(this.circleInfo.createTime)[0]
         .replace(/(\d{4})\-(\d{2})\-(\d{2})/, '$1年$2月$3日')
-    },
-    formatType() {
-      if (this.circleInfo.type === '固定圈') return 'warning'
-      if (this.circleInfo.type === '紧急圈') return 'error'
     }
   },
 

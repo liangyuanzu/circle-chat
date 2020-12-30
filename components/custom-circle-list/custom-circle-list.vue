@@ -18,21 +18,29 @@
               {{ item.circleName || item.name }}
             </view>
             <!-- 标签 -->
-            <view class="cu-capsule radius" v-if="item.member">
-              <view class="cu-tag bg-blue sm">
-                <text class="cuIcon-group"></text>
+            <view class="flex align-center">
+              <u-tag
+                v-if="item.type"
+                :text="item.type"
+                size="mini"
+                :type="$formatType(item.type)"
+                class="margin-right-xs"
+                style="margin-bottom: 3rpx"
+              />
+              <view class="cu-capsule radius" v-if="item.member">
+                <view class="cu-tag bg-blue sm">
+                  <text class="cuIcon-group"></text>
+                </view>
+                <view class="cu-tag line-blue sm"> {{ item.member }} </view>
               </view>
-              <view class="cu-tag line-blue sm">
-                {{ item.member }}
+              <view class="cu-capsule radius" v-if="item.radius">
+                <view class="cu-tag bg-black sm">
+                  <text class="cuIcon-radiobox"></text>
+                </view>
+                <view class="cu-tag line-black sm">
+                  {{ $formatRadius(item.radius) }}</view
+                >
               </view>
-            </view>
-            <view class="cu-capsule radius" v-if="item.radius">
-              <view class="cu-tag bg-black sm">
-                <text class="cuIcon-radiobox"></text>
-              </view>
-              <view class="cu-tag line-black sm">
-                {{ $formatRadius(item.radius) }}</view
-              >
             </view>
             <!-- 简介 -->
             <view

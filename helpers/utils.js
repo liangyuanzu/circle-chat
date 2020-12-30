@@ -174,3 +174,13 @@ export function formatRadius(radius) {
 		return parseInt(radius / 1000) + ' km'
 	}
 }
+
+/**
+ * 格式化圈类型
+ * @param {string} type 圈类型
+ */
+export function formatType(type) {
+	if (type === '交友圈') return 'primary'
+	if (type === '固定圈') return 'warning'
+	if (type === '紧急圈') return 'error'
+}
