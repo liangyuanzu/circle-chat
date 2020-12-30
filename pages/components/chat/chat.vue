@@ -111,9 +111,7 @@
           </view>
         </view>
         <view class="cu-bar bg-white">
-          <view
-            class="action margin-0 flex-sub solid-left"
-            @tap="toFindNoticeView"
+          <view class="action margin-0 flex-sub" @tap="toFindNoticeView"
             >查看详情</view
           >
         </view>
@@ -916,8 +914,8 @@ export default {
         type: 'redirect',
         url: '/pages/components/find-notice/find-notice-view',
         params: {
-					circleId: this.CurrentToCircle.circleId,
-					ownerId: this.CurrentToCircle.userId,
+          circleId: this.CurrentToCircle.circleId,
+          ownerId: this.CurrentToCircle.userId
         }
       })
     },

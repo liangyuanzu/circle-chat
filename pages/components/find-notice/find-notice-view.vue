@@ -77,7 +77,7 @@
           <text>已找到</text>
         </view>
 
-        <view class="margin-top-xl" v-else>
+        <view class="margin-top-xl" v-if="isOperate">
           <u-form
             :model="form"
             ref="uForm"
