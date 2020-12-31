@@ -27,7 +27,7 @@
           <slot name="bottom">
             <view
               v-if="note"
-              class="text-sm text-grey text-cut"
+              class="text-sm text-gray text-cut"
               style="width: 470rpx"
             >
               {{ note }}

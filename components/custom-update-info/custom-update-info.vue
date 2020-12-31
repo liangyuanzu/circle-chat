@@ -58,7 +58,7 @@
           </template>
         </uni-list-item>
       </uni-list>
-      <view class="text-sm text-grey padding"
+      <view class="text-sm text-gray padding"
         >当前有效时间为 {{ oldData }} 天，增加后有效时间为
         {{ oldData + effective }} 天</view
       >

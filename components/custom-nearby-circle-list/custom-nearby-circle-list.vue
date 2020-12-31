@@ -56,7 +56,7 @@
               />
               <text
                 style="margin-left: 10rpx"
-                :class="[item.inCircle ? 'text-grey' : '']"
+                :class="[item.inCircle ? 'text-gray' : '']"
                 >{{ formatJoin(item.inCircle) }}</text
               >
             </u-button>

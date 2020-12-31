@@ -8,10 +8,10 @@
     >
       <template #bottom>
         <view>
-          <view class="text-sm text-grey text-cut" style="width: 470rpx">
+          <view class="text-sm text-gray text-cut" style="width: 470rpx">
             {{ formatAge }}
           </view>
-          <view class="text-sm text-grey text-cut" style="width: 470rpx">
+          <view class="text-sm text-gray text-cut" style="width: 470rpx">
             {{ formatBirthday }}
           </view>
         </view>

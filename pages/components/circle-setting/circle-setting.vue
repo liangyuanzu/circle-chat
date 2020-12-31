@@ -9,11 +9,11 @@
     >
       <template #bottom>
         <view>
-          <view class="text-sm text-grey text-cut" style="width: 470rpx">
+          <view class="text-sm text-gray text-cut" style="width: 470rpx">
             {{ circleInfo.circleId }}
           </view>
           <view
-            class="text-sm text-grey text-cut"
+            class="text-sm text-gray text-cut"
             style="width: 470rpx"
             v-if="circleInfo.synopsis"
           >
@@ -29,7 +29,7 @@
           <template #header>
             <view class="flex justify-between">
               <view class="text-lg text-black">圈聊成员</view>
-              <view class="text-sm text-grey">
+              <view class="text-sm text-gray">
                 <text class="margin-right-xs">共{{ circleInfo.member }}人</text>
                 <text class="cuIcon-right"> </text>
               </view>
@@ -55,11 +55,11 @@
                   </view>
                 </view>
                 <view
-                  class="text-grey cuIcon-roundaddfill"
+                  class="text-gray cuIcon-roundaddfill"
                   style="font-size: 90rpx"
                 >
                 </view>
-                <view class="text-sm text-grey">邀请</view>
+                <view class="text-sm text-gray">邀请</view>
               </view>
             </view>
           </template>

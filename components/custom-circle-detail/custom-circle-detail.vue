@@ -7,13 +7,13 @@
     >
     </custom-avatar>
 
-    <view class="text-df text-grey padding bg-white margin-top-sm">
+    <view class="text-df text-gray padding bg-white margin-top-sm">
       <view>本圈创建于 {{ createTime }}</view>
       <view v-if="circleInfo.synopsis">{{ circleInfo.synopsis }}</view>
     </view>
 
     <view
-      class="text-df text-grey padding bg-white margin-top-sm"
+      class="text-df text-gray padding bg-white margin-top-sm"
       v-if="circleInfo.explain"
     >
       <view>入圈说明</view>

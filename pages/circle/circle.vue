@@ -32,10 +32,11 @@
             >
               <view class="content">
                 <text
-                  class="lg text-grey"
+                  style="color: #666"
+                  class="lg"
                   :class="'cuIcon-' + item.icon"
                 ></text>
-                <text class="text-grey">{{ item.text }}</text>
+                <text style="color: #666">{{ item.text }}</text>
               </view>
             </view>
           </view>

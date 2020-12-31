@@ -45,7 +45,7 @@
             <!-- 简介 -->
             <view
               v-if="showNote && item.synopsis"
-              class="text-sm text-grey my-text-cut"
+              class="text-sm text-gray my-text-cut"
               style="width: 474rpx; margin-top: 10rpx"
             >
               {{ item.synopsis }}
@@ -69,7 +69,7 @@
               />
               <text
                 style="margin-left: 10rpx"
-                :class="[item.inCircle ? 'text-grey' : '']"
+                :class="[item.inCircle ? 'text-gray' : '']"
                 >{{ formatJoin(item.inCircle) }}</text
               >
             </u-button>

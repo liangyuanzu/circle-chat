@@ -160,7 +160,7 @@
             <!-- 时间 -->
             <view
               v-show="row.msg.showTime"
-              class="text-sm text-grey text-center margin-tb-sm"
+              class="text-sm text-gray text-center margin-tb-sm"
               style="width: 100%"
               >{{ formatTime(row.msg.time) }}</view
             >

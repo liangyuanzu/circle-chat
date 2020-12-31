@@ -30,7 +30,7 @@
               />
               <text
                 style="margin-left: 10rpx"
-                :class="[i.isFocus === 1 ? 'text-grey' : '']"
+                :class="[i.isFocus === 1 ? 'text-gray' : '']"
                 >{{ formatFocus(i.isFocus) }}</text
               >
             </u-button>
