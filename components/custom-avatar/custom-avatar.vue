@@ -6,15 +6,17 @@
     @click="click"
   >
     <view class="avatar-left">
-      <u-avatar
-        :src="src"
-        mode="square"
-        size="large"
-        :sex-icon="sexIcon"
-        :show-sex="showSex"
-        style="margin-left: 30rpx"
-      >
-      </u-avatar>
+      <view @click.stop="previewAvatar">
+        <u-avatar
+          :src="src"
+          mode="square"
+          size="large"
+          :sex-icon="sexIcon"
+          :show-sex="showSex"
+          style="margin-left: 30rpx"
+        >
+        </u-avatar>
+      </view>
       <view class="info">
         <slot name="content">
           <view
@@ -119,6 +121,13 @@ export default {
   methods: {
     click() {
       this.$emit('click')
+    },
+
+    previewAvatar() {
+      uni.previewImage({
+        current: this.src,
+        urls: [this.src]
+      })
     }
   }
 }
