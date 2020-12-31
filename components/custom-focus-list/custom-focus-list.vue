@@ -7,6 +7,7 @@
         :title="i.username"
         :thumb="i.img"
         thumbSize="lg"
+        :border="border"
         clickable
         @click="onClick(i.userId)"
       >
@@ -45,6 +46,7 @@
 /**
  * custom-focus-list 自定义关注列表组件
  * @description 本组件是适用于本项目的关注列表组件，一般用于展示关注信息的地方，如关注列表，圈聊索引列表。
+ * @property {String} 	border = [true|false] 		列表项边框
  * @property {Array} 	list 							数据列表
  * @property {Boolean} isMargin = [true|false] 按钮右侧是否空出间距
  *
@@ -57,6 +59,10 @@ export default {
   name: 'custom-focus-list',
 
   props: {
+    border: {
+      type: Boolean,
+      default: false
+    },
     list: {
       type: Array,
       default: []

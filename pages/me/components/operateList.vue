@@ -9,6 +9,7 @@
         show-extra-icon
         :extraIcon="item.extraIcon"
         showArrow
+        :border="false"
         clickable
         @click="listItemClick(item.title)"
       >

@@ -76,7 +76,6 @@
             <!-- #ifndef MP-BAIDU -->
             <view v-else-if="item.length > 0">
               <custom-circle-list
-                :border="false"
                 showJoin
                 :list="item"
                 @joinClick="joinClick"
