@@ -98,6 +98,10 @@ export default {
     this.getList(this.type)
   },
 
+  onLoad({ index }) {
+    if (index) this.change(+index)
+  },
+
   methods: {
     konwClick() {
       this.showMask = false

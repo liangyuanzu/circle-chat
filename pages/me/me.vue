@@ -16,6 +16,7 @@
         class="text-center flex-sub"
         v-for="(item, index) in infoList"
         :key="index"
+        @click="infoClick(item.text)"
       >
         <view class="text-sm text-bold text-black">{{ item.val }}</view>
         <view class="text-xs text-gray">{{ item.text }}</view>
@@ -103,6 +104,23 @@ export default {
 
     toSetting() {
       this.$u.route('/pages/components/setting/setting')
+    },
+
+    infoClick(text) {
+      switch (text) {
+        case '关注':
+          this.$u.route('/pages/components/focus-list/focus-list', {
+            params: {
+              index: 0
+            }
+          })
+          break
+        case '粉丝':
+          this.$u.route('/pages/components/focus-list/focus-list', {
+            index: 1
+          })
+          break
+      }
     }
   }
 }
