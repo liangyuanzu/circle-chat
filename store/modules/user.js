@@ -25,6 +25,9 @@ const state = {
 	age: '',
 	sex: '',
 	birthday: '',
+	myFocus: 0, // 关注
+	myFans: 0, // 粉丝
+	points: 0, // 积分
 	timer: '', // 更新位置信息定时器
 	autograph: '',
 	personinfo: '',
@@ -42,6 +45,9 @@ const getters = {
 	sex: (state) => state.sex,
 	birthday: (state) => state.birthday,
 	autograph: (state) => state.autograph,
+	myFocus: (state) => state.myFocus,
+	myFans: (state) => state.myFans,
+	points: (state) => state.points,
 	personinfo: (state) => state.personinfo,
 	position: (state) => state.longitude + ',' + state.latitude,
 	isInit: (state) => state.isInit
@@ -68,6 +74,15 @@ const mutations = {
 	},
 	setAutograph(state, autograph) {
 		state.autograph = autograph
+	},
+	setMyFocus(state, myFocus) {
+		state.myFocus = myFocus
+	},
+	setMyFans(state, myFans) {
+		state.myFans = myFans
+	},
+	setPoints(state, points) {
+		state.points = points
 	},
 	setPersonInfo(state, personinfo) {
 		state.personinfo = personinfo
@@ -102,6 +117,9 @@ const actions = {
 		commit('setSex', userinfo.sex)
 		commit('setAutograph', userinfo.autograph)
 		commit('setBirthday', userinfo.birthday)
+		commit('setMyFocus', userinfo.myFocus)
+		commit('setMyFans', userinfo.myFans)
+		commit('setPoints', userinfo.points)
 		dispatch('getPosition')
 		timer && clearInterval(timer)
 		commit(

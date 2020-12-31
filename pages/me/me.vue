@@ -11,6 +11,17 @@
       @click="toInfo"
     />
 
+    <view class="cu-bar bg-white flex">
+      <view
+        class="text-center flex-sub"
+        v-for="(item, index) in infoList"
+        :key="index"
+      >
+        <view class="text-sm text-bold text-black">{{ item.val }}</view>
+        <view class="text-xs text-gray">{{ item.text }}</view>
+      </view>
+    </view>
+
     <operateList @toInfo="toInfo" />
 
     <view style="margin-top: 20rpx">
@@ -48,7 +59,15 @@ export default {
   },
 
   computed: {
-    ...mapGetters('user', ['username', 'avatar', 'sex', 'autograph']),
+    ...mapGetters('user', [
+      'username',
+      'avatar',
+      'sex',
+      'autograph',
+      'myFocus',
+      'myFans',
+      'points'
+    ]),
     formatGender() {
       if (this.sex === '男') return 'man'
       if (this.sex === '女') return 'woman'
@@ -56,6 +75,22 @@ export default {
     showSex() {
       if (this.sex === '男' || this.sex === '女') return true
       return false
+    },
+    infoList() {
+      return [
+        {
+          text: '关注',
+          val: this.myFocus
+        },
+        {
+          text: '粉丝',
+          val: this.myFans
+        },
+        {
+          text: '积分',
+          val: this.points
+        }
+      ]
     }
   },
 
