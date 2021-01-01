@@ -14,7 +14,8 @@ import {
 	getUserInfo_baidu,
 	logout_baidu,
 	updatePosition,
-	getUserSetting
+	getUserSetting,
+	signIn
 } from '@/api/user.js'
 import localStore from '@/helpers/localStore.js'
 
@@ -302,6 +303,10 @@ const actions = {
 	async getUserSetting({ commit }) {
 		const setting = await getUserSetting()
 		commit('setSetting', setting)
+	},
+
+	async signIn({}) {
+		await signIn()
 	}
 }
 

@@ -4,12 +4,32 @@
       :src="avatar"
       :show-sex="showSex"
       :sex-icon="formatGender"
-      :title="username"
-      :note="autograph"
       clickable
       showArrow
       @click="toInfo"
-    />
+    >
+      <template #content>
+        <view class="flex justify-between align-center">
+          <view>
+            <view class="text-lg text-black text-cut" style="width: 400rpx">
+              {{ username }}
+            </view>
+            <view class="text-sm text-gray text-cut" style="width: 400rpx">
+              {{ autograph }}
+            </view>
+          </view>
+          <u-button
+            type="primary"
+            size="mini"
+            shape="circle"
+            plain
+            @click.stop="signIn"
+          >
+            签到
+          </u-button>
+        </view>
+      </template>
+    </custom-avatar>
 
     <view class="cu-bar bg-white flex">
       <view
@@ -121,6 +141,21 @@ export default {
           })
           break
       }
+    },
+
+    signIn() {
+      this.$store.dispatch('user/signIn').then(() => {
+        let points = this.points
+        ++points
+        this.$store
+          .dispatch('focus/count', { type: 'points', num: points })
+          .then(() => {
+            uni.showToast({
+              title: '签到成功，积分+1',
+              icon: 'none'
+            })
+          })
+      })
     }
   }
 }

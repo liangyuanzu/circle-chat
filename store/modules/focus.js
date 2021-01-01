@@ -66,6 +66,8 @@ const actions = {
 			commit('user/setMyFocus', num, { root: true })
 		} else if (type === 'myFans') {
 			commit('user/setMyFans', num, { root: true })
+		} else if (type === 'points') {
+			commit('user/setPoints', num, { root: true })
 		}
 		let userinfo = localStore.get('userinfo')
 		userinfo[type] = num

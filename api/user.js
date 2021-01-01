@@ -176,3 +176,12 @@ export function updatePosition(data) {
 export function getUserSetting() {
 	return $request('/user/getUserSet', {})
 }
+
+/**
+ * 签到
+ * */
+export function signIn() {
+	return $request('/user/sign', {
+		method: 'POST'
+	})
+}

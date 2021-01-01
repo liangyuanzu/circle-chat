@@ -13,7 +13,7 @@
           size="large"
           :sex-icon="sexIcon"
           :show-sex="showSex"
-          style="margin-left: 30rpx"
+          style="margin: 0 30rpx"
         >
         </u-avatar>
       </view>
@@ -147,7 +147,7 @@ export default {
     align-items: center;
 
     .info {
-      margin: 0 20rpx 0 40rpx;
+      margin-right: 20rpx;
     }
   }
 }
