@@ -1,4 +1,5 @@
 import { queryMyFocus, queryFocusSb, addFocus, delFocus } from '@/api/focus.js'
+import localStore from '@/helpers/localStore.js'
 
 const state = {
 	myFocus: [],
@@ -28,12 +29,14 @@ const mutations = {
 }
 
 const actions = {
-	async getFocusList({ commit }, type) {
+	async getFocusList({ commit, dispatch }, type) {
 		const list = await queryMyFocus(type)
 		if (type === 1) {
 			commit('setMyFocus', list)
+			dispatch('count', { type: 'myFocus', num: list.length })
 		} else if (type === 2) {
 			commit('setFocusMy', list)
+			dispatch('count', { type: 'myFans', num: list.length })
 		}
 	},
 
@@ -42,12 +45,31 @@ const actions = {
 		commit('setFocusStatus', status)
 	},
 
-	async addFocus({}, userId) {
-		await addFocus(userId)
+	addFocus({ rootGetters, dispatch }, userId) {
+		addFocus(userId).then(() => {
+			let myFocus = rootGetters['user/myFocus']
+			++myFocus
+			dispatch('count', { type: 'myFocus', num: myFocus })
+		})
 	},
 
-	async cancelFocus({}, userId) {
-		await delFocus(userId)
+	cancelFocus({ rootGetters, dispatch }, userId) {
+		delFocus(userId).then(() => {
+			let myFocus = rootGetters['user/myFocus']
+			--myFocus
+			dispatch('count', { type: 'myFocus', num: myFocus })
+		})
+	},
+
+	count({ commit }, { type, num }) {
+		if (type === 'myFocus') {
+			commit('user/setMyFocus', num, { root: true })
+		} else if (type === 'myFans') {
+			commit('user/setMyFans', num, { root: true })
+		}
+		let userinfo = localStore.get('userinfo')
+		userinfo[type] = num
+		localStore.set('userinfo', userinfo)
 	}
 }
 
