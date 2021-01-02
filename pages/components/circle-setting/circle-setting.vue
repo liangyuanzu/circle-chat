@@ -363,10 +363,7 @@ export default {
     },
 
     toCircleAlbum() {
-      this.$u.route('/pages/components/circle-album/circle-album', {
-        circleId: this.circleInfo.circleId,
-        ownerId: this.circleInfo.userId
-      })
+      this.$u.route('/pages/components/circle-album/circle-album')
     },
 
     delExit() {

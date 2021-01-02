@@ -64,15 +64,13 @@ import { mapState } from 'vuex'
 export default {
   data() {
     return {
-      circleId: 0,
-      ownerId: 0,
       tId: 0,
       showModal: false
     }
   },
 
   computed: {
-    ...mapState('circle', ['circleAlbum']),
+    ...mapState('circle', ['circleAlbum', 'circleInfo']),
     urls() {
       return this.circleAlbum.map((i) => i.picture)
     },
@@ -87,21 +85,13 @@ export default {
     }
   },
 
-  onLoad({ circleId, ownerId }) {
-    this.circleId = circleId
-    this.ownerId = ownerId
-    this.$store.dispatch('circle/getAlbum', circleId)
+  onLoad() {
+    this.$store.dispatch('circle/getAlbum', this.circleInfo.circleId)
   },
 
   methods: {
     toCreateAlbum() {
-      this.$u.route({
-        type: 'redirect',
-        url: '/pages/components/circle-album/create-album',
-        params: {
-          circleId: this.circleId
-        }
-      })
+      this.$u.route('/pages/components/circle-album/create-album')
     },
 
     previewAlbum(url) {
@@ -120,7 +110,7 @@ export default {
       })
       this.$store
         .dispatch('circle/delAlbum', {
-          circleId: this.circleId,
+          circleId: this.circleInfo.circleId,
           tId: this.tId
         })
         .then(() => {
@@ -133,11 +123,7 @@ export default {
             setTimeout(() => {
               this.$u.route({
                 type: 'redirect',
-                url: '/pages/components/circle-album/circle-album',
-                params: {
-                  circleId: this.circleId,
-                  ownerId: this.ownerId
-                }
+                url: '/pages/components/circle-album/circle-album'
               })
             }, 500)
           }, 500)

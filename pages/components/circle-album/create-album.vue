@@ -10,7 +10,7 @@
       >
         <u-input
           v-model="form.name"
-          maxlength="20"
+          maxlength="15"
           placeholder="请输入相册名"
         />
       </u-form-item>
@@ -18,7 +18,12 @@
       <u-form-item label="描述" :border-bottom="false">
         <u-input
           v-model="form.introduction"
-          maxlength="20"
+          type="textarea"
+          :auto-height="false"
+          maxlength="60"
+          :customStyle="{
+            height: '180rpx'
+          }"
           placeholder="请输入相册描述"
         />
       </u-form-item>
@@ -30,7 +35,7 @@
           max-count="1"
           :size-type="['compressed']"
           :action="uploadFixedCircleImage"
-          :form-data="{ name: 'file', circleId }"
+          :form-data="{ name: 'file', circleId: circleInfo.circleId }"
           :header="{ sessionid }"
           :show-progress="false"
           ref="uUpload"
@@ -47,11 +52,11 @@
 <script>
 import { uploadFixedCircleImage } from '@/config/config.js'
 import localStore from '@/helpers/localStore.js'
+import { mapState } from 'vuex'
 
 export default {
   data() {
     return {
-      circleId: 0,
       form: {
         name: '',
         introduction: '',
@@ -71,12 +76,12 @@ export default {
     }
   },
 
-  onReady() {
-    this.$refs.uForm.setRules(this.rules)
+  computed: {
+    ...mapState('circle', ['circleInfo'])
   },
 
-  onLoad({ circleId }) {
-    this.circleId = circleId
+  onReady() {
+    this.$refs.uForm.setRules(this.rules)
   },
 
   methods: {
@@ -113,7 +118,7 @@ export default {
           })
           this.$store
             .dispatch('circle/createAlbum', {
-              circleId: this.circleId,
+              circleId: this.circleInfo.circleId,
               name: this.form.name,
               introduction: this.form.introduction,
               img: this.form.img
@@ -126,7 +131,10 @@ export default {
                   title: '创建成功'
                 })
                 setTimeout(() => {
-                  uni.navigateBack()
+                  this.$u.route({
+                    type: 'redirect',
+                    url: '/pages/components/circle-album/circle-album'
+                  })
                 }, 500)
               }, 500)
             })
