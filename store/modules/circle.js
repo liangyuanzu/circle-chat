@@ -74,7 +74,8 @@ const mutations = {
 					i.offset = offset
 					i.list = [...i.list, ...list]
 				} else {
-					i.list.splice(index, 1)
+					// i.list.splice(index, 1)
+					i.list[index].inCircle = true
 				}
 			}
 		})
