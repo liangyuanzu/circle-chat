@@ -112,6 +112,19 @@
       </uni-list>
     </view>
 
+    <view class="margin-top-sm" v-if="circleInfo.type === '固定圈'">
+      <uni-list>
+        <uni-list-item
+          title="圈相册"
+          rightText="查看圈相册"
+          showArrow
+          clickable
+          @click="toCircleAlbum"
+        >
+        </uni-list-item>
+      </uni-list>
+    </view>
+
     <view class="margin-top-sm">
       <uni-list>
         <uni-list-item title="圈类型" :border="false">
@@ -344,6 +357,13 @@ export default {
 
     toFindNotice() {
       this.$u.route('/pages/components/find-notice/find-notice-view', {
+        circleId: this.circleInfo.circleId,
+        ownerId: this.circleInfo.userId
+      })
+    },
+
+    toCircleAlbum() {
+      this.$u.route('/pages/components/circle-album/circle-album', {
         circleId: this.circleInfo.circleId,
         ownerId: this.circleInfo.userId
       })

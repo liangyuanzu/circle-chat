@@ -213,6 +213,12 @@
 				"navigationBarTitleText": "寻人寻物启事"
 			}
 
+		}, {
+			"path": "pages/components/circle-album/circle-album",
+			"style": {
+				"navigationBarTitleText": "圈相册"
+			}
+
 		}
 	],
 	"globalStyle": {
