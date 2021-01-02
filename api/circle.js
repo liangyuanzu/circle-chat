@@ -270,3 +270,15 @@ export function getAlbum(circleId) {
 		}
 	})
 }
+
+/**
+ * 删除相册
+ * @param {string, Number} circleId - 圈id
+ * @param {string, Number} tId - 相册id
+ */
+export function delAlbum(data) {
+	return $request('/circle/delFixedCircleImage', {
+		method: 'POST',
+		data
+	})
+}

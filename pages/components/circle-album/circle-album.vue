@@ -45,6 +45,16 @@
       :del="true"
       @delImg="delAlbum"
     ></custom-previewImage>
+
+    <u-modal
+      v-model="showModal"
+      :show-title="false"
+      content="是否确认删除该相册"
+      show-cancel-button
+      confirm-color="#fa3534"
+      @confirm="confirm"
+      ref="uModal"
+    ></u-modal>
   </view>
 </template>
 
@@ -55,7 +65,9 @@ export default {
   data() {
     return {
       circleId: 0,
-      ownerId: 0
+      ownerId: 0,
+      tId: 0,
+      showModal: false
     }
   },
 
@@ -97,7 +109,42 @@ export default {
     },
 
     delAlbum({ tId }) {
-      console.log('删除', tId)
+      this.tId = tId
+      this.showModal = true
+    },
+
+    confirm() {
+      this.showModal = false
+      uni.showLoading({
+        title: '正在删除...'
+      })
+      this.$store
+        .dispatch('circle/delAlbum', {
+          circleId: this.circleId,
+          tId: this.tId
+        })
+        .then(() => {
+          uni.hideLoading()
+          setTimeout(() => {
+            uni.showToast({
+              title: '删除成功',
+              icon: 'none'
+            })
+            setTimeout(() => {
+              this.$u.route({
+                type: 'redirect',
+                url: '/pages/components/circle-album/circle-album',
+                params: {
+                  circleId: this.circleId,
+                  ownerId: this.ownerId
+                }
+              })
+            }, 500)
+          }, 500)
+        })
+        .catch(() => {
+          uni.hideLoading()
+        })
     }
   }
 }

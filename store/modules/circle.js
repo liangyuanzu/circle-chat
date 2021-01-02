@@ -19,7 +19,8 @@ import {
 	setFound,
 	updateUrgent,
 	createAlbum,
-	getAlbum
+	getAlbum,
+	delAlbum
 } from '@/api/circle.js'
 
 const state = {
@@ -232,6 +233,10 @@ const actions = {
 	async getAlbum({ commit }, circleId) {
 		const list = await getAlbum(circleId)
 		if (list.length > 0) commit('setAlbum', list)
+	},
+
+	async delAlbum({}, data) {
+		await delAlbum(data)
 	}
 }
 
