@@ -17,7 +17,8 @@ import {
 	urgentMsg,
 	getUrgent,
 	setFound,
-	updateUrgent
+	updateUrgent,
+	createAlbum
 } from '@/api/circle.js'
 
 const state = {
@@ -216,6 +217,10 @@ const actions = {
 
 	async updateUrgent({}, info) {
 		await updateUrgent(info)
+	},
+
+	async createAlbum({}, data) {
+		await createAlbum(data)
 	}
 }
 

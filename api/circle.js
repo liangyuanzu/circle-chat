@@ -244,3 +244,17 @@ export function updateUrgent(data) {
 		data
 	})
 }
+
+/**
+ * 创建圈相册
+ * @param {string, Number} circleId - 圈id
+ * @param {string} name - 相册名
+ * @param {string} introduction - 相册描述
+ * @param {string} img - 相册描述
+ */
+export function createAlbum(data) {
+	return $request('/circle/uploadFixedCircleImage', {
+		method: 'POST',
+		data
+	})
+}

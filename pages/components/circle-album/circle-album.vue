@@ -1,7 +1,7 @@
 <template>
   <view class="wrap">
     <view class="grid col-2">
-      <view class="padding-xs margin-bottom-sm">
+      <view class="padding-xs margin-bottom-sm" @click="toCreateAlbum">
         <view class="margin-bottom">
           <view class="add-alubum bg-gray flex align-center justify-center">
             <view class="text-center text-blue">
@@ -33,7 +33,26 @@
 export default {
   data() {
     return {
+      circleId: 0,
+      ownerId: 0,
       src: 'https://img95.699pic.com/photo/50050/3205.jpg_wh300.jpg'
+    }
+  },
+
+  onLoad({ circleId, ownerId }) {
+    this.circleId = circleId
+    this.ownerId = ownerId
+  },
+
+  methods: {
+    toCreateAlbum() {
+      this.$u.route({
+        type: 'redirect',
+        url: '/pages/components/circle-album/create-album',
+        params: {
+          circleId: this.circleId
+        }
+      })
     }
   }
 }

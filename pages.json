@@ -219,6 +219,12 @@
 				"navigationBarTitleText": "圈相册"
 			}
 
+		}, {
+			"path": "pages/components/circle-album/create-album",
+			"style": {
+				"navigationBarTitleText": "创建相册"
+			}
+
 		}
 	],
 	"globalStyle": {

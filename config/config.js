@@ -12,6 +12,8 @@ module.exports = {
 		'https://www.circlechat.top/static/hybrid/html/nearby-circle-map_baidu.html',
 	uploadImgUrl: 'https://www.circlechat.top/down/upload',
 	uploadUrgentImgUrl: 'https://www.circlechat.top/down/uploadUrgentCircleImage',
+	uploadFixedCircleImage:
+		'https://www.circlechat.top/down/uploadFixedCircleImage',
 	tabBarIndex: 0, // 消息提示tabBar索引
 	sendOneType: 'SEND_TO_ONE_REQUEST',
 	receiveOneType: 'SEND_TO_USER_REQUEST',
