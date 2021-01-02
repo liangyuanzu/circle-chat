@@ -232,7 +232,7 @@ const actions = {
 
 	async getAlbum({ commit }, circleId) {
 		const list = await getAlbum(circleId)
-		if (list.length > 0) commit('setAlbum', list)
+		commit('setAlbum', list)
 	},
 
 	async delAlbum({}, data) {
