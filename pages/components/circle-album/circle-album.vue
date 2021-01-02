@@ -1,7 +1,15 @@
 <template>
   <view class="wrap">
-    <view class="grid col-2">
-      <view class="padding-xs margin-bottom-sm" @click="toCreateAlbum">
+    <view class="empty" v-if="!isOwner && circleAlbum.length === 0">
+      <u-empty text="圈主还没创建圈相册"> </u-empty>
+    </view>
+
+    <view class="grid col-2" v-else>
+      <view
+        class="padding-xs margin-bottom-sm"
+        @click="toCreateAlbum"
+        v-if="isOwner"
+      >
         <view class="margin-bottom">
           <view
             class="add-alubum flex align-center justify-center"
@@ -42,7 +50,7 @@
       :descs="descs"
       :tIds="tIds"
       :opacity="1"
-      :del="true"
+      :del="isOwner"
       @delImg="delAlbum"
     ></custom-previewImage>
 
@@ -71,6 +79,7 @@ export default {
 
   computed: {
     ...mapState('circle', ['circleAlbum', 'circleInfo']),
+    ...mapState('user', ['userId']),
     urls() {
       return this.circleAlbum.map((i) => i.picture)
     },
@@ -82,6 +91,10 @@ export default {
     },
     tIds() {
       return this.circleAlbum.map((i) => i.tId)
+    },
+    isOwner() {
+      if (this.circleInfo.userId === this.userId) return true
+      return false
     }
   },
 
