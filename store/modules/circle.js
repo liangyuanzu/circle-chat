@@ -18,7 +18,8 @@ import {
 	getUrgent,
 	setFound,
 	updateUrgent,
-	createAlbum
+	createAlbum,
+	getAlbum
 } from '@/api/circle.js'
 
 const state = {
@@ -52,7 +53,8 @@ const state = {
 	circleMember: [],
 	indexList: [],
 	usersInCircleList: [],
-	urgent: {} // 紧急圈寻人寻物启事
+	urgent: {}, // 紧急圈寻人寻物启事
+	circleAlbum: [] // 固定圈圈相册
 }
 
 const getters = {
@@ -118,6 +120,10 @@ const mutations = {
 
 	setUrgent(state, info) {
 		state.urgent = info
+	},
+
+	setAlbum(state, list) {
+		state.circleAlbum = list
 	}
 }
 
@@ -221,6 +227,11 @@ const actions = {
 
 	async createAlbum({}, data) {
 		await createAlbum(data)
+	},
+
+	async getAlbum({ commit }, circleId) {
+		const list = await getAlbum(circleId)
+		if (list.length > 0) commit('setAlbum', list)
 	}
 }
 

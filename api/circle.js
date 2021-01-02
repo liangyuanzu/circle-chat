@@ -258,3 +258,15 @@ export function createAlbum(data) {
 		data
 	})
 }
+
+/**
+ * 获取圈相册
+ * @param {string, Number} circleId - 圈id
+ */
+export function getAlbum(circleId) {
+	return $request('/circle/getFixedCircleImage', {
+		params: {
+			circleId
+		}
+	})
+}
