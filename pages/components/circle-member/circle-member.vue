@@ -20,7 +20,7 @@
           <u-index-anchor :index="item.letter" />
           <custom-focus-list
             :list="item.list"
-            isMargin
+            :showBtn="false"
             @focusClick="getIndexList"
           ></custom-focus-list>
         </view>
