@@ -70,7 +70,7 @@
             </view></view
           >
         </view>
-        <view class="action">
+        <view class="action" style="width: 120rpx">
           <view class="text-grey text-xs"> {{ formatTime(item.time) }}</view>
           <view class="cu-tag round bg-red sm" v-show="item.noReadNum > 0">{{
             formatBadge(item.noReadNum)
