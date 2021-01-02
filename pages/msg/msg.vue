@@ -400,7 +400,10 @@ export default {
             this.getList()
             uni.stopPullDownRefresh()
             this.refreshing = false
-          })
+          }).catch(() => {
+						uni.stopPullDownRefresh()
+						this.refreshing = false
+					})
         } else {
           uni.stopPullDownRefresh()
           this.refreshing = false
