@@ -106,13 +106,18 @@ export default {
     },
 
     onClick(item) {
+      /*
       if (item.inCircle) {
         this.toCircleChat(item)
       } else {
         this.$u.route('/pages/components/circle-detail/circle-detail', {
           circleId: item.circleId
         })
-      }
+			}
+			 */
+      this.$u.route('/pages/components/circle-detail/circle-detail', {
+        circleId: item.circleId
+      })
       this.$emit('click')
     },
 
