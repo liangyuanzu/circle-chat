@@ -22,7 +22,7 @@ export function nearlyCircleByPage({ type, offset }) {
 		params: {
 			type,
 			offset,
-			limit: 10
+			limit: 15
 		}
 	})
 }
