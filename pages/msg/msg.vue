@@ -83,7 +83,11 @@
       <u-empty mode="message"></u-empty>
     </view>
 
-    <u-mask :show="show" :mask-click-able="maskClickAble" @click="show = false">
+    <u-mask
+      :show="showMask"
+      :mask-click-able="maskClickAble"
+      @click="showMask = false"
+    >
       <view class="to-search" :style="to_search_style" v-if="show_search">
         <u-search
           placeholder="搜索用户和圈"
@@ -95,12 +99,12 @@
         <view class="search-animation">
           <image style="width: 100rpx; height: 100rpx" :src="to_search"></image>
         </view>
-        <view class="text-xl text-bold text-white margin-tb-sm">搜索功能</view>
-        <view class="text-white padding-xs"
+        <view class="text-xxl text-bold text-white margin-tb-sm">搜索功能</view>
+        <view class="text-xl text-white padding-xs"
           >根据用户名和圈名搜索，<br />搜索后即可关注用户和加入圈。</view
         >
         <button
-          class="cu-btn round lines-white margin-top-sm"
+          class="text-xl cu-btn round lines-white margin-top-sm"
           @tap="konwClick('search')"
         >
           我知道了
@@ -113,14 +117,14 @@
           <text class="lg cuIcon-unfold"></text>
         </view>
         <view class="filter-img">
-          <image style="width: 100rpx; height: 100rpx" :src="to_filter"></image>
+          <image style="width: 120rpx; height: 120rpx" :src="to_filter"></image>
         </view>
-        <view class="text-xl text-bold text-white margin-tb-sm">筛选功能</view>
-        <view class="text-white padding-xs"
+        <view class="text-xxl text-bold text-white margin-tb-sm">筛选功能</view>
+        <view class="text-xl text-white padding-xs"
           >当聊天消息过多时，<br />可通过筛选功能，<br />快速找到你要的消息。</view
         >
         <button
-          class="cu-btn round lines-white margin-top-sm"
+          class="text-xl cu-btn round lines-white margin-top-sm"
           @tap="konwClick('filter')"
         >
           我知道了
@@ -134,7 +138,7 @@
             :src="to_refresh"
           ></image>
         </view>
-        <text class="text-white padding-xs">下拉即可刷新列表</text>
+        <text class="text-xl text-white padding-xs">下拉即可刷新列表</text>
       </view>
     </u-mask>
   </view>
@@ -216,7 +220,7 @@ export default {
       ],
       refreshing: false,
       clicked: false,
-      show: true,
+      showMask: false,
       maskClickAble: false,
       show_search: true,
       show_filter: false,
@@ -232,25 +236,19 @@ export default {
     ...mapGetters('circle', ['circleInfo']),
     ...mapState('chat', ['CurrentToUser']),
     to_search_style() {
-      const style = `position: fixed; left: 160rpx; top:${
-        this.CustomBar + 30
-      }px;`
+      const style = `position: fixed; left: 160rpx; top: 80rpx;`
       return style
     },
     mask_search_style() {
-      const style = `width: 50%; position: fixed; left: 17%; top:${
-        this.CustomBar - 10
-      }px;`
+      const style = `width: 60%; position: fixed; left: 10%; top: 5rpx;`
       return style
     },
     to_fliter_style() {
-      const style = `position: fixed; right: 100rpx; top:${
-        this.CustomBar + 30
-      }px;`
+      const style = `position: fixed; right: 100rpx; top: 80rpx;`
       return style
     },
     mask_fliter_style() {
-      const style = `position: fixed; right: 17%; top:${this.CustomBar - 3}px;`
+      const style = `position: fixed; right: 80rpx; top: 15rpx;`
       return style
     }
   },
@@ -355,6 +353,14 @@ export default {
   onShow() {
     // 获取列表
     this.getList()
+    uni.checkSession({
+      success: () => {
+        const userinfo = localStore.get('userinfo')
+        if (userinfo && !uni.getStorageSync('msgMaskShowed')) {
+          this.showMask = true
+        }
+      }
+    })
   },
 
   onHide() {
@@ -563,6 +569,7 @@ export default {
           this.show_filter = false
           this.show_refresh = true
           this.maskClickAble = true
+          uni.setStorageSync('msgMaskShowed', true)
           break
       }
     }
@@ -655,8 +662,8 @@ export default {
 .to-fliter {
   .filter-img {
     position: relative;
-    left: 40%;
-    top: -15rpx;
+    left: 50%;
+    top: 10rpx;
   }
 }
 

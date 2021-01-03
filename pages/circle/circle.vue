@@ -75,11 +75,7 @@
 
             <!-- #ifndef MP-BAIDU -->
             <view v-else-if="item.length > 0">
-              <custom-circle-list
-                showJoin
-                :list="item"
-                @joinClick="joinClick"
-              >
+              <custom-circle-list showJoin :list="item" @joinClick="joinClick">
               </custom-circle-list>
               <u-loadmore
                 v-if="item.length >= 10"
@@ -116,7 +112,11 @@
       </swiper>
     </view>
 
-    <u-mask :show="show" :mask-click-able="maskClickAble" @click="show = false">
+    <u-mask
+      :show="showMask"
+      :mask-click-able="maskClickAble"
+      @click="showMask = false"
+    >
       <view class="to-create" :style="to_create_style" v-if="show_create">
         <view class="bg-white" :style="mask_create_style">
           <text>创建圈</text>
@@ -125,11 +125,34 @@
         <view class="create-img">
           <image style="width: 150rpx; height: 150rpx" :src="to_create"></image>
         </view>
-        <view class="text-xl text-bold text-white margin-tb-sm">创建圈</view>
-        <view class="text-white padding-xs"
+        <view class="text-xxl text-bold text-white margin-tb-sm">创建圈</view>
+        <view class="text-xl text-white padding-xs"
           >以此时位置为圆心，<br />圈范围为半径，快速创建一个圈子。<br />创建圈后即可邀请附近的用户加入哦！</view
         >
-        <button class="cu-btn round lines-white margin-top-sm" @tap="konwClick">
+        <button
+          class="cu-btn round lines-white margin-top-sm text-xl"
+          @tap="konwClick('create')"
+        >
+          我知道了
+        </button>
+      </view>
+
+      <view class="to_refresh" v-if="show_refresh">
+        <view class="refresh-animation">
+          <image
+            style="width: 200rpx; height: 200rpx"
+            :src="to_refresh"
+          ></image>
+        </view>
+        <view
+          class="text-xl text-white text-center padding-xs"
+          style="width: 500rpx"
+          >从顶部下拉即可刷新列表</view
+        >
+        <button
+          class="cu-btn round lines-white margin-top-sm text-xl konw-btn"
+          @tap="konwClick('refresh')"
+        >
           我知道了
         </button>
       </view>
@@ -138,7 +161,7 @@
         <view class="slide-animation">
           <image style="width: 100rpx; height: 100rpx" :src="to_slide"></image>
         </view>
-        <text class="text-white padding-xs">左滑查看更多分类</text>
+        <text class="text-xl text-white padding-xs">左滑查看更多分类</text>
       </view>
     </u-mask>
   </view>
@@ -163,11 +186,13 @@ export default {
           text: '极简模式'
         }
       ],
-      show: true,
+      showMask: false,
       maskClickAble: false,
       show_create: true,
+      show_refresh: false,
       show_slide: false,
       to_create: '/static/guide/to_create.png',
+      to_refresh: '/static/guide/to_refresh.png',
       to_slide: '/static/guide/to_slide.png',
       refreshing: false,
       tabList: [
@@ -226,15 +251,24 @@ export default {
       return 'top: 36%'
     },
     to_create_style() {
-      const style = `position: fixed; right: 100rpx; top:${
-        this.CustomBar + 30
-      }px;`
+      const style = `position: fixed; right: 30rpx; top: 100rpx;`
       return style
     },
     mask_create_style() {
-      const style = `position: fixed; right: 17%; top:${this.CustomBar - 3}px;`
+      const style = `position: fixed; right: 83rpx; top: 20rpx;`
       return style
     }
+  },
+
+  onShow() {
+    uni.checkSession({
+      success: () => {
+        const userinfo = localStore.get('userinfo')
+        if (userinfo && !uni.getStorageSync('circleMaskShowed')) {
+          this.showMask = true
+        }
+      }
+    })
   },
 
   onLoad() {
@@ -296,10 +330,19 @@ export default {
       }
     },
 
-    konwClick() {
-      this.show_create = false
-      this.show_slide = true
-      this.maskClickAble = true
+    konwClick(type) {
+      switch (type) {
+        case 'create':
+          this.show_create = false
+          this.show_refresh = true
+          break
+        case 'refresh':
+          this.show_refresh = false
+          this.show_slide = true
+          this.maskClickAble = true
+          uni.setStorageSync('circleMaskShowed', true)
+          break
+      }
     },
 
     toCreateCircle() {
@@ -403,8 +446,39 @@ export default {
 .to-create {
   .create-img {
     position: relative;
-    left: 40%;
-    top: -15rpx;
+    left: 50%;
+    top: 20rpx;
+  }
+}
+
+.to_refresh {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+
+  .refresh-animation {
+    position: absolute;
+    left: 50%;
+    top: -250rpx;
+    transform: translateX(-50%);
+    animation: refresh 1s ease 0s;
+  }
+
+  .konw-btn {
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  @keyframes refresh {
+    from {
+      top: -300rpx;
+    }
+
+    to {
+      top: -250rpx;
+    }
   }
 }
 
