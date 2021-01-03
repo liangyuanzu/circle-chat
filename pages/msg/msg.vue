@@ -70,7 +70,7 @@
             </view></view
           >
         </view>
-        <view class="action" style="width: 120rpx">
+        <view class="action" style="width: 130rpx">
           <view class="text-grey text-xs"> {{ formatTime(item.time) }}</view>
           <view class="cu-tag round bg-red sm" v-show="item.noReadNum > 0">{{
             formatBadge(item.noReadNum)
@@ -396,14 +396,16 @@ export default {
           Promise.all([
             this.$store.dispatch('chat/getOldChatList', 0),
             this.$store.dispatch('chat/getNoReadNum')
-          ]).then(() => {
-            this.getList()
-            uni.stopPullDownRefresh()
-            this.refreshing = false
-          }).catch(() => {
-						uni.stopPullDownRefresh()
-						this.refreshing = false
-					})
+          ])
+            .then(() => {
+              this.getList()
+              uni.stopPullDownRefresh()
+              this.refreshing = false
+            })
+            .catch(() => {
+              uni.stopPullDownRefresh()
+              this.refreshing = false
+            })
         } else {
           uni.stopPullDownRefresh()
           this.refreshing = false
