@@ -27,12 +27,14 @@
       >
         <slot name="header">
           <view class="uni-list-item__header">
-            <view v-if="thumb" class="uni-list-item__icon"
-              ><image
-                :src="thumb"
+            <view v-if="thumb" class="uni-list-item__icon">
+              <view
                 class="uni-list-item__icon-img"
                 :class="['uni-list--' + thumbSize]"
-            /></view>
+                ><u-image :src="thumb" height="100%" mode="scaleToFill"
+                  ><u-loading slot="loading"></u-loading></u-image
+              ></view>
+            </view>
             <view v-else-if="showExtraIcon" class="uni-list-item__icon"
               ><uni-icons
                 :color="extraIcon.color"

@@ -103,10 +103,8 @@
           </view>
 
           <view v-if="urgent.picture" class="margin-top-lg">
-            <u-image
-              width="100%"
-              height="300rpx"
-              :src="urgent.picture"
+            <u-image width="100%" height="300rpx" :src="urgent.picture"
+              ><u-loading slot="loading"></u-loading
             ></u-image>
           </view>
         </view>
@@ -188,13 +186,13 @@
                   class="bubble img"
                   @tap="showPic(row.msg)"
                 >
-                  <image
+                  <u-image
                     :src="row.msg.content.url"
-                    :style="{
-                      width: row.msg.content.w + 'px',
-                      height: row.msg.content.h + 'px'
-                    }"
-                  ></image>
+                    :width="row.msg.content.w + 'px'"
+                    :height="row.msg.content.h + 'px'"
+                    mode="scaleToFill"
+                    ><u-loading slot="loading"></u-loading
+                  ></u-image>
                 </view>
               </view>
               <!-- 右-头像 -->
@@ -239,13 +237,13 @@
                   class="bubble img"
                   @tap="showPic(row.msg)"
                 >
-                  <image
+                  <u-image
                     :src="row.msg.content.url"
-                    :style="{
-                      width: row.msg.content.w + 'px',
-                      height: row.msg.content.h + 'px'
-                    }"
-                  ></image>
+                    :width="row.msg.content.w + 'px'"
+                    :height="row.msg.content.h + 'px'"
+                    mode="scaleToFill"
+                    ><u-loading slot="loading"></u-loading
+                  ></u-image>
                 </view>
               </view>
             </view>

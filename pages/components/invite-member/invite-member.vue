@@ -15,10 +15,13 @@
       <u-checkbox-group @change="checkboxGroupChange">
         <view class="cu-list menu-avatar">
           <view class="cu-item" v-for="item in list" :key="item.userId">
-            <view
-              class="cu-avatar radius lg"
-              :style="'background-image: url(' + item.img + ');'"
-              @click="toPersonInfo(item.userId)"
+            <view class="custom-avatar" @click="toPersonInfo(item.userId)"
+              ><u-image
+                :src="item.img"
+                height="100%"
+                mode="scaleToFill"
+                border-radius="6"
+                ><u-loading slot="loading"></u-loading></u-image
             ></view>
             <view class="content" @click="toPersonInfo(item.userId)">
               <view class="text-cut">{{ item.username }}</view>

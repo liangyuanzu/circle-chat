@@ -7,9 +7,13 @@
         :key="item.circleId"
         @click="onClick(item)"
       >
-        <view
-          class="cu-avatar radius lg"
-          :style="'background-image: url(' + item.img + ')'"
+        <view class="custom-avatar"
+          ><u-image
+            :src="item.img"
+            height="100%"
+            mode="scaleToFill"
+            border-radius="6"
+            ><u-loading slot="loading"></u-loading></u-image
         ></view>
         <view class="content">
           <view class="text-cut">{{ item.circleName }}</view>

@@ -37,7 +37,9 @@
             height="300rpx"
             border-radius="20"
             :src="item.picture"
-          ></u-image>
+          ><u-loading slot="loading"></u-loading
+            ></u-image>
+
         </view>
         <view class="text-lg text-black text-cut">{{ item.name }}</view>
       </view>

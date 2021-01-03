@@ -67,6 +67,7 @@
             height="600"
             :src="urgent.picture"
             @click="previewImage"
+            ><u-loading slot="loading"></u-loading
           ></u-image>
         </view>
 

@@ -60,14 +60,13 @@
           @touchmove="ListTouchMove"
           @touchend="ListTouchEnd"
         >
-          <view
-            class="cu-avatar lg"
-            :style="[
-              {
-                backgroundImage: 'url(' + item.circleImg + ')'
-              }
-            ]"
-            @click="toCircleInvite(item)"
+          <view class="custom-avatar" @click="toCircleInvite(item)"
+            ><u-image
+              :src="item.circleImg"
+              height="100%"
+              mode="scaleToFill"
+              border-radius="6"
+              ><u-loading slot="loading"></u-loading></u-image
           ></view>
           <view class="content" @click="toCircleInvite(item)">
             <view class="text-cut">{{ item.circleName }}</view>

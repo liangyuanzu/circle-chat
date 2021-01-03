@@ -114,4 +114,11 @@ export default {
   transform: translate(-50%, -50%);
   text-align: center;
 }
+
+.custom-avatar {
+  width: 96upx;
+  height: 96upx;
+  position: absolute;
+  left: 30upx;
+}
 </style>
