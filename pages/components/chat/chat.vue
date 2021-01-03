@@ -741,7 +741,7 @@ export default {
   },
 
   async onLoad(options) {
-    this.showLoading = true //开启 loading 动画
+    // this.showLoading = true //开启 loading 动画
     if (options.personInfo) {
       const personInfo = JSON.parse(decodeURIComponent(options.personInfo))
       // this.toUserId = options.personId
@@ -794,7 +794,9 @@ export default {
     // 初始化聊天对象
     this.myuid = this.userId
 
+    // 获取聊天记录
     this.getMsgList()
+
     //语音自然播放结束
     this.AUDIO.onEnded((res) => {
       this.playMsgid = null
@@ -1007,8 +1009,14 @@ export default {
       let Viewid = this.msgList[0].msg.id //记住第一个信息ID
       // 获取历史记录
       const detailList = await this.getOffsetMsgList(this.offset)
-      this.offset++
-      let list = detailList || []
+      this.showLoading = false
+      let list = []
+      if (detailList.length > 0) {
+        this.offset++
+        list = detailList
+      } else {
+        return
+      }
       // 获取消息中的图片,并处理显示尺寸
       for (let i = 0; i < list.length; i++) {
         if (list[i].type == 'user' && list[i].msg.type == 'img') {
@@ -1019,20 +1027,25 @@ export default {
       this.msgList = [...list, ...this.msgList]
 
       //这段代码很重要，不然每次加载历史数据都会跳到顶部
-      this.$nextTick(function () {
+      this.$nextTick(() => {
         this.scrollToView = 'msg' + Viewid //跳转上次的第一行信息位置
-        this.$nextTick(function () {
+        this.$nextTick(() => {
           this.scrollAnimation = true //恢复滚动动画
         })
       })
       this.isHistoryLoading = false
-      this.showLoading = false
     },
     // 加载初始页面消息
     async getMsgList() {
       // 消息列表
-      const detailList = await this.getOffsetMsgList(this.defaultOffset)
-      let list = detailList || []
+			const detailList = await this.getOffsetMsgList(this.defaultOffset)
+			let list = []
+      if (detailList.length > 0) {
+        this.offset++
+        list = detailList
+      } else {
+        return
+      }
       // 获取消息中的图片,并处理显示尺寸
       for (let i = 0; i < list.length; i++) {
         if (list[i].type == 'user' && list[i].msg.type == 'img') {
@@ -1042,14 +1055,13 @@ export default {
       }
       this.msgList = list
       // 滚动到底部
-      this.$nextTick(function () {
+      this.$nextTick(() => {
         //进入页面滚动到底部
         this.scrollTop = 9999
-        this.$nextTick(function () {
+        this.$nextTick(() => {
           this.scrollAnimation = true
         })
       })
-      this.showLoading = false
     },
     //处理图片尺寸，如果不处理宽高，新进入页面加载图片时候会闪
     setPicSize(content) {

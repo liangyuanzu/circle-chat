@@ -411,8 +411,7 @@ export default {
           break
 
         case '清空聊天记录':
-          const key =
-            'chatDetail_' + this.userId + '_' + this.circleInfo.circleId
+          const key = 'chatDetail_' + this.circleInfo.circleId
           uni.removeStorageSync(key)
           break
 

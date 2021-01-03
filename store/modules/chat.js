@@ -284,23 +284,16 @@ const actions = {
 
 	getChatMessages() {},
 
-	updateChatDetail(
-		{ rootGetters, state },
-		{ res, isSend = false, isCircle = false }
-	) {
+	updateChatDetail({ state }, { res, isSend = false, isCircle = false }) {
 		let chatDetail = []
 		let circleId, userId
 		if (isCircle) {
 			circleId = isSend ? state.CurrentToCircle.circleId : res.body.circleId
-			// 获取旧数据（ chatDetail_[当前用户id]_[聊天对象id] ）
-			chatDetail = localStore.get(
-				'chatDetail_' + rootGetters['user/userId'] + '_' + circleId
-			)
+			// 获取旧数据（ chatDetail_[聊天对象id] ）
+			chatDetail = localStore.get('chatDetail_' + circleId) || []
 		} else {
 			userId = isSend ? state.CurrentToUser.userId : res.body.userId
-			chatDetail = localStore.get(
-				'chatDetail_' + rootGetters['user/userId'] + '_' + userId
-			)
+			chatDetail = localStore.get('chatDetail_' + userId) || []
 		}
 		let list = []
 		if (chatDetail.length > 0) list = chatDetail
@@ -313,16 +306,19 @@ const actions = {
 				isCircle
 			})
 		)
+		// 截取10个数据
+		let newList = []
+		if (list.length > 10) newList = list.slice(-10)
 		// 存储
 		if (isCircle) {
 			localStore.set(
-				'chatDetail_' + rootGetters['user/userId'] + '_' + circleId,
-				list
+				'chatDetail_' + circleId,
+				newList.length > 0 ? newList : list
 			)
 		} else {
 			localStore.set(
-				'chatDetail_' + rootGetters['user/userId'] + '_' + userId,
-				list
+				'chatDetail_' + userId,
+				newList.length > 0 ? newList : list
 			)
 		}
 	},
