@@ -50,7 +50,12 @@ const getters = {
 	myFans: (state) => state.myFans,
 	points: (state) => state.points,
 	personinfo: (state) => state.personinfo,
-	position: (state) => state.longitude + ',' + state.latitude,
+	position: (state) => {
+		if (state.longitude && state.latitude) {
+			return state.longitude + ',' + state.latitude
+		}
+		return ''
+	},
 	isInit: (state) => state.isInit
 }
 

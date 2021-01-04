@@ -99,7 +99,7 @@ export default {
           {
             required: true,
             type: 'number',
-            message: '圈范围半径最大为 10000m',
+            message: '圈范围区间为 1 ~ 10000m',
             trigger: ['change', 'blur']
           },
           {
@@ -107,7 +107,7 @@ export default {
               if (value > 0 && value <= 10000) return true
               return false
             },
-            message: '圈范围半径最大为 10000m',
+            message: '圈范围区间为 1 ~ 10000m',
             trigger: ['change', 'blur']
           }
         ]
@@ -167,6 +167,13 @@ export default {
     creatCircle() {
       this.$refs.uForm.validate((valid) => {
         if (valid) {
+          if (!this.position) {
+            uni.showToast({
+              title: '开启定位后才能建圈哦',
+              icon: 'none'
+            })
+            return
+          }
           uni.showLoading({
             title: '创建中...'
           })
