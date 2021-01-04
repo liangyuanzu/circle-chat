@@ -132,28 +132,21 @@ export default {
         {
           name: '已找到'
         }
-      ],
-      circleId: 0,
-      ownerId: 0
+      ]
     }
   },
 
   computed: {
-    ...mapGetters('circle', ['urgent']),
+    ...mapGetters('circle', ['urgent', 'circleInfo']),
     ...mapGetters('user', ['userId']),
     isOwner() {
-      if (this.ownerId == this.userId) return true
+      if (this.circleInfo.userId == this.userId) return true
       return false
     },
     isOperate() {
-      if (this.ownerId == this.userId && !this.urgent.handle) return true
+      if (this.isOwner && !this.urgent.handle) return true
       return false
     }
-  },
-
-  onLoad({ circleId, ownerId }) {
-    this.circleId = circleId
-    this.ownerId = ownerId
   },
 
   methods: {
@@ -188,13 +181,7 @@ export default {
     },
 
     toFindEdit() {
-      this.$u.route({
-        type: 'redirect',
-        url: '/pages/components/find-notice/find-notice-edit',
-        params: {
-          circleId: this.circleId
-        }
-      })
+      this.$u.route('/pages/components/find-notice/find-notice-edit')
     }
   }
 }

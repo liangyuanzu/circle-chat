@@ -100,8 +100,8 @@
           max-count="1"
           :size-type="['compressed']"
           :action="uploadUrgentImgUrl"
-          :form-data="{ name: 'file', circleId }"
-          :header="{ sessionid }"
+          :form-data="formData"
+          :header="header"
           :file-list="fileList"
           :show-progress="false"
           ref="uUpload"
@@ -135,7 +135,6 @@ import time from '@/helpers/time.js'
 export default {
   data() {
     return {
-      circleId: 0,
       form: {
         type: 'person',
         name: '',
@@ -147,7 +146,9 @@ export default {
         createTime: time.format('yyyy-MM-dd HH:mm:ss')
       },
       uploadUrgentImgUrl,
-      sessionid: localStore.get('sessionId'),
+      header: {
+        sessionid: localStore.get('sessionId')
+      },
       rules: {
         name: [
           {
@@ -182,7 +183,13 @@ export default {
   },
 
   computed: {
-    ...mapGetters('circle', ['urgent']),
+    ...mapGetters('circle', ['urgent', 'circleInfo']),
+    formData() {
+      return {
+        name: 'file',
+        circleId: this.circleInfo.circleId
+      }
+    },
     hasUrgent() {
       return Object.keys(this.urgent).length > 0 && !this.urgent.handle
     }
@@ -208,10 +215,6 @@ export default {
         this.btnText = '立即更改'
       }
     })
-  },
-
-  onLoad({ circleId }) {
-    this.circleId = circleId
   },
 
   methods: {
@@ -245,7 +248,7 @@ export default {
           if (this.hasUrgent) {
             this.$store
               .dispatch('circle/updateUrgent', {
-                circleId: this.circleId,
+                circleId: this.circleInfo.circleId,
                 name: this.form.name,
                 size: this.form.size,
                 form: this.form.form,
@@ -254,7 +257,10 @@ export default {
                 picture: this.form.picture
               })
               .then(async () => {
-                await this.$store.dispatch('circle/getUrgent', this.circleId)
+                await this.$store.dispatch(
+                  'circle/getUrgent',
+                  this.circleInfo.circleId
+                )
                 uni.hideLoading()
                 setTimeout(() => {
                   uni.showToast({
@@ -278,7 +284,7 @@ export default {
           } else {
             this.$store
               .dispatch('circle/urgentMsg', {
-                circleId: this.circleId,
+                circleId: this.circleInfo.circleId,
                 type: this.form.type,
                 name: this.form.name,
                 size: this.form.size,
@@ -289,7 +295,10 @@ export default {
                 createTime: this.form.createTime
               })
               .then(async () => {
-                await this.$store.dispatch('circle/getUrgent', this.circleId)
+                await this.$store.dispatch(
+                  'circle/getUrgent',
+                  this.circleInfo.circleId
+                )
                 uni.hideLoading()
                 setTimeout(() => {
                   uni.showToast({

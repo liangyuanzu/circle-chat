@@ -35,8 +35,8 @@
           max-count="1"
           :size-type="['compressed']"
           :action="uploadFixedCircleImage"
-          :form-data="{ name: 'file', circleId: circleInfo.circleId }"
-          :header="{ sessionid }"
+          :form-data="formData"
+          :header="header"
           :show-progress="false"
           ref="uUpload"
         ></u-upload>
@@ -63,7 +63,9 @@ export default {
         img: ''
       },
       uploadFixedCircleImage,
-      sessionid: localStore.get('sessionId'),
+      header: {
+        sessionid: localStore.get('sessionId')
+      },
       rules: {
         name: [
           {
@@ -77,7 +79,13 @@ export default {
   },
 
   computed: {
-    ...mapState('circle', ['circleInfo'])
+    ...mapState('circle', ['circleInfo']),
+    formData() {
+      return {
+        name: 'file',
+        circleId: this.circleInfo.circleId
+      }
+    }
   },
 
   onReady() {
@@ -123,7 +131,11 @@ export default {
               introduction: this.form.introduction,
               img: this.form.img
             })
-            .then(() => {
+            .then(async () => {
+              await this.$store.dispatch(
+                'circle/getAlbum',
+                this.circleInfo.circleId
+              )
               uni.hideLoading()
               setTimeout(() => {
                 uni.showToast({
@@ -131,10 +143,7 @@ export default {
                   title: '创建成功'
                 })
                 setTimeout(() => {
-                  this.$u.route({
-                    type: 'redirect',
-                    url: '/pages/components/circle-album/circle-album'
-                  })
+                  uni.navigateBack()
                 }, 500)
               }, 500)
             })
