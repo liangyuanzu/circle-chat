@@ -126,6 +126,7 @@
         :scroll-top="scrollTop"
         :scroll-into-view="scrollToView"
         @scrolltoupper="loadHistory"
+        @scroll="scroll"
         upper-threshold="50"
       >
         <!-- 加载历史数据waitingUI -->
@@ -167,7 +168,11 @@
               <!-- 左-消息 -->
               <view class="left">
                 <!-- 文字消息 -->
-                <view v-if="row.msg.type == 'text'" class="bubble">
+                <view
+                  v-if="row.msg.type == 'text'"
+                  class="bubble"
+                  style="white-space: pre-wrap"
+                >
                   <rich-text :nodes="row.msg.content.text"></rich-text>
                 </view>
                 <!-- 语言消息 -->
@@ -219,7 +224,10 @@
                 </view>
                 <!-- 文字消息 -->
                 <view v-if="row.msg.type == 'text'" class="bubble">
-                  <rich-text :nodes="row.msg.content.text"></rich-text>
+                  <rich-text
+                    :nodes="row.msg.content.text"
+                    style="white-space: pre-wrap"
+                  ></rich-text>
                 </view>
                 <!-- 语音消息 -->
                 <view
@@ -369,7 +377,7 @@
 import localStore from '@/helpers/localStore.js'
 import Time from '@/helpers/time.js'
 import { chatFormat, chatDetailFormat } from '@/helpers/chat.js'
-import { cloneLoop } from '@/helpers/utils.js'
+// import { cloneLoop } from '@/helpers/utils.js'
 // import * as _ from '@/utils/lodash/lodash.js'
 import { mapGetters, mapState } from 'vuex'
 import { emojiUrl, receiveOneType, receiveCircleType } from '@/config/config.js'
@@ -404,6 +412,8 @@ export default {
       // 历史聊天记录分页
       defaultOffset: 1,
       offset: 2,
+      // 是否位于页面最底部
+      isBottom: true,
 
       //录音相关参数
       // #ifndef H5
@@ -729,13 +739,16 @@ export default {
           oldData: this.msgList,
           isCircle: this.isCircle
         })
+        /*
         msg.msg.content = this.setPicSize(msg.msg.content)
         this.msgImgList?.push(msg.msg.content.url)
         this.msgList?.push(msg)
         // 滚动到底
         this.$nextTick(() => {
           this.scrollToView = 'msg' + msg.msg.id
-        })
+				})
+				 */
+        this.screenMsg(msg)
       }
     })
   },
@@ -776,7 +789,7 @@ export default {
         userId
       })
       // 修改标题
-      this.title = `${circleName}（${member}）`
+      this.title = `${circleName}`
       // 修改圈状态
       this.$store.commit('chat/setIsCircle', true)
       // 紧急圈寻人寻物启事
@@ -838,6 +851,7 @@ export default {
   },
 
   async onShow() {
+    this.scrollTop = 9999999
     /*
     if (this.toUserId) {
       await this.$store.dispatch('user/getPersonInfo', this.toUserId)
@@ -934,9 +948,9 @@ export default {
           case 'text':
             this.addSystemTextMsg(msg)
             break
-          case 'redEnvelope':
-            this.addSystemRedEnvelopeMsg(msg)
-            break
+          // case 'redEnvelope':	// 红包消息
+          //   this.addSystemRedEnvelopeMsg(msg)
+          //   break
         }
       } else if (msg.type == 'user') {
         // 用户消息
@@ -950,9 +964,9 @@ export default {
           case 'img':
             this.addImgMsg(msg)
             break
-          case 'redEnvelope':
-            this.addRedEnvelopeMsg(msg)
-            break
+          // case 'redEnvelope':
+          //   this.addRedEnvelopeMsg(msg)
+          //   break
         }
         console.log('用户消息')
         //非自己的消息震动
@@ -961,10 +975,12 @@ export default {
           uni.vibrateLong()
         }
       }
-      this.$nextTick(function () {
-        // 滚动到底
-        this.scrollToView = 'msg' + msg.msg.id
-      })
+      if (this.isBottom) {
+        this.$nextTick(() => {
+          // 滚动到底
+          this.scrollToView = 'msg' + msg.msg.id
+        })
+      }
     },
 
     // 读取消息
@@ -1000,6 +1016,7 @@ export default {
 
     //触发滑动到顶部(加载历史信息记录)
     async loadHistory(e) {
+      this.isBottom = false // 页面不在最底部了
       if (this.isHistoryLoading || this.showLoading) {
         return
       }
@@ -1035,25 +1052,43 @@ export default {
       })
       this.isHistoryLoading = false
     },
+
+    scroll(e) {
+      // 监听页面滚动
+      if (e.detail.deltaY > 0) {
+        this.isBottom = false
+      } else {
+        this.isBottom = true
+      }
+    },
+
     // 加载初始页面消息
     async getMsgList() {
       // 消息列表
-			const detailList = await this.getOffsetMsgList(this.defaultOffset)
-			let list = []
+      const detailList = await this.getOffsetMsgList(this.defaultOffset)
       if (detailList.length > 0) {
-        this.offset++
-        list = detailList
-      } else {
-        return
-      }
-      // 获取消息中的图片,并处理显示尺寸
-      for (let i = 0; i < list.length; i++) {
-        if (list[i].type == 'user' && list[i].msg.type == 'img') {
-          list[i].msg.content = this.setPicSize(list[i].msg.content)
-          this.msgImgList.push(list[i].msg.content.url)
+        const list = detailList || []
+        // 获取消息中的图片,并处理显示尺寸
+        for (let i = 0; i < list.length; i++) {
+          if (list[i].type == 'user' && list[i].msg.type == 'img') {
+            list[i].msg.content = this.setPicSize(list[i].msg.content)
+            this.msgImgList.push(list[i].msg.content.url)
+          }
         }
+        this.msgList = list
       }
-      this.msgList = list
+      // 加入系统消息
+      if (this.isCircle) {
+        let sysMsg = {
+          type: 'system',
+          msg: {
+            id: 0,
+            type: 'text',
+            content: { text: `欢迎进入 ${this.title} 聊天室` }
+          }
+        }
+        this.screenMsg(sysMsg)
+      }
       // 滚动到底部
       this.$nextTick(() => {
         //进入页面滚动到底部
@@ -1063,6 +1098,7 @@ export default {
         })
       })
     },
+
     //处理图片尺寸，如果不处理宽高，新进入页面加载图片时候会闪
     setPicSize(content) {
       // 让图片最长边等于设置的最大长度，短边等比例缩小，图片控件真实改变，区别于aspectFit方式。
@@ -1211,13 +1247,15 @@ export default {
     async sendMsg(content, type) {
       //实际应用中，此处应该提交长连接，模板仅做本地处理。
       var nowDate = new Date().getTime()
+      const userMsgList = this.msgList.filter((i) => i.type === 'user')
       const lastTime =
-        this.msgList?.length > 0
-          ? [...this.msgList].reverse().find((i) => i.msg.time).msg.time
+        userMsgList?.length > 0
+          ? [...userMsgList].reverse().find((i) => i.msg.time).msg.time
           : 0
-      let lastid = this.msgList.length
-        ? this.msgList[this.msgList.length - 1].msg.id
-        : -1
+      let lastid =
+        userMsgList?.length > 0
+          ? userMsgList[userMsgList.length - 1].msg.id
+          : -1
       lastid++
       let msg = {
         type: 'user',
@@ -1240,12 +1278,14 @@ export default {
 
         // 给添加到页面的消息添加样式
         // let message = _.cloneDeep(msg)
+        /*
         let message = cloneLoop(msg)
         let item =
           '<div style="display: flex;align-items: center;word-wrap:break-word;">' +
           content +
           '</div>'
-        message.msg.content = item
+				message.msg.content = item
+				 */
         this.screenMsg(msg)
       } catch (error) {
         uni.showToast({

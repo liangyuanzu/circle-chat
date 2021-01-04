@@ -218,7 +218,7 @@ function updateTabBarBadge(num) {
 export function formatMsg(type, options = { isCircle: false, isMe: false }) {
 	let data
 	if (type === textType) {
-		data = options.content.text
+		data = options.content.text.replace(/\n/g, ' ')
 	} else if (type === imgType) {
 		data = '[图片]'
 	} else if (type === voiceType) {
