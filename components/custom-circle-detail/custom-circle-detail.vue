@@ -4,6 +4,7 @@
       :src="circleInfo.img"
       :title="circleInfo.circleName"
       :note="circleInfo.circleId"
+      :title-cut="false"
     >
     </custom-avatar>
 

@@ -56,14 +56,16 @@
         ></view>
         <view class="content">
           <view
-            class="text-cut"
             :class="{
               'text-blue': item.circleType === '交友圈',
               'text-yellow': item.circleType === '固定圈',
               'text-red': item.circleType === '紧急圈'
             }"
-            >{{ item.userId ? item.username : item.circleName }}</view
           >
+            <view class="text-cut">
+              <text>{{ item.userId ? item.username : item.circleName }}</text>
+            </view>
+          </view>
           <view class="text-gray text-sm flex">
             <view class="text-cut">
               <text>{{ item.data }}</text>

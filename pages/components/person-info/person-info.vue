@@ -5,6 +5,7 @@
       :show-sex="showSex"
       :sex-icon="formatGender"
       :title="personinfo.username"
+      :title-cut="false"
     >
       <template #bottom>
         <view>

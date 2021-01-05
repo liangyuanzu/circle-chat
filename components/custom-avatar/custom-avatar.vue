@@ -21,7 +21,8 @@
         <slot name="content">
           <view
             v-if="title"
-            class="text-lg text-black text-cut"
+            class="text-lg text-black"
+            :class="{ 'text-cut': titleCut }"
             style="width: 470rpx"
           >
             {{ title }}
@@ -39,13 +40,14 @@
       </view>
     </view>
 
-    <uni-icons
-      v-if="showArrow"
-      :size="16"
-      class="uni-icon-wrapper"
-      color="#bbb"
-      type="arrowright"
-    />
+    <view v-if="showArrow">
+      <uni-icons
+        :size="16"
+        class="uni-icon-wrapper"
+        color="#bbb"
+        type="arrowright"
+      />
+    </view>
   </view>
 </template>
 
@@ -60,6 +62,7 @@
  * @property {Boolean} 	clickable = [true|false] 		是否开启点击反馈
  * @property {Boolean} 	showArrow = [true|false] 		是否显示箭头图标
  * @property {String} 	title 							标题
+ * @property {String} 	title-cut 				  是否对标题截断
  * @property {String} 	note 							描述
  *
  * @event {Function} click 头像被点击
@@ -102,6 +105,10 @@ export default {
     title: {
       type: String,
       default: ''
+    },
+    titleCut: {
+      type: Boolean,
+      default: true
     },
     // 描述
     note: {

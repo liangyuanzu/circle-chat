@@ -251,7 +251,14 @@ export default {
       return [
         {
           title: '圈聊名称',
-          rightText: this.circleInfo.circleName
+          rightText:
+            this.circleInfo.circleName?.length <= 15
+              ? this.circleInfo.circleName
+              : '',
+          note:
+            this.circleInfo.circleName?.length > 15
+              ? this.circleInfo.circleName
+              : ''
         },
         {
           title: '圈简介',
