@@ -1,18 +1,8 @@
 <template>
   <view class="wrap">
     <u-form :model="form" ref="uForm" label-width="120" :border-bottom="false">
-      <u-form-item
-        label-width="150"
-        label="相册名"
-        prop="name"
-        :border-bottom="false"
-        required
-      >
-        <u-input
-          v-model="form.name"
-          maxlength="15"
-          placeholder="请输入相册名"
-        />
+      <u-form-item label="名称" prop="name" :border-bottom="false" required>
+        <u-input v-model="form.name" maxlength="15" placeholder="请输入名称" />
       </u-form-item>
 
       <u-form-item label="描述" :border-bottom="false">
@@ -70,7 +60,7 @@ export default {
         name: [
           {
             required: true,
-            message: '请输入相册名',
+            message: '请输入名称',
             trigger: ['change', 'blur']
           }
         ]
