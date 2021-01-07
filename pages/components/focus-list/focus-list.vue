@@ -117,6 +117,7 @@ export default {
     change(index) {
       this.current = index
       if (this.type === 1 && this.myFocus.length === 0) {
+        this.loading = true
         this.getList(this.type)
       } else if (this.type === 2 && this.focusMy.length === 0) {
         this.loading = true
