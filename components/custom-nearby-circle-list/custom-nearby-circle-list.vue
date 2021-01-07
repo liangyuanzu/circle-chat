@@ -16,7 +16,11 @@
             ><u-loading slot="loading"></u-loading></u-image
         ></view>
         <view class="content">
-          <view class="text-cut">{{ item.circleName }}</view>
+          <view>
+            <view class="text-cut">
+              <text>{{ item.circleName }}</text>
+            </view>
+          </view>
           <view>
             <u-tag
               v-if="item.type"
