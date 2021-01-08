@@ -2,7 +2,7 @@
   <view>
     <uni-list>
       <uni-list-item
-        v-for="i in list"
+        v-for="(i, index) in list"
         :key="i.userId"
         :title="i.username"
         :thumb="i.img"
@@ -22,7 +22,7 @@
               size="mini"
               shape="circle"
               plain
-              @click="onFocus(i.isFocus, i.userId)"
+              @click="onFocus(i.isFocus, i.userId, index)"
             >
               <uni-icons
                 :size="12"
@@ -105,13 +105,16 @@ export default {
       }
     },
 
-    async onFocus(isFocus, id) {
+    async onFocus(isFocus, id, index) {
       if (!this.focusStatus(isFocus)) {
         await this.$store.dispatch('focus/addFocus', { id })
       } else if (this.focusStatus(isFocus)) {
         await this.$store.dispatch('focus/cancelFocus', { id })
       }
-      this.$emit('focusClick')
+      this.$emit('focusClick', {
+        index,
+        isFocus
+      })
     }
   }
 }

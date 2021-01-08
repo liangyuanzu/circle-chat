@@ -25,6 +25,12 @@ const mutations = {
 	},
 	setFocusStatus(state, focusStatus) {
 		state.focusStatus = focusStatus
+	},
+	setMyFocusItem(state, { index, isFocus }) {
+		state.myFocus[index].isFocus = isFocus
+	},
+	setFocusMyItem(state, { index, isFocus }) {
+		state.focusMy[index].isFocus = isFocus
 	}
 }
 

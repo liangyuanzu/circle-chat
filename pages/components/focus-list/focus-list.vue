@@ -125,8 +125,32 @@ export default {
       }
     },
 
-    async onFocus() {
-      await this.getList(this.type)
+    reverseFocusStatus(status) {
+      if (status == 0) return 1
+      if (status == 1) return 0
+      if (status == 2) return 3
+      if (status == 3) return 2
+    },
+
+    async onFocus({ index, isFocus }) {
+      if (this.type === 1) {
+        this.$store.commit('focus/setMyFocusItem', {
+          index,
+          isFocus: this.reverseFocusStatus(isFocus)
+        })
+        if (isFocus == 2 || isFocus == 3) {
+          await this.getList(2)
+        }
+      } else {
+        this.$store.commit('focus/setFocusMyItem', {
+          index,
+          isFocus: this.reverseFocusStatus(isFocus)
+        })
+        if (isFocus == 2 || isFocus == 3) {
+          await this.getList(1)
+        }
+      }
+      // await this.getList(this.type)
       await this.$store.dispatch('chat/getOldChatList', 0)
       await this.$store.dispatch('chat/getNoReadNum')
     }
