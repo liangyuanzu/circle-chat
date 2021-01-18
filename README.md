@@ -15,16 +15,16 @@ uni-app(vue + vuex) + ColorUI + uViewUI
 - components
     - custom-xxx	// 自定义组件
     - uni-xxx		// 官方组件
-    - xxx			// 其他组件
+    - xxx		// 其他组件
 - config	// 配置文件
 - helpers	// 自定义工具库
 - hybrid	// 混合开发(本项目中用于引入地图 jsapi)
 - pages
     - circle		// 附近的圈页面
     - components	// 其他页面
-    - login			// 登录页面
-    - me			// "我的" 页面
-    - msg			// 消息页面
+    - login		// 登录页面
+    - me		// "我的" 页面
+    - msg		// 消息页面
 - static	// 静态文件
 - store		// vuex 数据中心
 - utils		// 插件库
@@ -45,11 +45,15 @@ uni-app(vue + vuex) + ColorUI + uViewUI
 
 ### 百度小程序
 
-<img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/1baa2776535e46a8b54c2e81d7d17cd0~tplv-k3u1fbpfcp-watermark.image" width="30%" style="margin-right: 10px"/>
+<img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/1baa2776535e46a8b54c2e81d7d17cd0~tplv-k3u1fbpfcp-watermark.image" width="30%" style="margin-right: 10px"/><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/3fc725f59e8e4250b71cad491517e2e8~tplv-k3u1fbpfcp-watermark.image" width="30%" style="margin-right: 10px"/><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/f47d31fb3d21426085289885162e1ec4~tplv-k3u1fbpfcp-watermark.image" width="30%" style="margin-right: 10px"/>
 
-<img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/3fc725f59e8e4250b71cad491517e2e8~tplv-k3u1fbpfcp-watermark.image" width="30%" style="margin-right: 10px"/>
+## 项目体验
 
-<img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/f47d31fb3d21426085289885162e1ec4~tplv-k3u1fbpfcp-watermark.image" width="30%" style="margin-right: 10px"/>
+### 百度小程序
+
+百度 APP 扫码
+
+![](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/f397701d634046aa8e9cf0b82a97e3b9~tplv-k3u1fbpfcp-watermark.image)
 
 ## 功能列表
 
