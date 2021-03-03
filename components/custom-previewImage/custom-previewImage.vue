@@ -73,7 +73,7 @@
         <!-- #endif -->
       </swiper-item>
     </swiper>
-    <view class="page" v-if="imgs.length > 0">
+    <view class="page" v-if="imgs && imgs.length > 0">
       <text class="text">{{ index + 1 }} / {{ imgs.length }}</text>
     </view>
     <view class="save" v-if="saveBtn" @click.stop.prevent="save"
@@ -89,6 +89,7 @@
       <view
         class="text-xl"
         v-if="
+          titles &&
           titles.length > 0 &&
           titles.length == imgs.length &&
           titles[index].length > 0
@@ -99,8 +100,10 @@
       <view
         class="margin-top-xs"
         v-if="
+          descs &&
           descs.length > 0 &&
           descs.length == imgs.length &&
+          descs[index] &&
           descs[index].length > 0
         "
         >{{ descs[index] }}</view
