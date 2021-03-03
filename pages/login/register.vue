@@ -61,6 +61,16 @@ export default {
     }
   },
 
+  computed: {
+    validate() {
+      if (this.form.password.length < 6) {
+        this.$u.toast('密码至少为6位')
+        return false
+      }
+      return true
+    }
+  },
+
   methods: {
     ...mapActions('user', ['sendRegisterEmail', 'register']),
 
@@ -71,7 +81,7 @@ export default {
     },
 
     async startReg() {
-      if (this.isRotate) return false
+      if (this.isRotate || !this.validate) return
       this.isRotate = true
       try {
         await this.register({
