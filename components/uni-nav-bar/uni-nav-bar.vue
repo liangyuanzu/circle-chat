@@ -203,12 +203,7 @@ $nav-height: 44px;
   /* #ifndef APP-NVUE */
   display: flex;
   /* #endif */
-  /* #ifndef MP-BAIDU*/
-  width: 200rpx;
-  /* #endif */
-  /* #ifdef MP-BAIDU*/
   width: 400rpx;
-  /* #endif */
   justify-content: flex-start;
 }
 
