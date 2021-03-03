@@ -93,10 +93,11 @@ export default {
 
   computed: {
     createTime() {
-      return this.circleInfo.createTime.replace(
-        /(\d{4})\-(\d{2})\-(\d{2})/,
-        '$1年$2月$3日'
-      )
+      if (this.circleInfo.createTime)
+        return this.circleInfo.createTime.replace(
+          /(\d{4})\-(\d{2})\-(\d{2})/,
+          '$1年$2月$3日'
+        )
     }
   },
 
