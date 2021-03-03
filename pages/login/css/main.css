@@ -14,9 +14,9 @@ page{
 .header {
 	width:161rpx;
 	height:161rpx;
-	box-shadow:0rpx 0rpx 60rpx 0rpx rgba(0,0,0,0.1);
+	/* box-shadow:0rpx 0rpx 60rpx 0rpx rgba(0,0,0,0.1); */
 	border-radius:50%;
-	background-color: #000000;
+	/* background-color: #000000; */
 	margin-top: 128rpx;
 	margin-bottom: 72rpx;
 	margin-left: auto;
