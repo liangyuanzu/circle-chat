@@ -199,20 +199,14 @@ const actions = {
 
 	async getUserInfo({ commit }) {
 		const userinfo = await getUserInfo()
-		if (Object.keys(userinfo)) {
-			commit('setUserId', userinfo.userId)
-			commit('setUsername', userinfo.username)
-			commit('setAvatar', userinfo.img)
-			commit('setAge', userinfo.age)
-			commit('setSex', userinfo.sex)
-			commit('setBirthday', userinfo.birthday)
-			commit('setAutograph', userinfo.autograph)
-		} else {
-			uni.showToast({
-				icon: 'none',
-				title: '获取用户信息接口异常'
-			})
-		}
+		localStore.set('userinfo', userinfo)
+		commit('setUserId', userinfo.userId)
+		commit('setUsername', userinfo.username)
+		commit('setAvatar', userinfo.img)
+		commit('setAge', userinfo.age)
+		commit('setSex', userinfo.sex)
+		commit('setBirthday', userinfo.birthday)
+		commit('setAutograph', userinfo.autograph)
 	},
 
 	async logout({ commit, dispatch }) {
