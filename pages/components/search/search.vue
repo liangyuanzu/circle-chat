@@ -53,10 +53,11 @@
           ></view>
           <view
             v-else-if="
-              keywordList.users.length > 0 || keywordList.circles.length > 0
+              (keywordList.users && keywordList.users.length > 0) ||
+              (keywordList.circles && keywordList.circles.length > 0)
             "
           >
-            <view v-show="keywordList.users.length > 0">
+            <view v-show="keywordList.users && keywordList.users.length > 0">
               <u-divider>用户</u-divider>
               <custom-focus-list
                 :list="keywordList.users"
@@ -64,7 +65,9 @@
                 @focusClick="btnClick"
               ></custom-focus-list>
             </view>
-            <view v-show="keywordList.circles.length > 0">
+            <view
+              v-show="keywordList.circles && keywordList.circles.length > 0"
+            >
               <u-divider>圈</u-divider>
               <custom-circle-list
                 showJoin
