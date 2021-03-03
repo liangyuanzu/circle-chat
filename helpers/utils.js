@@ -14,7 +14,7 @@ export function Encrypt(data) {
 	} else if (_.isObject(data)) {
 		key = JSON.stringify(data)
 	} else {
-		return ''
+		return data
 	}
 	return CryptoJS.AES.encrypt(key, 'circle-chat').toString()
 }
@@ -25,7 +25,7 @@ export function Encrypt(data) {
  */
 export function Decrypt(data) {
 	if (!data || !_.isString(data)) {
-		return ''
+		return data
 	}
 	const bytes = CryptoJS.AES.decrypt(data, 'circle-chat')
 	const decryptedData = bytes.toString(CryptoJS.enc.Utf8)

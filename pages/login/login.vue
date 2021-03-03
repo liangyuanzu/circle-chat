@@ -58,6 +58,7 @@ export default {
 
   methods: {
     ...mapActions('user', ['login']),
+    ...mapActions('chat', ['getOldChatList', 'getNoReadNum']),
 
     async startLogin() {
       if (this.isRotate) return false
@@ -69,11 +70,19 @@ export default {
         })
         this.isRotate = false
         this.$u.toast('登录成功')
-        setTimeout(() => {
-          uni.reLaunch({
-            url: '/pages/msg/msg'
+        setTimeout(async () => {
+          uni.showLoading({
+            title: '加载中...'
           })
-        }, 1000)
+          await this.getOldChatList(0)
+          await this.getNoReadNum()
+          uni.hideLoading()
+          setTimeout(() => {
+            uni.reLaunch({
+              url: '/pages/me/me'
+            })
+          }, 500)
+        }, 500)
       } catch {
         this.isRotate = false
       }

@@ -355,7 +355,7 @@ export default {
   onShow() {
     // 获取列表
     this.getList()
-    // #ifndef H5
+    // #ifdef MP-BAIDU
     uni.checkSession({
       success: () => {
         const userinfo = localStore.get('userinfo')
@@ -396,9 +396,9 @@ export default {
   },
 
   onPullDownRefresh() {
-    // #ifdef MP-BAIDU
     if (this.refreshing) return
     this.refreshing = true
+    // #ifdef MP-BAIDU
     uni.checkSession({
       success: () => {
         const userinfo = localStore.get('userinfo')
@@ -435,6 +435,21 @@ export default {
         })
       }
     })
+    // #endif
+    // #ifndef MP-BAIDU
+    Promise.all([
+      this.$store.dispatch('chat/getOldChatList', 0),
+      this.$store.dispatch('chat/getNoReadNum')
+    ])
+      .then(() => {
+        this.getList()
+        uni.stopPullDownRefresh()
+        this.refreshing = false
+      })
+      .catch(() => {
+        uni.stopPullDownRefresh()
+        this.refreshing = false
+      })
     // #endif
   },
 
@@ -505,8 +520,8 @@ export default {
     },
 
     getList() {
-      // #ifdef MP-BAIDU
       const chatList = localStore.get(chatListName) || []
+      // #ifdef MP-BAIDU
       uni.checkSession({
         success: () => {
           this.list = chatList
@@ -515,6 +530,9 @@ export default {
           if (chatList.length !== 0) this.list = chatList
         }
       })
+      // #endif
+      // #ifndef MP-BAIDU
+      this.list = chatList
       // #endif
     },
 

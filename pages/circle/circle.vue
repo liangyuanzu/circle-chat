@@ -261,7 +261,7 @@ export default {
   },
 
   onShow() {
-		// #ifndef H5
+    // #ifdef MP-BAIDU
     uni.checkSession({
       success: () => {
         const userinfo = localStore.get('userinfo')
@@ -270,7 +270,7 @@ export default {
         }
       }
     })
-		// #endif
+    // #endif
   },
 
   onLoad() {
