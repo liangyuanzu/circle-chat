@@ -355,6 +355,7 @@ export default {
   onShow() {
     // 获取列表
     this.getList()
+    // #ifndef H5
     uni.checkSession({
       success: () => {
         const userinfo = localStore.get('userinfo')
@@ -363,6 +364,7 @@ export default {
         }
       }
     })
+    // #endif
   },
 
   onHide() {

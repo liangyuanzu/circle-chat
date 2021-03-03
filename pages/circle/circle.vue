@@ -261,6 +261,7 @@ export default {
   },
 
   onShow() {
+		// #ifndef H5
     uni.checkSession({
       success: () => {
         const userinfo = localStore.get('userinfo')
@@ -269,6 +270,7 @@ export default {
         }
       }
     })
+		// #endif
   },
 
   onLoad() {
