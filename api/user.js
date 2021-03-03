@@ -65,13 +65,13 @@ export function sendForgetPasswordEmail(email) {
 }
 
 /**
- * 修改密码
+ * 忘记密码
  * @param {string} oldPassword - 旧密码
  * @param {string} password - 密码
  * @param {string} rePassword - 确认密码
  * */
-export function updatePassword(data) {
-	return $request('/user/updatePassword', {
+export function forgetPassword(data) {
+	return $request('/user/forgetPassword', {
 		method: 'POST',
 		data
 	})

@@ -4,7 +4,7 @@ import {
 	sendRegisterEmail,
 	register,
 	sendForgetPasswordEmail,
-	updatePassword,
+	forgetPassword,
 	logout,
 	updatePhoto,
 	updateMessage,
@@ -252,8 +252,8 @@ const actions = {
 		await sendForgetPasswordEmail(email)
 	},
 
-	async updatePassword({}, resetInfo) {
-		await updatePassword(resetInfo)
+	async forgetPassword({}, resetInfo) {
+		await forgetPassword(resetInfo)
 	},
 
 	async updatePhoto({ commit }, path) {
