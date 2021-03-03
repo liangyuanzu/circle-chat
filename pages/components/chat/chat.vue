@@ -1,20 +1,6 @@
 <template>
   <view>
     <!-- 导航栏 -->
-    <!-- #ifndef MP-BAIDU -->
-    <uni-nav-bar
-      left-icon="back"
-      right-icon="more-filled"
-      :title="title"
-      :shadow="false"
-      fixed
-      status-bar
-      background-color="#f1f1f1"
-      @clickLeft="back"
-      @clickRight="toSetting"
-    ></uni-nav-bar>
-    <!-- #endif -->
-    <!-- #ifdef MP-BAIDU -->
     <u-navbar
       :title="title"
       back-text="返回"
@@ -22,7 +8,6 @@
       @customBack="back"
       @titleClick="titleClick"
     ></u-navbar>
-    <!-- #endif -->
     <u-mask :show="showMask" :mask-click-able="true" @click="maskClick">
       <view class="to_title">
         <view class="title-img">

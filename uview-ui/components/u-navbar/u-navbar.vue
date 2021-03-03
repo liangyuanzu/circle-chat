@@ -29,7 +29,7 @@
           class="u-navbar-content-title"
           v-if="title"
           :style="[titleStyle]"
-          @tap="$emit('title-click')"
+          @tap="$emit('titleClick')"
         >
           <view
             class="u-title u-line-1"
