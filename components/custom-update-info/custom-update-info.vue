@@ -147,8 +147,11 @@ export default {
   },
 
   watch: {
-    oldData: function (val) {
-      this.content = val
+    oldData: {
+      immediate: true,
+      handler(val) {
+        this.content = val
+      }
     }
   },
 
