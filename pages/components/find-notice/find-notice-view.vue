@@ -3,12 +3,7 @@
     <view class="empty" v-if="Object.keys(urgent).length === 0">
       <u-empty text="还没有发布寻人寻物启事">
         <view slot="bottom">
-          <u-button
-            slot="bottom"
-            size="mini"
-            @click="toFindEdit"
-            v-if="isOwner"
-          >
+          <u-button size="mini" @click="toFindEdit" v-if="isOwner">
             去发布
           </u-button>
         </view>
