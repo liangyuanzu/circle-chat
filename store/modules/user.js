@@ -207,6 +207,9 @@ const actions = {
 		commit('setSex', userinfo.sex)
 		commit('setBirthday', userinfo.birthday)
 		commit('setAutograph', userinfo.autograph)
+		commit('setMyFocus', userinfo.myFocus)
+		commit('setMyFans', userinfo.myFans)
+		commit('setPoints', userinfo.points)
 	},
 
 	async logout({ commit, dispatch }) {
