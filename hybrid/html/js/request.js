@@ -52,7 +52,7 @@ const request = (option) => {
 	})
 }
 
-const baseUrl = 'https://www.circlechat.top'
+const baseUrl = 'https://www.circlechat.top/api'
 const $request = (url, Options) => {
 	return new Promise((resolve, reject) => {
 		request({
