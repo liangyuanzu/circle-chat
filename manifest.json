@@ -19,7 +19,8 @@
                         "^/" : ""
                     }
                 }
-            }
+            },
+            "https" : true
         },
         "sdkConfigs" : {
             "maps" : {
@@ -35,9 +36,10 @@
         },
         "optimization" : {
             "treeShaking" : {
-                "enable" : false
+                "enable" : true
             }
-        }
+        },
+        "domain" : "https://circlechat.top"
     },
     /* 5+App特有相关 */
     "app-plus" : {
