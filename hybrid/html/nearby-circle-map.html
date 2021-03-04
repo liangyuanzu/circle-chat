@@ -48,15 +48,15 @@
 								{{ synopsis }}
 							</div>
 						</div>
-						<div class="card-close lg text-gray cuIcon-roundclose" onclick="closeCard()"></div>
+						<div class="card-close lg text-gray cuIcon-roundclose" id="closeCard"></div>
 					</div>
 				</div>
 				<div class="button flex justify-between align-center">
-					<button class="btn btn-outline-secondary" onclick="toCircleDetail()">详情</button>
+					<button class="btn btn-outline-secondary" id="toCircleDetail">详情</button>
 					{{ if inCircle }}
 					<button class="btn btn-primary" disabled>已加入</button>
 					{{ else if !inCircle }}
-					<button class="btn btn-primary" onclick="toJoinCircle()">加入</button>
+					<button class="btn btn-primary" id="toJoinCircle">加入</button>
 					{{ /if }}
 				</div>
 			</div>
@@ -64,7 +64,8 @@
 
 	</script>
 	<script src="https://a.amap.com/jsapi_demos/static/demo-center/js/demoutils.js"></script>
-	<script type="text/javascript" src="./js/nearby-circle-map.js"></script>
+	<script type="text/javascript" src="./js/request.js"></script>
+	<script type="module" src="./js/nearby-circle-map.js"></script>
 </body>
 
 </html>

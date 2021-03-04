@@ -16,15 +16,16 @@ export default {
   data() {
     return {
       nearbyCircleMapUrl,
-      nearbyCircleMapUrl_baidu
+      nearbyCircleMapUrl_baidu,
+      localNearbyCircleMapUrl: '/hybrid/html/nearby-circle-map.html'
     }
   },
 
   computed: {
     ...mapState('user', ['longitude', 'latitude']),
     nearbyUrl() {
-      // #ifndef MP-BAIDU
-      return nearbyCircleMapUrl
+      // #ifndef MP
+      return this.localNearbyCircleMapUrl
       // #endif
       // #ifdef MP-BAIDU
       const sessionId = uni.getStorageSync('sessionId')

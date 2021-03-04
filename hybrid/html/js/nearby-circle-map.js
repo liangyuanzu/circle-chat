@@ -1,80 +1,3 @@
-// request
-const obj2str = (data = {}) => {
-	let res = []
-	for (let key in data) {
-		res.push(encodeURIComponent(key) + '=' + encodeURIComponent(data[key]))
-	}
-	return res.join('&')
-}
-
-const request = (option) => {
-	return new Promise((resolve, reject) => {
-		const str = obj2str(option.params)
-		let xmlhttp, timer
-		if (window.XMLHttpRequest) {
-			// code for IE7+, Firefox, Chrome, Opera, Safari
-			xmlhttp = new XMLHttpRequest()
-		} else {
-			// code for IE6, IE5
-			xmlhttp = new ActiveXObject('Microsoft.XMLHTTP')
-		}
-		if (option.method.toLowerCase() === 'get') {
-			xmlhttp.open(option.method, option.url + '?' + str, true)
-			xmlhttp.send()
-		} else {
-			xmlhttp.open(option.method, option.url, true)
-			xmlhttp.setRequestHeader('Content-type', 'application/json')
-			xmlhttp.send(JSON.stringify(option.data))
-		}
-
-		xmlhttp.onreadystatechange = () => {
-			if (xmlhttp.readyState === 4) {
-				clearInterval(timer)
-				if (
-					(xmlhttp.status >= 200 && xmlhttp.status < 300) ||
-					xmlhttp.status === 304
-				) {
-					resolve(xmlhttp)
-				} else {
-					reject(xmlhttp)
-				}
-			}
-		}
-
-		option.timeout = option.timeout || 3000
-		timer = setInterval(() => {
-			xmlhttp.abort()
-			clearInterval(timer)
-		}, option.timeout)
-	})
-}
-
-const baseUrl = 'https://www.circlechat.top'
-const $request = (url, Options) => {
-	return new Promise((resolve, reject) => {
-		request({
-			method: Options.method || 'GET',
-			data: Options.data, // post 传参
-			params: Options.params, // get 传参
-			url: baseUrl + url,
-			header: Options.header,
-			...Options
-		})
-			.then((xhr) => {
-				const res = JSON.parse(xhr.responseText)
-				if (res?.code == 0) {
-					resolve(res.data)
-				} else {
-					log.error(res?.msg)
-					// reject(res)
-				}
-			})
-			.catch((err) => {
-				reject(err)
-			})
-	})
-}
-
 let lng, lat
 let circleList = []
 let circleType = 0
@@ -137,6 +60,7 @@ const locateSuccess = (data) => {
 		})
 
 		// 自定义范围圈
+		/*
 		const circle = new AMap.Circle({
 			center: new AMap.LngLat(lng, lat), // 圆心位置
 			radius: 5000, // 圆半径
@@ -145,6 +69,7 @@ const locateSuccess = (data) => {
 			strokeWeight: 1 // 描边宽度
 		})
 		map.add(circle)
+		 */
 
 		// 图层添加到地图
 		map.add(layer)
@@ -183,6 +108,9 @@ const locateSuccess = (data) => {
 				// 修改头像
 				document.querySelector('.avatar').style.backgroundImage =
 					'url("' + circleInfo.img + '")'
+
+				// 给卡片注册事件
+				cardOperate()
 			})
 		})
 	})
@@ -203,34 +131,43 @@ const isShow = (name) => {
 	}
 }
 
-const closeCard = () => {
-	let oCard = document.getElementById('card')
-	if (oCard.innerHTML) oCard.innerHTML = ''
-}
+// 卡片相关操作
+function cardOperate() {
+	// 关闭卡片
+	const closeCard = document.getElementById('closeCard')
+	closeCard.onclick = () => {
+		const oCard = document.getElementById('card')
+		if (oCard.innerHTML) oCard.innerHTML = ''
+	}
 
-const toCircleDetail = () => {
-	uni.navigateTo({
-		url:
-			'/pages/components/circle-detail/circle-detail?info=' +
-			JSON.stringify(circleInfo)
-	})
-}
+	// 跳转至详情页
+	const toCircleDetail = document.getElementById('toCircleDetail')
+	toCircleDetail.onclick = () => {
+		uni.navigateTo({
+			url:
+				'/pages/components/circle-detail/circle-detail?circleId=' +
+				circleInfo.circleId
+		})
+	}
 
-const toCircleChat = (info) => {
-	uni.redirectTo({
-		url: '/pages/components/chat/chat?circleId=' + info.circleId
-	})
-}
-
-const toJoinCircle = async () => {
-	try {
-		await joinCircle(circleInfo.circleId)
-		log.success('加入成功')
-		setTimeout(() => {
-			toCircleChat(circleInfo)
-		}, 500)
-	} catch (error) {
-		log.error(JSON.stringify(error))
+	// 加入圈
+	if (!circleInfo.inCircle) {
+		const toJoinCircle = document.getElementById('toJoinCircle')
+		toJoinCircle.onclick = async () => {
+			try {
+				await joinCircle(circleInfo.circleId)
+				log.success(e.info)
+				setTimeout(() => {
+					uni.redirectTo({
+						url:
+							'/pages/components/chat/chat?circleInfo=' +
+							encodeURIComponent(JSON.stringify(circleInfo))
+					})
+				}, 500)
+			} catch (error) {
+				log.info(JSON.stringify(error))
+			}
+		}
 	}
 }
 
