@@ -128,7 +128,6 @@
 <script>
 import { mapGetters } from 'vuex'
 import { uploadUrgentImgUrl } from '@/config/config.js'
-import localStore from '@/helpers/localStore.js'
 import { filter } from '../../../uview-ui/components/u-parse/libs/config'
 import time from '@/helpers/time.js'
 
@@ -147,7 +146,7 @@ export default {
       },
       uploadUrgentImgUrl,
       header: {
-        sessionid: localStore.get('sessionId')
+        sessionid: uni.getStorageSync('sessionId')
       },
       rules: {
         name: [

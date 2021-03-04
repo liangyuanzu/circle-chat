@@ -193,7 +193,7 @@ const actions = {
 
 	async login({ dispatch }, userinfo) {
 		const { sessionid } = await login(userinfo)
-		localStore.set('sessionId', sessionid)
+		uni.setStorageSync('sessionId', sessionid)
 		dispatch('init')
 	},
 
@@ -291,7 +291,7 @@ const actions = {
 	async login_baidu({ commit }, code) {
 		const { userId, sessionid } = await login_baidu(code)
 		commit('setUserId', userId)
-		localStore.set('sessionId', sessionid)
+		uni.setStorageSync('sessionId', sessionid)
 	},
 
 	async getUserInfo_baidu({ commit, dispatch }, data) {

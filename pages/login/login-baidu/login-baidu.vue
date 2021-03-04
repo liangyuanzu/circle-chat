@@ -33,7 +33,6 @@
 <script>
 // import logoUrl from './../logo.js'
 import { mapGetters } from 'vuex'
-import localStore from '@/helpers/localStore.js'
 
 export default {
   data() {
@@ -103,7 +102,7 @@ export default {
         uni.showLoading({
           title: '登录中...'
         })
-        const sessionId = localStore.get('sessionId')
+        const sessionId = uni.getStorageSync('sessionId')
         this.$store
           .dispatch('user/getUserInfo_baidu', {
             data: e.detail.encryptedData,

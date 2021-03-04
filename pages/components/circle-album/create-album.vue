@@ -41,7 +41,6 @@
 
 <script>
 import { uploadFixedCircleImage } from '@/config/config.js'
-import localStore from '@/helpers/localStore.js'
 import { mapState } from 'vuex'
 
 export default {
@@ -54,7 +53,7 @@ export default {
       },
       uploadFixedCircleImage,
       header: {
-        sessionid: localStore.get('sessionId')
+        sessionid: uni.getStorageSync('sessionId')
       },
       rules: {
         name: [
