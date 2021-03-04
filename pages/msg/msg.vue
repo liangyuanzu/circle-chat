@@ -610,7 +610,7 @@ export default {
     left: 10%;
     top: 50%;
     transform: translateY(-50%);
-    z-index: 999;
+    z-index: 99;
   }
 }
 
