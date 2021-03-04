@@ -13,7 +13,7 @@
       </uni-list-item>
 
       <!-- 消息通知 -->
-      <!-- #ifndef MP-BAIDU -->
+      <!--
       <uni-list-item title="消息通知">
         <template #footer>
           <u-switch
@@ -23,9 +23,8 @@
           ></u-switch>
         </template>
       </uni-list-item>
-      <!-- #endif -->
+			-->
     </uni-list>
-
     <!-- #ifndef MP-BAIDU -->
     <view class="margin-top-sm">
       <uni-list>

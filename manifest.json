@@ -35,10 +35,9 @@
         },
         "optimization" : {
             "treeShaking" : {
-                "enable" : true
+                "enable" : false
             }
-        },
-        "domain" : "https://www.circlechat.top"
+        }
     },
     /* 5+App特有相关 */
     "app-plus" : {
