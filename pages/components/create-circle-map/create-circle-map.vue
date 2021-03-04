@@ -16,15 +16,16 @@ export default {
   data() {
     return {
       createCircleMapUrl,
-      createCircleMapUrl_baidu
+      createCircleMapUrl_baidu,
+      localCreateCircleMapUrl: '/hybrid/html/create-circle-map.html'
     }
   },
 
   computed: {
     ...mapState('user', ['longitude', 'latitude']),
     createUrl() {
-      // #ifndef MP-BAIDU
-      return createCircleMapUrl
+      // #ifndef MP
+      return this.localCreateCircleMapUrl
       // #endif
       // #ifdef MP-BAIDU
       return (
