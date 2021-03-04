@@ -61,6 +61,7 @@ export default {
     listItemClick(title) {
       switch (title) {
         case '创建圈':
+          // #ifdef MP-BAIDU
           if (uni.getSystemInfoSync().platform === 'ios') {
             this.$u.toast('ios 因兼容性问题暂未开放')
           } else {
@@ -68,6 +69,10 @@ export default {
               '/pages/components/create-circle-map/create-circle-map'
             )
           }
+          // #endif
+          // #ifndef MP-BAIDU
+          this.$u.route('/pages/components/create-circle-map/create-circle-map')
+          // #endif
           break
         case '附近的圈':
           this.$u.route('/pages/components/nearby-circle-map/nearby-circle-map')

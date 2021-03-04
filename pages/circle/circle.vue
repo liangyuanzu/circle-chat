@@ -318,6 +318,7 @@ export default {
       this.hideModal()
       switch (text) {
         case '地图模式':
+          // #ifdef MP-BAIDU
           if (uni.getSystemInfoSync().platform === 'ios') {
             this.$u.toast('ios 因兼容性问题暂未开放')
           } else {
@@ -325,6 +326,10 @@ export default {
               '/pages/components/create-circle-map/create-circle-map'
             )
           }
+          // #endif
+          // #ifndef MP-BAIDU
+          this.$u.route('/pages/components/create-circle-map/create-circle-map')
+          // #endif
           break
         case '极简模式':
           this.$u.route('/pages/components/create-circle/create-circle')
