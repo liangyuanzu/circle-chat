@@ -7,7 +7,7 @@
     "transformPx" : false,
     "h5" : {
         "devServer" : {
-            "port" : 8080,
+            "port" : "",
             "disableHostCheck" : true,
             "proxy" : {
                 "/" : {
@@ -27,7 +27,18 @@
                     "key" : "BO7BZ-OK76O-JDHWZ-SIH4Z-GBXOQ-B6FAU"
                 }
             }
-        }
+        },
+        "title" : "圈聊",
+        "router" : {
+            "mode" : "history",
+            "base" : "./"
+        },
+        "optimization" : {
+            "treeShaking" : {
+                "enable" : true
+            }
+        },
+        "domain" : "https://www.circlechat.top"
     },
     /* 5+App特有相关 */
     "app-plus" : {
