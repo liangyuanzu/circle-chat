@@ -3,13 +3,13 @@ module.exports = {
 	websocketUrl: 'wss://www.circlechat.top/websocket',
 	emojiUrl: 'https://www.circlechat.top/files/emoji/',
 	createCircleMapUrl:
-		'https://www.circlechat.top/static/hybrid/html/create-circle-map.html',
+		'https://www.circlechat.top/hybrid/html/create-circle-map.html',
 	createCircleMapUrl_baidu:
-		'https://www.circlechat.top/static/hybrid/html/create-circle-map_baidu.html',
+		'https://www.circlechat.top/hybrid/html/create-circle-map_baidu.html',
 	nearbyCircleMapUrl:
-		'https://www.circlechat.top/static/hybrid/html/nearby-circle-map.html',
+		'https://www.circlechat.top/hybrid/html/nearby-circle-map.html',
 	nearbyCircleMapUrl_baidu:
-		'https://www.circlechat.top/static/hybrid/html/nearby-circle-map_baidu.html',
+		'https://www.circlechat.top/hybrid/html/nearby-circle-map_baidu.html',
 	uploadImgUrl: 'https://www.circlechat.top/api/down/upload',
 	uploadUrgentImgUrl:
 		'https://www.circlechat.top/api/down/uploadUrgentCircleImage',
