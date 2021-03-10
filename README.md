@@ -1,6 +1,18 @@
 # circle-chat（圈聊）
 
-用 uni-app 开发的一款跨平台附近聊天交友产品，目前百度小程序已结项。与其他附近交友产品的不同点在于产品创新的三种圈类型--“交友圈”、“固定圈”、“紧急圈”，交友圈用于日常聊天交友，固定圈用于商家入驻，紧急圈用于发布紧急事务。
+用 uni-app 开发的一款跨平台附近聊天交友产品，目前已兼容 h5、百度小程序。与其他附近交友产品的不同点在于产品创新的三种圈类型--“交友圈”、“固定圈”、“紧急圈”，交友圈用于日常聊天交友，固定圈用于商家入驻，紧急圈用于发布紧急事务。
+
+## 项目体验
+
+### h5
+
+https://www.circlechat.top
+
+### 百度小程序
+
+百度 APP 扫码
+
+![](https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/a3e80d3938c94ccfa48044eb53da74f0~tplv-k3u1fbpfcp-watermark.image)
 
 ## 技术栈
 
@@ -46,14 +58,6 @@ uni-app(vue + vuex) + ColorUI + uViewUI
 ### 百度小程序
 
 <img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/1baa2776535e46a8b54c2e81d7d17cd0~tplv-k3u1fbpfcp-watermark.image" width="30%" style="margin-right: 10px"/><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/3fc725f59e8e4250b71cad491517e2e8~tplv-k3u1fbpfcp-watermark.image" width="30%" style="margin-right: 10px"/><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/f47d31fb3d21426085289885162e1ec4~tplv-k3u1fbpfcp-watermark.image" width="30%" style="margin-right: 10px"/>
-
-## 项目体验
-
-### 百度小程序
-
-百度 APP 扫码
-
-![](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/f397701d634046aa8e9cf0b82a97e3b9~tplv-k3u1fbpfcp-watermark.image)
 
 ## 功能列表
 
